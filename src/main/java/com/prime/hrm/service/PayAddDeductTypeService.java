@@ -1,0 +1,36 @@
+package com.prime.hrm.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.prime.hrm.entity.PayAddDeductTypes;
+import com.prime.hrm.repository.PayAddDeductTypesRepository;
+
+@Service
+public class PayAddDeductTypeService {
+
+	@Autowired
+	private PayAddDeductTypesRepository deTypeRepo;
+	
+	public String getMaxID() {
+		if(deTypeRepo.getMaxID() == null) {
+			return "1";
+		} else {
+			return deTypeRepo.getMaxID();
+		}
+	}
+	
+	public PayAddDeductTypes saveDeductType(PayAddDeductTypes deductType) {
+		return deTypeRepo.save(deductType);
+	}
+	
+	public List<PayAddDeductTypes> getAllDetails() {
+		return (List<PayAddDeductTypes>) deTypeRepo.findAll();
+	}
+	
+	public PayAddDeductTypes updateDeductType(String id) {
+		return deTypeRepo.findById(id).get();
+	}
+}

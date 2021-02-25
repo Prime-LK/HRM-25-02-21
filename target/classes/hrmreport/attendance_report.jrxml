@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="attendance_report" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="44db66c6-da37-40f8-b8b4-1328c05fede1">
+	<property name="ireport.zoom" value="1.331000000000008"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<field name="year" class="java.lang.String"/>
+	<field name="month" class="java.lang.String"/>
+	<field name="employee_id" class="java.lang.String"/>
+	<field name="employee_name" class="java.lang.String"/>
+	<field name="total_over_time" class="java.lang.String"/>
+	<field name="total_short_time" class="java.lang.String"/>
+	<field name="total_worked_days" class="java.lang.String"/>
+	<field name="total_absent_days" class="java.lang.String"/>
+	<field name="total_holidays" class="java.lang.String"/>
+	<field name="total_rest_days" class="java.lang.String"/>
+	<field name="subReportBeanList" class="java.util.List"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="80" splitType="Stretch">
+			<staticText>
+				<reportElement x="1" y="0" width="359" height="50" uuid="e56ed5fd-ee5b-433c-b585-0f7be6250ea6"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Segoe UI" size="36" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Attendance Sheet]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="610" y="0" width="36" height="20" uuid="e0f4bb15-93ee-4d9e-804a-258194a83355"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Segoe UI" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Year]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="610" y="20" width="36" height="20" uuid="4284917c-1ae3-4850-9f4f-0154085cce92"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Segoe UI" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Month]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="610" y="40" width="66" height="20" uuid="27607bcb-1f45-468d-94f5-a01410bde49b"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Segoe UI" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Employee ID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="610" y="60" width="53" height="20" uuid="ae8a54d5-35cf-43db-b883-05e64e0c3eb7"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Segoe UI" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Employee]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="676" y="0" width="10" height="20" uuid="0d21b8ce-93da-4476-b4c5-4ed6a779d947"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Segoe UI" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="676" y="20" width="10" height="20" uuid="1a315038-f58b-4a19-aa6d-796ecb12c490"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Segoe UI" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="676" y="40" width="10" height="20" uuid="92754dc9-7659-4e8e-8304-312033e1feb3"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Segoe UI" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="676" y="60" width="10" height="20" uuid="329a9629-f06b-4a6f-bda1-e47415964da9"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Segoe UI" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="686" y="0" width="116" height="20" uuid="3707b9cc-db91-422a-b5cd-6606e00d5266"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Segoe UI"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{year}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="686" y="20" width="116" height="20" uuid="a894333b-82e8-46e4-8dcf-ce122fefd693"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Segoe UI"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{month}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="686" y="40" width="116" height="20" uuid="21823798-4535-446f-8332-0517537bf13c"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Segoe UI"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{employee_id}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="686" y="60" width="116" height="20" uuid="45b5ec95-d22a-4d31-9ea3-b2dff6e63d21"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Segoe UI"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{employee_name}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="10" splitType="Stretch"/>
+	</pageHeader>
+	<detail>
+		<band height="28" splitType="Stretch">
+			<subreport isUsingCache="false">
+				<reportElement x="1" y="0" width="801" height="28" uuid="6b16d9f9-a151-4b4a-bda6-09ea4fa9d17f"/>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource ($F{subReportBeanList})]]></dataSourceExpression>
+				<subreportExpression><![CDATA["attendance_subreport.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<summary>
+		<band height="42" splitType="Stretch">
+			<staticText>
+				<reportElement x="91" y="0" width="10" height="20" uuid="50578100-018a-4806-86dc-81fa8e7b8c91"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Segoe UI" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="22" width="90" height="20" uuid="7e2c88ec-7880-48ba-bce8-8760ef552c4c"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Segoe UI" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total Short Time]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="0" width="90" height="20" uuid="caee81fc-e4cb-4722-8634-108f452526c3"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Segoe UI" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total Over Time]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="101" y="0" width="116" height="20" uuid="07ae3e99-adb3-4b46-868c-8f35bf76bd95"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Segoe UI"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{total_over_time}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="101" y="22" width="116" height="20" uuid="5eefaaaa-9bb9-4e04-9b5f-02889747b6d1"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Segoe UI"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{total_short_time}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="91" y="22" width="10" height="20" uuid="125a6341-2064-45a1-ba77-0ce3ffb26932"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Segoe UI" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="245" y="0" width="90" height="20" uuid="4c1b8cf1-3158-4d5b-b809-6ae1c77efecd"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Segoe UI" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total Work Days]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="245" y="22" width="90" height="20" uuid="ec2951c9-55cd-48b9-9d6e-1d8adad2500e"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Segoe UI" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total Absent Days]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="335" y="0" width="10" height="20" uuid="6dcae17a-54e6-4d7e-bcd3-cc1ef40c6c51"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Segoe UI" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="335" y="22" width="10" height="20" uuid="040f426d-185b-4a7c-a874-22664c7cc4b9"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Segoe UI" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="345" y="0" width="116" height="20" uuid="6e1faf7e-becb-47ca-8d1e-b817d19dd7ff"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Segoe UI"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{total_worked_days}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="345" y="22" width="116" height="20" uuid="22cdd9d9-68c2-424c-b69a-35c935edf05e"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Segoe UI"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{total_absent_days}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="491" y="0" width="90" height="20" uuid="39af2a85-9213-4d8e-870d-002fc12a285a"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Segoe UI" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total Holidays]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="491" y="22" width="90" height="20" uuid="a4eccbb5-40e6-4df9-ad9a-78e49ec09ae4"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Segoe UI" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total Rest Days]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="581" y="0" width="10" height="20" uuid="3f69ce97-3440-45f4-bbc2-e96e07c31edd"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Segoe UI" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="581" y="22" width="10" height="20" uuid="300300f8-572f-4ab8-9895-9e7140b6792a"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Segoe UI" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="591" y="0" width="116" height="20" uuid="d5e0bdf2-b4fd-4260-992e-ca0cc78f2b9c"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Segoe UI"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{total_holidays}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="591" y="22" width="116" height="20" uuid="43feaa1a-b534-4898-8054-c758a05feb8b"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Segoe UI"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{total_rest_days}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="salaryAnalyze" pageWidth="1300" pageHeight="595" orientation="Landscape" columnWidth="1260" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="019e9f80-1a05-46ef-a00f-1235b4b6b402">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<field name="department" class="java.lang.String"/>
+	<field name="budgetary" class="java.lang.String"/>
+	<field name="attendance" class="java.lang.String"/>
+	<field name="risk" class="java.lang.String"/>
+	<field name="performance" class="java.lang.String"/>
+	<field name="night" class="java.lang.String"/>
+	<field name="target" class="java.lang.String"/>
+	<field name="trainee" class="java.lang.String"/>
+	<field name="other" class="java.lang.String"/>
+	<field name="rigger" class="java.lang.String"/>
+	<field name="salesCom" class="java.lang.String"/>
+	<field name="transport" class="java.lang.String"/>
+	<field name="site" class="java.lang.String"/>
+	<field name="nopay" class="java.lang.String"/>
+	<field name="festival" class="java.lang.String"/>
+	<field name="isurance" class="java.lang.String"/>
+	<field name="mobile" class="java.lang.String"/>
+	<field name="sa" class="java.lang.String"/>
+	<field name="epf8" class="java.lang.String"/>
+	<field name="welfare" class="java.lang.String"/>
+	<field name="laptop" class="java.lang.String"/>
+	<field name="bike" class="java.lang.String"/>
+	<field name="pm" class="java.lang.String"/>
+	<field name="epf12" class="java.lang.String"/>
+	<field name="epf3" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="36" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="2" width="1260" height="34" uuid="94ee21df-c462-4d13-b469-dc58f01d131c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="20"/>
+				</textElement>
+				<text><![CDATA[Salary Analyze]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="31" splitType="Stretch">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="0" y="0" width="50" height="31" isRemoveLineWhenBlank="true" uuid="7706282f-fdb4-4f5e-bfdb-5935acdcd8c5"/>
+				<textElement textAlignment="Center" verticalAlignment="Top" rotation="None">
+					<font fontName="Calibri" size="8" isBold="true" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{department}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="50" y="0" width="50" height="31" isRemoveLineWhenBlank="true" uuid="f94e9a0d-5ca6-4530-be84-470169048182"/>
+				<textElement textAlignment="Center" verticalAlignment="Top" rotation="None">
+					<font fontName="Calibri" size="8" isBold="true" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{budgetary}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="200" y="0" width="50" height="31" isRemoveLineWhenBlank="true" uuid="1e2af5b7-8e83-45cd-a30c-45d7ce2856c9"/>
+				<textElement textAlignment="Center" verticalAlignment="Top" rotation="None">
+					<font fontName="Calibri" size="8" isBold="true" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{performance}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="250" y="0" width="50" height="31" isRemoveLineWhenBlank="true" uuid="7962f625-d8a5-4433-858f-e53dffcf5005"/>
+				<textElement textAlignment="Center" verticalAlignment="Top" rotation="None">
+					<font fontName="Calibri" size="8" isBold="true" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{night}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="300" y="0" width="50" height="31" isRemoveLineWhenBlank="true" uuid="ef52cf8a-8510-4da0-bdef-8c29a167e195"/>
+				<textElement textAlignment="Center" verticalAlignment="Top" rotation="None">
+					<font fontName="Calibri" size="8" isBold="true" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{target}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="350" y="0" width="50" height="31" isRemoveLineWhenBlank="true" uuid="928ccf8a-6533-4e1d-9e46-29d76143637b"/>
+				<textElement textAlignment="Center" verticalAlignment="Top" rotation="None">
+					<font fontName="Calibri" size="8" isBold="true" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{trainee}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="500" y="0" width="50" height="31" isRemoveLineWhenBlank="true" uuid="e20757e1-a2fa-4240-adc6-2b9119760f0f"/>
+				<textElement textAlignment="Center" verticalAlignment="Top" rotation="None">
+					<font fontName="Calibri" size="8" isBold="true" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{salesCom}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="550" y="0" width="50" height="31" isRemoveLineWhenBlank="true" uuid="7915941f-a746-46b1-a44f-c44e4eb8443e"/>
+				<textElement textAlignment="Center" verticalAlignment="Top" rotation="None">
+					<font fontName="Calibri" size="8" isBold="true" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{transport}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="699" y="0" width="50" height="31" isRemoveLineWhenBlank="true" uuid="2fbb20db-db4e-46ae-8fea-f8ef464853b4"/>
+				<textElement textAlignment="Center" verticalAlignment="Top" rotation="None">
+					<font fontName="Calibri" size="8" isBold="true" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{festival}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="600" y="0" width="50" height="31" isRemoveLineWhenBlank="true" uuid="16ede71a-f939-496b-8850-a83b571e1d59"/>
+				<textElement textAlignment="Center" verticalAlignment="Top" rotation="None">
+					<font fontName="Calibri" size="8" isBold="true" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{site}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="750" y="0" width="50" height="31" isRemoveLineWhenBlank="true" uuid="8f61ebd8-0402-4cca-8c1e-0084e0725bd7"/>
+				<textElement textAlignment="Center" verticalAlignment="Top" rotation="None">
+					<font fontName="Calibri" size="8" isBold="true" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{isurance}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="450" y="0" width="50" height="31" isRemoveLineWhenBlank="true" uuid="ca5a9dbd-16e5-46c0-83bc-bc0e7d70ccd8"/>
+				<textElement textAlignment="Center" verticalAlignment="Top" rotation="None">
+					<font fontName="Calibri" size="8" isBold="true" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{rigger}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="800" y="0" width="50" height="31" isRemoveLineWhenBlank="true" uuid="174c7ae9-6795-4ebd-900a-e6e148af0520"/>
+				<textElement textAlignment="Center" verticalAlignment="Top" rotation="None">
+					<font fontName="Calibri" size="8" isBold="true" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{mobile}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="850" y="0" width="50" height="31" isRemoveLineWhenBlank="true" uuid="0cdb6452-9ef2-4f3d-b48f-5a6d84ddee55"/>
+				<textElement textAlignment="Center" verticalAlignment="Top" rotation="None">
+					<font fontName="Calibri" size="8" isBold="true" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{sa}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="950" y="0" width="50" height="31" isRemoveLineWhenBlank="true" uuid="da2242bd-6620-47ae-936f-1d0ced2dd4eb"/>
+				<textElement textAlignment="Center" verticalAlignment="Top" rotation="None">
+					<font fontName="Calibri" size="8" isBold="true" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{welfare}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="1150" y="0" width="50" height="31" isRemoveLineWhenBlank="true" uuid="35b60a20-2dd8-4239-8493-b8cf62766a52"/>
+				<textElement textAlignment="Center" verticalAlignment="Top" rotation="None">
+					<font fontName="Calibri" size="8" isBold="true" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{epf12}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="900" y="0" width="50" height="31" isRemoveLineWhenBlank="true" uuid="e8cc5aee-00fa-4268-b94f-c201867fc186"/>
+				<textElement textAlignment="Center" verticalAlignment="Top" rotation="None">
+					<font fontName="Calibri" size="8" isBold="true" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{epf8}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="1200" y="0" width="60" height="31" isRemoveLineWhenBlank="true" uuid="37232f0a-f3a7-406a-a650-0e95f3dc6439"/>
+				<textElement textAlignment="Center" verticalAlignment="Top" rotation="None">
+					<font fontName="Calibri" size="8" isBold="true" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{epf3}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="1100" y="0" width="50" height="31" isRemoveLineWhenBlank="true" uuid="bcb8b47e-d251-4ad3-a40a-27a8618ddbc0"/>
+				<textElement textAlignment="Center" verticalAlignment="Top" rotation="None">
+					<font fontName="Calibri" size="8" isBold="true" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pm}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="1050" y="0" width="50" height="31" isRemoveLineWhenBlank="true" uuid="4f286dc2-88f3-42a6-8fdc-c4e7be561122"/>
+				<textElement textAlignment="Center" verticalAlignment="Top" rotation="None">
+					<font fontName="Calibri" size="8" isBold="true" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{bike}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="1000" y="0" width="50" height="31" isRemoveLineWhenBlank="true" uuid="0c2b3487-c772-42ff-8a15-7dbf2486a696"/>
+				<textElement textAlignment="Center" verticalAlignment="Top" rotation="None">
+					<font fontName="Calibri" size="8" isBold="true" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{laptop}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="650" y="0" width="50" height="31" isRemoveLineWhenBlank="true" uuid="487b813e-4246-4cf0-8708-b09eb2ffef5d"/>
+				<textElement textAlignment="Center" verticalAlignment="Top" rotation="None">
+					<font fontName="Calibri" size="8" isBold="true" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nopay}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="400" y="0" width="50" height="31" isRemoveLineWhenBlank="true" uuid="eec12aee-ffc0-4c57-bc38-825e2d21fcd9"/>
+				<textElement textAlignment="Center" verticalAlignment="Top" rotation="None">
+					<font fontName="Calibri" size="8" isBold="true" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{other}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="150" y="0" width="50" height="31" isRemoveLineWhenBlank="true" uuid="4ebf0ffa-46d9-4d94-8882-41f5ef8bf0b4"/>
+				<textElement textAlignment="Center" verticalAlignment="Top" rotation="None">
+					<font fontName="Calibri" size="8" isBold="true" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{risk}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="100" y="0" width="50" height="31" isRemoveLineWhenBlank="true" uuid="3ef079ce-9427-4e6a-8de4-19f5220fd435"/>
+				<textElement textAlignment="Center" verticalAlignment="Top" rotation="None">
+					<font fontName="Calibri" size="8" isBold="true" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{attendance}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="0" width="1" height="31" uuid="0c51840b-aa9f-46eb-a6b0-d9dd2ccbd464"/>
+			</line>
+			<line>
+				<reportElement x="1260" y="0" width="1" height="31" uuid="6f5062df-8f38-4795-8fb8-52d3cbe23e6f"/>
+			</line>
+			<line>
+				<reportElement x="0" y="0" width="1261" height="1" uuid="acaa81b7-91f3-4c50-b474-d1780b140e4e"/>
+			</line>
+			<line>
+				<reportElement x="50" y="0" width="1" height="31" uuid="8e386720-3ea4-40f9-815b-31a7cbb25513"/>
+			</line>
+			<line>
+				<reportElement x="99" y="0" width="1" height="31" uuid="5ad5ac30-9d02-45b4-8d03-343ec96d101f"/>
+			</line>
+			<line>
+				<reportElement x="149" y="0" width="1" height="31" uuid="f96dec04-4c47-4194-a965-e411c31f7dc1"/>
+			</line>
+			<line>
+				<reportElement x="200" y="0" width="1" height="31" uuid="b4c4e6f0-8b5f-45c5-893b-a0d4d9219e8e"/>
+			</line>
+			<line>
+				<reportElement x="250" y="0" width="1" height="31" uuid="e8f01f25-ca30-4121-93b5-97498559ff1d"/>
+			</line>
+			<line>
+				<reportElement x="300" y="0" width="1" height="31" uuid="decb87b7-ed5b-461b-ad6d-272ee048cc90"/>
+			</line>
+			<line>
+				<reportElement x="350" y="0" width="1" height="31" uuid="897660b2-5dd2-4f69-b391-1f913345f4b3"/>
+			</line>
+			<line>
+				<reportElement x="399" y="0" width="1" height="31" uuid="cec3f3fc-777c-4ab7-9c91-a599de61f385"/>
+			</line>
+			<line>
+				<reportElement x="450" y="0" width="1" height="31" uuid="b5576735-9a80-403b-ba9b-f797ab40f762"/>
+			</line>
+			<line>
+				<reportElement x="500" y="0" width="1" height="31" uuid="d0d1ee28-47f8-4e23-b871-4a7749f22d12"/>
+			</line>
+			<line>
+				<reportElement x="549" y="0" width="1" height="31" uuid="ff852df9-dbca-44cf-9d6d-6926a48c1558"/>
+			</line>
+			<line>
+				<reportElement x="599" y="0" width="1" height="31" uuid="b2c803e1-913a-485d-a16a-32a81771815a"/>
+			</line>
+			<line>
+				<reportElement x="650" y="0" width="1" height="31" uuid="3753e286-c96b-4564-baa0-75ded75178fb"/>
+			</line>
+			<line>
+				<reportElement x="699" y="0" width="1" height="31" uuid="e065bb1a-66a0-4748-948d-97d6774e4acd"/>
+			</line>
+			<line>
+				<reportElement x="748" y="0" width="1" height="31" uuid="56165f62-fbbb-4065-bdcd-347f589b4dae"/>
+			</line>
+			<line>
+				<reportElement x="799" y="0" width="1" height="31" uuid="50f2dfd8-1eea-411e-b3ba-749172fb0ac2"/>
+			</line>
+			<line>
+				<reportElement x="850" y="0" width="1" height="31" uuid="b3055565-466f-4532-ba4a-9db4e5832ebe"/>
+			</line>
+			<line>
+				<reportElement x="900" y="0" width="1" height="31" uuid="69f56837-d7af-4f37-9c49-c3ea2db153c5"/>
+			</line>
+			<line>
+				<reportElement x="950" y="0" width="1" height="31" uuid="32c2ce6e-ec58-46d8-9a66-4a973d900705"/>
+			</line>
+			<line>
+				<reportElement x="999" y="0" width="1" height="31" uuid="4ab6e6cd-e077-40b9-83b3-1e266a2b3c56"/>
+			</line>
+			<line>
+				<reportElement x="1049" y="0" width="1" height="31" uuid="0ab6236f-3710-4315-a223-e272f8df1272"/>
+			</line>
+			<line>
+				<reportElement x="1100" y="0" width="1" height="31" uuid="bb97b814-675e-4249-8e2f-4d9adae51d77"/>
+			</line>
+			<line>
+				<reportElement x="1149" y="0" width="1" height="31" uuid="0744ac99-c873-48d6-ad72-597427626acc"/>
+			</line>
+			<line>
+				<reportElement x="1200" y="0" width="1" height="31" uuid="3d4d7579-6a3d-4001-aa3a-0af1561a288d"/>
+			</line>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch">
+			<line>
+				<reportElement x="1" y="0" width="1260" height="1" uuid="360db322-c81c-424c-af78-a6a6505846e7"/>
+			</line>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

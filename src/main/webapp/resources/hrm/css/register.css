@@ -1,0 +1,47 @@
+* {
+	text-transform: capitalize;
+}
+
+.foo {
+	bottom: 6px;
+}
+
+input[type=text] {
+	width: 200px;
+	height: 30px;
+}
+
+input[type=email] {
+	height: 30px;
+}
+
+input[type=date] {
+	height: 30px;
+}
+
+#lnameDiv {
+	margin-left: 100px;
+}
+
+label {
+	font-size: 12px;
+}
+
+#nameRow {
+	margin-top: -25px;
+}
+
+select {
+	height: 30px;
+}
+
+#address {
+	width: 445px;
+}
+#comDiv {
+    display:none; 
+}
+
+#msg, #msgConNo01, #msgConNo02, #msgEmail, #msgFname, #msgLname {
+	color: red;
+}

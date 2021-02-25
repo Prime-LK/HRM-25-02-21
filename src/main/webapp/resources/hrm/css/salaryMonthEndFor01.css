@@ -1,0 +1,12 @@
+#processUserDiv {
+	display: none;
+}
+
+#startDate, #endDate, #payCodeID {
+	width: 180px;
+	height: 35px;
+}
+
+.card-body {
+	margin-left: 30px;
+}

@@ -1,0 +1,25 @@
+#processUserDiv {
+	display: none;
+}
+
+#startDate, #sa, #payCodeID, #startDateValue, #endDateValue, #periodID {
+	width: 180px;
+	height: 35px;
+}
+
+#startDate {
+	margin-left: 35px;
+}
+
+#sa {
+	margin-left: 15px;
+}
+
+#startDateValue, #endDateValue, #periodID {
+	background-color: #fff;
+	border: none;
+}
+
+.card-body {
+	margin-left: 30px;
+}

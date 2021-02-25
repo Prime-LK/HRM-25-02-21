@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="dependentReport" pageWidth="710" pageHeight="1000" columnWidth="630" leftMargin="40" rightMargin="40" topMargin="40" bottomMargin="40" uuid="0776d438-5337-4f39-84ff-8b90d72e664b">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="table">
+		<box>
+			<topPen lineWidth="1.0" lineColor="#000000"/>
+			<bottomPen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F5F5DC">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#FFFFBF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="Table Dataset 1" uuid="17d3ab9a-303a-4bfa-b01e-923c18002b6a"/>
+	<field name="empid" class="java.lang.String"/>
+	<field name="fname" class="java.lang.String"/>
+	<field name="dtype" class="java.lang.String"/>
+	<field name="dname" class="java.lang.String"/>
+	<field name="dDob" class="java.lang.String"/>
+	<field name="contact" class="java.lang.String"/>
+	<field name="lname" class="java.lang.String"/>
+	<title>
+		<band height="36" splitType="Stretch">
+			<staticText>
+				<reportElement x="-2" y="0" width="600" height="35" forecolor="#000000" uuid="8166f723-51fc-4dfb-aa03-2c0bd2133ecc"/>
+				<textElement>
+					<font size="26" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Dependents Report]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="48" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="46" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="228" y="0" width="143" height="46" backcolor="#F0F0F0" uuid="a5d01e0c-ba49-4a88-9328-7a8ec0748317"/>
+				<textElement verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Dependent Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="371" y="0" width="125" height="46" backcolor="#F0F0F0" uuid="96c31bc7-e7f2-4f6a-9932-b30c9448be54"/>
+				<textElement verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Date of Birth]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="496" y="0" width="134" height="46" backcolor="#F0F0F0" uuid="2454c094-9de0-4aeb-8651-706753b21a98"/>
+				<textElement verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Contact No]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="90" y="0" width="138" height="46" backcolor="#F0F0F0" uuid="9886eb77-353c-4303-a8d0-d493506fa331"/>
+				<textElement verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[  Emp Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="90" height="46" forecolor="#000000" backcolor="#F0F0F0" uuid="0a5a9bfd-1303-416d-96ea-7e02fc37cc7a"/>
+				<textElement verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Emp ID]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="0" width="630" height="1" uuid="9b4ed103-6d31-4ba0-a06e-fa0545dfa8dc"/>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="41" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="10" width="90" height="29" uuid="688325d5-e942-4048-bb2a-e8a15eca951f"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{empid}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="90" y="10" width="138" height="14" uuid="d2eb97c7-6fd5-499b-8e5d-023292213c3f"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fname}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="228" y="10" width="143" height="29" uuid="1d99c811-3f1a-4f25-a515-91dc21636966"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dname}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="371" y="10" width="125" height="29" uuid="23ec862b-93bd-421f-81fb-ef809673df43"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dDob}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="496" y="10" width="102" height="29" uuid="9108f3bf-1694-4108-8388-23e007bee8a2"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{contact}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="0" width="630" height="1" uuid="2c8123df-f647-4b0c-8383-1d6abcba9165"/>
+			</line>
+			<textField>
+				<reportElement x="90" y="26" width="138" height="13" uuid="9135d890-bfc9-4e18-83e3-188b0c63ab7e"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{lname}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="35" splitType="Stretch"/>
+	</columnFooter>
+</jasperReport>

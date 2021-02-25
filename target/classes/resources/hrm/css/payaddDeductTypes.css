@@ -1,0 +1,109 @@
+.container {
+	text-transform: capitalize;
+	font-size: 13px;
+}
+input[type=text]{
+	text-transform: capitalize;
+	font-size: 13px;
+}
+input[type=submit]{
+	text-transform: capitalize;
+	font-size: 13px;
+}
+input[type=reset]{
+	text-transform: capitalize;
+	font-size: 13px;
+}
+label {
+	font-weight: bold;
+}
+#deductTypeCode {
+	border: none;
+	font-weight: bold;
+	background-color: #FFFFFF;
+}
+
+#taTID {
+	color: black;
+}
+
+#taType {
+	color: #4169E1;
+}
+
+.scrollable {
+	height: 400px;
+	overflow: scroll;
+}
+
+#l1 {
+	width: 140px;
+}
+
+#l2 {
+	width: 140px;
+}
+
+#l3 {
+	width: 140px;
+}
+
+#l4 {
+	width: 140px;
+}
+
+#div1 {
+	border: 1px solid black;
+	padding: 10px 10px 10px 10px;
+	width: 280px;
+}
+
+#div2 {
+	border: 1px solid black;
+	padding: 10px 10px 10px 10px;
+	width: 280px;
+}
+
+#div3 {
+	border: 1px solid black;
+	padding: 10px 10px 10px 10px;
+	width: 280px;
+}
+
+#div4 {
+	border: 1px solid black;
+	padding: 10px 10px 10px 10px;
+	width: 280px;
+}
+
+#div5 {
+	border: 1px solid black;
+	padding: 10px 10px 10px 10px;
+	width: 280px;
+}
+
+#addDeValue {
+	width: 85px;
+}
+
+#percentage1 {
+	margin-top: 3px;
+	font-size: 20px;
+	font-weight: bold;
+	margin-left: 5px;
+}
+
+#comID {
+	display: none;
+}
+
+
+
+
+
+
+
+
+
+
+

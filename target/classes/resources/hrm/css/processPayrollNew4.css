@@ -1,0 +1,166 @@
+#startDateDiv {
+	margin-top: 30px;
+	margin-left:3px;
+}
+ 
+#startDate {
+	border: none;
+    margin-top : -5px; 
+	background-color : #FFFFFF;
+	font-size: 12px;
+} 
+
+#endDate {
+	border: none;
+    margin-top : -5px; 
+	background-color : #FFFFFF;
+	font-size: 12px;
+}
+
+#periodID {
+	border: none;
+    margin-top : -5px; 
+	background-color : #FFFFFF;
+	font-size: 12px;
+}
+
+#payCodeID {
+	border: none;
+    margin-top : -5px; 
+	background-color : #FFFFFF;
+	font-size: 12px;
+}
+
+.scrollable {
+	height: 500px;
+	overflow: scroll;
+	width: 500px;
+}
+
+#lbl1, #lbl2, #lbl3 {
+	font-size: 12px;
+}
+
+#empidoftble3  {
+	margin-left : 30px;
+	border: none;
+	margin-top : -10px;
+	background-color : #FFFFFF;
+	font-size: 12px;
+}
+
+#empnameoftble3 {
+	margin-left : 65px;
+	border: none;
+	margin-top : -10px;
+	background-color : #FFFFFF;
+	font-size: 12px;
+}
+
+#empssoftble3{
+	margin-left : 28px;
+	border: none;
+	margin-top : -10px;
+	background-color : #FFFFFF;
+	font-size: 12px;
+}
+
+#miniRow1, #miniRow2 {
+	font-size: 12px;
+	margin-bottom : 10px;
+}
+
+#miniRow3, #miniRow4 {
+	font-size: 12px;
+}
+
+#miniTable1 {
+	margin-left: -12px;
+}
+
+#miniTable1 th, td {
+	width: 120x;
+	
+}
+
+#miniTable3 {
+	margin-left: -12px;
+}
+
+#miniTable3 th, td {
+	width: 120x;
+	
+}
+
+#miniTable {
+	margin-left: -12px;
+}
+
+#miniTable th, td {
+	width: 120x;
+	
+}
+
+#miniTable2 {
+	margin-left: -12px;
+}
+
+#miniTable2 th, td {
+	width: 120px;
+}
+
+#miniTable4 {
+	margin-left: -12px;
+}
+
+#miniTable4 th, td {
+	width: 120px;
+}
+
+#miniTable5 {
+	margin-left: -12px;
+}
+
+#miniTable5 th, td {
+	width: 120px;
+}
+
+#miniTable6 {
+	margin-left: -12px;
+}
+
+#miniTable6 th, td {
+	width: 120px;
+}
+
+#miniTable7 {
+	margin-left: -12px;
+}
+
+#miniTable7 th, td {
+	width: 120px;
+}
+
+#miniTable8 {
+	margin-left: -12px;
+}
+
+#miniTable8 th, td {
+	width: 120px;
+}
+
+#miniTable9 {
+	margin-left: -12px;
+}
+
+#miniTable9 th, td {
+	width: 120px;
+}
+
+#basicDetailsTable {
+	margin-left: -12px;
+}
+
+#basicDetailsTable th, td {
+	width: 120px;
+}
