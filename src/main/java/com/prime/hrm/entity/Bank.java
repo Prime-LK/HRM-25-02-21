@@ -33,6 +33,9 @@ public class Bank {
 	@Column(name="Contact_No")
 	private String contactNo;
 	
+	@Column(name="Email")
+	private String email;
+	
 	@ManyToOne(optional=false, fetch = FetchType.EAGER)
 	@JoinColumn(name="Company_ID", referencedColumnName="Company_ID")
 	private CompanyMaster company;
@@ -83,6 +86,14 @@ public class Bank {
 	
 	public void setContactNo(String contactNo) {
 		this.contactNo = contactNo;
+	}
+	
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public Bank() {

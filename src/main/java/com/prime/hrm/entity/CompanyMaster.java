@@ -15,6 +15,12 @@ public class CompanyMaster {
 	
 	@Column(name="Company_Name")
 	private String comName;
+	
+	@Column(name="Address")
+	private String address;
+	
+	@Column(name="Contact_No")
+	private String conNo;
 
 	public String getComID() {
 		return comID;
@@ -32,9 +38,27 @@ public class CompanyMaster {
 		this.comName = comName;
 	}
 
-	public CompanyMaster(String comID, String comName) {
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getConNo() {
+		return conNo;
+	}
+
+	public void setConNo(String conNo) {
+		this.conNo = conNo;
+	}
+
+	public CompanyMaster(String comID, String comName, String address, String conNo) {
 		this.comID = comID;
 		this.comName = comName;
+		this.address = address;
+		this.conNo = conNo;
 	}
 
 	public CompanyMaster() {
