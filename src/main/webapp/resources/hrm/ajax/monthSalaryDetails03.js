@@ -28,7 +28,7 @@ function loadVariableTypes() {
 		success : function(data) {
 			var slctSubcat = $('#deductTypeCode'), option = "";
 			slctSubcat.empty();
-			selected_option = "<option value='' selected>Select Type</option>"
+			selected_option = "<option value='' selected>--SELECT--</option>"
 			slctSubcat.append(selected_option);
 
 			for (var i = 0; i < data.length; i++) {
@@ -229,7 +229,7 @@ $
 				for (var i = 0; i < data.length; i++) {
 					var result = "<tr><td><input type='checkbox' onchange='setValues()'" +
 							" id='cb1' name='cb1' value='inactive'>" +
-							"</td><td><input name='monthDePk.empID.empID'"
+							"</td><td><input name='monthDePk.empID.empID' id='empidTable'"
 							+ "value=" + data[i].empdetailPK.empID.empID
 							+ " ></td><td>"
 							+ data[i].empdetailPK.empID.name
@@ -262,7 +262,7 @@ $
 				$("#tableMoSaDetails tbody").empty();
 				for (var i = 0; i < data.length; i++) {
 					var result = "<tr><td><input type='checkbox' id='cb1' name='cb1' value='inactive'>" +
-							"</td><td><input name='monthDePk.empID.empID' value="
+							"</td><td><input name='monthDePk.empID.empID' id='empidTable' value="
 							+ data[i].empdetailPK.empID.empID
 							+ " ></td><td>"
 							+ data[i].empdetailPK.empID.name
@@ -298,7 +298,7 @@ $
 				$("#tableMoSaDetails tbody").empty();
 				for (var i = 0; i < data.length; i++) {
 					var result = "<tr><td><input type='checkbox' id='cb1' name='cb1' value='inactive'>" +
-							"</td><td><input name='monthDePk.empID.empID' value="
+							"</td><td><input name='monthDePk.empID.empID' id='empidTable' value="
 							+ data[i].empdetailPK.empID.empID
 							+ " ></td><td>"
 							+ data[i].empdetailPK.empID.name
@@ -325,7 +325,7 @@ if (document.getElementById("inlineRadio5").checked) {
 			$("#tableMoSaDetails tbody").empty();
 			for (var i = 0; i < data.length; i++) {
 				var result = "<tr><td><input type='checkbox' id='cb1' name='cb1' value='inactive'>" +
-						"</td><td><input name='monthDePk.empID.empID' " +
+						"</td><td><input name='monthDePk.empID.empID' id='empidTable' " +
 						"value=" + data[i].empID + " readOnly='true'></td><td>"
 						+ data[i].name + " " + data[i].lastname
 						+ "</td><td><input name='amount'" +
@@ -356,7 +356,7 @@ $.ajax({
 		$("#tableMoSaDetails tbody").empty();
 		for (var i = 0; i < data.length; i++) {
 			var result = "<tr><td><input type='checkbox' id='cb1' name='cb1' value='inactive'>" +
-					"</td><td></td><td><input name='empidTable' id='empidTable'" +
+					"</td><td><input name='empidTable' id='empidTable'" +
 					"value=" + data[i].empID
 					+ " readOnly></td><td>" + data[i].name + " " + data[i].lastname
 					+ "</td><td><input name='amount'" +

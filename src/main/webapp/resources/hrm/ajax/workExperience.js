@@ -11,17 +11,31 @@ function loadGrid() {
 			$("#tableWorkExp tbody").empty();
 			for (var i = 0; i < data.length; i++) {
 
-				var result = "<tr><td> " 
+				/*var result = "<tr><td> " 
 						+"<a href=updateWexp?empID="
 						+ data[i].employeeWorkExperiencePK.empID.empID
 						+"&expID="
 						+data[i].employeeWorkExperiencePK.expId
-						+"><img src='resources/img/edit.png' width='25px' height='25px'></a>"
+						+"> <i class='far fa-edit'></i></a>"
 						+ "</td><td id='company'>"
 						+ data[i].companyName + " <br><div id='designation'> " 
 						+  data[i].designation + " </div></td><td  id='joinDate'>" 
 						+  data[i].joinDate + "<br><div id='regignDate'> " 
 						+  data[i].resignDate + " </div></td></tr>";
+				$("#tableWorkExp tbody").append(result);*/
+				
+				var result = "<tr>" +
+						"<td>" + data[i].companyName + "</td>" +
+						"<td>" + data[i].designation + "</td>" +
+						"<td>" + data[i].joinDate + "</td>" +
+						"<td>" + data[i].resignDate + "</td>" +
+						"<td> " 
+						+"<a href=updateWexp?empID="
+						+ data[i].employeeWorkExperiencePK.empID.empID
+						+"&expID="
+						+data[i].employeeWorkExperiencePK.expId
+						+"> <i class='far fa-edit'></i></a>"
+						+ "</td></tr>";
 				$("#tableWorkExp tbody").append(result);
 			}
 		},error:function() {

@@ -86,7 +86,9 @@ public class EmployeeController {
 			session.setAttribute("eid", e.getEmpID());
 			session.setAttribute("ename", e.getName());
 			session.setAttribute("eImg", e.getProfileImgView());
-			session.setAttribute("lname", e.getLastname());
+			session.setAttribute("lastName", e.getLastname());
+			session.setAttribute("addLine01", e.getAddress());
+			session.setAttribute("addLine02", e.getCity());
 			return "redirect:/register";
 		}
 	}
@@ -168,6 +170,9 @@ public class EmployeeController {
 			session.setAttribute("eid", emp.getEmpID());
 			session.setAttribute("ename", emp.getName());
 			session.setAttribute("eImg", emp.getProfileImgView());
+			session.setAttribute("lastName", emp.getLastname());
+			session.setAttribute("addLine01", emp.getAddress());
+			session.setAttribute("addLine02", emp.getCity());
 			mav.addObject("saveRegister", emp);
 		} catch (Exception e) {
 			System.out.println("Employee Details Not Found");
@@ -181,6 +186,32 @@ public class EmployeeController {
 		return mav;
 	}
 
+	@RequestMapping(value = "/updateEmpUsingName", method = RequestMethod.GET)
+	public ModelAndView updateEmpUsingName(@RequestParam String name, HttpSession session, HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView("register");
+		Employee emp = null;
+		try {
+			emp = empService.updateDetailsUsingEmpName(name);
+			session = request.getSession();
+			session.setAttribute("eid", emp.getEmpID());
+			session.setAttribute("ename", emp.getName());
+			session.setAttribute("eImg", emp.getProfileImgView());
+			session.setAttribute("lastName", emp.getLastname());
+			session.setAttribute("addLine01", emp.getAddress());
+			session.setAttribute("addLine02", emp.getCity());
+			mav.addObject("saveRegister", emp);
+		} catch (Exception e) {
+			System.out.println("Employee Details Not Found");
+		}
+		try {
+			String empImg = emp.getProfileImgView();
+			mav.addObject("EImg", empImg);
+		} catch (Exception e) {
+			System.out.println("Employee Image Not Found");
+		}
+		return mav;
+	}
+	
 	// get loging user image according to userID to loging jsp
 	@RequestMapping(value = "/logingimage", method = RequestMethod.GET)
 	public @ResponseBody String searchUserImage(@RequestParam String name) {
@@ -247,6 +278,14 @@ public class EmployeeController {
 		return mav;
 	}
 
+	//search
+	@GetMapping("/getSearchData")
+	@ResponseBody
+	public List<Employee> getSearchDetails() {
+		List<Employee> sDetails = empService.getSearchDetails();
+		return sDetails;
+	}
+	
 	@ModelAttribute("dAll")
 	public List<DepartmentMaster> getAllDeps() {
 		return depService.getAllDep();

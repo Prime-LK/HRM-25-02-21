@@ -48,7 +48,11 @@ public interface EmployeeRepository extends CrudRepository<Employee, String> {
 			+ " em.contact_num1 as contact_num1, em.email as email, em.dob as dob FROM Employee em")
 	public String[][] getEmpsToEmpMoSaDetails();
 
-	
+	@Query(value="SELECT a FROM Employee a")
+	public List<Employee> getSearchDetails();
+
+	@Query(value="select * from employee_master where concat(name,' ',lastname) =:name",nativeQuery=true)
+	public Employee updateDetailsUsingEmpName(@Param("name")String name);
 	
 }
 

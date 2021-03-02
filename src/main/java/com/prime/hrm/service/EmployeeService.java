@@ -268,5 +268,13 @@ public class EmployeeService {
 	public String[][] getCensusReportDatabyfilteringemployeebasedonresignDate(String resignDate , String resignDate2) {
 			return  empDeRepo.filterEmpdateOfResignDate(resignDate, resignDate2);
 	}
+	
+	public List<Employee> getSearchDetails() {
+		return empRepo.getSearchDetails();
+	}
+	
+	public Employee updateDetailsUsingEmpName(String name) {
+		return empRepo.updateDetailsUsingEmpName(name);
+	}
 
 }

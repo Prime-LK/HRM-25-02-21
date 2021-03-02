@@ -176,7 +176,8 @@ public class PayController {
 		mav.addObject("Paycodes", updatePayCode);
 		return mav;
 	}
-
+	
+	//begin of setting operations
 	// load setting jsp
 	@RequestMapping(value = "/setting", method = RequestMethod.GET)
 	public String getsettingPage(Map<String, Object> map) {
@@ -190,6 +191,14 @@ public class PayController {
 		payService.saveSetting(setting);
 		return "redirect:/setting";
 	}
+	
+	//get current settings
+	@ModelAttribute("getCurrentStatus")
+	public List<Setting> getCurrentDetails() {
+		List<Setting> list = payService.getSettingl();
+		return list;
+	}
+	//end of sessting operation
 
 	// begin process payroll
 	// load payroll process

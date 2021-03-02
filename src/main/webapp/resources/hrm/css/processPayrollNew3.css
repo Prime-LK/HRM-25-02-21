@@ -1,39 +1,15 @@
-#startDateDiv {
-	margin-top: 30px;
-	margin-left:3px;
-}
- 
-#startDate {
-	border: none;
-    margin-top : -5px; 
-	background-color : #FFFFFF;
-	font-size: 12px;
-} 
-
-#endDate {
-	border: none;
-    margin-top : -5px; 
-	background-color : #FFFFFF;
-	font-size: 12px;
-	margin-left: 10px;
+* {
+	text-transform: capitalize;
 }
 
-#periodID {
-	border: none;
-    margin-top : -5px; 
-	background-color : #FFFFFF;
-	font-size: 12px;
-	margin-left: 12px;
+#comDiv, #processUserDiv {
+	display: none;
 }
 
 .scrollable {
 	height: 500px;
 	overflow: scroll;
 	width: 500px;
-}
-
-#lbl1, #lbl2, #lbl3 {
-	font-size: 12px;
 }
 
 #empidoftble3  {

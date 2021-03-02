@@ -1,110 +1,21 @@
-* {
+ * {
 	text-transform: capitalize;
 }
 
-#comDiv {
+#comDiv, #tblEmpDiv, #amtDiv {
 	display: none;
 }
 
-#year {
-	margin-left: 140px;
-	width: 200px;
+#para01 {
+	color: #0000FF;
+	font-weight: bold;
 }
 
-#startDate {
-	margin-left: 40px;
-	width: 200px;
-}
-
-#periodCode {
-	margin-left: 90px;
-	margin-top: -30px;
-	width: 200px;
-	boder: none;
-	background-color: #fff;
-}
-
-#sa {
-	margin-left: 125px;
-	width: 200px;
-}
-
-#pMonth {
-	margin-left: 45px;
-	width: 200px;
-}
-
-#payCode {
-	margin-left: 105px;
-	width: 200px;
-}
-
-#deductTypeCode {
-	width: 200px;
-}
-
-#addDeType {
-	margin-left: 40px;
-	width: 200px;
+#empidTable {
 	border: none;
-	background-color: #fff;
 }
 
-#depDiv {
-	margin-left: 80px;
-	width: 200px;
+.scrollable {
+	height: 400px;
+	overflow: scroll;
 }
-
-#depID {
-	width: 200px;
-}
-
-#locDiv {
-	margin-left: 100px;
-	width: 200px;
-}
-
-#loid {
-	width: 200px;
-}
-
-#catDiv {
-	margin-left: 95px;
-	width: 200px;
-}
-
-#catgoryID {
-	width: 200px;
-}
-
-#typDiv {
-	margin-left: 125px;
-	width: 200px;
-}
-
-#tid {
-	width: 200px;
-}
-
-#selEmpDiv {
-	margin-left: 33px;
-	width: 200px;
-}
-
-#empID {
-	width: 200px;
-}
-
-#allEmpDiv {
-	margin-left: 15px;
-	width: 200px;
-}
-
-
-
-
-
-
-
-
-

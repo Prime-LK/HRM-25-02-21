@@ -1,15 +1,22 @@
 package com.prime.hrm.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.prime.hrm.entity.DepartmentMaster;
 import com.prime.hrm.entity.Employee;
@@ -17,6 +24,7 @@ import com.prime.hrm.entity.EmployeeDetails;
 import com.prime.hrm.report.EmployeeReportBean;
 import com.prime.hrm.service.DepartmentService;
 import com.prime.hrm.service.EmployeeService;
+import com.prime.hrm.utils.ReportViewe;
 
 @Controller("EmployeeReportController")
 public class EmployeeReportController {
@@ -45,17 +53,15 @@ public class EmployeeReportController {
 	}
 	
 	// print Employee summary report
-	 @GetMapping("/submitEmpReport")
-	 public String print1(@RequestParam String empID,Model m)
-	 {
-		 String[][] result = empService.getEmployeeReportData(empID);
-		 
-		 List<EmployeeReportBean> list = new ArrayList<>();
-		 
+	 @PostMapping("/submitEmpReport")
+	 public ModelAndView print1(@RequestParam String empID,HttpServletRequest request, 
+			 HttpServletResponse response) throws Exception {
+		 String fileName = "Employee Report: " + empID;
+		 String[][] result = empService.getEmployeeReportData(empID); 
+		 List<EmployeeReportBean> list = new ArrayList<>(); 
 		 for(int i=0; i<result.length;i++ )
 		 {
-			 EmployeeReportBean ed = new EmployeeReportBean();
-			 
+			 EmployeeReportBean ed = new EmployeeReportBean();	 
 			 ed.setEmpid(result[i][0]);
 	    	   ed.setNa(result[i][1]);
 	    	   ed.setRe(result[i][2]);
@@ -63,8 +69,6 @@ public class EmployeeReportController {
 	    	   ed.setFname(result[i][4]);
 	    	   ed.setDob(result[i][5]);
 	    	   ed.setGender(result[i][6]);
-//	    	   ed.setImg(result[i][7]);
-	    	  
 	    	   ed.setAdd(result[i][7]);
 	    	   ed.setCity(result[i][8]);
 	    	   ed.setState(result[i][9]);
@@ -93,13 +97,15 @@ public class EmployeeReportController {
 	    	   ed.setEmpAccount(result[i][32]);
 	    	   
 	    	   list.add(ed);
-	    	   System.out.println(ed.getEmpBank() + " " + ed.getEmpAccount()+ " " + ed.getCategory());
+//	    	   System.out.println(ed.getEmpBank() + " " + ed.getEmpAccount()+ " " + ed.getCategory());
 		 }
-		 
-		 m.addAttribute("employee", list);
-		 
-		return "printEmployeeReport";
-
+		 	Map<String, Object> params = new HashMap<>();
+		 	params.put("empID", empID);
+		 	ReportViewe review=new ReportViewe();
+	        String report = review.pdfReportViewInlineSystemOpen("employeeReport.jasper", fileName, list, params, response);
+	        ModelAndView mav = new ModelAndView("employeeReportView");
+	        mav.addObject("pdfViewEq",report);
+	        return mav;
 	 }
 	
 //	 @GetMapping("/submitEmpReport")

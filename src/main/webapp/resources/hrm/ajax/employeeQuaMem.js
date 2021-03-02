@@ -12,16 +12,25 @@ function loadGrid() {
 					$("#tableEmpQua tbody").empty();
 					for (var i = 0; i < data.length; i++) {
 
-						var result = "<tr><td><a href=updateEq?empID="
-								+ data[i].quaPK.empID.empID
-								+"&qid="
-								+data[i].quaPK.qMaster.qid
-								+"><img src='resources/img/edit.png' width='25px' height='25px'></a></td>"
-								+ "<td><div id='qua'>"
-								+ data[i].quaPK.qMaster.qualification
-								+ " </div></td><td id='detials'>" + data[i].desc + "<br>" 
-								+ "<div id='award'>" + data[i].award + " </div></td>"
-								+ "</tr>";
+//						var result = "<tr><td><a href=updateEq?empID="
+//								+ data[i].quaPK.empID.empID
+//								+"&qid="
+//								+data[i].quaPK.qMaster.qid
+//								+"><img src='resources/img/edit.png' width='25px' height='25px'></a></td>"
+//								+ "<td><div id='qua'>"
+//								+ data[i].quaPK.qMaster.qualification
+//								+ " </div></td><td id='detials'>" + data[i].desc + "<br>" 
+//								+ "<div id='award'>" + data[i].award + " </div></td>"
+//								+ "</tr>";
+						
+						var result = "<tr><td>"+ data[i].quaPK.qMaster.qualification +"</td>" 
+									+ "<td>"+ data[i].desc +"</td>" 
+									+ "<td>"+ data[i].award +"</td>" 
+									+ "<td><a href=updateEq?empID="
+									+ data[i].quaPK.empID.empID
+									+ "&qid="
+									+ data[i].quaPK.qMaster.qid
+									+ "> <i class='far fa-edit'></i></a></td></tr>";
 						$("#tableEmpQua tbody").append(result);
 					}
 				},
@@ -49,7 +58,7 @@ function loadMemGrid() {
 					$("#tableEmpMem tbody").empty();
 					for (var i = 0; i < data.length; i++) {
 
-						var result = "<tr><td>"
+/*						var result = "<tr><td>"
 								+ "<a href=updateMembership?eid="
 								+ data[i].employeeMembershipPK.empID.empID
 								+ "&memID="
@@ -60,7 +69,18 @@ function loadMemGrid() {
 								+ " </div></td><td id='de'>"
 								+data[i].description + "<br><div id='since'>" + data[i].since
 								+ "</div></td></tr>";
-						$("#tableEmpMem tbody").append(result);
+						$("#tableEmpMem tbody").append(result);*/
+						
+						var result = "<tr><td>"+ data[i].employeeMembershipPK.membershipInformation.memType +"</td>" 
+						+ "<td>"+ data[i].description +"</td>" 
+						+ "<td>"+ data[i].since +"</td>" 
+						+ "<td><a href=updateMembership?eid="
+						+ data[i].employeeMembershipPK.empID.empID
+						+ "&memID="
+						+ data[i].employeeMembershipPK.membershipInformation.memID
+						+ "> <i class='far fa-edit'></i>"
+						+ "</a></td></tr>";
+			$("#tableEmpMem tbody").append(result);
 					}
 				},
 				error : function() {

@@ -1,26 +1,4 @@
-#processUserDiv {
+#comDiv, #processUserDiv {
 	display: none;
 }
 
-#startDate, #sa, #payCodeID, #startDateValue, #endDateValue, #periodID {
-	width: 180px;
-	height: 35px;
-}
-
-#startDate {
-	margin-left: 35px;
-}
-
-#sa {
-	margin-left: 15px;
-}
-
-#startDateValue, #endDateValue, #periodID, #payCodeID {
-	background-color: #fff;
-	border: none;
-	margin-top: -5px;
-}
-
-.card-body {
-	margin-left: 30px;
-}

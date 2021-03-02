@@ -94,7 +94,7 @@ function loadRelatedEmpDetails() {
 						+ "<td>"+ data[i][3]+ "</td>"
 						+ "<td>"+ data[i][4]+ "</td>"
 						+ "<td><a onclick='getEmpDetailsRelatedPayCodeID1(); toggleDetails();'>" 
-						+ "<img src='resources/img/more.png' width='25px' height='25px'></a></tr>";
+						+ "<i class='fa fa-info' aria-hidden='true'></i></a></tr>";
 				$("#tableProcessPayroll tbody").append(result);
 			}
 		},

@@ -28,7 +28,7 @@ function loadVariableTypes() {
 		success : function(data) {
 			var slctSubcat = $('#deductTypeCode'), option = "";
 			slctSubcat.empty();
-			selected_option = "<option value='' selected>Select Type</option>"
+			selected_option = "<option value='' selected>--SELECT--</option>"
 			slctSubcat.append(selected_option);
 
 			for (var i = 0; i < data.length; i++) {
@@ -312,7 +312,7 @@ $.ajax({
 		$("#tableMoSaDetails tbody").empty();
 		for (var i = 0; i < data.length; i++) {
 			var result = "<tr><td><input type='checkbox' id='cb1' name='cb1' value='inactive'>" +
-					"</td><td></td><td><input name='empidTable' id='empidTable'" +
+					"</td><td><input name='empidTable' id='empidTable'" +
 					"value=" + data[i].empID
 					+ " readOnly></td><td>" + data[i].name + " " + data[i].lastname
 					+ "</td><td><input name='amount'" +

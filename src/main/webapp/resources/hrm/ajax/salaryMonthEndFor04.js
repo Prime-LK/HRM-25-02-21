@@ -1,5 +1,5 @@
 function loadPayPeriod() {
-	var x = document.getElementById("startDate").value;
+	var x = document.getElementById("year").value;
 	var y = document.getElementById("sa").value;
 
 	$.ajax({
@@ -27,8 +27,8 @@ function loadPayPeriod() {
 			var dFormat = gg1 + '-' + gg2 + '-' + gg3;
 			var dFormat2 = dd1 + '-' + dd2 + '-' + dd3;
 
-			document.getElementById("startDateValue").value = dFormat;
-			document.getElementById("endDateValue").value = dFormat2;
+			document.getElementById("startDate").value = dFormat;
+			document.getElementById("endDate").value = dFormat2;
 			document.getElementById("periodID").value = data.payPeriodID;
 
 			loadPayCode();

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -45,11 +46,11 @@ public class PayControllerReport {
 
 	@GetMapping("/processPayRollReport")
 	public String getPage() {
-		return "viewProcessPayrollAllEmpsWithAllowance";
+		return "processPayrollReport";
 	}
 
 	//employee report 01 data 
-	@GetMapping("/generateEmpAllAllowanceReport")
+	@PostMapping("/generateEmpAllAllowanceReport")
 	public String getReport(Model m) {
 		String[][] data = proPaMaService.getReportData();
 		List<processPayrollEmpAllDetails> d = new ArrayList<>();
@@ -92,8 +93,8 @@ public class PayControllerReport {
 	
 	//end of employee report 01 data 
 	
-	//payslip data report
-	@GetMapping("/sampleReport")
+	//pay slip data report
+	@PostMapping("/sampleReport")
 	public String getSampleReport(@RequestParam("empID") String empID, Model model) {
 		String[][] data = proPaMaService.paySlipData(empID);
 		List<PaySlipReport> d = new ArrayList<>();

@@ -1,0 +1,60 @@
+#titleMem, #titleQua {
+	font-weight: bold;
+	color: #4169E1;
+	font-size: 15px;
+}
+
+* {
+	text-transform: capitalize;
+}
+
+#tableEmpQua #editQua {
+	text-align: right;
+}
+
+#formEmpQua #descFeedback {
+	color: red;
+}
+
+#formEmpQua #awardFeedback {
+	color: red;
+}
+
+#formEmpMem #descriptionFeedback {
+	color: red;
+}
+
+#formEmpQua #memSinceFeedback {
+	color: red;
+}
+
+#empIDDiv {
+	display: none;
+}
+
+#comDiv {
+	display: none;
+}
+
+#tableClass th, td {
+	font-size: 8px;
+}
+
+.scrollable {
+	height: 300px;
+	overflow: scroll;
+}
+
+#comDeId {
+	color: #FFFFFF;
+	font-weight: bold;
+	font-size: 12px;
+}
+
+#btnDiv {
+	display: none
+}
+
+.main-panel {
+	text-transform: capitalize;
+}
