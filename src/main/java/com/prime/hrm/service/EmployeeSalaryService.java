@@ -283,4 +283,12 @@ public class EmployeeSalaryService {
 		return addDedRepo.getFixedType();
 	}
 	
+	public List<EmployeeMonthSalaryDetails> getAllMoSaDetails() {
+		return (List<EmployeeMonthSalaryDetails>) empMoDeSaRepo.findAll();
+	}
+	
+	public List<EmployeeSalaryDetail> getAllEmpSaDe() {
+		return (List<EmployeeSalaryDetail>) employeeSalaryDetailRepo.findAll();
+	}
+	
 }

@@ -128,6 +128,11 @@ public class PayService {
 		return payCodeRepository.loadPayCodedata(payPeriodID);
 	}
 
+	// load payCode data based on payCodeID
+	public List<PayCode> loadPayCodedataBySDAndED(String startDate, String endDate) {
+		return payCodeRepository.loadPayCodedataBySDAndED(startDate, endDate);
+	}
+	
 	// get maxid for process pay roll
 	public String maxprocesspayID() {
 		if (processPayrollRepository.maxProcessPayrollID() == null) {

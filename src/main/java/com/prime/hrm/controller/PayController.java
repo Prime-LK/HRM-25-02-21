@@ -163,7 +163,14 @@ public class PayController {
 	@GetMapping("/loadDataToGrid")
 	public @ResponseBody List<PayCode> loadPayCodeData(@RequestParam("payPeriodID") String payPeriodID) {
 		List<PayCode> PayCodesbypayPeriodID = payService.loadpayCodestoGrid(payPeriodID);
-
+		return PayCodesbypayPeriodID;
+	}
+	
+	// load saved PayCodes data based on StartDate and EndDate
+	@GetMapping("/loadDataToGridBYSDAndED")
+	public @ResponseBody List<PayCode> loadPayCodedataBySDAndED(@RequestParam("startDate") String startDate,
+			@RequestParam("endDate") String endDate) {
+		List<PayCode> PayCodesbypayPeriodID = payService.loadPayCodedataBySDAndED(startDate,endDate);
 		return PayCodesbypayPeriodID;
 	}
 

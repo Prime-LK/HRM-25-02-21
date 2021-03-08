@@ -83,6 +83,10 @@
 	height: 400px;
 	overflow: scroll;
 }
+
+#processUserDiv, #comDiv {
+	display: none;
+}
 </style>
 
 </head>
@@ -123,43 +127,41 @@
 									onSubmit="return validateForm()" id="EmpSalaryMasterform"
 									modelAttribute="empSalaryMaster">
 									<div class="form-group row">
-										<div class="col-sm-6">
+										<div class="col-sm-3">
 											<label>Employee ID</label>
 											<form:input class="form-control form-control-user" id="empID"
-												path="empSalaryPK.empID.empID"
+												path="empSalaryPK.empID.empID" placeholder="Employee ID"
 												value='<%=session.getAttribute("eid")%>' />
 											<span id="div1"></span>
 										</div>
-										<div class="col-sm-3 mt-4">
+										<div class="col-sm-3 mt-4" id="processUserDiv">
 											<div class="col-sm-30 mb-1 mb-sm-3">
 												<!-- <label>Process_User_ID</label> -->
 												<form:input type="hidden" path="empSalaryPK.processID"
 													class="form-control" placeholder="Enter Detail ID"
 													value="${id.processID}" id="processID" readOnly="true" />
 											</div>
-											<div class="col-sm-30 mb-1 mb-sm-3">
+										</div>
+										<div class="col-sm-30 mb-1 mb-sm-3" id="comDiv">
 												<!-- <label>Company ID</label> -->
 												<input type="hidden" name="company.comID"
 													class="form-control" id="comID"
 													value="<%=session.getAttribute("company.comID")%>"
 													placeholder="Company ID" />
 											</div>
-										</div>
-									</div>
-									<div class="form-group row">
-										<div class="col-sm-6">
-											<label>Basic Salary</label>
-											<form:input class="form-control form-control-user"
-												id="basicSlary" path="basicSalary" />
-											<span id="div2"></span>
-										</div>
-										<div class="col-sm-6">
-											<label>Process Date</label>
-											<form:input path="processDate" type="date"
-												class="form-control col-6 foo"
-												placeholder="Enter Date Of Birth" id="processDate" />
-											<span id="div3"></span>
-										</div>
+										<div class="col-sm-3">
+												<label>Basic Salary</label>
+												<form:input class="form-control form-control-user"
+													id="basicSlary" path="basicSalary" placeholder="Basic Salary" />
+												<span id="div2"></span>
+											</div>
+											<div class="col-sm-3">
+												<label>Process Date</label>
+												<form:input path="processDate" type="date"
+													class="form-control"
+													placeholder="Enter Date Of Birth" id="processDate" />
+												<span id="div3"></span>
+											</div>
 									</div>
 									<div class="form-group row ">
 										<div class="col-6 ">

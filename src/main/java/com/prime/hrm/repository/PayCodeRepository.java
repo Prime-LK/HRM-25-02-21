@@ -21,6 +21,9 @@ public interface PayCodeRepository extends CrudRepository<PayCode, String>{
 	@Query(value="SELECT p FROM PayCode p WHERE p.periodID.payPeriodID =:payPeriodID")
 	public List<PayCode> loadPayCodedata(@Param("payPeriodID") String payPeriodID);
 	
+	@Query(value="SELECT p FROM PayCode p WHERE p.periodID.startDate =:startDate AND p.periodID.endDate=:endDate")
+	public List<PayCode> loadPayCodedataBySDAndED(@Param("startDate") String startDate,@Param("endDate") String endDate);
+	
 	//based on period id load pay code 
 	@Query(value="SELECT p FROM PayCode p WHERE p.periodID.payPeriodID =:periodID")
 	public List<PayCode> loadPayCode(@Param("periodID") String periodID);

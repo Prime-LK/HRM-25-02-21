@@ -120,33 +120,22 @@ public class QualificationController {
 	}
 
 	@RequestMapping(value = "/updateEq", method = RequestMethod.GET)
-	public ModelAndView updateEq(@RequestParam("empID") String empID, @RequestParam("qid") String qid
-			) {
-		ModelAndView mav = new ModelAndView("employeeQualificationEdit");
-			try {
-		
-		EmployeeQualification emp = qmService.setqdata(empID, qid);
-		mav.addObject("empQua", emp);
-			} catch(Exception e) {
-				System.out.println(e);
+	public ModelAndView updateEq(@RequestParam("empID") String empID, @RequestParam("qid") String qid) {
+		ModelAndView mav = new ModelAndView("employeeQualification");
+		try {
+			EmployeeQualification emp = qmService.setqdata(empID, qid);
+			mav.addObject("empQua", emp);
+		} catch (Exception e) {
+			System.out.println(e);
 		}
 		return mav;
 	}
-	
+
 	@GetMapping("/getQDtails")
 	public @ResponseBody List<EmployeeQualification> loadGrid(@RequestParam("empID") String empID) {
 		List<EmployeeQualification> qua = qmService.searchEmployeeQualification(empID);
 		System.out.println("hello " + empID);
 		return qua;
-	}  
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	}
+
 }

@@ -314,9 +314,9 @@
 															<span id="awardFeedback"></span>
 														</div>
 
-														<div class="col-12 offset-3">
-															<div class="form-group row ml-2">
-																<div class="col-10">
+														<div class="col-12">
+															<div class="form-group row">
+																<div class="col-12">
 																	<button type="submit" id="submitBtn"
 																		class="btn btn-success">
 																		<i class="fa fa-plus"></i> Add Qualification
@@ -399,8 +399,8 @@
 												<span id="memSinceFeedback"></span>
 											</div>
 
-											<div class="col-12 offset-3">
-												<div class="form-group row ml-4">
+											<div class="col-12">
+												<div class="form-group row">
 													<div class="col-10">
 														<button type="submit" id="submitBtn"
 															class="btn btn-success">

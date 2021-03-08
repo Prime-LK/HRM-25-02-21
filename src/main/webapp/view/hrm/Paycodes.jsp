@@ -78,6 +78,14 @@
 .icon-pre-ve {
 	width: 150%;
 }
+/* form css */
+#payPeriodIDDiv {
+	display:none;
+}
+
+* {
+	text-transform: capitalize;
+}
 </style>
 
 </head>
@@ -117,14 +125,14 @@
 									modelAttribute="Paycodes">
 									<blockquote class="text-danger">${mesg}</blockquote>
 									<div class="form-group row">
-										<div class="col-4">
+										<div class="col-3" id="payPeriodIDDiv">
 											<label>Pay Period</label>
 											<form:input path="PeriodID.payPeriodID" type="text"
 												onChange="loadPeriodData();loadSavedData();"
-												class="form-control " id="payPeriodID" />
+												class="form-control " id="payPeriodID" readOnly="true"/>
 											<span id="div1"></span>
 										</div>
-										<div class="col-4">
+										<div class="col-3">
 											<label>Start Date</label>
 											<form:input path="startDate" type="date"
 												class="form-control " placeholder="Enter Date Of Birth"
@@ -132,7 +140,7 @@
 
 											<span id="div2"></span>
 										</div>
-										<div class="col-4">
+										<div class="col-3">
 											<label>End Date</label>
 											<form:input path="endDate" type="date"
 												onchange="loadpayperiodfromdates();" class="form-control "
@@ -141,12 +149,17 @@
 										</div>
 									</div>
 									<div class="form-group row">
-
-										<div class="col-4">
+										<div class="col-3">
 											<label>Pay Code</label>
 											<form:input path="payCode" type="text" class="form-control "
-												id="payCode" />
+												id="payCode" placeholder="payCode Name"/>
 											<span id="div4"></span>
+										</div>
+										<div class="col-3">
+											<label>Remarks</label>
+											<form:input path="remarks" type="text" class="form-control "
+												id="remarks" placeholder="Remark"/>
+											<span id="div5"></span>
 										</div>
 										<div class="col-4 ">
 											<form:input path="payCodeID" type="hidden" readOnly="true"
@@ -160,15 +173,7 @@
 										</div>
 									</div>
 									<div class="form-group row">
-										<div class="col-6">
-											<label>Remarks</label>
-											<form:input path="remarks" type="text" class="form-control "
-												id="remarks" />
-											<span id="div5"></span>
-										</div>
-									</div>
-									<div class="form-group row">
-										<div class="col-4">
+										<div class="col-3">
 											<div class="col-sm-60">
 												<label>Status</label>
 												<form:input path="status" type="text" readOnly="true"
@@ -197,10 +202,10 @@
 											id="tablePayCode">
 											<thead>
 												<tr>
-													<th>Pay Code</th>
+													<th>PayCode</th>
 													<th>Start Date</th>
 													<th>End Date</th>
-													<th>Remarks</th>
+													<th>Remark</th>
 													<th>Status</th>
 													<th>Action</th>
 												</tr>

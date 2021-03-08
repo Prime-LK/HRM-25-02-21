@@ -93,7 +93,7 @@
 	font-weight: bold;
 }
 
-#companyRow {
+#companyRow,#addedDateDiv,#addedUserDiv,#inactiveFromDiv,#inactiveUserDiv {
 	display: none;
 }
 </style>
@@ -151,89 +151,127 @@
 										</div>
 									</div>
 									<div class="row">
-										<div class="col-6">
-											<p id="para01">Add to All Employees in</p>
+										<div class="form-group col-6">
+											<p class="col-6" id="para01">Add to All Employees in</p>
 										</div>
 									</div>
 									<div class="row">
-										<div class="col-6">
-											<div class="form-group row">
-												<label class="col-3 mt-1">Department</label>
-												<div class="col-2">
-													<input type="radio" class="form-check-input ml-5 mt-2"
-														onchange="validateDropDown();" id="inlineRadio1">
-												</div>
-												<div class="col-7">
-													<form:select class="form-control form-control-user"
-														onchange="loadRelatedDepEmployee();" id="depID" path="">
-														<form:option value="" selected="true">--SELECT--</form:option>
-														<c:forEach items="${loadDep}" var="b">
-															<form:option value="${b.depID}">${b.department}</form:option>
-														</c:forEach>
-													</form:select>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="row">
-										<div class="col-6">
-											<div class="form-group row">
-												<label class="col-3 mt-1">Location</label>
-												<div class="col-2">
-													<input type="radio" class="form-check-input ml-5 mt-2"
-														onchange="validateDropDown();" id="inlineRadio2">
-												</div>
-												<div class="col-7">
-													<form:select class="form-control form-control-user"
-														id="loid" onchange="loadRelatedLocationEmployee();"
-														path="">
-														<form:option value="" selected="true">--SELECT--</form:option>
-														<c:forEach items="${loadlocations}" var="b">
-															<form:option value="${b.loid}">${b.location}</form:option>
-														</c:forEach>
-													</form:select>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="row">
-										<div class="col-6">
-											<div class="form-group row">
-												<label class="col-3 mt-1">Category</label>
-												<div class="col-2">
-													<input type="radio" class="form-check-input ml-5 mt-2"
-														onchange="validateDropDown();" id="inlineRadio3">
-												</div>
-												<div class="col-7">
-													<form:select class="form-control form-control-user"
-														onchange="loadRelatedcategoryEmployee();" id="catgoryID"
-														path="">
-														<form:option value="" selected="true">--SELECT--</form:option>
-														<c:forEach items="${loadcategory}" var="b">
-															<form:option value="${b.catgoryID}">${b.category}</form:option>
-														</c:forEach>
-													</form:select>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="row">
-										<div class="col-6">
-											<div class="form-group row">
-												<label class="col-3 mt-1">Type</label>
-												<div class="col-2">
-													<input type="radio" class="form-check-input ml-5 mt-2"
-														onchange="validateDropDown();" id="inlineRadio4">
-												</div>
-												<div class="col-7">
-													<form:select class="form-control form-control-user"
-														onchange="loadRelatedEmployeebasedOnTypes();" id="tid"
-														path="">
-														<form:option value="" selected="true">--SELECT--</form:option>
-														<c:forEach items="${loadcatypes}" var="b">
-															<form:option value="${b.tid}">${b.type}</form:option>
-														</c:forEach>
-													</form:select>
+										<div class="col-8">
+											<div class="form-group">
+												<ul class="nav nav-pills nav-secondary nav-pills-no-bd"
+													id="pills-tab-without-border" role="tablist">
+													<li class="nav-item"><a class="nav-link"
+														id="pills-home-tab-nobd" data-toggle="pill"
+														href="#pills-home-nobd" role="tab"
+														aria-controls="pills-home-nobd" aria-selected="true">Department</a>
+													</li>
+													<li class="nav-item"><a class="nav-link"
+														id="pills-profile-tab-nobd" data-toggle="pill"
+														href="#pills-profile-nobd" role="tab"
+														aria-controls="pills-profile-nobd" aria-selected="false">Location</a>
+													</li>
+													<li class="nav-item"><a class="nav-link"
+														id="pills-contact-tab-nobd" data-toggle="pill"
+														href="#pills-contact-nobd" role="tab"
+														aria-controls="pills-contact-nobd" aria-selected="false">Category</a>
+													</li>
+													<li class="nav-item"><a class="nav-link"
+														id="pills-contact-tab-nobd4" data-toggle="pill"
+														href="#pills-contact-nobd4" role="tab"
+														aria-controls="pills-contact-nobd" aria-selected="false">Type</a>
+													</li>
+													<!-- <li class="nav-item"><a class="nav-link"
+															id="pills-contact-tab-nobd5" data-toggle="pill"
+															href="#pills-contact-nobd5" role="tab"
+															aria-controls="pills-contact-nobd5" aria-selected="false">Employee</a></li> -->
+												</ul>
+												<div class="tab-content mt-2 mb-3"
+													id="pills-without-border-tabContent">
+													<div class="tab-pane fade show" id="pills-home-nobd"
+														role="tabpanel" aria-labelledby="pills-home-tab-nobd">
+														<div class="row">
+															<div class="col-6">
+																<div class="form-group row">
+																	<form:select class="form-control form-control-user"
+																		onchange="loadRelatedDepEmployee();" id="depID"
+																		path="">
+																		<form:option value="" selected="true">--SELECT--</form:option>
+																		<c:forEach items="${loadDep}" var="b">
+																			<form:option value="${b.depID}">${b.department}</form:option>
+																		</c:forEach>
+																	</form:select>
+																</div>
+															</div>
+														</div>
+													</div>
+													<div class="tab-pane fade" id="pills-profile-nobd"
+														role="tabpanel" aria-labelledby="pills-profile-tab-nobd">
+														<div class="row">
+															<div class="col-6">
+																<div class="form-group row">
+																	<form:select class="form-control form-control-user"
+																		id="loid" onchange="loadRelatedLocationEmployee();"
+																		path="">
+																		<form:option value="" selected="true">--SELECT--</form:option>
+																		<c:forEach items="${loadlocations}" var="b">
+																			<form:option value="${b.loid}">${b.location}</form:option>
+																		</c:forEach>
+																	</form:select>
+																</div>
+															</div>
+														</div>
+													</div>
+													<div class="tab-pane fade" id="pills-contact-nobd"
+														role="tabpanel" aria-labelledby="pills-contact-tab-nobd">
+														<div class="row">
+															<div class="col-6">
+																<div class="form-group row">
+																	<form:select class="form-control form-control-user"
+																		onchange="loadRelatedcategoryEmployee();"
+																		id="catgoryID" path="">
+																		<form:option value="" selected="true">--SELECT--</form:option>
+																		<c:forEach items="${loadcategory}" var="b">
+																			<form:option value="${b.catgoryID}">${b.category}</form:option>
+																		</c:forEach>
+																	</form:select>
+																</div>
+															</div>
+														</div>
+													</div>
+													<div class="tab-pane fade" id="pills-contact-nobd4"
+														role="tabpanel" aria-labelledby="pills-contact-tab-nobd4">
+														<div class="row">
+															<div class="col-6">
+																<div class="form-group row">
+																	<form:select class="form-control form-control-user"
+																		onchange="loadRelatedEmployeebasedOnTypes();" id="tid"
+																		path="">
+																		<form:option value="" selected="true">--SELECT--</form:option>
+																		<c:forEach items="${loadcatypes}" var="b">
+																			<form:option value="${b.tid}">${b.type}</form:option>
+																		</c:forEach>
+																	</form:select>
+																</div>
+															</div>
+														</div>
+													</div>
+													<%-- <div class="tab-pane fade" id="pills-contact-nobd5"
+															role="tabpanel" aria-labelledby="pills-contact-tab-nobd5">
+															<div class="row">
+																<div class="col-6">
+																	<div class="form-group row">
+																		<select name="empID" id="empID" class="custom-select"
+																			onchange="loadEmpToTable()">
+																			<option value="">--SELECT--</option>
+																			<c:forEach items="${employees}" var="b">
+																				<option value="${b.empID}">${b.name}
+																					${b.lastname}</option>
+																			</c:forEach>
+																		</select>
+																	</div>
+																</div>
+															</div>
+														</div> --%>
 												</div>
 											</div>
 										</div>
@@ -279,7 +317,7 @@
 										</div>
 									</div>
 									<div class="row">
-										<div class="col-6">
+										<div class="col-6" id="addedDateDiv"> 
 											<div class="form-group row">
 												<label class="col-5 mt-1">Added Date</label>
 												<div class="col-7">
@@ -291,7 +329,7 @@
 										</div>
 									</div>
 									<div class="row">
-										<div class="col-6">
+										<div class="col-6" id="addedUserDiv">
 											<div class="form-group row">
 												<label class="col-5 mt-1">Added User</label>
 												<div class="col-7">
@@ -304,7 +342,7 @@
 										</div>
 									</div>
 									<div class="row">
-										<div class="col-6">
+										<div class="col-6" id="inactiveFromDiv">
 											<div class="form-group row">
 												<label class="col-5 mt-1">Inactive From</label>
 												<div class="col-7">
@@ -316,7 +354,7 @@
 										</div>
 									</div>
 									<div class="row">
-										<div class="col-6">
+										<div class="col-6" id="inactiveUserDiv">
 											<div class="form-group row">
 												<label class="col-5 mt-1">Inactive User</label>
 												<div class="col-7">
@@ -336,7 +374,7 @@
 													<input type="text" name="company.comID"
 														class="form-control" id="comID"
 														value="<%=session.getAttribute("company.comID")%>"
-														placeholder="Company ID" readOnly/>
+														placeholder="Company ID" readOnly />
 												</div>
 											</div>
 										</div>
@@ -360,18 +398,6 @@
 											</div>
 										</div>
 									</div>
-									<div class="row">
-										<div class="col-12">
-											<button type="submit" id="submitBtn" class="btn btn-success">
-												<i class="fa fa-plus"></i> Add Salary Details
-											</button>
-											<button type="reset" id="resetBtn"
-												class="browse btn btn-danger">
-												<i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
-												Reset
-											</button>
-										</div>
-									</div>
 									<div class="col-12">
 										<div class="scrollable">
 											<table class="table table-hover" width="100%" cellspacing="0"
@@ -390,7 +416,44 @@
 											</table>
 										</div>
 									</div>
+									<div class="row">
+										<div class=" form-group col-12">
+											<button type="submit" id="submitBtn" class="btn btn-success">
+												<i class="fa fa-plus"></i> Add Salary Details
+											</button>
+											<button type="reset" id="resetBtn"
+												class="browse btn btn-danger ml-2">
+												<i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
+												Reset
+											</button>
+										</div>
+									</div>
 								</form:form>
+								<div class="table-responsive  mt-3">
+									<table id="basic-datatables"
+										class="display table table-striped table-hover">
+										<thead>
+											<tr>
+												<th>Emp. ID</th>
+												<th>Full Name</th>
+												<th>Allowance Name</th>
+												<th>Allowance Amount</th>
+												<th>Effective Date</th>
+											</tr>
+										</thead>
+										<tbody>
+											<c:forEach items="${getAllEmpSaDetails}" var="s">
+												<tr>
+													<td id="tPro"><div>${s.empdetailPK.empID.empID}</div></td>
+													<td id="tItem"><div>${s.empdetailPK.empID.name} ${s.empdetailPK.empID.lastname}</div></td>
+													<td id="tItem"><div>${s.empdetailPK.payAddeductTypes.desc}</div></td>
+													<td id="tItem"><div>${s.empdetailPK.payAddeductTypes.addDeValue}</div></td>
+													<td id="tItem"><div>${s.effective_Date}</div></td>
+												</tr>
+											</c:forEach>
+										</tbody>
+									</table>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -402,39 +465,61 @@
 	</div>
 	<%@include file="../../WEB-INF/jsp/commJs.jsp"%>
 	<script src="resources/hrm/ajax/employeeSalaryDetails.js"></script>
+		<!-- jQuery Scrollbar -->
+	<script
+		src="resources/assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+	<!-- Datatables -->
+	<script src="resources/assets/js/plugin/datatables/datatables.min.js"></script>
 </body>
+
 <script>
-	function validateDropDown() {
-		if (document.getElementById("inlineRadio1").checked) {
-			document.getElementById("depID").disabled = false;
-		} else if (document.getElementById("inlineRadio2").checked) {
-			document.getElementById("loid").disabled = false;
-		} else if (document.getElementById("inlineRadio3").checked) {
-			document.getElementById("catgoryID").disabled = false;
-		} else if (document.getElementById("inlineRadio4").checked) {
-			document.getElementById("tid").disabled = false;
-		} else if (document.getElementById("inlineRadio6").checked) {
-			document.getElementById("empID1").disabled = false;
-		}
+		$(document).ready(function() {
+			$('#basic-datatables').DataTable({
+			});
 
-	}
+			$('#multi-filter-select').DataTable( {
+				"pageLength": 20,
+				initComplete: function () {
+					this.api().columns().every( function () {
+						var column = this;
+						var select = $('<select class="form-control"><option value=""></option></select>')
+						.appendTo( $(column.footer()).empty() )
+						.on( 'change', function () {
+							var val = $.fn.dataTable.util.escapeRegex(
+								$(this).val()
+								);
 
-	function validateSelectField() {
-		document.getElementById("depID").disabled = true;
-		document.getElementById("loid").disabled = true;
-		document.getElementById("catgoryID").disabled = true;
-		document.getElementById("tid").disabled = true;
-		document.getElementById("empID1").disabled = true;
-	}
+							column
+							.search( val ? '^'+val+'$' : '', true, false )
+							.draw();
+						} );
 
-	function validateDropDown1() {
-		if (document.getElementById("exampleCheck2").checked) {
-			document.getElementById("added_Date").disabled = true;
-			document.getElementById("added_User").disabled = true;
-		}
+						column.data().unique().sort().each( function ( d, j ) {
+							select.append( '<option value="'+d+'">'+d+'</option>' )
+						} );
+					} );
+				}
+			});
 
-	}
-</script>
+			// Add Row
+			$('#add-row').DataTable({
+				"pageLength": 20,
+			});
+
+			var action = '<td> <div class="form-button-action"> <button type="button" data-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task"> <i class="fa fa-edit"></i> </button> <button type="button" data-toggle="tooltip" title="" class="btn btn-link btn-danger" data-original-title="Remove"> <i class="fa fa-times"></i> </button> </div> </td>';
+
+			$('#addRowButton').click(function() {
+				$('#add-row').dataTable().fnAddData([
+					$("#addName").val(),
+					$("#addPosition").val(),
+					$("#addOffice").val(),
+					action
+					]);
+				$('#addRowModal').modal('hide');
+
+			});
+		});
+	</script>
 
 <script>
 	$(document).ready(function() {

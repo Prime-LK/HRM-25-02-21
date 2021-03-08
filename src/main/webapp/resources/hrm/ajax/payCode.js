@@ -11,7 +11,7 @@ function loadPeriodData() {
 			document.getElementById("status").value=data.status;
 		},
 		error:function(e) {
-			alert("ID Does not Exists");
+//			alert("ID Does not Exists");
 		}
 	});
 }
@@ -35,7 +35,7 @@ function loadSavedData() {
 			}	
 		},
 		error:function(e) {
-			alert("ID Does not Exists");
+//			alert("ID Does not Exists");
 		}
 	});
 }
@@ -60,39 +60,30 @@ function loadpayperiodfromdates() {
 			
 		},
 		error:function(e) {
-			alert("ID Does not Exists");
+//			alert("ID Does not Exists");
 		}
 	});
 	
 	$.ajax({
 		type: "GET",
-		url: "loadPeriodlist",
+		url: "loadDataToGridBYSDAndED",
 		data: {"endDate" : y.value , "startDate" : x.value},
 		success:function(data) {
-			
 			$("#tablePayCode tbody").empty();
-			
-			
 			for (var i = 0; i < data.length; i++) {
 				var result = "<tr><td>" + data[i].payCode + "</td><td>"
 						+ data[i].startDate + "</td><td>" + data[i].endDate
 						+ "</td><td>" + data[i].remarks + "</td><td>"
 						+ data[i].status + "</td><td><a href=updatePayCode?payCodeID="
 						+data[i].payCodeID+  "><i class='far fa-edit'></i></a></td></tr>";
-								
-				       
 				$("#tablePayCode tbody").append(result);
 			}
-			
 		},
 		error:function(e) {
-			alert("ID Does not Exists");
+//			alert("ID Does not Exists");
 		}
-	});
-	
+	});	
 }
-
-
 // validations-----
 
 $("#payCodeform").submit(function(e) {
