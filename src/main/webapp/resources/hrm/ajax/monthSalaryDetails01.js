@@ -1,24 +1,28 @@
-function validateDropDown() {
-	if (document.getElementById("inlineRadio1").checked) {
-		document.getElementById("depID").disabled = false;
-	} else if (document.getElementById("inlineRadio2").checked) {
-		document.getElementById("loid").disabled = false;
-	} else if (document.getElementById("inlineRadio3").checked) {
-		document.getElementById("catgoryID").disabled = false;
-	} else if (document.getElementById("inlineRadio4").checked) {
-		document.getElementById("tid").disabled = false;
-	} else if (document.getElementById("inlineRadio6").checked) {
-		document.getElementById("empID").disabled = false;
-	}
-
-}
-
-function validateSelectField() {
-	document.getElementById("depID").disabled = true;
-	document.getElementById("loid").disabled = true;
-	document.getElementById("catgoryID").disabled = true;
-	document.getElementById("tid").disabled = true;
-	document.getElementById("empID").disabled = true;
+//function validateDropDown() {
+//	if (document.getElementById("inlineRadio1").checked) {
+//		document.getElementById("depID").disabled = false;
+//	} else if (document.getElementById("inlineRadio2").checked) {
+//		document.getElementById("loid").disabled = false;
+//	} else if (document.getElementById("inlineRadio3").checked) {
+//		document.getElementById("catgoryID").disabled = false;
+//	} else if (document.getElementById("inlineRadio4").checked) {
+//		document.getElementById("tid").disabled = false;
+//	} else if (document.getElementById("inlineRadio6").checked) {
+//		document.getElementById("empID").disabled = false;
+//	}
+//
+//}
+//
+//function validateSelectField() {
+//	document.getElementById("depID").disabled = true;
+//	document.getElementById("loid").disabled = true;
+//	document.getElementById("catgoryID").disabled = true;
+//	document.getElementById("tid").disabled = true;
+//	document.getElementById("empID").disabled = true;
+//}
+function getCompletePage() {
+	$("#depDiv").hide();
+	$('#locDiv').hide();
 }
 
 function loadVariableTypes() {
@@ -36,6 +40,7 @@ function loadVariableTypes() {
 						+ "'>" + data[i].desc + "</option>";
 			}
 			slctSubcat.append(option);
+			divsInvisible();
 		},
 		error : function(e) {
 			alert("ID Does not Exists");
@@ -57,6 +62,7 @@ function getPeriodIDReDates() {
 		success : function(data) {
 			document.getElementById("periodCode").value = data.payPeriodID;
 			getRelatedPayCodes2();
+			divsVisible();
 
 		},
 		error : function(e) {
@@ -90,7 +96,6 @@ function getRelatedPayCodes2() {
 			}
 
 			slctSubcat.append(option);
-
 		},
 		error : function(e) {
 			alert("Cant load pay codes");
@@ -111,6 +116,7 @@ function loadAddDed() {
 			$("#addDeType").empty();
 			var a = document.getElementById("addDeType");
 			a.setAttribute("value", data.addDeType);
+			alloTypeDivVisible();
 		},
 		error : function(e) {
 			alert("Not Found Addition or Deduction Type");
@@ -129,7 +135,6 @@ $.ajax({
 		"deductTypeCode" : z
 	},
 	success : function(data) {
-			
 		$("#tableMoSaDetails tbody").empty();
 		for (var i = 0; i < data.length; i++) {
 			var result = "<tr><td><input type='checkbox' id='cb1' onchange='setValues()'" +
@@ -198,18 +203,18 @@ $
 			success : function(data) {
 				$("#tableMoSaDetails tbody").empty();
 				for (var i = 0; i < data.length; i++) {
-					var result = "<tr><td><input type='checkbox' id='cb1' name='cb1' value='inactive'>" +
+					var result = "<tr><td><input type='checkbox' id='cb1' name='cb1'>" +
 							"</td><td><input name='monthDePk.empID.empID' id='empidTable' value="
 							+ data[i].empdetailPK.empID.empID
 							+ " ></td><td>"
 							+ data[i].empdetailPK.empID.name
 							+ " "
 							+ data[i].empdetailPK.empID.lastname
-							+ "</td><td><input name='amount'" +
+							+ "</td><td><input name='amount' placeholder='Amount'" +
 							+ " ></td></tr>";
 					$("#tableMoSaDetails tbody").append(result);
 
-					var result2 = "<input type='hidden' name='monthDePk.empID.empID' " +
+					var result2 = "<input type='text' name='monthDePk.empID.empID' " +
 					"value=" + data[i].empdetailPK.empID.empID + ">";
 					$("#tEmpID").append(result2);
 				}
@@ -218,6 +223,10 @@ $
 				alert("Not Found Employees Or Employee Type");
 			}
 		});
+}
+//onclick='activePerson() getEmpMonthSalaryDetailsPage01
+function activePerson() {
+	$("#empidTable").prop("disabled", (_, val) => !val);
 }
 
 function loadRelatedType() {
@@ -312,16 +321,16 @@ $.ajax({
 });
 }
 
+function divsInvisible() {
+	$('#payPeriodDiv').hide();
+	$('#alloTypeDiv').hide();
+}
 
+function divsVisible() {
+	$('#payPeriodDiv').slideDown();
+}
 
-
-
-
-
-
-
-
-
-
-
+function alloTypeDivVisible() {
+	$('#alloTypeDiv').slideDown();
+}
 

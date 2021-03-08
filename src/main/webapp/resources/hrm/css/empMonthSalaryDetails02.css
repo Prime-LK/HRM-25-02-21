@@ -2,7 +2,7 @@
 	text-transform: capitalize;
 }
 
-#comDiv, #tblEmpDiv, #amtDiv {
+#comDiv, #tblEmpDiv, #amtDiv, #payCodeDiv {
 	display: none;
 }
 

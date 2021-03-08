@@ -1,26 +1,3 @@
-function validateDropDown() {
-	if (document.getElementById("inlineRadio1").checked) {
-		document.getElementById("depID").disabled = false;
-	} else if (document.getElementById("inlineRadio2").checked) {
-		document.getElementById("loid").disabled = false;
-	} else if (document.getElementById("inlineRadio3").checked) {
-		document.getElementById("catgoryID").disabled = false;
-	} else if (document.getElementById("inlineRadio4").checked) {
-		document.getElementById("tid").disabled = false;
-	} else if (document.getElementById("inlineRadio6").checked) {
-		document.getElementById("empID").disabled = false;
-	}
-
-}
-
-function validateSelectField() {
-	document.getElementById("depID").disabled = true;
-	document.getElementById("loid").disabled = true;
-	document.getElementById("catgoryID").disabled = true;
-	document.getElementById("tid").disabled = true;
-	document.getElementById("empID").disabled = true;
-}
-
 function loadVariableTypes() {
 	$.ajax({
 		type : "GET",
@@ -36,6 +13,7 @@ function loadVariableTypes() {
 						+ "'>" + data[i].desc + "</option>";
 			}
 			slctSubcat.append(option);
+			divsInvisible();
 		},
 		error : function(e) {
 			alert("ID Does not Exists");
@@ -57,6 +35,7 @@ function getPeriodIDReDates() {
 		success : function(data) {
 			document.getElementById("periodCode").value = data.payPeriodID;
 			getRelatedPayCodes2();
+			divsVisible();
 
 		},
 		error : function(e) {
@@ -73,6 +52,7 @@ function getRelatedPayCodes2() {
 		data: {"payPeriodID" : y},
 		success:function(data) {
 			document.getElementById("pCode3").value= data.payCodeID;
+			document.getElementById("payCodeVal").value= data.payCode;
 			
 		},
 		error:function(e) {
@@ -94,6 +74,7 @@ function loadAddDed() {
 			$("#addDeType").empty();
 			var a = document.getElementById("addDeType");
 			a.setAttribute("value", data.addDeType);
+			alloTypeDivVisible();
 		},
 		error : function(e) {
 			alert("Not Found Addition or Deduction Type");
@@ -295,6 +276,20 @@ $.ajax({
 });
 }
 
+function divsInvisible() {
+	$('#payPeriodDiv').hide();
+	$('#alloTypeDiv').hide();
+	$('#payCodeValDiv').hide();
+}
+
+function divsVisible() {
+	$('#payPeriodDiv').slideDown();
+	$('#payCodeValDiv').slideDown();
+}
+
+function alloTypeDivVisible() {
+	$('#alloTypeDiv').slideDown();
+}
 
 
 

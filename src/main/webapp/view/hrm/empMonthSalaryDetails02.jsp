@@ -83,8 +83,7 @@
 </style>
 
 </head>
-<body
-	onload="validateDropDown(); validateSelectField(); loadVariableTypes();checkStatusofDropdowns();">
+<body onload="loadVariableTypes();checkStatusofDropdowns();">
 	<div class="wrapper">
 		<div class="main-header">
 			<!-- Logo Header -->
@@ -121,7 +120,7 @@
 									<form:form action="saveEmpMoSaDetails02" method="post"
 										modelAttribute="formMonthSalary02" id="formEmpMoSadetails">
 										<div class="row">
-											<div class="col-6">
+											<div class="col-5">
 												<div class="form-group row">
 													<label class="col-5 mt-1">Start Date</label>
 													<div class="col-7">
@@ -131,9 +130,9 @@
 													</div>
 												</div>
 											</div>
-											<div class="col-6">
-												<div class="form-group row">
-													<label class="col-2 mt-1">Period</label>
+											<div class="col-4">
+												<div class="form-group row" id="payPeriodDiv">
+													<label class="col-3 mt-1">Period</label>
 													<div class="col-7">
 														<input type="text" name="periodCode" class="form-control"
 															id="periodCode" placeholder="PayPeriod"
@@ -157,7 +156,7 @@
 											</div>
 										</div>
 										<div class="row">
-											<div class="col-6">
+											<div class="col-5">
 												<div class="form-group row">
 													<label class="col-5 mt-1">End Date</label>
 													<div class="col-7">
@@ -167,9 +166,19 @@
 													</div>
 												</div>
 											</div>
-											<div class="col-6">
-												<div class="form-group row">
-													<label class="col-2 mt-1">PayCode</label>
+											<div class="col-4">
+												<div class="form-group row" id="payCodeValDiv">
+													<label class="col-3 mt-1">PayCode</label>
+													<div class="col-7">
+														<input type="text"
+															name="payCodeVal" class="form-control"
+															id="payCodeVal" readOnly placeholder="PayCode Value" />
+													</div>
+												</div>
+											</div>
+											<div class="col">
+												<div class="form-group row" id="payCodeDiv">
+													<label class="col-3 mt-1">PayCode</label>
 													<div class="col-7">
 														<form:input type="text"
 															path="monthDePk.payCodeid.payCodeID" class="form-control"
@@ -179,7 +188,7 @@
 											</div>
 										</div>
 										<div class="row">
-											<div class="col-6">
+											<div class="col-5">
 												<div class="form-group row">
 													<label class="col-5 mt-1">Allowance Type</label>
 													<div class="col-7">
@@ -195,9 +204,9 @@
 													</div>
 												</div>
 											</div>
-											<div class="col-6">
-												<div class="form-group row">
-													<label class="col-2 mt-1">Type</label>
+											<div class="col-4">
+												<div class="form-group row" id="alloTypeDiv">
+													<label class="col-3 mt-1">Type</label>
 													<div class="col-7">
 														<input type="text" name="addDeType" class="form-control"
 															id="addDeType" placeholder="type" readOnly>
@@ -206,90 +215,123 @@
 											</div>
 										</div>
 										<div class="row">
-											<div class="col-6">
-												<p id="para01">Add To All Employees In</p>
+											<div class="form-group col-12">
+												<p class="col-3" id="para01">Add To All Employees In</p>
 											</div>
 										</div>
 										<div class="row">
-											<div class="col-6">
-												<div class="form-group row">
-													<label class="col-3 mt-1">Department</label>
-													<div class="col-2">
-														<input class="form-check-input ml-5 mt-2" type="radio"
-															name="inlineRadioOptions" id="inlineRadio1"
-															value="option1" onchange="validateDropDown()">
-													</div>
-													<div class="col-7">
-														<select name="depID" id="depID" class="custom-select"
-															onchange="loadRelatedDep()">
-															<option value="">--SELECT--</option>
-															<c:forEach items="${departments}" var="b">
-																<option value="${b.depID}">${b.department}</option>
-															</c:forEach>
-														</select>
-													</div>
-												</div>
-											</div>
-										</div>
-										<div class="row">
-											<div class="col-6">
-												<div class="form-group row">
-													<label class="col-3 mt-1">Location</label>
-													<div class="col-2">
-														<input class="form-check-input ml-5 mt-2" type="radio"
-															name="inlineRadioOptions" id="inlineRadio2"
-															onchange="validateDropDown()" value="option2">
-													</div>
-													<div class="col-7">
-														<select name="loid" id="loid" class="custom-select"
-															onchange=" loadRelatedLoc()">
-															<option value="">--SELECT--</option>
-															<c:forEach items="${allLocs}" var="b">
-																<option value="${b.loid}">${b.location}</option>
-															</c:forEach>
-														</select>
-													</div>
-												</div>
-											</div>
-										</div>
-										<div class="row">
-											<div class="col-6">
-												<div class="form-group row">
-													<label class="col-3 mt-1">Category</label>
-													<div class="col-2">
-														<input class="form-check-input ml-5 mt-2" type="radio"
-															name="inlineRadioOptions" id="inlineRadio3"
-															value="option1" onchange="validateDropDown();">
-													</div>
-													<div class="col-7">
-														<select name="catgoryID" id="catgoryID"
-															class="custom-select" onchange=" loadRelatedCat()">
-															<option value="">--SELECT--</option>
-															<c:forEach items="${categories}" var="b">
-																<option value="${b.catgoryID}">${b.category}</option>
-															</c:forEach>
-														</select>
-													</div>
-												</div>
-											</div>
-										</div>
-										<div class="row">
-											<div class="col-6">
-												<div class="form-group row">
-													<label class="col-3 mt-1">Type</label>
-													<div class="col-2">
-														<input class="form-check-input ml-5 mt-2" type="radio"
-															name="inlineRadioOptions" id="inlineRadio4"
-															value="option1" onchange="validateDropDown()">
-													</div>
-													<div class="col-7">
-														<select name="tid" id="tid" class="custom-select"
-															onchange="loadRelatedType()">
-															<option value="">--SELECT--</option>
-															<c:forEach items="${types}" var="b">
-																<option value="${b.tid}">${b.type}</option>
-															</c:forEach>
-														</select>
+											<div class="col-8">
+												<div class="form-group">
+													<ul class="nav nav-pills nav-secondary nav-pills-no-bd"
+														id="pills-tab-without-border" role="tablist">
+														<li class="nav-item"><a class="nav-link"
+															id="pills-home-tab-nobd" data-toggle="pill"
+															href="#pills-home-nobd" role="tab"
+															aria-controls="pills-home-nobd" aria-selected="true">Department</a>
+														</li>
+														<li class="nav-item"><a class="nav-link"
+															id="pills-profile-tab-nobd" data-toggle="pill"
+															href="#pills-profile-nobd" role="tab"
+															aria-controls="pills-profile-nobd" aria-selected="false">Location</a>
+														</li>
+														<li class="nav-item"><a class="nav-link"
+															id="pills-contact-tab-nobd" data-toggle="pill"
+															href="#pills-contact-nobd" role="tab"
+															aria-controls="pills-contact-nobd" aria-selected="false">Category</a>
+														</li>
+														<li class="nav-item"><a class="nav-link"
+															id="pills-contact-tab-nobd4" data-toggle="pill"
+															href="#pills-contact-nobd4" role="tab"
+															aria-controls="pills-contact-nobd" aria-selected="false">Type</a>
+														</li>
+														<li class="nav-item"><a class="nav-link"
+															id="pills-contact-tab-nobd5" data-toggle="pill"
+															href="#pills-contact-nobd5" role="tab"
+															aria-controls="pills-contact-nobd5" aria-selected="false">Employee</a></li>
+													</ul>
+													<div class="tab-content mt-2 mb-3"
+														id="pills-without-border-tabContent">
+														<div class="tab-pane fade show" id="pills-home-nobd"
+															role="tabpanel" aria-labelledby="pills-home-tab-nobd">
+															<div class="row">
+																<div class="col-6">
+																	<div class="form-group row">
+																		<select name="depID" id="depID" class="custom-select"
+																			onchange="loadRelatedDep()">
+																			<option value="">--SELECT--</option>
+																			<c:forEach items="${departments}" var="b">
+																				<option value="${b.depID}">${b.department}</option>
+																			</c:forEach>
+																		</select>
+																	</div>
+																</div>
+															</div>
+														</div>
+														<div class="tab-pane fade" id="pills-profile-nobd"
+															role="tabpanel" aria-labelledby="pills-profile-tab-nobd">
+															<div class="row">
+																<div class="col-6">
+																	<div class="form-group row">
+																		<select name="loid" id="loid" class="custom-select"
+																			onchange=" loadRelatedLoc()">
+																			<option value="">--SELECT--</option>
+																			<c:forEach items="${allLocs}" var="b">
+																				<option value="${b.loid}">${b.location}</option>
+																			</c:forEach>
+																		</select>
+																	</div>
+																</div>
+															</div>
+														</div>
+														<div class="tab-pane fade" id="pills-contact-nobd"
+															role="tabpanel" aria-labelledby="pills-contact-tab-nobd">
+															<div class="row">
+																<div class="col-6">
+																	<div class="form-group row">
+																		<select name="catgoryID" id="catgoryID"
+																			class="custom-select" onchange=" loadRelatedCat()">
+																			<option value="">--SELECT--</option>
+																			<c:forEach items="${categories}" var="b">
+																				<option value="${b.catgoryID}">${b.category}</option>
+																			</c:forEach>
+																		</select>
+																	</div>
+																</div>
+															</div>
+														</div>
+														<div class="tab-pane fade" id="pills-contact-nobd4"
+															role="tabpanel" aria-labelledby="pills-contact-tab-nobd4">
+															<div class="row">
+																<div class="col-6">
+																	<div class="form-group row">
+																		<select name="tid" id="tid" class="custom-select"
+																			onchange="loadRelatedType()">
+																			<option value="">--SELECT--</option>
+																			<c:forEach items="${types}" var="b">
+																				<option value="${b.tid}">${b.type}</option>
+																			</c:forEach>
+																		</select>
+																	</div>
+																</div>
+															</div>
+														</div>
+														<div class="tab-pane fade" id="pills-contact-nobd5"
+															role="tabpanel" aria-labelledby="pills-contact-tab-nobd5">
+															<div class="row">
+																<div class="col-6">
+																	<div class="form-group row">
+																		<select name="empID" id="empID" class="custom-select"
+																			onchange="loadEmpToTable()">
+																			<option value="">--SELECT--</option>
+																			<c:forEach items="${employees}" var="b">
+																				<option value="${b.empID}">${b.name}
+																					${b.lastname}</option>
+																			</c:forEach>
+																		</select>
+																	</div>
+																</div>
+															</div>
+														</div>
 													</div>
 												</div>
 											</div>
@@ -303,28 +345,7 @@
 															name="inlineRadioOptions" id="inlineRadio5"
 															value="option1" onchange="loadAllEmps()">
 													</div>
-												</div>
-											</div>
-										</div>
-										<div class="row">
-											<div class="col-6">
-												<div class="form-group row">
-													<label class="col-3 mt-1">Selected Employee</label>
-													<div class="col-2">
-														<input class="form-check-input ml-5 mt-2" type="radio"
-															name="inlineRadioOptions" id="inlineRadio6"
-															value="option2" onchange="validateDropDown()">
-													</div>
-													<div class="col-7">
-														<select name="empID" id="empID" class="custom-select"
-															onchange="loadEmpToTable()">
-															<option value="">--SELECT--</option>
-															<c:forEach items="${employees}" var="b">
-																<option value="${b.empID}">${b.name}
-																	${b.lastname}</option>
-															</c:forEach>
-														</select>
-													</div>
+													<div class="col-7"></div>
 												</div>
 											</div>
 										</div>
@@ -353,18 +374,6 @@
 												</div>
 											</div>
 										</div>
-										<div class="row">
-											<div class="col-12">
-												<button type="submit" id="submitBtn" class="btn btn-success">
-													<i class="fa fa-plus"></i> Add Month Details
-												</button>
-												<button type="reset" id="resetBtn"
-													class="browse btn btn-danger">
-													<i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
-													Reset
-												</button>
-											</div>
-										</div>
 										<div class="col-12">
 											<div class="scrollable">
 												<table id="tableMoSaDetails" class="table table-hover"
@@ -381,12 +390,58 @@
 														<tr>
 														</tr>
 													</tbody>
-
 												</table>
-
 											</div>
 										</div>
 										<span id='validateAM'></span>
+										<div class="row">
+											<div class="form-group col-12 mt-3">
+												<button type="submit" id="submitBtn" class="btn btn-success">
+													<i class="fa fa-plus"></i> Add Month Details
+												</button>
+												<button type="reset" id="resetBtn"
+													class="browse btn btn-danger ml-2">
+													<i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
+													Reset
+												</button>
+											</div>
+										</div>
+										<div class="table-responsive mt-3">
+											<table id="basic-datatables"
+												class="display table table-striped table-hover">
+												<thead>
+													<tr>
+														<th>Emp. ID</th>
+														<th>Full Name</th>
+														<th>Allowance Name</th>
+														<th>PayCode</th>
+														<th>Start Date</th>
+														<th>End Date</th>
+														<th>Amount</th>
+														<th>Action</th>
+													</tr>
+												</thead>
+												<tbody>
+													<c:forEach items="${findAllEmpMoSaDetails}" var="s">
+														<tr>
+															<td id="tPro"><div>${s.monthDePk.empID.empID}</div></td>
+															<td id="tItem"><div>${s.monthDePk.empID.name}
+																	${s.monthDePk.empID.lastname}</div></td>
+															<td id="tItem"><div>${s.monthDePk.payType.desc}</div></td>
+															<td id="tItem"><div>${s.monthDePk.payCodeid.payCode}</div></td>
+															<td id="tItem"><div>${s.pYear}</div></td>
+															<td id="tItem"><div>${s.pMonth}</div></td>
+															<td id="tItem"><div>${s.amount}</div></td>
+															<td id="tItem"><div>
+																	<a
+																		href="updateDeductForm?id=${s.monthDePk.empID.empID}"><i
+																		class="far fa-edit"></i></a>
+																</div></td>
+														</tr>
+													</c:forEach>
+												</tbody>
+											</table>
+										</div>
 									</form:form>
 								</div>
 							</div>
@@ -399,7 +454,59 @@
 		</div>
 	</div>
 	<%@include file="../../WEB-INF/jsp/commJs.jsp"%>
+	<script src="<c:url value='resources/hrm/ajax/monthSalaryDetails02.js'/>"></script>
+		<!-- jQuery Scrollbar -->
 	<script
-		src="<c:url value='resources/hrm/ajax/monthSalaryDetails02.js'/>"></script>
+		src="resources/assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+	<!-- Datatables -->
+	<script src="resources/assets/js/plugin/datatables/datatables.min.js"></script>
 </body>
+<script>
+		$(document).ready(function() {
+			$('#basic-datatables').DataTable({
+			});
+
+			$('#multi-filter-select').DataTable( {
+				"pageLength": 20,
+				initComplete: function () {
+					this.api().columns().every( function () {
+						var column = this;
+						var select = $('<select class="form-control"><option value=""></option></select>')
+						.appendTo( $(column.footer()).empty() )
+						.on( 'change', function () {
+							var val = $.fn.dataTable.util.escapeRegex(
+								$(this).val()
+								);
+
+							column
+							.search( val ? '^'+val+'$' : '', true, false )
+							.draw();
+						} );
+
+						column.data().unique().sort().each( function ( d, j ) {
+							select.append( '<option value="'+d+'">'+d+'</option>' )
+						} );
+					} );
+				}
+			});
+
+			// Add Row
+			$('#add-row').DataTable({
+				"pageLength": 20,
+			});
+
+			var action = '<td> <div class="form-button-action"> <button type="button" data-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task"> <i class="fa fa-edit"></i> </button> <button type="button" data-toggle="tooltip" title="" class="btn btn-link btn-danger" data-original-title="Remove"> <i class="fa fa-times"></i> </button> </div> </td>';
+
+			$('#addRowButton').click(function() {
+				$('#add-row').dataTable().fnAddData([
+					$("#addName").val(),
+					$("#addPosition").val(),
+					$("#addOffice").val(),
+					action
+					]);
+				$('#addRowModal').modal('hide');
+
+			});
+		});
+	</script>
 </html>
