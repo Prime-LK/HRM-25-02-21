@@ -4,6 +4,8 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -49,47 +51,56 @@ public class EmployeeAttendanceController {
 	}
 
 	@ModelAttribute("depList")
-	public List<DepartmentMaster> getAllDeps() {
-		return departmentService.getAllDep();
+	public List<DepartmentMaster> getAllDeps(HttpSession session) {
+		String companyId = session.getAttribute("company.comID").toString();
+		return departmentService.getDepartmentsByCompany(companyId);
 	}
 
 	@ModelAttribute("shiftList")
-	public List<ShiftMaster> getAllShifts() {
-		return shiftMasterService.findAllShifts();
+	public List<ShiftMaster> getAllShifts(HttpSession session) {
+		String companyId = session.getAttribute("company.comID").toString();
+		return shiftMasterService.loadAllShifts(companyId);
 	}
 
 	/*
-	@ModelAttribute("attendanceList")
-	public List<String> getAllAttendances() {
-		List<String> attendances = employeeAttendanceService.loadAttendances();
-		return attendances;
-	}
-	*/
+	 * @ModelAttribute("attendanceList") public List<String> getAllAttendances() {
+	 * List<String> attendances = employeeAttendanceService.loadAttendances();
+	 * return attendances; }
+	 */
 
 	@ModelAttribute("attendanceId")
-	public String setAttendanceCode() {
-		String id = "0000000000".substring(employeeAttendanceService.getMaxAttendanceId().length()) + employeeAttendanceService.getMaxAttendanceId();
+	public String setAttendanceCode(HttpSession session) {
+		String companyId = session.getAttribute("company.comID").toString();
+		String id = "0000000000".substring(employeeAttendanceService.getMaxAttendanceId(companyId).length())
+				+ employeeAttendanceService.getMaxAttendanceId(companyId);
 		return id;
 	}
 
 	@GetMapping("/loadEmployeesByDepartment")
-	public @ResponseBody List<EmployeeDetails> loadEmployeesByDepartment(@RequestParam("depID") String departmentId) {
-		List<EmployeeDetails> department = employeeService.filterRelatedData(departmentId);
+	public @ResponseBody List<EmployeeDetails> loadEmployeesByDepartment(@RequestParam("depID") String departmentId,
+			HttpSession session) {
+		String companyId = session.getAttribute("company.comID").toString();
+		List<EmployeeDetails> department = employeeService.filterEmployeesByDepartmentAndCompany(departmentId,
+				companyId);
 		return department;
 	}
 
 	@GetMapping("/loadEmployeeShiftDetails")
 	public @ResponseBody ShiftAllocation loadEmployeeShiftDetails(@RequestParam("date") String date,
-			@RequestParam("shiftId") String shiftId, @RequestParam("employeeId") String employeeId) {
-		ShiftAllocation allocation = shiftAllocationService.findShiftAllocationByDetails(date, shiftId, employeeId);
+			@RequestParam("shiftId") String shiftId, @RequestParam("employeeId") String employeeId,
+			HttpSession session) {
+		String companyId = session.getAttribute("company.comID").toString();
+		ShiftAllocation allocation = shiftAllocationService.findShiftAllocationByDetailsByCompany(date, shiftId,
+				employeeId, companyId);
 		System.out.println("Method Loaded");
 		return allocation;
 	}
 
 	@GetMapping("/updateEmployeeAttendance")
-	public @ResponseBody EmployeeAttendance updateEmployeeAttendance(
-			@RequestParam("attendanceId") String attendanceId) {
-		EmployeeAttendance attendance = employeeAttendanceService.findAttendanceById(attendanceId);
+	public @ResponseBody EmployeeAttendance updateEmployeeAttendance(@RequestParam("attendanceId") String attendanceId,
+			HttpSession session) {
+		String companyId = session.getAttribute("company.comID").toString();
+		EmployeeAttendance attendance = employeeAttendanceService.findAttendanceByIdAndCompany(attendanceId, companyId);
 		return attendance;
 	}
 
@@ -122,21 +133,22 @@ public class EmployeeAttendanceController {
 		}
 		return "EmployeeAttendance";
 	}
-	
+
 	@GetMapping("/loadAttendanceRecords")
 	@ResponseBody
 	public List<AttendanceRecordBean> loadShiftDetails(@RequestParam("date") String date,
 			@RequestParam(value = "departmentId", required = false) String departmentId,
 			@RequestParam(value = "employeeId", required = false) String employeeId,
-			@RequestParam(value = "shiftId", required = false) String shiftId) {
+			@RequestParam(value = "shiftId", required = false) String shiftId, HttpSession session) {
 		System.out.println(date);
 		System.out.println(departmentId);
 		System.out.println(employeeId);
 		System.out.println(shiftId);
 		List<AttendanceRecordBean> list = new ArrayList<>();
-		if(departmentId == null && employeeId == null && shiftId == null) {
-			//Dates
-			String[][] result = employeeAttendanceService.loadAttendanceRecordsByDate(date);
+		String companyId = session.getAttribute("company.comID").toString();
+		if (departmentId == null && employeeId == null && shiftId == null) {
+			// Dates
+			String[][] result = employeeAttendanceService.loadAttendanceRecordsByDate(date, companyId);
 			for (int i = 0; i < result.length; i++) {
 				AttendanceRecordBean attendanceRecordBean = new AttendanceRecordBean();
 				attendanceRecordBean.setAttendanceId(result[i][0]);
@@ -157,7 +169,8 @@ public class EmployeeAttendanceController {
 			return list;
 		} else if ((employeeId == null || employeeId.equals("All")) && shiftId == null) {
 			// Department
-			String[][] result = employeeAttendanceService.loadAttendanceRecordsByDepartment(date, departmentId);
+			String[][] result = employeeAttendanceService.loadAttendanceRecordsByDepartment(date, departmentId,
+					companyId);
 			for (int i = 0; i < result.length; i++) {
 				AttendanceRecordBean attendanceRecordBean = new AttendanceRecordBean();
 				attendanceRecordBean.setAttendanceId(result[i][0]);
@@ -178,7 +191,7 @@ public class EmployeeAttendanceController {
 			return list;
 		} else if (departmentId == null && (employeeId == null || employeeId.equals("All"))) {
 			// Shift
-			String[][] result = employeeAttendanceService.loadAttendanceRecordsByShift(date, shiftId);
+			String[][] result = employeeAttendanceService.loadAttendanceRecordsByShift(date, shiftId, companyId);
 			for (int i = 0; i < result.length; i++) {
 				AttendanceRecordBean attendanceRecordBean = new AttendanceRecordBean();
 				attendanceRecordBean.setAttendanceId(result[i][0]);
@@ -199,7 +212,8 @@ public class EmployeeAttendanceController {
 			return list;
 		} else if (employeeId == null || employeeId.equals("All")) {
 			// Department + Shift
-			String[][] result = employeeAttendanceService.loadAttendanceRecordsByDepartmentAndShift(date, departmentId, shiftId);
+			String[][] result = employeeAttendanceService.loadAttendanceRecordsByDepartmentAndShift(date, departmentId,
+					shiftId, companyId);
 			for (int i = 0; i < result.length; i++) {
 				AttendanceRecordBean attendanceRecordBean = new AttendanceRecordBean();
 				attendanceRecordBean.setAttendanceId(result[i][0]);
@@ -220,7 +234,8 @@ public class EmployeeAttendanceController {
 			return list;
 		} else if (!employeeId.equals("All") && shiftId == null) {
 			// Employee
-			String[][] result = employeeAttendanceService.loadAttendanceRecordsByEmployee(date, departmentId, employeeId);
+			String[][] result = employeeAttendanceService.loadAttendanceRecordsByEmployee(date, departmentId,
+					employeeId, companyId);
 			for (int i = 0; i < result.length; i++) {
 				AttendanceRecordBean attendanceRecordBean = new AttendanceRecordBean();
 				attendanceRecordBean.setAttendanceId(result[i][0]);
@@ -241,7 +256,8 @@ public class EmployeeAttendanceController {
 			return list;
 		} else {
 			// Employee + Shift
-			String[][] result = employeeAttendanceService.loadAttendanceRecordsByEmployeeAndShift(date, departmentId, employeeId, shiftId);
+			String[][] result = employeeAttendanceService.loadAttendanceRecordsByEmployeeAndShift(date, departmentId,
+					employeeId, shiftId, companyId);
 			for (int i = 0; i < result.length; i++) {
 				AttendanceRecordBean attendanceRecordBean = new AttendanceRecordBean();
 				attendanceRecordBean.setAttendanceId(result[i][0]);

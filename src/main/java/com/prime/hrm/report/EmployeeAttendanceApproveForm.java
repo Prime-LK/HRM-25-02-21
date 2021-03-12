@@ -15,6 +15,5 @@ public class EmployeeAttendanceApproveForm {
 	public void setAttendances(List<EmployeeAttendance> attendances) {
 		this.attendances = attendances;
 	}
-	
-	
+
 }

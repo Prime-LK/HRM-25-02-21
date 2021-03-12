@@ -5,6 +5,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Controller;
@@ -48,44 +50,47 @@ public class ShiftAllocationController {
 	}
 
 	@ModelAttribute("depList")
-	public List<DepartmentMaster> getAllDeps() {
-		return departmentService.getAllDep();
+	public List<DepartmentMaster> getAllDeps(HttpSession session) {
+		String companyId = session.getAttribute("company.comID").toString();
+		return departmentService.getDepartmentsByCompany(companyId);
 	}
 
 	@ModelAttribute("shiftList")
-	public List<ShiftMaster> getAllShifts() {
-		return shiftMasterService.findAllShifts();
-	}
-
-	@ModelAttribute("shiftAllocationList")
-	public List<String> getAllShiftAllocations() {
-		List<String> allocations = shiftAllocationService.loadShiftAllocation();
-		return allocations;
+	public List<ShiftMaster> getAllShifts(HttpSession session) {
+		String companyId = session.getAttribute("company.comID").toString();
+		return shiftMasterService.loadAllShifts(companyId);
 	}
 
 	@GetMapping("/loadDepartmentNameById")
-	public @ResponseBody DepartmentMaster loadDepartmentName(@RequestParam("depID") String departmentId) {
-		DepartmentMaster department = departmentService.getID(departmentId);
+	public @ResponseBody DepartmentMaster loadDepartmentName(@RequestParam("depID") String departmentId,
+			HttpSession session) {
+		String companyId = session.getAttribute("company.comID").toString();
+		DepartmentMaster department = departmentService.getDepartmentByIdAndCompany(departmentId, companyId);
 		return department;
 	}
 
 	@GetMapping("/loadEmployeeIdByDepartmentId")
-	public @ResponseBody List<EmployeeDetails> loadEmployeesByDepartment(@RequestParam("depID") String departmentId) {
-		List<EmployeeDetails> department = employeeService.filterRelatedData(departmentId);
+	public @ResponseBody List<EmployeeDetails> loadEmployeesByDepartment(@RequestParam("depID") String departmentId,
+			HttpSession session) {
+		String companyId = session.getAttribute("company.comID").toString();
+		List<EmployeeDetails> department = employeeService.filterEmployeesByDepartmentAndCompany(departmentId,
+				companyId);
 		return department;
 	}
 
 	@GetMapping("/loadShiftById")
-	public @ResponseBody ShiftMaster loadShiftById(@RequestParam("shiftId") String shiftId) {
-		ShiftMaster shift = shiftMasterService.findShiftById2(shiftId);
+	public @ResponseBody ShiftMaster loadShiftById(@RequestParam("shiftId") String shiftId, HttpSession session) {
+		String companyId = session.getAttribute("company.comID").toString();
+		ShiftMaster shift = shiftMasterService.findShiftById2(shiftId, companyId);
 		return shift;
 	}
-	
+
 	@GetMapping("/loadShiftsByDateRange")
 	public @ResponseBody List<ShiftAllocationBean> loadShiftsByDateRange(@RequestParam("startDate") String startDate,
-			@RequestParam("endDate") String endDate, @RequestParam("shiftId") String shiftId) {
+			@RequestParam("endDate") String endDate, @RequestParam("shiftId") String shiftId, HttpSession session) {
+		String companyId = session.getAttribute("company.comID").toString();
 		List<ShiftAllocationBean> list = new ArrayList<>();
-		String[][] result = shiftAllocationService.loadShiftsByDateRange(startDate, endDate, shiftId);
+		String[][] result = shiftAllocationService.loadShiftsByDateRange(startDate, endDate, shiftId, companyId);
 		for (int i = 0; i < result.length; i++) {
 			ShiftAllocationBean shiftAllocation = new ShiftAllocationBean();
 			shiftAllocation.setDate(result[i][0]);
@@ -107,7 +112,7 @@ public class ShiftAllocationController {
 			@RequestParam("startTime") String startTime, @RequestParam("endTime") String endTime,
 			@RequestParam("departmentId") String departmentId, @RequestParam("departmentName") String departmentName,
 			@RequestParam(value = "employeeId", required = false) String employeeId,
-			@RequestParam(value = "allEmployees", required = false) int allEmployees, 
+			@RequestParam(value = "allEmployees", required = false) int allEmployees,
 			@RequestParam(value = "companyId", required = false) String companyId) {
 
 		String empId;
@@ -150,7 +155,7 @@ public class ShiftAllocationController {
 						list.add(allocation);
 					}
 				}
-				 shiftAllocationService.saveShiftAllocations(list);
+				shiftAllocationService.saveShiftAllocations(list);
 			} else if (allEmployees == 0) {
 
 				Employee employee = employeeService.getEmp(employeeId);
@@ -174,7 +179,7 @@ public class ShiftAllocationController {
 					allocation.setCompanyId(companyId);
 					list.add(allocation);
 				}
-				 shiftAllocationService.saveShiftAllocations(list);
+				shiftAllocationService.saveShiftAllocations(list);
 			}
 			return "redirect:/ShiftAllocation";
 

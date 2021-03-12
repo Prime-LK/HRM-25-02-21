@@ -17,25 +17,25 @@ public class AttendanceRevise {
 
 	@Column(name = "submit_date")
 	private Date submitDate;
-	
+
 	@Column(name = "attendance_id")
 	private String attendanceId;
-	
+
 	@Column(name = "shift_id")
 	private String shiftId;
-	
+
 	@Column(name = "employee_id")
 	private String employeeId;
 
 	@Column(name = "date")
 	private Date date;
-	
+
 	@Column(name = "on_time")
 	private String onTime;
 
 	@Column(name = "off_time")
 	private String offTime;
-	
+
 	@Column(name = "new_on_time")
 	private String newOnTime;
 
@@ -44,15 +44,15 @@ public class AttendanceRevise {
 
 	@Column(name = "remark")
 	private String remark;
-	
+
 	@Column(name = "approved")
 	private boolean approved;
-	
+
 	@Column(name = "company_id")
 	private String companyId;
 
 	public AttendanceRevise() {
-		
+
 	}
 
 	public AttendanceRevise(String reviseId, Date submitDate, String shiftId, String employeeId, Date date,
@@ -88,7 +88,7 @@ public class AttendanceRevise {
 	public void setSubmitDate(Date submitDate) {
 		this.submitDate = submitDate;
 	}
-	
+
 	public String getAttendanceId() {
 		return attendanceId;
 	}
@@ -168,7 +168,7 @@ public class AttendanceRevise {
 	public void setApproved(boolean approved) {
 		this.approved = approved;
 	}
-	
+
 	public String getCompanyId() {
 		return companyId;
 	}
@@ -184,4 +184,4 @@ public class AttendanceRevise {
 				+ onTime + ", offTime=" + offTime + ", newOnTime=" + newOnTime + ", newOffTime=" + newOffTime
 				+ ", remark=" + remark + ", approved=" + approved + ", companyId=" + companyId + "]";
 	}
-}	
+}

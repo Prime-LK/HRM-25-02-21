@@ -16,7 +16,6 @@ import javax.naming.NamingException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.sql.DataSource;
 
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JREmptyDataSource;
@@ -40,8 +39,10 @@ public class GenerateJasperReport {
 	private static GenerateJasperReport generateJasperReport;
 
 	public JasperReport getCompiledFile(String fileName, HttpServletRequest request) throws JRException {
-		System.out.println("path " + request.getSession().getServletContext().getRealPath("/report/" + fileName + ".jasper"));
-		File reportFile = new File(request.getSession().getServletContext().getRealPath("/report/" + fileName + ".jasper"));
+		System.out.println(
+				"path " + request.getSession().getServletContext().getRealPath("/report/" + fileName + ".jasper"));
+		File reportFile = new File(
+				request.getSession().getServletContext().getRealPath("/report/" + fileName + ".jasper"));
 		// If compiled file is not found, then compile XML template
 		if (!reportFile.exists()) {
 			JasperCompileManager.compileReportToFile(
@@ -80,9 +81,9 @@ public class GenerateJasperReport {
 		ouputStream.flush();
 		ouputStream.close();
 	}
-	
-	public void generateDownloadablePDFReportFromBeanCollection(HttpServletResponse resp, Map<String, Object> parameters,
-			JasperReport jasperReport, JRDataSource dataSource, String fileName)
+
+	public void generateDownloadablePDFReportFromBeanCollection(HttpServletResponse resp,
+			Map<String, Object> parameters, JasperReport jasperReport, JRDataSource dataSource, String fileName)
 			throws JRException, NamingException, SQLException, IOException {
 		byte[] bytes = null;
 		bytes = JasperRunManager.runReportToPdf(jasperReport, parameters, dataSource);
@@ -90,7 +91,7 @@ public class GenerateJasperReport {
 		resp.resetBuffer();
 		resp.setContentType("application/pdf");
 		resp.setContentLength(bytes.length);
-    	resp.setHeader("Content-disposition", "attachment; filename=" + fileName + ".pdf");
+		resp.setHeader("Content-disposition", "attachment; filename=" + fileName + ".pdf");
 		ServletOutputStream ouputStream = resp.getOutputStream();
 		ouputStream.write(bytes, 0, bytes.length);
 		ouputStream.flush();
@@ -102,46 +103,17 @@ public class GenerateJasperReport {
 			throws JRException, NamingException, SQLException, IOException {
 		byte[] bytes = null;
 		bytes = JasperRunManager.runReportToPdf(jasperReport, parameters, dataSource);
-//		resp.reset();
-//		resp.resetBuffer();
-//		resp.setContentType("application/pdf");
-//		resp.setContentLength(bytes.length);
-//		resp.setHeader("Content-disposition", "attachment; filename=" + fileName + ".pdf");
-//		ServletOutputStream ouputStream = resp.getOutputStream();
-//		ouputStream.write(bytes, 0, bytes.length);
-//		ouputStream.flush();
-//		ouputStream.close();
-		
-		
-		//File destFile = new File(reportName + ".pdf");
-
-		//JRPdfExporter pdfExporter = new JRPdfExporter();
-	//	pdfExporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-	//	pdfExporter.setExporterOutput(new SimpleOutputStreamExporterOutput(destFile));
-	//	ByteArrayOutputStream pdfReportStream = new ByteArrayOutputStream();
-	//	pdfExporter.setExporterOutput(new SimpleOutputStreamExporterOutput(pdfReportStream));
-
-        // response.setContentType("application/pdf");
-		// response.setHeader("Content-Length", String.valueOf(pdfReportStream.size()));
-		// response.addHeader("Content-Disposition", "inline; filename=jasper.pdf;");
-		// response.seth
-
-	//	pdfExporter.exportReport();
-
 		String pdfCode = Base64.getEncoder().encodeToString(bytes);
-	//	pdfReportStream.close();
 		return pdfCode;
-		
-		
 	}
 
 	public String generateReportInSystemView(String fileName, String reportName, Collection<?> list,
 			Map<String, Object> params, HttpServletResponse response, HttpServletRequest request) throws Exception {
-		//InputStream jasperStream = getClass().getResourceAsStream("/" + jasperName);
+		// InputStream jasperStream = getClass().getResourceAsStream("/" + jasperName);
 		JasperReport jasperReport = getCompiledFile(fileName, request);
 		JasperPrint jasperPrint = null;
 		if (list != null) {
-			
+
 			JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(list);
 			jasperPrint = JasperFillManager.fillReport(jasperReport, params, dataSource);
 
@@ -162,24 +134,13 @@ public class GenerateJasperReport {
 		pdfReportStream.close();
 		return pdfCode;
 	}
-	
+
 	public String pdfReportViewInlineSystemOpen(String jasperName, String reportName, Collection<?> rates,
 			Map<String, Object> params) throws Exception {
-		
-	//	request.getSession().getServletContext().getRealPath("/report/" + fileName + ".jasper")
-	//	File reportFile = new File(request.getSession().getServletContext().getRealPath("/report/" + jasperName);
-		// If compiled file is not found, then compile XML template
 
-	//	JasperReport jasperReport = (JasperReport) JRLoader.loadObjectFromFile(reportFile.getPath());
-		
-		
-		//System.out.println("jasperStream="+jasperStream);
-		
-		
 		InputStream jasperStream = getClass().getResourceAsStream("/" + jasperName);
-		
-		
-		System.out.println("jasperStream="+jasperStream);
+
+		System.out.println("jasperStream=" + jasperStream);
 		JasperPrint jasperPrint = null;
 		if (rates != null) {
 			JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(rates);
@@ -196,21 +157,13 @@ public class GenerateJasperReport {
 		pdfExporter.setExporterOutput(new SimpleOutputStreamExporterOutput(destFile));
 		ByteArrayOutputStream pdfReportStream = new ByteArrayOutputStream();
 		pdfExporter.setExporterOutput(new SimpleOutputStreamExporterOutput(pdfReportStream));
-
-        // response.setContentType("application/pdf");
-		// response.setHeader("Content-Length", String.valueOf(pdfReportStream.size()));
-		// response.addHeader("Content-Disposition", "inline; filename=jasper.pdf;");
-		// response.seth
-
 		pdfExporter.exportReport();
 
 		String pdfCode = Base64.getEncoder().encodeToString(pdfReportStream.toByteArray());
 		pdfReportStream.close();
 		return pdfCode;
 	}
-	
-	
-	
+
 	public static GenerateJasperReport getInstance() {
 		return (generateJasperReport == null) ? (generateJasperReport = new GenerateJasperReport())
 				: generateJasperReport;

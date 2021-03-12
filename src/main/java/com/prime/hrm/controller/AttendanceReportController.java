@@ -1,22 +1,19 @@
 package com.prime.hrm.controller;
 
-import java.io.IOException;
-import java.sql.SQLException;
-import java.text.ParseException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.naming.NamingException;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -30,12 +27,7 @@ import com.prime.hrm.report.AttendanceSubReportBean;
 import com.prime.hrm.service.DepartmentService;
 import com.prime.hrm.service.EmployeeAttendanceService;
 import com.prime.hrm.service.ShiftMasterService;
-import com.prime.hrm.utils.GenerateJasperReport;
 import com.prime.hrm.utils.ReportViewe;
-
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
 @Controller
 public class AttendanceReportController {
@@ -58,23 +50,26 @@ public class AttendanceReportController {
 	}
 
 	@ModelAttribute("depList")
-	public List<DepartmentMaster> getAllDeps() throws SQLException, IOException {
-		return departmentService.getAllDep();
+	public List<DepartmentMaster> getAllDeps(HttpSession session) {
+		String companyId = session.getAttribute("company.comID").toString();
+		return departmentService.getDepartmentsByCompany(companyId);
 	}
 
 	@ModelAttribute("shiftList")
-	public List<ShiftMaster> getAllShifts() {
-		return shiftMasterService.findAllShifts();
+	public List<ShiftMaster> getAllShifts(HttpSession session) {
+		String companyId = session.getAttribute("company.comID").toString();
+		return shiftMasterService.loadAllShifts(companyId);
 	}
 
 	@GetMapping("/loadAttendanceSheet")
 	@ResponseBody
-	public List<AttendanceSubReportBean> loadAttendanceSheet(@RequestParam("year") String year,
-			@RequestParam("month") String month, @RequestParam("employeeId") String employeeId,
-			Map<String, Object> model) {
+	public List<AttendanceSubReportBean> loadAttendanceSheet(@RequestParam("startDate") String startDate,
+			@RequestParam("endDate") String endDate, @RequestParam("employeeId") String employeeId,
+			Map<String, Object> model, HttpSession session) {
 		List<AttendanceSubReportBean> list = new ArrayList<>();
-		String[][] result = employeeAttendanceService.loadSubReportDetails3(Integer.valueOf(year),
-				Integer.valueOf(month), employeeId);
+		String companyId = session.getAttribute("company.comID").toString();
+		String[][] result = employeeAttendanceService.loadAttendanceSubReportDetails(startDate, endDate, employeeId,
+				companyId);
 		for (int i = 0; i < result.length; i++) {
 			AttendanceSubReportBean subattendance = new AttendanceSubReportBean();
 			subattendance.setDate(result[i][0]);
@@ -92,18 +87,19 @@ public class AttendanceReportController {
 	}
 
 	@GetMapping("/generateReport")
-	public ModelAndView generateReport(@RequestParam("year") String year, @RequestParam("month") String month,
-			@RequestParam("employeeId") String employeeId, HttpServletRequest request, HttpServletResponse response)
-			throws Exception {
+	public ModelAndView generateReport(@RequestParam("startDate") String startDate,
+			@RequestParam("endDate") String endDate, @RequestParam("employeeId") String employeeId,
+			HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
 
 		String reportFileName1 = "attendance_report";
-		String reportFileName2 = "attendance_subreport";
-		String fileName = "Attendance Report: " + employeeId + "-" + year + "-" + month;
+		String reportFileName2 = "attendance_subreport.jasper";
+		String fileName = "Attendance Report: " + employeeId + "-" + startDate + "-" + endDate;
 		List<AttendanceMainReportBean> list = new ArrayList<>();
 		List<AttendanceSubReportBean> list2 = new ArrayList<>();
+		String companyId = session.getAttribute("company.comID").toString();
 
-		String[][] result = employeeAttendanceService.loadMainReportDetails3(Integer.valueOf(year),
-				Integer.valueOf(month), employeeId);
+		String[][] result = employeeAttendanceService.loadAttedanceMainReportDetails(startDate, endDate, employeeId,
+				companyId);
 		for (int i = 0; i < result.length; i++) {
 			AttendanceMainReportBean attendance = new AttendanceMainReportBean();
 			attendance.setYear(result[i][0]);
@@ -116,8 +112,8 @@ public class AttendanceReportController {
 			attendance.setTotal_absent_days(result[i][7]);
 			attendance.setTotal_holidays(result[i][8]);
 			attendance.setTotal_rest_days(result[i][9]);
-			String[][] result2 = employeeAttendanceService.loadSubReportDetails3(Integer.valueOf(year),
-					Integer.valueOf(month), employeeId);
+			String[][] result2 = employeeAttendanceService.loadAttendanceSubReportDetails(startDate, endDate,
+					employeeId, companyId);
 			for (int j = 0; j < result2.length; j++) {
 				AttendanceSubReportBean subattendance = new AttendanceSubReportBean();
 				subattendance.setDate(result2[j][0]);
@@ -135,17 +131,26 @@ public class AttendanceReportController {
 			list.add(attendance);
 		}
 
-		/*JasperReport jasperReport = GenerateJasperReport.getInstance().getCompiledFile(reportFileName1, request);
-		JasperReport jasperReport2 = GenerateJasperReport.getInstance().getCompiledFile(reportFileName2, request);*/
+		// JasperReport jasperReport =
+		// GenerateJasperReport.getInstance().getCompiledFile(reportFileName1, request);
+		// JasperReport jasperReport2 =
+		// GenerateJasperReport.getInstance().getCompiledFile(reportFileName2, request);
 
+		InputStream jasperStream = getClass().getResourceAsStream("/" + reportFileName2);
+		System.out.println("Sub Report : " + jasperStream);
 		HashMap<String, Object> params = new HashMap<String, Object>();
-		//params.put("subreportParameter", jasperReport2);
-		/*String report = GenerateJasperReport.getInstance().generatePDFReportFromBeanCollection(response, params, jasperReport,
-				new JRBeanCollectionDataSource(list), fileName);*/
-		ReportViewe review=new ReportViewe();
-		String report = review.pdfReportViewInlineSystemOpen("attendance_report.jasper", fileName, list, params, response);
+		params.put("SUBREPORT_DIR", jasperStream);
+		/*
+		 * String report =
+		 * GenerateJasperReport.getInstance().generatePDFReportFromBeanCollection(
+		 * response, params, jasperReport, new JRBeanCollectionDataSource(list),
+		 * fileName);
+		 */
+		ReportViewe review = new ReportViewe();
+		String report = review.pdfReportViewInlineSystemOpen("attendance_report.jasper", fileName, list, params,
+				response);
 		ModelAndView mav = new ModelAndView("attendanceReportPreview");
-        mav.addObject("pdfViewEq",report);
+		mav.addObject("pdfViewEq", report);
 		return mav;
 	}
 }

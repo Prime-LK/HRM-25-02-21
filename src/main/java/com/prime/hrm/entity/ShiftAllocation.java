@@ -13,25 +13,25 @@ public class ShiftAllocation {
 
 	@EmbeddedId
 	private ShiftAllocationPK shiftAllocationPK;
-	
+
 	@Column(name = "shift_name")
 	private String shiftName;
-	
+
 	@Column(name = "start_time")
 	private String startTime;
-	
+
 	@Column(name = "end_time")
 	private String endTime;
-	
+
 	@Column(name = "employee_name")
 	private String employeeName;
-	
+
 	@Column(name = "department_id")
 	private String departmentId;
-	
+
 	@Column(name = "department_name")
 	private String departmentName;
-	
+
 	@Column(name = "company_id")
 	private String companyId;
 
@@ -40,7 +40,7 @@ public class ShiftAllocation {
 	}
 
 	public ShiftAllocation(ShiftAllocationPK shiftAllocationPK, String shiftName, String startTime, String endTime,
-			String employeeName, String departmentId, String departmentName , String companyId) {
+			String employeeName, String departmentId, String departmentName, String companyId) {
 
 		this.shiftAllocationPK = shiftAllocationPK;
 		this.shiftName = shiftName;
@@ -53,8 +53,8 @@ public class ShiftAllocation {
 	}
 
 	public ShiftAllocation(Date date, String employeeId, String shiftId, String dayType, String shiftName,
-			String startTime, String endTime, String employeeName, String departmentId,
-			String departmentName , String companyId) {
+			String startTime, String endTime, String employeeName, String departmentId, String departmentName,
+			String companyId) {
 
 		this.shiftAllocationPK = new ShiftAllocationPK(date, employeeId, shiftId);
 		this.shiftName = shiftName;

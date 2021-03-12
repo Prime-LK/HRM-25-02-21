@@ -5,6 +5,8 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,58 +30,66 @@ public class AttendanceReviseController {
 
 	@Autowired
 	private DepartmentService departmentService;
-	
+
 	@Autowired
 	private EmployeeAttendanceService employeeAttendanceService;
-	
+
 	@Autowired
 	private AttendanceReviseService attendanceReviseService;
-	
+
 	@Autowired
 	private ShiftMasterService shiftMasterService;
-	
+
 	@GetMapping("/AttendanceRevise")
 	public String AttendanceReportPage() {
 		return "attendanceRevise";
 	}
-	
-	@ModelAttribute("shiftList")
-	public List<ShiftMaster> getAllShifts() {
-		return shiftMasterService.findAllShifts();
-	}
-	
+
 	@ModelAttribute("depList")
-	public List<DepartmentMaster> getAllDeps() {
-		return departmentService.getAllDep();
+	public List<DepartmentMaster> getAllDeps(HttpSession session) {
+		String companyId = session.getAttribute("company.comID").toString();
+		return departmentService.getDepartmentsByCompany(companyId);
 	}
-	
+
+	@ModelAttribute("shiftList")
+	public List<ShiftMaster> getAllShifts(HttpSession session) {
+		String companyId = session.getAttribute("company.comID").toString();
+		return shiftMasterService.loadAllShifts(companyId);
+	}
+
 	@ModelAttribute("revisesList")
-	public List<String> getAllAttendanceRevises() {
-		List<String> revises = attendanceReviseService.loadAttendanceRevises();
+	public List<String> getAllAttendanceRevises(HttpSession session) {
+		String companyId = session.getAttribute("company.comID").toString();
+		List<String> revises = attendanceReviseService.loadAttendanceRevises(companyId);
 		return revises;
 	}
 
 	@ModelAttribute("reviseId")
-	public String setReviseCode() {
-		String id = "0000000000".substring(attendanceReviseService.getMaxReviseId().length()) + attendanceReviseService.getMaxReviseId();
+	public String setReviseCode(HttpSession session) {
+		String companyId = session.getAttribute("company.comID").toString();
+		String id = "0000000000".substring(attendanceReviseService.getMaxReviseId(companyId).length())
+				+ attendanceReviseService.getMaxReviseId(companyId);
 		return id;
 	}
-	
+
 	@GetMapping("/loadEmployeeAttendanceDetails")
 	public @ResponseBody EmployeeAttendance loadEmployeeAttendanceDetails(@RequestParam("date") String date,
-			@RequestParam("shiftId") String shiftId, @RequestParam("employeeId") String employeeId) {
-		EmployeeAttendance attendance = employeeAttendanceService.findEmployeeAttendanceByDetails(date, shiftId, employeeId);
+			@RequestParam("shiftId") String shiftId, @RequestParam("employeeId") String employeeId,
+			HttpSession session) {
+		String companyId = session.getAttribute("company.comID").toString();
+		EmployeeAttendance attendance = employeeAttendanceService.findEmployeeAttendanceByDetails(date, shiftId,
+				employeeId, companyId);
 		System.out.println("Method Loaded");
 		return attendance;
 	}
-	
+
 	@PostMapping("/submitAttendanceRevise")
-	public String submitAttendanceRevise(@RequestParam("reviseId") String reviseId, @RequestParam("attendanceId") String attendanceId,
-			@RequestParam("shiftId") String shiftId, @RequestParam("employeeId") String employeeId,
-			@RequestParam("date") String date, @RequestParam("onTime") String onTime,
-			@RequestParam("newOnTime") String newOnTime, @RequestParam("newOffTime") String newOffTime,
-			@RequestParam("offTime") String offTime, @RequestParam("remark") String remark, 
-			@RequestParam("approved") boolean approved, 
+	public String submitAttendanceRevise(@RequestParam("reviseId") String reviseId,
+			@RequestParam("attendanceId") String attendanceId, @RequestParam("shiftId") String shiftId,
+			@RequestParam("employeeId") String employeeId, @RequestParam("date") String date,
+			@RequestParam("onTime") String onTime, @RequestParam("newOnTime") String newOnTime,
+			@RequestParam("newOffTime") String newOffTime, @RequestParam("offTime") String offTime,
+			@RequestParam("remark") String remark, @RequestParam("approved") boolean approved,
 			@RequestParam(value = "companyId", required = false) String companyId) {
 
 		AttendanceRevise revise = new AttendanceRevise();
@@ -108,11 +118,13 @@ public class AttendanceReviseController {
 		}
 		return "AttendanceRevise";
 	}
-	
+
 	@GetMapping("/getAttendanceSheet")
 	public String getAttendanceSheet(@RequestParam("year") String year, @RequestParam("month") String month,
-			@RequestParam("employeeId") String employeeId, Map<String, Object> model) {
-		List<String> attendanceSheet = employeeAttendanceService.loadSubReportDetails(Integer.valueOf(year), Integer.valueOf(month), employeeId);
+			@RequestParam("employeeId") String employeeId, Map<String, Object> model, HttpSession session) {
+		String companyId = session.getAttribute("company.comID").toString();
+		List<String> attendanceSheet = employeeAttendanceService.loadSubReportDetails(Integer.valueOf(year),
+				Integer.valueOf(month), employeeId, companyId);
 		model.put("employeeAttendanceSheet", attendanceSheet);
 		return "attendanceRevise";
 	}

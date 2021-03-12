@@ -16,5 +16,4 @@ public class AttendanceReviseApproveForm {
 		this.attendanceRevises = attendanceRevises;
 	}
 
-	
 }

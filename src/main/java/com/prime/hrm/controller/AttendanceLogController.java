@@ -2,6 +2,8 @@ package com.prime.hrm.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,8 +23,9 @@ public class AttendanceLogController {
 	}
 
 	@ModelAttribute("attendanceList")
-	public List<String> getAllAttendances() {
-		List<String> attendances = employeeAttendanceService.loadAttendances();
+	public List<String> getAllAttendances(HttpSession session) {
+		String companyId = session.getAttribute("company.comID").toString();
+		List<String> attendances = employeeAttendanceService.loadAttendances(companyId);
 		return attendances;
 	}
 }

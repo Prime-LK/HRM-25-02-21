@@ -3,6 +3,7 @@ package com.prime.hrm.controller;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,11 +26,12 @@ public class ShiftMasterController {
 	private ShiftMasterService shiftMasterService;
 
 	@GetMapping("/ShiftMaster")
-	public String loadAsPage(Map<String, Object> map) {
+	public String loadAsPage(Map<String, Object> map, HttpSession session) {
 		map.put("ShiftMaster", new ShiftMaster());
 		ShiftMaster shift = new ShiftMaster();
-		shift.setShiftId(
-				"00000".substring(shiftMasterService.getMaxShiftId().length()) + shiftMasterService.getMaxShiftId());
+		String companyId = session.getAttribute("company.comID").toString();
+		shift.setShiftId("00000".substring(shiftMasterService.getMaxShiftId(companyId).length())
+				+ shiftMasterService.getMaxShiftId(companyId));
 		map.put("ShiftMaster", shift);
 		return "shiftMaster";
 	}
@@ -51,15 +53,17 @@ public class ShiftMasterController {
 	}
 
 	@ModelAttribute("shiftList")
-	public List<ShiftMaster> getAllShifts() {
-		return shiftMasterService.loadAllShifts();
+	public List<ShiftMaster> getAllShifts(HttpSession session) {
+		String companyId = session.getAttribute("company.comID").toString();
+		return shiftMasterService.loadAllShifts(companyId);
 	}
 
 	// update shift master
 	@GetMapping("/updateShiftMaster")
-	public ModelAndView updateShiftMaster(@RequestParam String id) {
+	public ModelAndView updateShiftMaster(@RequestParam String id, HttpSession session) {
 		ModelAndView mav = new ModelAndView("shiftMaster");// jsp
-		ShiftMaster shiftMaster = shiftMasterService.findShiftById(id);
+		String companyId = session.getAttribute("company.comID").toString();
+		ShiftMaster shiftMaster = shiftMasterService.findShiftById2(id, companyId);
 		mav.addObject("ShiftMaster", shiftMaster);// model attribute name and object
 		return mav;
 	}

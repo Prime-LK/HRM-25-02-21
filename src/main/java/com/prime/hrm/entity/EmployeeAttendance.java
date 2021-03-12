@@ -32,7 +32,7 @@ public class EmployeeAttendance {
 
 	@Column(name = "approved")
 	private boolean approved;
-	
+
 	@Column(name = "company_id")
 	private String companyId;
 
@@ -107,7 +107,7 @@ public class EmployeeAttendance {
 	public void setApproved(boolean approved) {
 		this.approved = approved;
 	}
-	
+
 	public String getCompanyId() {
 		return companyId;
 	}

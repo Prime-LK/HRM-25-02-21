@@ -15,6 +15,7 @@ import java.util.Map;
 import javax.naming.NamingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -48,40 +49,45 @@ public class ShiftDetailReportController {
 
 	@Autowired
 	private ShiftMasterService shiftMasterService;
-	
+
 	@Autowired
 	private ShiftAllocationService shiftAllocationService;
-	
+
 	@GetMapping("/ShiftDetailReport")
 	public String AttendanceReportPage() {
 		return "shiftDetailReport";
 	}
-	
+
 	@ModelAttribute("depList")
-	public List<DepartmentMaster> getAllDeps() throws SQLException, IOException {
-		return departmentService.getAllDep();
+	public List<DepartmentMaster> getAllDeps(HttpSession session) {
+		String companyId = session.getAttribute("company.comID").toString();
+		return departmentService.getDepartmentsByCompany(companyId);
 	}
 
 	@ModelAttribute("shiftList")
-	public List<ShiftMaster> getAllShifts() {
-		return shiftMasterService.findAllShifts();
+	public List<ShiftMaster> getAllShifts(HttpSession session) {
+		String companyId = session.getAttribute("company.comID").toString();
+		return shiftMasterService.loadAllShifts(companyId);
 	}
-	
+
 	@GetMapping("/loadShiftDetails")
 	@ResponseBody
-	public List<ShiftDetailReportBean> loadShiftDetails(@RequestParam("startDate") String startDate, @RequestParam("endDate") String endDate,
+	public List<ShiftDetailReportBean> loadShiftDetails(@RequestParam("startDate") String startDate,
+			@RequestParam("endDate") String endDate,
 			@RequestParam(value = "departmentId", required = false) String departmentId,
 			@RequestParam(value = "employeeId", required = false) String employeeId,
-			@RequestParam(value = "shiftId", required = false) String shiftId) {
+			@RequestParam(value = "shiftId", required = false) String shiftId, HttpSession session) {
 		System.out.println(startDate);
 		System.out.println(endDate);
 		System.out.println(departmentId);
 		System.out.println(employeeId);
 		System.out.println(shiftId);
 		List<ShiftDetailReportBean> list = new ArrayList<>();
-		if((departmentId.equals("All") || departmentId == null) && (employeeId.equals("All") || employeeId == null) && (shiftId.equals("All") || shiftId == null)) {
-			//Dates
-			String[][] result = shiftAllocationService.loadShiftDetailReportByDate(startDate, endDate);
+		String companyId = session.getAttribute("company.comID").toString();
+		if ((departmentId.equals("All") || departmentId == null) && (employeeId.equals("All") || employeeId == null)
+				&& (shiftId.equals("All") || shiftId == null)) {
+			// Dates
+			String[][] result = shiftAllocationService.loadShiftDetailReportByDate(startDate, endDate, companyId);
 			for (int i = 0; i < result.length; i++) {
 				ShiftDetailReportBean shiftDetail = new ShiftDetailReportBean();
 				shiftDetail.setDate(result[i][0]);
@@ -99,7 +105,8 @@ public class ShiftDetailReportController {
 			return list;
 		} else if ((employeeId.equals("All") || employeeId == null) && (shiftId.equals("All") || shiftId == null)) {
 			// Department
-			String[][] result = shiftAllocationService.loadShiftDetailReportByDepartment(startDate, endDate, departmentId);
+			String[][] result = shiftAllocationService.loadShiftDetailReportByDepartment(startDate, endDate,
+					departmentId, companyId);
 			for (int i = 0; i < result.length; i++) {
 				ShiftDetailReportBean shiftDetail = new ShiftDetailReportBean();
 				shiftDetail.setDate(result[i][0]);
@@ -115,9 +122,11 @@ public class ShiftDetailReportController {
 				list.add(shiftDetail);
 			}
 			return list;
-		} else if ((departmentId.equals("All") || departmentId == null) && (employeeId.equals("All") || employeeId == null)) {
+		} else if ((departmentId.equals("All") || departmentId == null)
+				&& (employeeId.equals("All") || employeeId == null)) {
 			// Shift
-			String[][] result = shiftAllocationService.loadShiftDetailReportByShift(startDate, endDate, shiftId);
+			String[][] result = shiftAllocationService.loadShiftDetailReportByShift(startDate, endDate, shiftId,
+					companyId);
 			for (int i = 0; i < result.length; i++) {
 				ShiftDetailReportBean shiftDetail = new ShiftDetailReportBean();
 				shiftDetail.setDate(result[i][0]);
@@ -135,7 +144,8 @@ public class ShiftDetailReportController {
 			return list;
 		} else if (employeeId.equals("All") || employeeId == null) {
 			// Department + Shift
-			String[][] result = shiftAllocationService.loadShiftDetailReportByDepartmentAndShift(startDate, endDate, departmentId, shiftId);
+			String[][] result = shiftAllocationService.loadShiftDetailReportByDepartmentAndShift(startDate, endDate,
+					departmentId, shiftId, companyId);
 			for (int i = 0; i < result.length; i++) {
 				ShiftDetailReportBean shiftDetail = new ShiftDetailReportBean();
 				shiftDetail.setDate(result[i][0]);
@@ -153,7 +163,8 @@ public class ShiftDetailReportController {
 			return list;
 		} else if (!employeeId.equals("All") && (shiftId.equals("All") || shiftId == null)) {
 			// Employee
-			String[][] result = shiftAllocationService.loadShiftDetailReportByEmployee(startDate, endDate, departmentId, employeeId);
+			String[][] result = shiftAllocationService.loadShiftDetailReportByEmployee(startDate, endDate, departmentId,
+					employeeId, companyId);
 			for (int i = 0; i < result.length; i++) {
 				ShiftDetailReportBean shiftDetail = new ShiftDetailReportBean();
 				shiftDetail.setDate(result[i][0]);
@@ -171,7 +182,8 @@ public class ShiftDetailReportController {
 			return list;
 		} else {
 			// Employee + Shift
-			String[][] result = shiftAllocationService.loadShiftDetailReportByEmployeeAndShift(startDate, endDate, departmentId, employeeId, shiftId);
+			String[][] result = shiftAllocationService.loadShiftDetailReportByEmployeeAndShift(startDate, endDate,
+					departmentId, employeeId, shiftId, companyId);
 			for (int i = 0; i < result.length; i++) {
 				ShiftDetailReportBean shiftDetail = new ShiftDetailReportBean();
 				shiftDetail.setDate(result[i][0]);
@@ -189,13 +201,16 @@ public class ShiftDetailReportController {
 			return list;
 		}
 	}
-	
+
 	@GetMapping("/generateShiftDetailReport")
-	public ModelAndView generateShiftDetailReport(@RequestParam("startDate") String startDate, @RequestParam("endDate") String endDate,
+	public ModelAndView generateShiftDetailReport(@RequestParam("startDate") String startDate,
+			@RequestParam("endDate") String endDate,
 			@RequestParam(value = "departmentId", required = false) String departmentId,
 			@RequestParam(value = "employeeId", required = false) String employeeId,
-			@RequestParam(value = "shiftId", required = false) String shiftId,
-			HttpServletRequest request, HttpServletResponse response) throws JRException, IOException, NamingException, SQLException, Exception {
+			@RequestParam(value = "shiftId", required = false) String shiftId, HttpServletRequest request,
+			HttpServletResponse response, HttpSession session)
+			throws JRException, IOException, NamingException, SQLException, Exception {
+		String companyId = session.getAttribute("company.comID").toString();
 		String fileName = "Shift Details Report: " + startDate + "-" + endDate;
 		String reportFileName = "shift_detail_report";
 		List<ShiftDetailReportBean> list = new ArrayList<>();
@@ -204,12 +219,13 @@ public class ShiftDetailReportController {
 		System.out.println(departmentId);
 		System.out.println(employeeId);
 		System.out.println(shiftId);
-		if((departmentId.equals("All") || departmentId == null) && (employeeId.equals("All") || employeeId == null) && (shiftId.equals("All") || shiftId == null)) {
-			//Dates
+		if ((departmentId.equals("All") || departmentId == null) && (employeeId.equals("All") || employeeId == null)
+				&& (shiftId.equals("All") || shiftId == null)) {
+			// Dates
 			departmentId = "ALL";
 			employeeId = "ALL";
 			shiftId = "ALL";
-			String[][] result = shiftAllocationService.loadShiftDetailReportByDate(startDate, endDate);
+			String[][] result = shiftAllocationService.loadShiftDetailReportByDate(startDate, endDate, companyId);
 			for (int i = 0; i < result.length; i++) {
 				ShiftDetailReportBean shiftDetail = new ShiftDetailReportBean();
 				shiftDetail.setDate(result[i][0]);
@@ -229,7 +245,8 @@ public class ShiftDetailReportController {
 
 			employeeId = "ALL";
 			shiftId = "ALL";
-			String[][] result = shiftAllocationService.loadShiftDetailReportByDepartment(startDate, endDate, departmentId);
+			String[][] result = shiftAllocationService.loadShiftDetailReportByDepartment(startDate, endDate,
+					departmentId, companyId);
 			for (int i = 0; i < result.length; i++) {
 				ShiftDetailReportBean shiftDetail = new ShiftDetailReportBean();
 				shiftDetail.setDate(result[i][0]);
@@ -245,12 +262,14 @@ public class ShiftDetailReportController {
 				list.add(shiftDetail);
 				departmentId = result[i][4];
 			}
-		} else if ((departmentId.equals("All") || departmentId == null) && (employeeId.equals("All") || employeeId == null)) {
+		} else if ((departmentId.equals("All") || departmentId == null)
+				&& (employeeId.equals("All") || employeeId == null)) {
 			// Shift
 			departmentId = "ALL";
 			employeeId = "ALL";
-			
-			String[][] result = shiftAllocationService.loadShiftDetailReportByShift(startDate, endDate, shiftId);
+
+			String[][] result = shiftAllocationService.loadShiftDetailReportByShift(startDate, endDate, shiftId,
+					companyId);
 			for (int i = 0; i < result.length; i++) {
 				ShiftDetailReportBean shiftDetail = new ShiftDetailReportBean();
 				shiftDetail.setDate(result[i][0]);
@@ -268,10 +287,11 @@ public class ShiftDetailReportController {
 			}
 		} else if (employeeId.equals("All") || employeeId == null) {
 			// Department + Shift
-			
+
 			employeeId = "ALL";
-			
-			String[][] result = shiftAllocationService.loadShiftDetailReportByDepartmentAndShift(startDate, endDate, departmentId, shiftId);
+
+			String[][] result = shiftAllocationService.loadShiftDetailReportByDepartmentAndShift(startDate, endDate,
+					departmentId, shiftId, companyId);
 			for (int i = 0; i < result.length; i++) {
 				ShiftDetailReportBean shiftDetail = new ShiftDetailReportBean();
 				shiftDetail.setDate(result[i][0]);
@@ -291,7 +311,8 @@ public class ShiftDetailReportController {
 		} else if ((shiftId.equals("All") || shiftId == null) && !employeeId.equals("All")) {
 			// Employee
 			shiftId = "ALL";
-			String[][] result = shiftAllocationService.loadShiftDetailReportByEmployee(startDate, endDate, departmentId, employeeId);
+			String[][] result = shiftAllocationService.loadShiftDetailReportByEmployee(startDate, endDate, departmentId,
+					employeeId, companyId);
 			for (int i = 0; i < result.length; i++) {
 				ShiftDetailReportBean shiftDetail = new ShiftDetailReportBean();
 				shiftDetail.setDate(result[i][0]);
@@ -310,7 +331,8 @@ public class ShiftDetailReportController {
 			}
 		} else if (!employeeId.equals("All")) {
 			// Employee + Shift
-			String[][] result = shiftAllocationService.loadShiftDetailReportByEmployeeAndShift(startDate, endDate, departmentId, employeeId, shiftId);
+			String[][] result = shiftAllocationService.loadShiftDetailReportByEmployeeAndShift(startDate, endDate,
+					departmentId, employeeId, shiftId, companyId);
 			for (int i = 0; i < result.length; i++) {
 				ShiftDetailReportBean shiftDetail = new ShiftDetailReportBean();
 				shiftDetail.setDate(result[i][0]);
@@ -328,28 +350,38 @@ public class ShiftDetailReportController {
 				shiftId = result[i][3];
 				departmentId = result[i][4];
 			}
-		} 
-		 DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		}
+		DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		DateFormat formatter1 = new SimpleDateFormat("dd.MM.yyyy");
-        Map<String, Object> params = new HashMap<>();
- 
-        params.put("start_date", formatter1.format(formatter.parse(startDate)));
-        params.put("end_date", formatter1.format(formatter.parse(endDate)));
-        params.put("department", departmentId);
-        params.put("employee", employeeId);
-        params.put("shift", shiftId);
-        //JasperReport jasperReport = GenerateJasperReport.getInstance().getCompiledFile(reportFileName, request);
-        //String report = GenerateJasperReport.getInstance().generatePDFReportFromBeanCollection(response, params, jasperReport, new JRBeanCollectionDataSource(list), fileName);
-        
-       /*JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, params, new JRBeanCollectionDataSource(list));
-		GenerateJasperReport.getInstance().generateReportHtml(jasperPrint, request, response); // For HTML report*/
-        
-        //String report = GenerateJasperReport.getInstance().pdfReportViewInlineSystemOpen("shift_detail_report.jasper", fileName, list, params);
-        ReportViewe review=new ReportViewe();
-        String report = review.pdfReportViewInlineSystemOpen("shift_detail_report.jasper", fileName, list, params, response);
-        
-        ModelAndView mav = new ModelAndView("shiftDetailReportPreview");
-        mav.addObject("pdfViewEq",report);
-        return mav;
+		Map<String, Object> params = new HashMap<>();
+
+		params.put("start_date", formatter1.format(formatter.parse(startDate)));
+		params.put("end_date", formatter1.format(formatter.parse(endDate)));
+		params.put("department", departmentId);
+		params.put("employee", employeeId);
+		params.put("shift", shiftId);
+		// JasperReport jasperReport =
+		// GenerateJasperReport.getInstance().getCompiledFile(reportFileName, request);
+		// String report =
+		// GenerateJasperReport.getInstance().generatePDFReportFromBeanCollection(response,
+		// params, jasperReport, new JRBeanCollectionDataSource(list), fileName);
+
+		/*
+		 * JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, params,
+		 * new JRBeanCollectionDataSource(list));
+		 * GenerateJasperReport.getInstance().generateReportHtml(jasperPrint, request,
+		 * response); // For HTML report
+		 */
+
+		// String report =
+		// GenerateJasperReport.getInstance().pdfReportViewInlineSystemOpen("shift_detail_report.jasper",
+		// fileName, list, params);
+		ReportViewe review = new ReportViewe();
+		String report = review.pdfReportViewInlineSystemOpen("shift_detail_report.jasper", fileName, list, params,
+				response);
+
+		ModelAndView mav = new ModelAndView("shiftDetailReportPreview");
+		mav.addObject("pdfViewEq", report);
+		return mav;
 	}
 }

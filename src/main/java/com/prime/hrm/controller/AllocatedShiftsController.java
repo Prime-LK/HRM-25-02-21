@@ -14,12 +14,12 @@ public class AllocatedShiftsController {
 
 	@Autowired
 	private ShiftAllocationService shiftAllocationService;
-	
+
 	@GetMapping("/AllocatedShifts")
 	public String allocatedShiftsPage() {
 		return "allocatedShifts";
 	}
-	
+
 	@ModelAttribute("shiftAllocationList")
 	public List<String> getAllShiftAllocations() {
 		List<String> allocations = shiftAllocationService.loadShiftAllocation();

@@ -1,12 +1,12 @@
 function loadAttendanceSheet() {
 
-	var selectYear = document.getElementById("year").value;
-	var selectMonth = document.getElementById("month").value;
+	var startDate = document.getElementById("startDate").value;
+	var endDate = document.getElementById("endDate").value;
 	var selectEmployee = document.getElementById("selectEmployeeId").value;
-	console.log(selectYear);
+	console.log(startDate);
 	console.log(selectEmployee);
-	console.log(selectMonth);
-	if (selectYear == "" || selectMonth == "" || selectEmployee == "") {
+	console.log(endDate);
+	if (startDate == "" || endDate == "" || selectEmployee == "") {
 		return;
 	} else {
 
@@ -15,8 +15,8 @@ function loadAttendanceSheet() {
 					type : 'GET',
 					url : "loadAttendanceSheet",
 					data : {
-						"year" : selectYear,
-						"month" : selectMonth,
+						"startDate" : startDate,
+						"endDate" : endDate,
 						"employeeId" : selectEmployee
 					},
 					success : function(data) {
