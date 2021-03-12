@@ -23,8 +23,8 @@ public interface AttendanceReviseRepository extends CrudRepository<AttendanceRev
 			+ "attendance_revise.new_off_time, " + "attendance_revise.remark, " + "attendance_revise.approved\r\n"
 			+ "FROM attendance_revise\r\n"
 			+ "INNER JOIN shift_allocation ON attendance_revise.date = shift_allocation.date AND"
-			+ " attendance_revise.employee_id = shift_allocation.employee_id AND"
-			+ " attendance_revise.shift_id = shift_allocation.shift_id WHERE attendance_revise.company_id = :companyId AND shift_allocation.company_id = :companyId", nativeQuery = true)
+			+ " attendance_revise.employee_id = shift_allocation.employee_id AND attendance_revise.company_id = shift_allocation.company_id AND"
+			+ " attendance_revise.shift_id = shift_allocation.shift_id WHERE attendance_revise.company_id = :companyId", nativeQuery = true)
 	public List<String> loadAttendanceRevises(@Param("companyId") String companyId);
 
 	@Query(value = "SELECT attendance_revise.revise_id, DATE_FORMAT(attendance_revise.submit_date, \"%d-%m-%Y\"), attendance_revise.attendance_id, shift_allocation.department_name, attendance_revise.employee_id, shift_allocation.employee_name, attendance_revise.shift_id, shift_allocation.shift_name, \r\n"
@@ -32,8 +32,8 @@ public interface AttendanceReviseRepository extends CrudRepository<AttendanceRev
 			+ "FROM attendance_revise \r\n"
 			+ "INNER JOIN shift_allocation ON attendance_revise.date = shift_allocation.date AND\r\n"
 			+ "attendance_revise.employee_id = shift_allocation.employee_id AND\r\n"
-			+ "attendance_revise.shift_id = shift_allocation.shift_id\r\n"
-			+ "WHERE attendance_revise.submit_date BETWEEN :startDate AND :endDate AND attendance_revise.company_id = :companyId AND shift_allocation.company_id = :companyId", nativeQuery = true)
+			+ "attendance_revise.shift_id = shift_allocation.shift_id  AND attendance_revise.company_id = shift_allocation.company_id\r\n"
+			+ "WHERE attendance_revise.submit_date BETWEEN :startDate AND :endDate AND attendance_revise.company_id = :companyId", nativeQuery = true)
 	public List<String> loadAttendanceRevisesByDate(@Param("startDate") String startDate,
 			@Param("endDate") String endDate, @Param("companyId") String companyId);
 
@@ -41,9 +41,9 @@ public interface AttendanceReviseRepository extends CrudRepository<AttendanceRev
 			+ "DATE_FORMAT(attendance_revise.date, \"%d-%m-%Y\"), attendance_revise.on_time, attendance_revise.off_time, attendance_revise.new_on_time, attendance_revise.new_off_time, attendance_revise.remark, attendance_revise.approved, attendance_revise.company_id \r\n"
 			+ "FROM attendance_revise \r\n"
 			+ "INNER JOIN shift_allocation ON attendance_revise.date = shift_allocation.date AND\r\n"
-			+ "attendance_revise.employee_id = shift_allocation.employee_id AND\r\n"
+			+ "attendance_revise.employee_id = shift_allocation.employee_id AND attendance_revise.company_id = shift_allocation.company_id AND\r\n"
 			+ "attendance_revise.shift_id = shift_allocation.shift_id\r\n"
-			+ "WHERE attendance_revise.submit_date BETWEEN :startDate AND :endDate AND attendance_revise.approved = :approvalStatus AND attendance_revise.company_id = :companyId AND shift_allocation.company_id = :companyId", nativeQuery = true)
+			+ "WHERE attendance_revise.submit_date BETWEEN :startDate AND :endDate AND attendance_revise.approved = :approvalStatus AND attendance_revise.company_id = :companyId", nativeQuery = true)
 	public List<String> loadAttendanceRevisesByApprovalStatus(@Param("startDate") String startDate,
 			@Param("endDate") String endDate, @Param("approvalStatus") int approvalStatus,
 			@Param("companyId") String companyId);

@@ -110,16 +110,8 @@ public class EmployeeAttendanceService {
 				departmentId, employeeId, shiftId, approvalStatus, companyId);
 	}
 
-	public String[][] loadMainReportDetails3(int year, int month, String employeeId, String companyId) {
-		return employeeAttendanceRepository.loadMainReportDetails3(year, month, employeeId, companyId);
-	}
-
 	public List<String> loadSubReportDetails(int year, int month, String employeeId, String companyId) {
 		return employeeAttendanceRepository.loadSubReportDetails(year, month, employeeId, companyId);
-	}
-
-	public String[][] loadSubReportDetails3(int year, int month, String employeeId, String companyId) {
-		return employeeAttendanceRepository.loadSubReportDetails3(year, month, employeeId, companyId);
 	}
 
 	public EmployeeAttendance findEmployeeAttendanceByDetails(String date, String shiftId, String employeeId,

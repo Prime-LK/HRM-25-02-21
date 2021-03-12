@@ -2,6 +2,8 @@ package com.prime.hrm.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,8 +23,9 @@ public class AllocatedShiftsController {
 	}
 
 	@ModelAttribute("shiftAllocationList")
-	public List<String> getAllShiftAllocations() {
-		List<String> allocations = shiftAllocationService.loadShiftAllocation();
+	public List<String> getAllShiftAllocations(HttpSession session) {
+		String companyId = session.getAttribute("company.comID").toString();
+		List<String> allocations = shiftAllocationService.loadShiftAllocationsByCompany(companyId);
 		return allocations;
 	}
 }
