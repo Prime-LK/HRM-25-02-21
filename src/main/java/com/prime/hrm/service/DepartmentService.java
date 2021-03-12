@@ -38,4 +38,11 @@ public class DepartmentService {
 		return (List<DepartmentMaster>) depRepo.getallsaveddepartment();
 	}
 	
+	public DepartmentMaster getDepartmentByIdAndCompany(String departmentId, String companyId) {
+		return depRepo.getDepartmentByIdAndCompany(departmentId, companyId);
+	}
+	
+	public List<DepartmentMaster> getDepartmentsByCompany(String companyId) {
+		return (List<DepartmentMaster>) depRepo.getDepartmentsByCompany(companyId);
+	}
 }

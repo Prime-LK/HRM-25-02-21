@@ -276,5 +276,8 @@ public class EmployeeService {
 	public Employee updateDetailsUsingEmpName(String name) {
 		return empRepo.updateDetailsUsingEmpName(name);
 	}
-
+	
+	public List<EmployeeDetails> filterEmployeesByDepartmentAndCompany(String departmentId, String companyId) {
+		return empDeRepo.filterEmployeesByDepartmentAndCompany(departmentId, companyId);
+	}
 }
