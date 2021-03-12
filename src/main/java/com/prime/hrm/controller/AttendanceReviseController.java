@@ -118,14 +118,4 @@ public class AttendanceReviseController {
 		}
 		return "AttendanceRevise";
 	}
-
-	@GetMapping("/getAttendanceSheet")
-	public String getAttendanceSheet(@RequestParam("year") String year, @RequestParam("month") String month,
-			@RequestParam("employeeId") String employeeId, Map<String, Object> model, HttpSession session) {
-		String companyId = session.getAttribute("company.comID").toString();
-		List<String> attendanceSheet = employeeAttendanceService.loadSubReportDetails(Integer.valueOf(year),
-				Integer.valueOf(month), employeeId, companyId);
-		model.put("employeeAttendanceSheet", attendanceSheet);
-		return "attendanceRevise";
-	}
 }

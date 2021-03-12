@@ -157,4 +157,9 @@ public class EmployeeAttendanceService {
 			String companyId) {
 		return employeeAttendanceRepository.loadAttendanceSubReportDetails(startDate, endDate, employeeId, companyId);
 	}
+	
+	public List<String> loadAttendanceSubReportDetails2(String startDate, String endDate, String employeeId,
+			String companyId) {
+		return employeeAttendanceRepository.loadAttendanceSubReportDetails2(startDate, endDate, employeeId, companyId);
+	}
 }

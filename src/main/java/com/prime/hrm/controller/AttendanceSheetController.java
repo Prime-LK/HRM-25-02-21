@@ -40,11 +40,11 @@ public class AttendanceSheetController {
 	}
 
 	@GetMapping("/getSheet")
-	public String getSheet(@RequestParam("year") String year, @RequestParam("month") String month,
+	public String getSheet(@RequestParam("startDate") String startDate, @RequestParam("endDate") String endDate, 
 			@RequestParam("employeeId") String employeeId, Map<String, Object> model, HttpSession session) {
 		String companyId = session.getAttribute("company.comID").toString();
-		List<String> sheet = employeeAttendanceService.loadSubReportDetails(Integer.valueOf(year),
-				Integer.valueOf(month), employeeId, companyId);
+		List<String> sheet = employeeAttendanceService.loadAttendanceSubReportDetails2(startDate, endDate,
+				employeeId, companyId);
 		model.put("attendanceSheet", sheet);
 		return "attendanceSheet";
 	}
