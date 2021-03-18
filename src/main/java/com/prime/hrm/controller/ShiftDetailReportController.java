@@ -360,22 +360,7 @@ public class ShiftDetailReportController {
 		params.put("department", departmentId);
 		params.put("employee", employeeId);
 		params.put("shift", shiftId);
-		// JasperReport jasperReport =
-		// GenerateJasperReport.getInstance().getCompiledFile(reportFileName, request);
-		// String report =
-		// GenerateJasperReport.getInstance().generatePDFReportFromBeanCollection(response,
-		// params, jasperReport, new JRBeanCollectionDataSource(list), fileName);
-
-		/*
-		 * JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, params,
-		 * new JRBeanCollectionDataSource(list));
-		 * GenerateJasperReport.getInstance().generateReportHtml(jasperPrint, request,
-		 * response); // For HTML report
-		 */
-
-		// String report =
-		// GenerateJasperReport.getInstance().pdfReportViewInlineSystemOpen("shift_detail_report.jasper",
-		// fileName, list, params);
+		
 		ReportViewe review = new ReportViewe();
 		String report = review.pdfReportViewInlineSystemOpen("shift_detail_report.jasper", fileName, list, params,
 				response);

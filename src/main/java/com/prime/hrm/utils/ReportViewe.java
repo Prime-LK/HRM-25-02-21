@@ -58,6 +58,7 @@ public class ReportViewe {
 	public String pdfReportViewInlineSystemOpen(String jasperName, String reportName, Collection<?> rates,
 			Map<String, Object> params, HttpServletResponse response) throws Exception {
 		InputStream jasperStream = getClass().getResourceAsStream("/hrmreport/" + jasperName);
+		System.out.println("Report : " + jasperStream);
 		JasperPrint jasperPrint = null;
 		if (rates != null) {
 			JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(rates);

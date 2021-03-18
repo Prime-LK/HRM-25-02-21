@@ -40,14 +40,14 @@ public class GenerateJasperReport {
 
 	public JasperReport getCompiledFile(String fileName, HttpServletRequest request) throws JRException {
 		System.out.println(
-				"path " + request.getSession().getServletContext().getRealPath("/report/" + fileName + ".jasper"));
+				"path " + request.getSession().getServletContext().getRealPath("/WEB-INF/classes/hrmreport/" + fileName + ".jasper"));
 		File reportFile = new File(
-				request.getSession().getServletContext().getRealPath("/report/" + fileName + ".jasper"));
+				request.getSession().getServletContext().getRealPath("/WEB-INF/classes/hrmreport/" + fileName + ".jasper"));
 		// If compiled file is not found, then compile XML template
 		if (!reportFile.exists()) {
 			JasperCompileManager.compileReportToFile(
-					request.getSession().getServletContext().getRealPath("/report/" + fileName + ".jrxml"),
-					request.getSession().getServletContext().getRealPath("/report/" + fileName + ".jasper"));
+					request.getSession().getServletContext().getRealPath("/WEB-INF/classes/hrmreport/" + fileName + ".jrxml"),
+					request.getSession().getServletContext().getRealPath("/WEB-INF/classes/hrmreport/" + fileName + ".jasper"));
 		}
 		JasperReport jasperReport = (JasperReport) JRLoader.loadObjectFromFile(reportFile.getPath());
 		return jasperReport;
@@ -148,6 +148,33 @@ public class GenerateJasperReport {
 
 		} else {
 			jasperPrint = JasperFillManager.fillReport(jasperStream, params, new JREmptyDataSource());
+
+		}
+		File destFile = new File(reportName + ".pdf");
+
+		JRPdfExporter pdfExporter = new JRPdfExporter();
+		pdfExporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+		pdfExporter.setExporterOutput(new SimpleOutputStreamExporterOutput(destFile));
+		ByteArrayOutputStream pdfReportStream = new ByteArrayOutputStream();
+		pdfExporter.setExporterOutput(new SimpleOutputStreamExporterOutput(pdfReportStream));
+		pdfExporter.exportReport();
+
+		String pdfCode = Base64.getEncoder().encodeToString(pdfReportStream.toByteArray());
+		pdfReportStream.close();
+		return pdfCode;
+	}
+	
+	public String pdfReportOpenInSystem(String fileName, String reportName, Collection<?> list,
+			Map<String, Object> params, HttpServletResponse response, HttpServletRequest request) throws Exception {
+		//InputStream jasperStream = getClass().getResourceAsStream("/hrmreport/" + jasperName);
+		JasperReport jasperReport = getCompiledFile(fileName, request);
+		JasperPrint jasperPrint = null;
+		if (list != null) {
+			JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(list);
+			jasperPrint = JasperFillManager.fillReport(jasperReport, params, dataSource);
+
+		} else {
+			jasperPrint = JasperFillManager.fillReport(jasperReport, params, new JREmptyDataSource());
 
 		}
 		File destFile = new File(reportName + ".pdf");

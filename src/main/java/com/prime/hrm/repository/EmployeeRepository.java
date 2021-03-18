@@ -53,6 +53,9 @@ public interface EmployeeRepository extends CrudRepository<Employee, String> {
 
 	@Query(value="select * from employee_master where concat(name,' ',lastname) =:name",nativeQuery=true)
 	public Employee updateDetailsUsingEmpName(@Param("name")String name);
+
+	@Query(value = "SELECT e FROM Employee e WHERE e.empID = :employeeId AND e.company.comID = :companyId")
+	public Employee getEmployeeByCompany(@Param("employeeId") String employeeId, @Param("companyId") String companyId);
 	
 }
 

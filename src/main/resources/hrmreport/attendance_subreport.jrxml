@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.9.0.final using JasperReports Library version 6.9.0-cb8f9004be492ccc537180b49c026951f4220bf3  -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="attendance_subreport" pageWidth="842" pageHeight="595" orientation="Landscape" whenNoDataType="NoPages" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="ec1db898-efe6-45e9-a6f9-a06aa4841e63">
-	<property name="ireport.zoom" value="1.6105100000000077"/>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="attendance_subreport" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="ec1db898-efe6-45e9-a6f9-a06aa4841e63">
+	<property name="ireport.zoom" value="1.7715610000000088"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<field name="date" class="java.lang.String"/>
 	<field name="weekday" class="java.lang.String"/>
 	<field name="day_type" class="java.lang.String"/>
-	<field name="shift" class="java.lang.String"/>
-	<field name="start_time" class="java.lang.String"/>
-	<field name="end_time" class="java.lang.String"/>
 	<field name="on_time" class="java.lang.String"/>
 	<field name="off_time" class="java.lang.String"/>
 	<field name="worked_time" class="java.lang.String"/>
@@ -61,20 +57,6 @@
 				<text><![CDATA[Day Type]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="180" y="0" width="60" height="20" forecolor="#FF0000" backcolor="#E6E6E6" uuid="2c431c97-4d95-4bcb-a6f9-ed60d5ba6274"/>
-				<box>
-					<pen lineWidth="0.0"/>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[Shift]]></text>
-			</staticText>
-			<staticText>
 				<reportElement mode="Opaque" x="240" y="0" width="75" height="20" forecolor="#FF0000" backcolor="#E6E6E6" uuid="7fbbbaef-60a3-45e3-8457-671867644e91"/>
 				<box>
 					<pen lineWidth="0.0"/>
@@ -86,7 +68,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[Start Time]]></text>
+				<text><![CDATA[On Time]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Opaque" x="315" y="0" width="75" height="20" forecolor="#FF0000" backcolor="#E6E6E6" uuid="44cbb740-b0a4-4cf6-b7ac-7d52e1742c55"/>
@@ -100,7 +82,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[End Time]]></text>
+				<text><![CDATA[Off Time]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Opaque" x="390" y="0" width="66" height="20" forecolor="#FF0000" backcolor="#E6E6E6" uuid="5eb1c887-7958-46d7-902d-0dc73863b870"/>
@@ -178,6 +160,9 @@
 					<bottomPen lineWidth="1.0"/>
 					<rightPen lineWidth="1.0"/>
 				</box>
+				<textElement>
+					<font size="6"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{date}]]></textFieldExpression>
 			</textField>
 			<textField>
@@ -189,6 +174,9 @@
 					<bottomPen lineWidth="1.0"/>
 					<rightPen lineWidth="1.0"/>
 				</box>
+				<textElement>
+					<font size="6"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{weekday}]]></textFieldExpression>
 			</textField>
 			<textField>
@@ -200,18 +188,10 @@
 					<bottomPen lineWidth="1.0"/>
 					<rightPen lineWidth="1.0"/>
 				</box>
+				<textElement>
+					<font size="6"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{day_type}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="180" y="0" width="60" height="10" uuid="1ebbf9e1-a0a3-4fa4-8627-956d47c62412"/>
-				<box>
-					<pen lineWidth="1.0"/>
-					<topPen lineWidth="1.0"/>
-					<leftPen lineWidth="1.0"/>
-					<bottomPen lineWidth="1.0"/>
-					<rightPen lineWidth="1.0"/>
-				</box>
-				<textFieldExpression><![CDATA[$F{shift}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="240" y="0" width="75" height="10" uuid="6f6e6524-d7a1-4fc6-904c-7b77f1b7ef25"/>
@@ -222,7 +202,10 @@
 					<bottomPen lineWidth="1.0"/>
 					<rightPen lineWidth="1.0"/>
 				</box>
-				<textFieldExpression><![CDATA[$F{start_time}]]></textFieldExpression>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{on_time}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="315" y="0" width="75" height="10" uuid="fddefd3f-8721-42da-a29f-290137a1f56f"/>
@@ -233,7 +216,10 @@
 					<bottomPen lineWidth="1.0"/>
 					<rightPen lineWidth="1.0"/>
 				</box>
-				<textFieldExpression><![CDATA[$F{end_time}]]></textFieldExpression>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{off_time}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="390" y="0" width="66" height="10" uuid="ed929b58-31b4-4647-8ebc-285a767d40f0"/>
@@ -244,6 +230,9 @@
 					<bottomPen lineWidth="1.0"/>
 					<rightPen lineWidth="1.0"/>
 				</box>
+				<textElement>
+					<font size="6"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{worked_time}]]></textFieldExpression>
 			</textField>
 			<textField>
@@ -255,6 +244,9 @@
 					<bottomPen lineWidth="1.0"/>
 					<rightPen lineWidth="1.0"/>
 				</box>
+				<textElement>
+					<font size="6"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{over_time}]]></textFieldExpression>
 			</textField>
 			<textField>
@@ -266,6 +258,9 @@
 					<bottomPen lineWidth="1.0"/>
 					<rightPen lineWidth="1.0"/>
 				</box>
+				<textElement>
+					<font size="6"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{short_time}]]></textFieldExpression>
 			</textField>
 			<textField>
@@ -277,6 +272,9 @@
 					<bottomPen lineWidth="1.0"/>
 					<rightPen lineWidth="1.0"/>
 				</box>
+				<textElement>
+					<font size="6"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{attendance_description}]]></textFieldExpression>
 			</textField>
 			<rectangle>

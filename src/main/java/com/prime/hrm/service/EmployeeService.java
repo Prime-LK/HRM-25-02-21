@@ -115,6 +115,10 @@ public class EmployeeService {
 		return empRepo.findById(id).get();
 	}
 	
+	public Employee getEmployeeByCompany(String employeeId, String companyId) {
+		return empRepo.getEmployeeByCompany(employeeId, companyId);
+	}
+	
 	//employee contact type-------------------------------------
 	
 	public String maxCTypeID() {

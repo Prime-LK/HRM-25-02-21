@@ -146,7 +146,7 @@
 													<div class="form-group row">
 														<div class="col-sm-4">
 															<label>Department</label> <select id="selectDepartment"
-																name=""
+																name="departmentId"
 																class="form-control form-control-user col-12 foo text-capitalize"
 																onchange="loadEmployeesByDepartment()">
 																<option value="" disabled selected>- Select

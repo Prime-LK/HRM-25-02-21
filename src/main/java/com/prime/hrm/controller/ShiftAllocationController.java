@@ -129,7 +129,9 @@ public class ShiftAllocationController {
 
 			if (allEmployees == 1) {
 
-				List<EmployeeDetails> department = employeeService.filterRelatedData(departmentId);
+				//List<EmployeeDetails> department = employeeService.filterRelatedData(departmentId);
+				List<EmployeeDetails> department = employeeService.filterEmployeesByDepartmentAndCompany(departmentId,
+						companyId);
 
 				for (int i = 0; i < department.size(); i++) {
 					empId = department.get(i).getDetailsPK().getEmpID().getEmpID().toString();
@@ -158,7 +160,7 @@ public class ShiftAllocationController {
 				shiftAllocationService.saveShiftAllocations(list);
 			} else if (allEmployees == 0) {
 
-				Employee employee = employeeService.getEmp(employeeId);
+				Employee employee = employeeService.getEmployeeByCompany(employeeId, companyId);
 				employeeName = employee.getName() + " " + employee.getLastname();
 
 				for (LocalDate date = d1.toLocalDate(); date

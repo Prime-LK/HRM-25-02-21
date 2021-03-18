@@ -158,8 +158,22 @@ public class EmployeeAttendanceService {
 		return employeeAttendanceRepository.loadAttendanceSubReportDetails(startDate, endDate, employeeId, companyId);
 	}
 	
+	public String[][] loadAttendanceSubSheet(String startDate, String endDate, String employeeId,
+			String companyId) {
+		return employeeAttendanceRepository.loadAttendanceSubSheet(startDate, endDate, employeeId, companyId);
+	}
+	
+	public String[][] loadAttendanceMainSheet(String startDate, String endDate, String employeeId,
+			String companyId) {
+		return employeeAttendanceRepository.loadAttendanceMainSheet(startDate, endDate, employeeId, companyId);
+	}
+	
 	public List<String> loadAttendanceSubReportDetails2(String startDate, String endDate, String employeeId,
 			String companyId) {
 		return employeeAttendanceRepository.loadAttendanceSubReportDetails2(startDate, endDate, employeeId, companyId);
+	}
+
+	public String getDepartmentByIdAndCompany(String departmentId, String companyId) {
+		return employeeAttendanceRepository.getDepartmentByIdAndCompany(departmentId, companyId);
 	}
 }

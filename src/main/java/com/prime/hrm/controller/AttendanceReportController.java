@@ -1,6 +1,8 @@
 package com.prime.hrm.controller;
 
 import java.io.InputStream;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,13 +23,21 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.prime.hrm.entity.DepartmentMaster;
+import com.prime.hrm.entity.Employee;
+import com.prime.hrm.entity.EmployeeDetails;
 import com.prime.hrm.entity.ShiftMaster;
 import com.prime.hrm.report.AttendanceMainReportBean;
+import com.prime.hrm.report.AttendanceMainSheetBean;
+import com.prime.hrm.report.AttendanceSubSheetBean;
 import com.prime.hrm.report.AttendanceSubReportBean;
 import com.prime.hrm.service.DepartmentService;
 import com.prime.hrm.service.EmployeeAttendanceService;
+import com.prime.hrm.service.EmployeeService;
 import com.prime.hrm.service.ShiftMasterService;
+import com.prime.hrm.utils.GenerateJasperReport;
 import com.prime.hrm.utils.ReportViewe;
+
+import net.sf.jasperreports.engine.JasperReport;
 
 @Controller
 public class AttendanceReportController {
@@ -41,8 +51,8 @@ public class AttendanceReportController {
 	@Autowired
 	private EmployeeAttendanceService employeeAttendanceService;
 
-	@PersistenceContext
-	EntityManager entityManager;
+	@Autowired
+	private EmployeeService employeeService;
 
 	@GetMapping("/AttendanceReport")
 	public String AttendanceReportPage() {
@@ -87,67 +97,68 @@ public class AttendanceReportController {
 	}
 
 	@GetMapping("/generateReport")
-	public ModelAndView generateReport(@RequestParam("startDate") String startDate,
-			@RequestParam("endDate") String endDate, @RequestParam("employeeId") String employeeId,
+	public ModelAndView generateReport(@RequestParam("startDate") String startDate, @RequestParam("endDate") String endDate, 
+			@RequestParam("departmentId") String departmentId, @RequestParam("employeeId") String employeeId,
 			HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
-
-		String reportFileName1 = "attendance_report";
-		String reportFileName2 = "attendance_subreport.jasper";
-		String fileName = "Attendance Report: " + employeeId + "-" + startDate + "-" + endDate;
-		List<AttendanceMainReportBean> list = new ArrayList<>();
-		List<AttendanceSubReportBean> list2 = new ArrayList<>();
+		
+		String fileName = "Attendance Sheet: " + employeeId + "-" + startDate + "-" + endDate;
+		List<AttendanceMainSheetBean> list = new ArrayList<>();
+		List<AttendanceSubSheetBean> list2 = new ArrayList<>();
 		String companyId = session.getAttribute("company.comID").toString();
 
-		String[][] result = employeeAttendanceService.loadAttedanceMainReportDetails(startDate, endDate, employeeId,
+		String department = employeeAttendanceService.getDepartmentByIdAndCompany(departmentId,
+				companyId);
+		System.out.println("Department : " + department);
+		Employee employee = employeeService.getEmployeeByCompany(employeeId, companyId);
+		String employeeName = employee.getName() + " " + employee.getLastname();
+		System.out.println("Employee Name : " + employeeName);
+		
+		DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		DateFormat formatter1 = new SimpleDateFormat("dd.MM.yyyy");
+		HashMap<String, Object> params = new HashMap<String, Object>();
+		params.put("start_date", formatter1.format(formatter.parse(startDate)));
+		params.put("end_date", formatter1.format(formatter.parse(endDate)));
+		params.put("department", department);
+		params.put("employee_id", employeeId);
+		params.put("employee_name", employeeName);
+		
+		
+		
+		String[][] result = employeeAttendanceService.loadAttendanceMainSheet(startDate, endDate, employeeId,
 				companyId);
 		for (int i = 0; i < result.length; i++) {
-			AttendanceMainReportBean attendance = new AttendanceMainReportBean();
-			attendance.setYear(result[i][0]);
-			attendance.setMonth(result[i][1]);
-			attendance.setEmployee_id(result[i][2]);
-			attendance.setEmployee_name(result[i][3]);
-			attendance.setTotal_over_time(result[i][4]);
-			attendance.setTotal_short_time(result[i][5]);
-			attendance.setTotal_worked_days(result[i][6]);
-			attendance.setTotal_absent_days(result[i][7]);
-			attendance.setTotal_holidays(result[i][8]);
-			attendance.setTotal_rest_days(result[i][9]);
-			String[][] result2 = employeeAttendanceService.loadAttendanceSubReportDetails(startDate, endDate,
+			AttendanceMainSheetBean attendance = new AttendanceMainSheetBean();
+			attendance.setTotal_over_time(result[i][0]);
+			attendance.setTotal_short_time(result[i][1]);
+			attendance.setTotal_worked_days(result[i][2]);
+			attendance.setTotal_absent_days(result[i][3]);
+			attendance.setTotal_holidays(result[i][4]);
+			attendance.setTotal_rest_days(result[i][5]);
+			String[][] result2 = employeeAttendanceService.loadAttendanceSubSheet(startDate, endDate,
 					employeeId, companyId);
 			for (int j = 0; j < result2.length; j++) {
-				AttendanceSubReportBean subattendance = new AttendanceSubReportBean();
+				AttendanceSubSheetBean subattendance = new AttendanceSubSheetBean();
 				subattendance.setDate(result2[j][0]);
 				subattendance.setWeekday(result2[j][1]);
 				subattendance.setDay_type(result2[j][2]);
-				subattendance.setOn_time(result2[j][3]);
-				subattendance.setOff_time(result2[j][4]);
-				subattendance.setWorked_time(result2[j][5]);
-				subattendance.setOver_time(result2[j][6]);
-				subattendance.setShort_time(result2[j][7]);
-				subattendance.setAttendance_description(result2[j][8]);
+				subattendance.setShift(result2[j][3]);
+				subattendance.setStart_time(result2[j][4]);
+				subattendance.setEnd_time(result2[j][5]);
+				subattendance.setOn_time(result2[j][6]);
+				subattendance.setOff_time(result2[j][7]);
+				subattendance.setWorked_time(result2[j][8]);
+				subattendance.setOver_time(result2[j][9]);
+				subattendance.setShort_time(result2[j][10]);
+				subattendance.setAttendance_description(result2[j][11]);
 				list2.add(subattendance);
 			}
 			attendance.setSubReportBeanList(list2);
 			list.add(attendance);
 		}
+		
 
-		// JasperReport jasperReport =
-		// GenerateJasperReport.getInstance().getCompiledFile(reportFileName1, request);
-		// JasperReport jasperReport2 =
-		// GenerateJasperReport.getInstance().getCompiledFile(reportFileName2, request);
-
-		InputStream jasperStream = getClass().getResourceAsStream("/" + reportFileName2);
-		System.out.println("Sub Report : " + jasperStream);
-		HashMap<String, Object> params = new HashMap<String, Object>();
-		params.put("SUBREPORT_DIR", jasperStream);
-		/*
-		 * String report =
-		 * GenerateJasperReport.getInstance().generatePDFReportFromBeanCollection(
-		 * response, params, jasperReport, new JRBeanCollectionDataSource(list),
-		 * fileName);
-		 */
 		ReportViewe review = new ReportViewe();
-		String report = review.pdfReportViewInlineSystemOpen("attendance_report.jasper", fileName, list, params,
+		String report = review.pdfReportViewInlineSystemOpen("attendance_sheet.jasper", fileName, list, params,
 				response);
 		ModelAndView mav = new ModelAndView("attendanceReportPreview");
 		mav.addObject("pdfViewEq", report);
