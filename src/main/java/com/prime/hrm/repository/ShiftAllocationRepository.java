@@ -32,7 +32,7 @@ public interface ShiftAllocationRepository extends CrudRepository<ShiftAllocatio
 	public ShiftAllocation findShiftAllocationByDetails(@Param("date") String date, @Param("shiftId") String shiftId,
 			@Param("employeeId") String employeeId);
 
-	@Query(value = "SELECT * FROM shift_allocation WHERE shift_allocation.date=:date AND shift_allocation.shift_id=:shiftId AND shift_allocation.employee_id=:employeeId AND shift_allocation.companyId=:companyId", nativeQuery = true)
+	@Query(value = "SELECT * FROM shift_allocation WHERE shift_allocation.date=:date AND shift_allocation.shift_id=:shiftId AND shift_allocation.employee_id=:employeeId AND shift_allocation.company_id=:companyId", nativeQuery = true)
 	public ShiftAllocation findShiftAllocationByDetailsByCompany(@Param("date") String date,
 			@Param("shiftId") String shiftId, @Param("employeeId") String employeeId,
 			@Param("companyId") String companyId);
