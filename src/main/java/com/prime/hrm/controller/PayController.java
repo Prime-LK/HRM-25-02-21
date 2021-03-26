@@ -52,7 +52,7 @@ import com.prime.hrm.service.ProcessPayrollMasterService;
 
 @Controller
 public class PayController {
-
+	
 	@Autowired
 	private PayService payService;
 
