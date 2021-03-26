@@ -18,6 +18,10 @@ public class ProcessPayrollDetailsService {
 		return (List<ProcessPayrollDetails>) proPaDeRepo.saveAll(details);
 	} 
 	
+	public List<ProcessPayrollDetails> getAllRecords() {
+		return (List<ProcessPayrollDetails>) proPaDeRepo.findAll();
+	}
+	
 	public void saveObjData(ProcessPayrollDetails detail) {
 		 proPaDeRepo.save(detail);
 	}

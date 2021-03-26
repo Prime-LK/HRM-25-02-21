@@ -95,6 +95,10 @@ public interface EmployeeDetailsRepository extends CrudRepository<EmployeeDetail
 	@Query(value="SELECT er FROM EmployeeDetails er WHERE er.empType.tid=:tid")
 	public List<EmployeeDetails> filterEmpbasedONtypes(@Param("tid") String tid);
 	
+	//get employee  to employee salary details
+	@Query(value="SELECT er FROM EmployeeDetails er WHERE er.detailsPK.empID.empID=:empID")
+	public List<EmployeeDetails> filterEmployee(@Param("empID") String empID);
+	
 	
 	//get all employee for employee salary details 
     @Query(value = "SELECT e FROM EmployeeDetails e")
@@ -305,6 +309,4 @@ public interface EmployeeDetailsRepository extends CrudRepository<EmployeeDetail
 			"group by c.Employee_ID order by c.Employee_ID",nativeQuery=true)
 	public String[][] newPayrollReport();
 	
-	@Query(value="SELECT er FROM EmployeeDetails er WHERE er.department.depID=:departmentId AND er.company.comID=:companyId")
-	public List<EmployeeDetails> filterEmployeesByDepartmentAndCompany(@Param("departmentId") String departmentId, @Param("companyId") String companyId);
 }

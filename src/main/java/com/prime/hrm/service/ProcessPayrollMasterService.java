@@ -50,8 +50,13 @@ public class ProcessPayrollMasterService {
 	}
 	
 	//table 03
-	public String[][] loadTable03Data(String payCodeID,String empID) {
-		return proPaMaRepo.loadTable03Data(payCodeID, empID);
+	public String[][] loadTable03Data(String payCodeID,String empID,String comID) {
+		return proPaMaRepo.loadTable03Data(payCodeID, empID,comID);
+	}
+	
+	//table 03 basic data
+	public String[][] loadTable03BasicData(String payCodeID,String empID,String comID) {
+		return proPaMaRepo.loadTable03BasicData(payCodeID, empID,comID);
 	}
 	
 	//calPrioritData

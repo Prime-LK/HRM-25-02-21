@@ -452,7 +452,7 @@ public interface ProcessPayrollMasterRepository extends JpaRepository<ProcessPay
 	//load processPayroll tables data
 	//table 01
 	@Query(value="select \r\n" + 
-			"count(empId) as emps, sum(basicSalary) as basicSalary,\r\n" + 
+			"count(empId) as emps, format(sum(basicSalary),2) as basicSalary,\r\n" + 
 			"format(sum(fixAddVal + additionBasicPer + additionGrossPer + addVarVal + addVarBasicPer + additionGrossPerVar),2) as addition,\r\n" + 
 			"format(sum(fixDedVal + dedFixrBasicPer + deductionGrossPer + tot_ded_var_value + dedVarBasicPer + deductionGrossPerVar),2) as deduction,\r\n" + 
 			"format(sum(othVal + otherBasicPer + othGrossPer + tot_oth_var_value + OthVarBasicPer + otherGrossPerVar),2) as other\r\n" + 
@@ -647,83 +647,89 @@ public interface ProcessPayrollMasterRepository extends JpaRepository<ProcessPay
 	public String[][] loadTable02Data(@Param("Pay_Code_ID")String payCodeID);
 	
 	//table 03
-	@Query(value="select\r\n" + 
-			"e.Employee_ID as empId, d.Name as empName,d.lastname as lname, e.basicSalary as basicSalary,\r\n" + 
-			"-- --------------------------------------------------------------------------------------------------------------------\r\n" + 
-			"(if(c.Add_Deduct_Status = 'addition' and c.Is_Percentage = 'value', c.Description ,'')) as addValDesc, \r\n" + 
-			"(if(c.Add_Deduct_Status = 'addition' and c.Is_Percentage = 'value', c.Add_Deduct_Value ,'')) as addVal, \r\n" + 
-			"(if(c.Add_Deduct_Status = 'addition' and c.Is_Percentage = 'percentage' and Is_On_Basic_Salary =  'basicSalary',  c.Description ,'')) as addPerBasicDesc,\r\n" + 
-			"(if(c.Add_Deduct_Status = 'addition' and c.Is_Percentage = 'percentage' and Is_On_Basic_Salary =  'basicSalary',  c.Add_Deduct_Value ,'')) as addPerBasic,\r\n" + 
-			"(if(c.Add_Deduct_Status = 'addition' and c.Is_Percentage = 'percentage' and Is_On_Basic_Salary =  'grossSalary',  c.Description ,''))  as addPerGrossDesc, \r\n" + 
-			"(if(c.Add_Deduct_Status = 'addition' and c.Is_Percentage = 'percentage' and Is_On_Basic_Salary =  'grossSalary',  c.Add_Deduct_Value ,''))  as addPerGross, \r\n" + 
-			"'' as addVarValDesc ,'' as addVarVal,\r\n" + 
-			"'' as addVarBasicDesc,'' as addVarBasic,\r\n" + 
-			"'' as addVarGrossDesc,'' as addVarGross,\r\n" + 
-			"-- ---------------------------------------------------------------------------------------------------------------------\r\n" + 
-			"(if(c.Add_Deduct_Status = 'deduction' and c.Is_Percentage = 'value', c.Description ,'')) as dedValDesc,	\r\n" + 
-			"(if(c.Add_Deduct_Status = 'deduction' and c.Is_Percentage = 'value', c.Add_Deduct_Value ,'')) as dedVal,	\r\n" + 
-			"(if(c.Add_Deduct_Status = 'deduction' and c.Is_Percentage = 'percentage' and Is_On_Basic_Salary =  'basicSalary',  c.Description ,'')) as dedPerBasicDesc,		\r\n" + 
-			"(if(c.Add_Deduct_Status = 'deduction' and c.Is_Percentage = 'percentage' and Is_On_Basic_Salary =  'basicSalary',  c.Add_Deduct_Value ,'')) as dedPerBasic,	\r\n" + 
-			"(if(c.Add_Deduct_Status = 'deduction' and c.Is_Percentage = 'percentage' and Is_On_Basic_Salary =  'grossSalary', c.Description ,'')) as dedPerGrossDesc,		\r\n" + 
-			"(if(c.Add_Deduct_Status = 'deduction' and c.Is_Percentage = 'percentage' and Is_On_Basic_Salary =  'grossSalary', c.Add_Deduct_Value ,'')) as dedPerGross, \r\n" + 
-			"'' as dedVarValDesc, '' as dedVarVal,\r\n" + 
-			"'' as dedVarBasicDesc,'' as dedVarBasic, \r\n" + 
-			"'' as dedVarGrossDesc,'' as dedVarGross,\r\n" + 
-			"-- ---------------------------------------------------------------------------------------------------------------------\r\n" + 
-			"(if(c.Add_Deduct_Status = 'other' and c.Is_Percentage = 'value', c.Description ,'')) as othValDesc,	\r\n" + 
-			"(if(c.Add_Deduct_Status = 'other' and c.Is_Percentage = 'value', c.Add_Deduct_Value ,'')) as othVal,\r\n" + 
-			"(if(c.Add_Deduct_Status = 'other' and c.Is_Percentage = 'percentage' and Is_On_Basic_Salary =  'basicSalary',  c.Description ,'')) as othPerBasicDesc,				\r\n" + 
-			"(if(c.Add_Deduct_Status = 'other' and c.Is_Percentage = 'percentage' and Is_On_Basic_Salary =  'basicSalary',  c.Add_Deduct_Value ,'')) as othPerBasic,	\r\n" + 
-			"(if(c.Add_Deduct_Status = 'other' and c.Is_Percentage = 'percentage' and Is_On_Basic_Salary =  'grossSalary', c.Description ,'')) as othPerGrossDesc,		\r\n" + 
-			"(if(c.Add_Deduct_Status = 'other' and c.Is_Percentage = 'percentage' and Is_On_Basic_Salary =  'grossSalary', c.Add_Deduct_Value ,'')) as othPerGross,\r\n" + 
-			" '' as othVarValDesc,'' as othVarVal,\r\n" + 
-			" '' as othVarBasicDesc,'' as othVarBasic,\r\n" + 
-			" '' as othVarGrossDesc,'' as othVarGross \r\n" + 
-			"from employee_salary_details a\r\n" + 
-			"inner join pay_add_deduct_types c on a.Pay_Add_Deduct_Type_Code = c.Pay_Add_Deduct_Type_Code\r\n" + 
-			"inner join employee_details e on a.Employee_ID = e.Employee_ID\r\n" + 
-			"inner join employee_master d on e.Employee_ID = d.Employee_ID\r\n" + 
-			"where a.Employee_ID =:Emp_ID\r\n" + 
-			"union all \r\n" + 
-			"select \r\n" + 
-			"a.Emp_ID as empId, b.Name as empName,b.lastname as lname, e.basicSalary as basicSalary, \r\n" + 
-			"-- --------------------------------------------------------------------------------------------------------------------\r\n" + 
-			"'' as addValDesc,'' as addVal,\r\n" + 
-			"'' as addPerBasicDesc,'' as addPerBasic,\r\n" + 
-			"'' as addPerGrossDesc,'' as dedPerGross,\r\n" + 
-			"(if(c.Add_Deduct_Status = 'addition' and c.Is_Percentage = 'value' ,  c.Description,''))as addVarValDesc,\r\n" + 
-			"(if(c.Add_Deduct_Status = 'addition' and c.Is_Percentage = 'value' ,  a.Amount  ,''))as addVarVal, \r\n" + 
-			"(if(c.Add_Deduct_Status = 'addition' and c.Is_Percentage = 'percentage' and Is_On_Basic_Salary =  'basicSalary',  c.Description ,'')) as addVarBasicDesc,\r\n" + 
-			"(if(c.Add_Deduct_Status = 'addition' and c.Is_Percentage = 'percentage' and Is_On_Basic_Salary =  'basicSalary',  a.Amount ,'')) as addVarBasic,	\r\n" + 
-			"(if(c.Add_Deduct_Status = 'addition' and c.Is_Percentage = 'percentage' and Is_On_Basic_Salary =  'grossSalary', c.Description ,'')) as addVarGrossDesc,	\r\n" + 
-			"(if(c.Add_Deduct_Status = 'addition' and c.Is_Percentage = 'percentage' and Is_On_Basic_Salary =  'grossSalary', a.Amount ,'')) as addVarGross, \r\n" + 
-			"-- ---------------------------------------------------------------------------------------------------------------------\r\n" + 
-			"'' as dedValDesc,'' as dedVal,\r\n" + 
-			"'' as dedPerBasicDesc, '' as dedPerBasic,\r\n" + 
-			"'' as dedPerGrossDesc,'' as dedPerGross,\r\n" + 
-			"(if(c.Add_Deduct_Status = 'deduction' and c.Is_Percentage = 'value', c.Description ,'')) as dedVarValDesc,\r\n" + 
-			"(if(c.Add_Deduct_Status = 'deduction' and c.Is_Percentage = 'value', a.Amount ,'')) as dedVarVal,\r\n" + 
-			"(if(c.Add_Deduct_Status = 'deduction' and c.Is_Percentage = 'percentage' and Is_On_Basic_Salary =  'basicSalary', c.Description ,'')) as dedVarBasicDesc,\r\n" + 
-			"(if(c.Add_Deduct_Status = 'deduction' and c.Is_Percentage = 'percentage' and Is_On_Basic_Salary =  'basicSalary', a.Amount ,'')) as dedVarBasic, \r\n" + 
-			"(if(c.Add_Deduct_Status = 'deduction' and c.Is_Percentage = 'percentage' and Is_On_Basic_Salary =  'grossSalary', c.Description ,''))	as dedVarGrossDesc, \r\n" + 
-			"(if(c.Add_Deduct_Status = 'deduction' and c.Is_Percentage = 'percentage' and Is_On_Basic_Salary =  'grossSalary', a.Amount ,''))	as dedVarGross, \r\n" + 
-			"-- ----------------------------------------------------------------------------------------------------------------------	\r\n" + 
-			"'' as othValDesc,'' as othVal, \r\n" + 
-			"'' as othPerBasicDesc,'' as othPerBasic,\r\n" + 
-			"'' as othPerGrossDesc,'' as othPerGross, \r\n" + 
-			"(if(c.Add_Deduct_Status = 'other' and c.Is_Percentage = 'value', c.Description ,'')) as othVarValDesc,\r\n" + 
-			"(if(c.Add_Deduct_Status = 'other' and c.Is_Percentage = 'value', a.Amount ,'')) as othVarVal,\r\n" + 
-			"(if(c.Add_Deduct_Status = 'other' and c.Is_Percentage = 'percentage' and Is_On_Basic_Salary =  'basicSalary', c.Description ,'')) as othVarBasicDesc, \r\n" + 
-			"(if(c.Add_Deduct_Status = 'other' and c.Is_Percentage = 'percentage' and Is_On_Basic_Salary =  'basicSalary', a.Amount ,'')) as othVarBasic,\r\n" + 
-			"(if(c.Add_Deduct_Status = 'other' and c.Is_Percentage = 'percentage' and Is_On_Basic_Salary =  'grossSalary', c.Description ,'')) as othVarGrossDesc,  \r\n" + 
-			"(if(c.Add_Deduct_Status = 'other' and c.Is_Percentage = 'percentage' and Is_On_Basic_Salary =  'grossSalary', a.Amount ,''))	as othVarGross \r\n" + 
-			"from emp_month_salary_details a\r\n" + 
-			"inner join pay_add_deduct_types c on a.Pay_Add_Deduct_Type_Code = c.Pay_Add_Deduct_Type_Code \r\n" + 
-			"inner join employee_master b on a.Emp_ID = b.Employee_ID  \r\n" + 
-			"inner join employee_details e on a.Emp_ID = e.Employee_ID\r\n" + 
-			"inner join pay_codes f on a.Pay_Code_ID = f.Pay_Code_ID \r\n" + 
-			"where f.Pay_Code_ID =:Pay_Code_ID and a.Emp_ID =:Emp_ID",nativeQuery=true)
-	public String[][] loadTable03Data(@Param("Pay_Code_ID")String payCodeID, @Param("Emp_ID")String empID);
+	@Query(value="select\n" + 
+			"e.Employee_ID as empId, d.Name as empName,d.lastname as lname, e.basicSalary as basicSalary,\n" + 
+			"-- Fixed Addition --------------\n" + 
+			"(if(c.Add_Deduct_Status = 'addition' and c.Is_Percentage = 'value' and c.Add_Deduct_Type = 'fixedType', c.Description ,'')) as addValDesc, \n" + 
+			"(if(c.Add_Deduct_Status = 'addition' and c.Is_Percentage = 'value' and c.Add_Deduct_Type = 'fixedType', c.Add_Deduct_Value ,'')) as addVal,  \n" + 
+			"(if(c.Add_Deduct_Status = 'addition' and c.Is_Percentage = 'percentage' and Is_On_Basic_Salary =  'basicSalary' and c.Add_Deduct_Type = 'fixedType',  c.Description ,'')) as addPerBasicDesc,\n" + 
+			"(if(c.Add_Deduct_Status = 'addition' and c.Is_Percentage = 'percentage' and Is_On_Basic_Salary =  'basicSalary' and c.Add_Deduct_Type = 'fixedType',  c.Add_Deduct_Value ,'')) as addPerBasic,\n" + 
+			"(if(c.Add_Deduct_Status = 'addition' and c.Is_Percentage = 'percentage' and Is_On_Basic_Salary =  'grossSalary' and c.Add_Deduct_Type = 'fixedType',  c.Description ,''))  as addPerGrossDesc,  \n" + 
+			"(if(c.Add_Deduct_Status = 'addition' and c.Is_Percentage = 'percentage' and Is_On_Basic_Salary =  'grossSalary' and c.Add_Deduct_Type = 'fixedType',  c.Add_Deduct_Value ,''))  as addPerGross, \n" + 
+			"'' as addVarValDesc ,'' as addVarVal,'' as addVarBasicDesc,'' as addVarBasic, '' as addVarGrossDesc,'' as addVarGross,\n" + 
+			"-- Fixed Deduction --------------\n" + 
+			"(if(c.Add_Deduct_Status = 'deduction' and c.Is_Percentage = 'value' and c.Add_Deduct_Type = 'fixedType', c.Description ,'')) as dedValDesc,	\n" + 
+			"(if(c.Add_Deduct_Status = 'deduction' and c.Is_Percentage = 'value' and c.Add_Deduct_Type = 'fixedType', c.Add_Deduct_Value ,'')) as dedVal,	\n" + 
+			"(if(c.Add_Deduct_Status = 'deduction' and c.Is_Percentage = 'percentage' and Is_On_Basic_Salary =  'basicSalary' and c.Add_Deduct_Type = 'fixedType',  c.Description ,'')) as dedPerBasicDesc,		\n" + 
+			"(if(c.Add_Deduct_Status = 'deduction' and c.Is_Percentage = 'percentage' and Is_On_Basic_Salary =  'basicSalary' and c.Add_Deduct_Type = 'fixedType',  c.Add_Deduct_Value ,'')) as dedPerBasic,	 \n" + 
+			"(if(c.Add_Deduct_Status = 'deduction' and c.Is_Percentage = 'percentage' and Is_On_Basic_Salary =  'grossSalary' and c.Add_Deduct_Type = 'fixedType', c.Description ,'')) as dedPerGrossDesc,		 \n" + 
+			"(if(c.Add_Deduct_Status = 'deduction' and c.Is_Percentage = 'percentage' and Is_On_Basic_Salary =  'grossSalary' and c.Add_Deduct_Type = 'fixedType', c.Add_Deduct_Value ,'')) as dedPerGross, \n" + 
+			"'' as dedVarValDesc, '' as dedVarVal,'' as dedVarBasicDesc,'' as dedVarBasic,  '' as dedVarGrossDesc,'' as dedVarGross, \n" + 
+			"-- Fixed Other --------------\n" + 
+			"(if(c.Add_Deduct_Status = 'other' and c.Is_Percentage = 'value', c.Description ,'')) as othValDesc,	 \n" + 
+			"(if(c.Add_Deduct_Status = 'other' and c.Is_Percentage = 'value', c.Add_Deduct_Value ,'')) as othVal,\n" + 
+			"(if(c.Add_Deduct_Status = 'other' and c.Is_Percentage = 'percentage' and Is_On_Basic_Salary =  'basicSalary' and c.Add_Deduct_Type = 'fixedType',  c.Description ,'')) as othPerBasicDesc,			\n" + 
+			"(if(c.Add_Deduct_Status = 'other' and c.Is_Percentage = 'percentage' and Is_On_Basic_Salary =  'basicSalary' and c.Add_Deduct_Type = 'fixedType',  c.Add_Deduct_Value ,'')) as othPerBasic,	\n" + 
+			"(if(c.Add_Deduct_Status = 'other' and c.Is_Percentage = 'percentage' and Is_On_Basic_Salary =  'grossSalary' and c.Add_Deduct_Type = 'fixedType', c.Description ,'')) as othPerGrossDesc,		\n" + 
+			"(if(c.Add_Deduct_Status = 'other' and c.Is_Percentage = 'percentage' and Is_On_Basic_Salary =  'grossSalary' and c.Add_Deduct_Type = 'fixedType', c.Add_Deduct_Value ,'')) as othPerGross,\n" + 
+			"'' as othVarValDesc,'' as othVarVal, '' as othVarBasicDesc,'' as othVarBasic, '' as othVarGrossDesc,'' as othVarGross  \n" + 
+			"from employee_salary_details a\n" + 
+			"inner join pay_add_deduct_types c on a.Pay_Add_Deduct_Type_Code = c.Pay_Add_Deduct_Type_Code\n" + 
+			"inner join employee_details e on a.Employee_ID = e.Employee_ID \n" + 
+			"inner join employee_master d on e.Employee_ID = d.Employee_ID\n" + 
+			"where a.Employee_ID =:Emp_ID and a.Company_ID =:Company_ID\n" + 
+			"union all\n" + 
+			"select \n" + 
+			"a.Emp_ID as empId, b.Name as empName,b.lastname as lname, e.basicSalary as basicSalary,  \n" + 
+			"-- Variable Addition --------------\n" + 
+			"'' as addValDesc,'' as addVal,'' as addPerBasicDesc,'' as addPerBasic, '' as addPerGrossDesc,'' as dedPerGross, \n" + 
+			"(if(c.Add_Deduct_Status = 'addition' and c.Is_Percentage = 'value' and c.Add_Deduct_Type = 'variableType' ,  c.Description,''))as addVarValDesc,\n" + 
+			"(if(c.Add_Deduct_Status = 'addition' and c.Is_Percentage = 'value' ,  a.Amount  ,''))as addVarVal, \n" + 
+			"(if(c.Add_Deduct_Status = 'addition' and c.Is_Percentage = 'percentage' and Is_On_Basic_Salary =  'basicSalary' and c.Add_Deduct_Type = 'variableType',  c.Description ,'')) as addVarBasicDesc,\n" + 
+			"(if(c.Add_Deduct_Status = 'addition' and c.Is_Percentage = 'percentage' and Is_On_Basic_Salary =  'basicSalary' and c.Add_Deduct_Type = 'variableType',  a.Amount ,'')) as addVarBasic,	\n" + 
+			"(if(c.Add_Deduct_Status = 'addition' and c.Is_Percentage = 'percentage' and Is_On_Basic_Salary =  'grossSalary' and c.Add_Deduct_Type = 'variableType', c.Description ,'')) as addVarGrossDesc,	\n" + 
+			"(if(c.Add_Deduct_Status = 'addition' and c.Is_Percentage = 'percentage' and Is_On_Basic_Salary =  'grossSalary' and c.Add_Deduct_Type = 'variableType', a.Amount ,'')) as addVarGross, \n" + 
+			"-- Variable Deduction --------------\n" + 
+			"'' as dedValDesc,'' as dedVal, '' as dedPerBasicDesc, '' as dedPerBasic,'' as dedPerGrossDesc,'' as dedPerGross,\n" + 
+			"(if(c.Add_Deduct_Status = 'deduction' and c.Is_Percentage = 'value' and c.Add_Deduct_Type = 'variableType', c.Description ,'')) as dedVarValDesc, \n" + 
+			"(if(c.Add_Deduct_Status = 'deduction' and c.Is_Percentage = 'value' and c.Add_Deduct_Type = 'variableType', a.Amount ,'')) as dedVarVal,\n" + 
+			"(if(c.Add_Deduct_Status = 'deduction' and c.Is_Percentage = 'percentage' and Is_On_Basic_Salary =  'basicSalary' and c.Add_Deduct_Type = 'variableType', c.Description ,'')) as dedVarBasicDesc,\n" + 
+			"(if(c.Add_Deduct_Status = 'deduction' and c.Is_Percentage = 'percentage' and Is_On_Basic_Salary =  'basicSalary' and c.Add_Deduct_Type = 'variableType', a.Amount ,'')) as dedVarBasic, \n" + 
+			"(if(c.Add_Deduct_Status = 'deduction' and c.Is_Percentage = 'percentage' and Is_On_Basic_Salary =  'grossSalary' and c.Add_Deduct_Type = 'variableType', c.Description ,''))	as dedVarGrossDesc,  \n" + 
+			"(if(c.Add_Deduct_Status = 'deduction' and c.Is_Percentage = 'percentage' and Is_On_Basic_Salary =  'grossSalary' and c.Add_Deduct_Type = 'variableType', a.Amount ,''))	as dedVarGross, \n" + 
+			"-- Variable Other --------------	 \n" + 
+			"'' as othValDesc,'' as othVal, '' as othPerBasicDesc,'' as othPerBasic, '' as othPerGrossDesc,'' as othPerGross, \n" + 
+			"(if(c.Add_Deduct_Status = 'other' and c.Is_Percentage = 'value', c.Description ,'')) as othVarValDesc,\n" + 
+			"(if(c.Add_Deduct_Status = 'other' and c.Is_Percentage = 'value', a.Amount ,'')) as othVarVal, \n" + 
+			"(if(c.Add_Deduct_Status = 'other' and c.Is_Percentage = 'percentage' and Is_On_Basic_Salary =  'basicSalary' and c.Add_Deduct_Type = 'variableType', c.Description ,'')) as othVarBasicDesc,  \n" + 
+			"(if(c.Add_Deduct_Status = 'other' and c.Is_Percentage = 'percentage' and Is_On_Basic_Salary =  'basicSalary' and c.Add_Deduct_Type = 'variableType', a.Amount ,'')) as othVarBasic, \n" + 
+			"(if(c.Add_Deduct_Status = 'other' and c.Is_Percentage = 'percentage' and Is_On_Basic_Salary =  'grossSalary' and c.Add_Deduct_Type = 'variableType', c.Description ,'')) as othVarGrossDesc,   \n" + 
+			"(if(c.Add_Deduct_Status = 'other' and c.Is_Percentage = 'percentage' and Is_On_Basic_Salary =  'grossSalary' and c.Add_Deduct_Type = 'variableType', a.Amount ,''))	as othVarGross \n" + 
+			"from emp_month_salary_details a \n" + 
+			"inner join pay_add_deduct_types c on a.Pay_Add_Deduct_Type_Code = c.Pay_Add_Deduct_Type_Code  \n" + 
+			"inner join employee_master b on a.Emp_ID = b.Employee_ID  \n" + 
+			"inner join employee_details e on a.Emp_ID = e.Employee_ID \n" + 
+			"inner join pay_codes f on a.Pay_Code_ID = f.Pay_Code_ID \n" + 
+			"where f.Pay_Code_ID =:Pay_Code_ID and a.Emp_ID =:Emp_ID and a.Company_ID =:Company_ID",nativeQuery=true)
+	public String[][] loadTable03Data(@Param("Pay_Code_ID")String payCodeID, @Param("Emp_ID")String empID, @Param("Company_ID")String comID);
+	
+	@Query(value="select * from(select\n" + 
+			"e.Employee_ID as empId, d.Name as empName,d.lastname as lname, e.basicSalary as basicSalary\n" + 
+			"from employee_salary_details a\n" + 
+			"inner join pay_add_deduct_types c on a.Pay_Add_Deduct_Type_Code = c.Pay_Add_Deduct_Type_Code\n" + 
+			"inner join employee_details e on a.Employee_ID = e.Employee_ID \n" + 
+			"inner join employee_master d on e.Employee_ID = d.Employee_ID\n" + 
+			"where a.Employee_ID =:Emp_ID and a.Company_ID =:Company_ID\n" + 
+			"union all\n" + 
+			"select \n" + 
+			"a.Emp_ID as empId, b.Name as empName,b.lastname as lname, e.basicSalary as basicSalary\n" + 
+			"from emp_month_salary_details a \n" + 
+			"inner join pay_add_deduct_types c on a.Pay_Add_Deduct_Type_Code = c.Pay_Add_Deduct_Type_Code  \n" + 
+			"inner join employee_master b on a.Emp_ID = b.Employee_ID  \n" + 
+			"inner join employee_details e on a.Emp_ID = e.Employee_ID \n" + 
+			"inner join pay_codes f on a.Pay_Code_ID = f.Pay_Code_ID \n" + 
+			"where f.Pay_Code_ID =:Pay_Code_ID and a.Emp_ID =:Emp_ID and a.Company_ID =:Company_ID) a group by empId",nativeQuery=true)
+	public String[][] loadTable03BasicData(@Param("Pay_Code_ID")String payCodeID, @Param("Emp_ID")String empID, @Param("Company_ID")String comID);
 	
 	//calculation priority value
 	@Query(value="select ((sum(grossVar) + sum(grossfix)) + basicSalary) as EPFCal\r\n" + 

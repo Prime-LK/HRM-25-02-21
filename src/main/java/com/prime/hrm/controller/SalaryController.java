@@ -200,7 +200,7 @@ public class SalaryController {
 	}
 
 	@GetMapping("/loadEmpRelatedCat")
-	public @ResponseBody List<EmployeeSalaryDetail> loadEmpRelatedCat(@RequestParam("catgoryID") String catgoryID,
+	public @ResponseBody List<EmployeeSalaryDetail> loadEmpRelatedCat(@RequestParam("categoryID") String catgoryID,
 			@RequestParam("deductTypeCode") String deductTypeCode) {
 		List<EmployeeSalaryDetail> de = employeeSalaryService.saveListOfEmpReCat(catgoryID, deductTypeCode);
 		return de;
