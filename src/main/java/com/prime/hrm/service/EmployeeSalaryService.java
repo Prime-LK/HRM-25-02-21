@@ -173,6 +173,11 @@ public class EmployeeSalaryService {
 		return employeeDetailsRepo.filterEmpbasedONtypes(tid);
 	}
 	
+	//get employee to employee salary details
+	public List<EmployeeDetails> filterEmployee(String empID) {
+		return employeeDetailsRepo.filterEmployee(empID);
+	}
+	
 	//get all employee to emplyee salary details
 	public List<EmployeeDetails> loadallEmployeeTosalaryDetails() {
 		return employeeDetailsRepo.loadAllEmployee();

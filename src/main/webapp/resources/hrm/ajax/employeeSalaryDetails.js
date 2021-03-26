@@ -1,8 +1,165 @@
+function loadRelatedSelect() {
+	var sltVal = $('#sepSelect').val();
+	if(sltVal == "department") {
+		$.ajax({
+			type: "GET",
+			url: "departments",
+			success:function(data) {
+				$('#loadSepDiv').empty();
+				var result = '<label>Department</label>'
+					       + '<select class="form-control" name="dep" id="depID"' 
+					       + 'onChange="loadRelatedDepEmployee();visibleDataTable01()">'
+						   + '<option value="" selected="true">--SELECT--</option>'
+						   + '</select>';
+				$('#loadSepDiv').append(result);
+				
+				var slctSubcat = $('#depID'), option = "";
+				slctSubcat.empty();
+				selected_option = "<option value='' selected>--SELECT--</option>"
+				slctSubcat.append(selected_option);
+				
+				for (var i = 0; i < data.length; i++) {
+					option = option
+							+ "<option value='"+data[i].depID + "'>"
+							+ data[i].department + "</option>";
+				}
+				slctSubcat.append(option);
+
+			},
+			error:function(e) {
+				alert("Error Found Loading Department Data");
+			}
+		});
+
+	} else if(sltVal === "location") {
+		$.ajax({
+			type: "GET",
+			url: "loadlocations",
+			success:function(data) {
+				$('#loadSepDiv').empty();
+				var result = '<label>Location</label>'
+					       + '<select class="form-control" name="lo" id="loid"'
+					       + 'onChange="loadRelatedLocationEmployee();visibleDataTable01()">'
+						   + '<option value="" selected="true">--SELECT--</option>'
+						   + '</select>';
+				$('#loadSepDiv').append(result);
+				
+				var slctSubcat = $('#loid'), option = "";
+				slctSubcat.empty();
+				selected_option = "<option value='' selected>--SELECT--</option>"
+				slctSubcat.append(selected_option);
+				
+				for (var i = 0; i < data.length; i++) {
+					option = option
+							+ "<option value='"+data[i].loid + "'>"
+							+ data[i].location + "</option>";
+				}
+				slctSubcat.append(option);
+
+			},
+			error:function(e) {
+				alert("Error Found Loading Location Data");
+			}
+		});
+	} else if(sltVal === "category") {
+		$.ajax({
+			type: "GET",
+			url: "categories",
+			success:function(data) {
+				$('#loadSepDiv').empty();
+				var result = '<label>Category</label>'
+					       + '<select class="form-control" name="cat" id="catgoryID"' 
+					       + 'onchange="loadRelatedcategoryEmployee();visibleDataTable01()">'
+						   + '<option value="" selected="true">--SELECT--</option>'
+						   + '</select>';
+				$('#loadSepDiv').append(result);
+				
+				var slctSubcat = $('#catgoryID'), option = "";
+				slctSubcat.empty();
+				selected_option = "<option value='' selected>--SELECT--</option>"
+				slctSubcat.append(selected_option);
+				
+				for (var i = 0; i < data.length; i++) {
+					option = option
+							+ "<option value='"+data[i].catID + "'>"
+							+ data[i].category + "</option>";
+				}
+				slctSubcat.append(option);
+
+			},
+			error:function(e) {
+				alert("Error Found Loading Category Data");
+			}
+		});
+	} else if(sltVal === "type") {
+		$.ajax({
+			type: "GET",
+			url: "types",
+			success:function(data) {
+				$('#loadSepDiv').empty();
+				var result = '<label>Type</label>'
+					       + '<select class="form-control" name="type" id="tid"' 
+					       + 'onchange="loadRelatedEmployeebasedOnTypes();visibleDataTable01()">'
+						   + '<option value="" selected="true">--SELECT--</option>'
+						   + '</select>';
+				$('#loadSepDiv').append(result);
+				
+				var slctSubcat = $('#tid'), option = "";
+				slctSubcat.empty();
+				selected_option = "<option value='' selected>--SELECT--</option>"
+				slctSubcat.append(selected_option);
+				
+				for (var i = 0; i < data.length; i++) {
+					option = option
+							+ "<option value='"+data[i].tid + "'>"
+							+ data[i].type + "</option>";
+				}
+				slctSubcat.append(option);
+
+			},
+			error:function(e) {
+				alert("Error Found Loading Type Data");
+			}
+		});
+	} else if(sltVal === "employee") {
+		$.ajax({
+			type: "GET",
+			url: "loadAllEmpInEmpDetails",
+			success:function(data) {
+				$('#loadSepDiv').empty();
+				var result = '<label>Employee</label>'
+					       + '<select class="form-control" name="emp" id="loginEmp"' 
+					       + 'onchange="loadEmployee();visibleDataTable01()">'
+						   + '<option value="" selected="true">--SELECT--</option>'
+						   + '</select>';
+				$('#loadSepDiv').append(result);
+				
+				var slctSubcat = $('#loginEmp'), option = "";
+				slctSubcat.empty();
+				selected_option = "<option value='' selected>--SELECT--</option>"
+				slctSubcat.append(selected_option);
+				
+				for (var i = 0; i < data.length; i++) {
+					option = option
+							+ "<option value='"+data[i].detailsPK.empID.empID + "'>"
+							+ data[i].detailsPK.empID.name +" "+ data[i].detailsPK.empID.lastname +"</option>";
+				}
+				slctSubcat.append(option);
+
+			},
+			error:function(e) {
+				alert("Error Found Loading Employee Data");
+			}
+		});
+	} else {
+		loadAllEmployee();
+		visibleDataTable01();
+	}
+}
+
 //load data according to empID and 
 function loadRelatedData() {
-
 	var y = document.getElementById("empID").value;
-
 	$.ajax({
 		type: "GET",
 		url: "loadrelavantsalaryData",
@@ -35,26 +192,19 @@ function loadRelatedData() {
 
 //load employee based on department
 function loadRelatedDepEmployee() {
-
 	var y = document.getElementById("depID").value;
-	//alert(y);
 	$.ajax({
 		type: "GET",
 		url: "loadEmprelatedDepartment",
 		data: {"depID": y},
 		success:function(data) {
-			
 			$("#filterEmp tbody").empty();
-			
-			$("#loadEmp").empty();
 			for (var i = 0; i < data.length; i++) {
-				  
 				var result = "<tr><td><input name='empdetailPK.empID.empID' id='tableEmpId' value =" 
 			  		 + data[i].detailsPK.empID.empID + " readOnly></td><td>" 
 			  		 + data[i].detailsPK.empID.name + " "+data[i].detailsPK.empID.lastname+"</td><td>" 
 			  		 + data[i].empType.type + "</td><td>" 
-			  		 + data[i].category.category + "</td><td>" 
-			  		  "</td></tr>";			  		
+			  		 + data[i].category.category + "</td></tr>";			  		
 				$("#filterEmp tbody").append(result);			
 			}
 		},
@@ -67,9 +217,7 @@ function loadRelatedDepEmployee() {
 
 //load employee based on location
 function loadRelatedLocationEmployee() {
-
 	var y = document.getElementById("loid").value;
-
 	$.ajax({
 		type: "GET",
 		url: "loadEmprelatedLocation",
@@ -84,8 +232,7 @@ function loadRelatedLocationEmployee() {
 			  		 + data[i].detailsPK.empID.empID + " ></td><td>" 
 			  		 + data[i].detailsPK.empID.name + " "+data[i].detailsPK.empID.lastname+"</td><td>" 
 			  		 + data[i].empType.type + "</td><td>" 
-			  		 + data[i].category.category + "</td><td>" 
-			  		  "</td></tr>";
+			  		 + data[i].category.category + "</td></tr>";
 				
 				$("#filterEmp tbody").append(result);
 			}
@@ -115,8 +262,7 @@ function loadRelatedcategoryEmployee() {
 			  		 + data[i].detailsPK.empID.empID + " ></td><td>" 
 			  		 + data[i].detailsPK.empID.name + ""+data[i].detailsPK.empID.lastname+"</td><td>" 
 			  		 + data[i].empType.type + "</td><td>" 
-			  		 + data[i].category.category + "</td><td>" 
-			  		  "</td></tr>";
+			  		 + data[i].category.category + "</td></tr>";
 			  	
 			  		
 				$("#filterEmp tbody").append(result);
@@ -145,11 +291,10 @@ function loadRelatedEmployeebasedOnTypes() {
 			for (var i = 0; i < data.length; i++) {
 				  
 				var result = "<tr><td><input name='empdetailPK.empID.empID' id='tableEmpId' value =" 
-			  		 + data[i].detailsPK.empID.empID + " ></td><td>" 
+			  		 + data[i].detailsPK.empID.empID + " readOnly></td><td>" 
 			  		 + data[i].detailsPK.empID.name + " "+data[i].detailsPK.empID.lastname+"</td><td>" 
 			  		 + data[i].empType.type + "</td><td>" 
-			  		 + data[i].category.category + "</td><td>" 
-			  		  "</td></tr>";
+			  		 + data[i].category.category + "</td></tr>";
 			  	
 			  		
 				$("#filterEmp tbody").append(result);
@@ -161,29 +306,46 @@ function loadRelatedEmployeebasedOnTypes() {
 	});
 }
 
+//load employee to employee salary details
+function loadEmployee() {
+	const y = document.getElementById("loginEmp").value;
+	$.ajax({
+		type: "GET",
+		url: "loadrelatedEmployee",
+		data: {"empID": y},
+		success:function(data) {
+			$("#filterEmp tbody").empty();
+			for (var i = 0; i < data.length; i++) {
+				  
+				var result = "<tr><td><input name='empdetailPK.empID.empID' id='tableEmpId' value =" 
+			  		 + data[i].detailsPK.empID.empID + " readOnly /></td><td>" 
+			  		 + data[i].detailsPK.empID.name + " "+data[i].detailsPK.empID.lastname+"</td><td>" 
+			  		 + data[i].empType.type + "</td><td>" 
+			  		 + data[i].category.category + "</td></tr>";			  		
+				$("#filterEmp tbody").append(result);
+			}
+		},
+		error:function(e) {
+			alert("Employee Not Found");
+		}
+	});
+}
+
 //load all employee to employee salary details
 function loadAllEmployee() {
-
-	
-
 	$.ajax({
 		type: "GET",
 		url: "loadallEmp",
 		//data: {"tid": y},
 		success:function(data) {
-			
 			$("#filterEmp tbody").empty();
-
 			for (var i = 0; i < data.length; i++) {
-				  
 				var result = "<tr><td><input name='empdetailPK.empID.empID' id='tableEmpId' value =" 
-			  		 + data[i].detailsPK.empID.empID + " ></td><td>" 
+			  		 + data[i].detailsPK.empID.empID + " readOnly></td><td>" 
 			  		 + data[i].detailsPK.empID.name + " "+data[i].detailsPK.empID.lastname+"</td><td>" 
 			  		 + data[i].empType.type + "</td><td>" 
-			  		 + data[i].category.category + "</td><td>" 
-			  		  "</td></tr>";
+			  		 + data[i].category.category + "</td></tr>";
 			  	
-			  		
 				$("#filterEmp tbody").append(result);
 			}
 		},
@@ -216,3 +378,15 @@ function loadFixedTypeOnly() {
 	});
 }
 
+function invisibleDataTable01() {
+	$('#dataTableBasic').hide();
+}
+
+function visibleDataTable01() {
+	$('#dataTableBasic').slideDown();
+}
+
+function slideUpDatable01() {
+	$('#dataTableBasic').slideUp();
+	$('#loadSepDiv').empty();
+}

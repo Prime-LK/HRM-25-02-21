@@ -115,10 +115,6 @@ public class EmployeeService {
 		return empRepo.findById(id).get();
 	}
 	
-	public Employee getEmployeeByCompany(String employeeId, String companyId) {
-		return empRepo.getEmployeeByCompany(employeeId, companyId);
-	}
-	
 	//employee contact type-------------------------------------
 	
 	public String maxCTypeID() {
@@ -281,7 +277,8 @@ public class EmployeeService {
 		return empRepo.updateDetailsUsingEmpName(name);
 	}
 	
-	public List<EmployeeDetails> filterEmployeesByDepartmentAndCompany(String departmentId, String companyId) {
-		return empDeRepo.filterEmployeesByDepartmentAndCompany(departmentId, companyId);
+	public List<EmployeeDetails> getAllEmpDeData() {
+		return (List<EmployeeDetails>) empDeRepo.findAll();
 	}
+
 }
