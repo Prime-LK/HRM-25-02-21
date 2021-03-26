@@ -1,3 +1,162 @@
+function loadRelatedSelect() {
+	var sltVal = $('#sepSelect').val();
+	if(sltVal == "department") {
+		$.ajax({
+			type: "GET",
+			url: "departments",
+			success:function(data) {
+				$('#loadSepDiv').empty();
+				var result = '<label>Department</label>'
+					       + '<select class="form-control" name="dep" id="depID"' 
+					       + 'onChange="loadRelatedDep();visibleDataTable01()">'
+						   + '<option value="" selected="true">--SELECT--</option>'
+						   + '</select>';
+				$('#loadSepDiv').append(result);
+				
+				var slctSubcat = $('#depID'), option = "";
+				slctSubcat.empty();
+				selected_option = "<option value='' selected>--SELECT--</option>"
+				slctSubcat.append(selected_option);
+				
+				for (var i = 0; i < data.length; i++) {
+					option = option
+							+ "<option value='"+data[i].depID + "'>"
+							+ data[i].department + "</option>";
+				}
+				slctSubcat.append(option);
+
+			},
+			error:function(e) {
+				alert("Error Found Loading Department Data");
+			}
+		});
+
+	} else if(sltVal === "location") {
+		$.ajax({
+			type: "GET",
+			url: "loadlocations",
+			success:function(data) {
+				$('#loadSepDiv').empty();
+				var result = '<label>Location</label>'
+					       + '<select class="form-control" name="lo" id="loid"'
+					       + 'onChange="loadRelatedLoc();visibleDataTable01()">'
+						   + '<option value="" selected="true">--SELECT--</option>'
+						   + '</select>';
+				$('#loadSepDiv').append(result);
+				
+				var slctSubcat = $('#loid'), option = "";
+				slctSubcat.empty();
+				selected_option = "<option value='' selected>--SELECT--</option>"
+				slctSubcat.append(selected_option);
+				
+				for (var i = 0; i < data.length; i++) {
+					option = option
+							+ "<option value='"+data[i].loid + "'>"
+							+ data[i].location + "</option>";
+				}
+				slctSubcat.append(option);
+
+			},
+			error:function(e) {
+				alert("Error Found Loading Location Data");
+			}
+		});
+	} else if(sltVal === "category") {
+		$.ajax({
+			type: "GET",
+			url: "categories",
+			success:function(data) {
+				$('#loadSepDiv').empty();
+				var result = '<label>Category</label>'
+					       + '<select class="form-control" name="cat" id="categoryID"' 
+					       + 'onchange="loadRelatedCat();visibleDataTable01()">'
+						   + '<option value="" selected="true">--SELECT--</option>'
+						   + '</select>';
+				$('#loadSepDiv').append(result);
+				
+				var slctSubcat = $('#categoryID'), option = "";
+				slctSubcat.empty();
+				selected_option = "<option value='' selected>--SELECT--</option>"
+				slctSubcat.append(selected_option);
+				
+				for (var i = 0; i < data.length; i++) {
+					option = option
+							+ "<option value='"+data[i].catgoryID + "'>"
+							+ data[i].category + "</option>";
+				}
+				slctSubcat.append(option);
+
+			},
+			error:function(e) {
+				alert("Error Found Loading Category Data");
+			}
+		});
+	} else if(sltVal === "type") {
+		$.ajax({
+			type: "GET",
+			url: "types",
+			success:function(data) {
+				$('#loadSepDiv').empty();
+				var result = '<label>Type</label>'
+					       + '<select class="form-control" name="type" id="tid"' 
+					       + 'onchange="loadRelatedType();visibleDataTable01()">'
+						   + '<option value="" selected="true">--SELECT--</option>'
+						   + '</select>';
+				$('#loadSepDiv').append(result);
+				
+				var slctSubcat = $('#tid'), option = "";
+				slctSubcat.empty();
+				selected_option = "<option value='' selected>--SELECT--</option>"
+				slctSubcat.append(selected_option);
+				
+				for (var i = 0; i < data.length; i++) {
+					option = option
+							+ "<option value='"+data[i].tid + "'>"
+							+ data[i].type + "</option>";
+				}
+				slctSubcat.append(option);
+
+			},
+			error:function(e) {
+				alert("Error Found Loading Type Data");
+			}
+		});
+	} else if(sltVal === "employee") {
+		$.ajax({
+			type: "GET",
+			url: "loadAllEmpInEmpDetails",
+			success:function(data) {
+				$('#loadSepDiv').empty();
+				var result = '<label>Employee</label>'
+					       + '<select class="form-control" name="emp" id="empID"' 
+					       + 'onchange="loadEmpToTable();visibleDataTable01()">'
+						   + '<option value="" selected="true">--SELECT--</option>'
+						   + '</select>';
+				$('#loadSepDiv').append(result);
+				
+				var slctSubcat = $('#empID'), option = "";
+				slctSubcat.empty();
+				selected_option = "<option value='' selected>--SELECT--</option>"
+				slctSubcat.append(selected_option);
+				
+				for (var i = 0; i < data.length; i++) {
+					option = option
+							+ "<option value='"+data[i].detailsPK.empID.empID + "'>"
+							+ data[i].detailsPK.empID.name +" "+ data[i].detailsPK.empID.lastname +"</option>";
+				}
+				slctSubcat.append(option);
+
+			},
+			error:function(e) {
+				alert("Error Found Loading Employee Data");
+			}
+		});
+	} else {
+		loadAllEmps();
+		visibleDataTable01();
+		$('#loadSepDiv').empty();
+	}
+}
 function loadVariableTypes() {
 	$.ajax({
 		type : "GET",
@@ -22,8 +181,11 @@ function loadVariableTypes() {
 }
 
 function loadRePeriodCode2() {
-	var x = document.getElementById("year").value;
-	var y = document.getElementById("sa").value;
+	var fieldVal = $('#datepicker').val();
+
+	var year1 = new Date(fieldVal);
+	var x = year1.getFullYear();
+	var y = year1.getMonth() + 1;
 
 	$.ajax({
 		type: "GET",
@@ -46,8 +208,9 @@ function loadRePeriodCode2() {
 			var dFormat2 = f2 + '-' + f22 + '-' + f222;
 			
 			document.getElementById("pYear").value= dFormat;
-			document.getElementById("pMonth").value= dFormat2;
+			document.getElementById("pMonth").value= dFormat2; 
 			document.getElementById("periodCode").value= data.payPeriodID;
+			document.getElementById("periodCodeVal").value= data.desc;
 			} 
 			else {
 				var x1 = new Date(x);
@@ -67,7 +230,8 @@ function loadRePeriodCode2() {
 						
 				document.getElementById("pYear").value= final;
 				document.getElementById("pMonth").value= final2;
-				document.getElementById("periodCode").value= data.payPeriodID;			
+				document.getElementById("periodCode").value= data.payPeriodID;	
+				document.getElementById("periodCodeVal").value= data.desc;
 				
 			}
 			getRelatedPayCodes2();
@@ -136,8 +300,9 @@ $.ajax({
 					"<td><input name='monthDePk.empID.empID' id='empidTable'" +
 					"value=" + data[i].empdetailPK.empID.empID
 					+ " readOnly></td><td>" + data[i].empdetailPK.empID.name + ""
-					+ data[i].empdetailPK.empID.lastname + "</td><td><input name='amount' class='amount'" +
-					 + " ></td></tr>";
+					+ data[i].empdetailPK.empID.lastname + "</td>"
+					+ "<td><input id='amount' name='amount' autocomplete='off' placeholder='Amount'" +
+					 + " readOnly></td></tr>";
 							
 				$("#tableMoSaDetails tbody").append(result);
 		}
@@ -164,14 +329,14 @@ $
 				for (var i = 0; i < data.length; i++) {
 					var result = "<tr><td><input type='checkbox' onchange='setValues()'" +
 							" id='cb1' name='cb1' value='inactive'>" +
-							"</td><td><input name='monthDePk.empID.empID'"
+							"</td><td><input name='monthDePk.empID.empID' id='empidTable'"
 							+ "value=" + data[i].empdetailPK.empID.empID
 							+ " ></td><td>"
 							+ data[i].empdetailPK.empID.name
 							+ " "
 							+ data[i].empdetailPK.empID.lastname
-							+ "</td><td><input name='amount'" +
-							+ " ></td></tr>";
+							+ "</td><td><input id='amount' name='amount' autocomplete='off' placeholder='Amount'" +
+					        + " readOnly></td></tr>";
 					$("#tableMoSaDetails tbody").append(result);
 
 				}
@@ -184,27 +349,28 @@ $
 
 function loadRelatedCat() {
 var z = document.getElementById("deductTypeCode").value;
-var y = document.getElementById("catgoryID").value;
+var y = document.getElementById("categoryID").value;
+console.log(z+' '+y);
 $
 		.ajax({
 			type : "GET",
 			url : "loadEmpRelatedCat",
 			data : {
-				"catgoryID" : y,
+				"categoryID" : y,
 				"deductTypeCode" : z
 			},
 			success : function(data) {
 				$("#tableMoSaDetails tbody").empty();
 				for (var i = 0; i < data.length; i++) {
 					var result = "<tr><td><input type='checkbox' id='cb1' name='cb1' value='inactive'>" +
-							"</td><td><input name='monthDePk.empID.empID' value="
+							"</td><td><input name='monthDePk.empID.empID' id='empidTable' value="
 							+ data[i].empdetailPK.empID.empID
 							+ " ></td><td>"
 							+ data[i].empdetailPK.empID.name
 							+ " "
 							+ data[i].empdetailPK.empID.lastname
-							+ "</td><td><input name='amount'" +
-							+ " ></td></tr>";
+							+ "</td><td><input id='amount' name='amount' autocomplete='off' placeholder='Amount'" +
+					        + " readOnly></td></tr>";
 					$("#tableMoSaDetails tbody").append(result);
 
 					var result2 = "<input type='hidden' name='monthDePk.empID.empID' " +
@@ -233,14 +399,14 @@ $
 				$("#tableMoSaDetails tbody").empty();
 				for (var i = 0; i < data.length; i++) {
 					var result = "<tr><td><input type='checkbox' id='cb1' name='cb1' value='inactive'>" +
-							"</td><td><input name='monthDePk.empID.empID' value="
+							"</td><td><input name='monthDePk.empID.empID' id='empidTable' value="
 							+ data[i].empdetailPK.empID.empID
 							+ " ></td><td>"
 							+ data[i].empdetailPK.empID.name
 							+ " "
 							+ data[i].empdetailPK.empID.lastname
-							+ "</td><td><input name='amount'" +
-							+ " ></td></tr>";
+							+ "</td><td><input id='amount' name='amount' autocomplete='off' placeholder='Amount'" +
+					        + " readOnly></td></tr>";
 					$("#tableMoSaDetails tbody").append(result);
 					
 				}
@@ -252,7 +418,6 @@ $
 }
 
 function loadAllEmps() {
-if (document.getElementById("inlineRadio5").checked) {
 	$.ajax({
 		type : "GET",
 		url : "loadAllEmployeesToGrid",
@@ -260,11 +425,11 @@ if (document.getElementById("inlineRadio5").checked) {
 			$("#tableMoSaDetails tbody").empty();
 			for (var i = 0; i < data.length; i++) {
 				var result = "<tr><td><input type='checkbox' id='cb1' name='cb1' value='inactive'>" +
-						"</td><td><input name='monthDePk.empID.empID' " +
+						"</td><td><input name='monthDePk.empID.empID' id='empidTable' " +
 						"value=" + data[i].empID + " readOnly='true'></td><td>"
 						+ data[i].name + " " + data[i].lastname
-						+ "</td><td><input name='amount'" +
-						" ></td></tr>";
+						+ "</td><td><input id='amount' name='amount' autocomplete='off' placeholder='Amount'" +
+					    + " readOnly></td></tr>";
 				$("#tableMoSaDetails tbody").append(result);
 			
 			}
@@ -275,7 +440,6 @@ if (document.getElementById("inlineRadio5").checked) {
 			alert("Not Found Employees Or Employee Type");
 		}
 	});
-}
 }
 
 function loadEmpToTable() {
@@ -294,8 +458,8 @@ $.ajax({
 					"</td><td><input name='empidTable' id='empidTable'" +
 					"value=" + data[i].empID
 					+ " readOnly></td><td>" + data[i].name + " " + data[i].lastname
-					+ "</td><td><input name='amount'" +
-					" ></td></tr>";
+					+ "</td><td><input id='amount' name='amount' autocomplete='off' placeholder='Amount'" +
+				    + " readOnly></td></tr>";
 			$("#tableMoSaDetails tbody").append(result);
 			
 			 $("#tEmpID1").empty();
@@ -315,18 +479,32 @@ function divsInvisible() {
 	$('#endDateDiv').hide();
 	$('#payCodeValDiv').hide();
 	$('#alloTypeDiv').hide();
+	$('#payPeriodValDiv').hide();
 }
 
 function divsVisible() {
 	$('#startDateDiv').slideDown();
 	$('#endDateDiv').slideDown();
 	$('#payCodeValDiv').slideDown();
+	$('#payPeriodValDiv').slideDown();
 }
 
 function alloTypeDivVisible() {
 	$('#alloTypeDiv').slideDown();
 }
 
+function invisibleDataTable01() {
+	$('#dataTableBasic').hide();
+}
+
+function visibleDataTable01() {
+	$('#dataTableBasic').slideDown();
+}
+
+function slideUpDatable01() {
+	$('#dataTableBasic').slideUp();
+	$('#loadSepDiv').empty();
+}
 
 
 

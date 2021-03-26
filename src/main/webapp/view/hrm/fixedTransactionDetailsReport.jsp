@@ -82,7 +82,7 @@
 </style>
 
 </head>
-<body onload="checkStatusofDropdowns();">
+<body onload="tableInvisible();checkStatusofDropdowns();">
 	<div class="wrapper">
 		<div class="main-header">
 			<!-- Logo Header -->
@@ -117,116 +117,181 @@
 					<div class="container-fluid">
 						<div class="card">
 							<div class="card-body">
-								<div
-									class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-									<h6 class="m-0 font-weight-bold text-primary">Fixed
-										Transactional Details</h6>
-									<div class="dropdown no-arrow">
-										<a class="dropdown-toggle" href="#" role="button"
-											id="dropdownMenuLink" data-toggle="dropdown"
-											aria-haspopup="true" aria-expanded="false"> <i
-											class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-										</a>
-										<div
-											class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-											aria-labelledby="dropdownMenuLink">
-											<div class="dropdown-header">Generate Report All
-												Departments</div>
-											<a class="dropdown-item" href="FTDRDepartments">Generate
-												Report</a>
-											<div class="dropdown-divider"></div>
-											<div class="dropdown-header">Generate Report Related
-												Department</div>
-											<c:forEach items="${allDepartmentForFTDR}" var="na">
-												<a class="dropdown-item"
-													href="FTDRDepartment?depID=${na.depID}">
-													${na.department}</a>
-											</c:forEach>
-											<div class="dropdown-divider"></div>
-											<div class="dropdown-header">Generate Report All
-												Employees</div>
-											<a class="dropdown-item" href="FTDREmployees">Generate
-												Report</a>
-											<div class="dropdown-divider"></div>
-											<div class="dropdown-header">Generate Report Related
-												Employee</div>
-											<a class="dropdown-item" href="#">Generate Report</a>
-											<form action="FTDREmployee">
-												<div class="row">
-													<input type="text" class="form-control" id="empIDForReport"
-														name="empID" placeholder="Emp No">
-													<button type="submit" id="rBtn01"
-														class="btn btn-danger btn-sm">
-														<i class="fa fa-search" aria-hidden="true"></i>
-													</button>
-												</div>
-											</form>
-											<!-- <a class="dropdown-item" href="#">Generate Report Related Employee</a> -->
+								<div class="row">
+									<div class="col-8">
+										<div class="row form-group">
+											<label class="col-3">Department</label>
+											<div class="col-7">
+												<select id="depID" class="form-control"
+													name="saPK.depatment.depID"
+													onchange="loadTableRelatedDepartment(this.value)">
+													<option value="">--SELECT--</option>
+													<c:forEach items="${allDepartmentForFTDR}" var="b">
+														<option value="${b.depID}">${b.department}</option>
+													</c:forEach>
+												</select>
+											</div>
+											<div class="form-check">
+												<label class="form-check-label"> <input
+													onchange="loadTableAllDepartments()"
+													class="form-check-input" id="depsCheckBox" type="checkbox"
+													value=""> <span class="form-check-sign">All</span>
+												</label>
+											</div>
+										</div>
+										<div class="row form-group">
+											<label class="col-3">Employee</label>
+											<div class="col-7">
+												<select id="empID" class="form-control" name="empID"
+													onchange="getDataRelatedEmployee(this.value)">
+													<option value="">--SELECT--</option>
+													<c:forEach items="${getAllEmps}" var="b">
+														<option value="${b.detailsPK.empID.empID}">
+															${b.detailsPK.empID.name} ${b.detailsPK.empID.lastname}</option>
+													</c:forEach>
+												</select>
+											</div>
+											<div class="form-check">
+												<label class="form-check-label"> <input
+													onchange="getAllEmpHeaderData()" id="empsCheckBox"
+													class="form-check-input" type="checkbox" value="">
+													<span class="form-check-sign">All</span>
+												</label>
+											</div>
+										</div>
+										<div id="detailsTableDiv">
+											<div class="scrollable">
+												<table class="table table-hover table-bordered" width="100%"
+													cellspacing="0" id="detailsTbl">
+													<thead>
+														<tr></tr>
+													</thead>
+													<tbody>
+														<tr></tr>
+													</tbody>
+												</table>
+											</div>
 										</div>
 									</div>
-								</div>
-								<div class="card-body">
-									<div class="row no-gutters align-items-center">
-										<div class="col mr-2">
-
-											<div class="row">
-												<div class="row form-group col-7" id="depDIv">
-													<label id="dLbl">Department</label>
-													<div class="col">
-														<select id="depID" class="form-control"
-															name="saPK.depatment.depID"
-															onchange="loadTableRelatedDepartment(this.value)">
-															<option value="">Select Department</option>
-															<c:forEach items="${allDepartmentForFTDR}" var="b">
-																<option value="${b.depID}">${b.department}</option>
-															</c:forEach>
-														</select>
+									<div class="col-4">
+										<div class="contanier">
+											<div class="accordion" id="accordionExample">
+												<div class="card-header" id="headingOne">
+													<h5 class="mb-0">
+														<button class="btn btn-outline-dark" type="button"
+															data-toggle="collapse" data-target="#collapseOne"
+															aria-expanded="false" aria-controls="collapseOne">
+															All Departments</button>
+													</h5>
+												</div>
+												<div id="collapseOne" class="collapse"
+													aria-labelledby="headingOne"
+													data-parent="#accordionExample">
+													<div class="card-body">
+														<form:form action="FTDRDepartments">
+															<div class="row">
+																<div class="col-6">
+																	<button type="submit" id="submitBtn"
+																		class="btn btn-success">
+																		<i class="fa fa-print" aria-hidden="true"></i>
+																		Generate Report
+																	</button>
+																</div>
+															</div>
+														</form:form>
 													</div>
 												</div>
-
-												<div class="form-check" id="depDiv">
-													<input type="checkbox" class="form-check-input"
-														id="addAllDepartments"
-														onchange="loadTableAllDepartments()"> <label
-														class="form-check-label" for="addAllDepartments">All</label>
+												<div class="card-header" id="headingTwo">
+													<h5 class="mb-0">
+														<button class="btn btn-outline-dark collapsed"
+															type="button" data-toggle="collapse"
+															data-target="#collapseTwo" aria-expanded="false"
+															aria-controls="collapseTwo">Related Department</button>
+													</h5>
 												</div>
-											</div>
-
-											<div class="row">
-												<div class="row form-group col-7" id="adjType">
-													<label id="dLbl">Employee</label>
-													<div class="col">
-														<select id="empID" class="form-control" name="empID"
-															onchange="getDataRelatedEmployee(this.value)">
-															<option value="">Select Employee</option>
-															<c:forEach items="${allEmployeeForFTDR}" var="b">
-																<option value="${b.empID}">${b.name}</option>
-															</c:forEach>
-														</select>
+												<div id="collapseTwo" class="collapse"
+													aria-labelledby="headingTwo"
+													data-parent="#accordionExample">
+													<div class="card-body">
+														<form:form action="FTDRDepartment">
+															<div class="row">
+																<div class="col-9">
+																	<label>Department</label> <select name="depID"
+																		id="depID" class="custom-select mt-2 mb-2" required>
+																		<option value="">--SELECT--</option>
+																		<c:forEach items="${allDepartmentForFTDR}" var="dt">
+																			<option value="${dt.depID}">${dt.department}</option>
+																		</c:forEach>
+																	</select>
+																</div>
+															</div>
+															<div class="row">
+																<div class="col-4">
+																	<button type="submit" id="submitBtn"
+																		class="btn btn-success">
+																		<i class="fa fa-print" aria-hidden="true"></i>
+																		Generate Report
+																	</button>
+																</div>
+															</div>
+														</form:form>
 													</div>
 												</div>
+												<div class="card-header" id="headingThree">
+													<h5 class="mb-0">
+														<button class="btn btn-outline-dark collapsed"
+															type="button" data-toggle="collapse"
+															data-target="#collapseThree" aria-expanded="false"
+															aria-controls="collapseThree">All Employees</button>
 
-												<div class="form-check" id="cbDiv">
-													<input type="checkbox" class="form-check-input"
-														id="addAllAllowance" onchange="getAllEmpHeaderData()">
-													<label class="form-check-label" for="addAllAllowance">All</label>
+													</h5>
 												</div>
-											</div>
-
-											<div class="row"></div>
-
-											<div class="rwo">
-												<div id="detailsTableDiv">
-													<div class="scrollable">
-														<table class="table table-hover" width="100%"
-															cellspacing="0" id="detailsTbl">
-															<thead>
-																<tr></tr>
-															</thead>
-															<tbody>
-																<tr></tr>
-															</tbody>
-														</table>
+												<div id="collapseThree" class="collapse"
+													aria-labelledby="headingThree"
+													data-parent="#accordionExample">
+													<div class="card-body">
+														<form:form action="FTDREmployees">
+															<div class="row">
+																<div class="col-4">
+																	<button type="submit" id="submitBtn"
+																		class="btn btn-success">
+																		<i class="fa fa-print" aria-hidden="true"></i>
+																		Generate Report
+																	</button>
+																</div>
+															</div>
+														</form:form>
+													</div>
+												</div>
+												<div class="card-header" id="headingFour">
+													<h5 class="mb-0">
+														<button class="btn btn-outline-dark collapsed"
+															type="button" data-toggle="collapse"
+															data-target="#collapseFour" aria-expanded="false"
+															aria-controls="collapseFour">Related Employee</button>
+													</h5>
+												</div>
+												<div id="collapseFour" class="collapse"
+													aria-labelledby="headingFour"
+													data-parent="#accordionExample">
+													<div class="card-body">
+														<form:form action="FTDREmployee">
+															<div class="row">
+																<div class="col-8">
+																	<div class="input-group">
+																		<input type="text" class="form-control"
+																			id="empIDForReport" name="empID"
+																			placeholder="Emp. No..." autocomplete="off">
+																		<div class="input-group-append">
+																			<button type="submit" id="searchBtn"
+																				class="btn btn-success btn-sm">
+																				<i class="fa fa-search" aria-hidden="true"></i>
+																			</button>
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</form:form>
 													</div>
 												</div>
 											</div>

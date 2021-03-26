@@ -16,8 +16,10 @@
 <link
 	href="<c:url value='resources/hrm/css/empMonthSalaryDetails03.css'/>"
 	rel="stylesheet">
-<link href="<c:url value='resources/hrm/css/yearpicker.css'/>"
-	rel="stylesheet" type="text/css">
+<!-- combined year and month picker css -->
+<link
+	href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.2.0/css/datepicker.min.css"
+	rel="stylesheet">
 <style>
 .vidSty {
 	font-family: Arial, Helvetica, sans-serif;
@@ -82,11 +84,33 @@
 .icon-pre-ve {
 	width: 150%;
 }
+/* form css */
+.scrollable {
+	height: 400px;
+	overflow: scroll;
+}
+
+#hiddenRow {
+	 display: none; 
+}
+
+* {
+	text-transform: capitalize;
+}
+
+#empidTable {
+	width: 3rem;
+	border: none;
+}
+
+#amount {
+	width: 5rem;
+}
 </style>
 
 </head>
 <body
-	onload="loadVariableTypes();checkStatusofDropdowns();">
+	onload="invisibleDataTable01();loadVariableTypes();checkStatusofDropdowns();">
 	<div class="wrapper">
 		<div class="main-header">
 			<!-- Logo Header -->
@@ -123,359 +147,228 @@
 									<form:form action="saveEmpMoSaDetails03" method="post"
 										modelAttribute="formMonthSalary03" id="formEmpMoSadetails">
 										<div class="row">
-											<div class="col-5">
-												<div class="form-group row">
-													<label class="col-5 mt-1">Year</label>
-													<div class="col-7">
-														<input type="text" class="yearpicker form-control"
-															id="year" name="" placeholder="Enter Year" /> <span
-															id="validateYP"></span>
-													</div>
-												</div>
-											</div>
-											<div class="col-4">
-												<div class="form-group row" id="startDateDiv">
-													<label class="col-5 mt-1">Start Date</label>
-													<div class="col-7">
-														<form:input type="text" path="pYear" class="form-control"
-															id="startDate" placeholder="Start Date" readOnly="true" />
-													</div>
-												</div>
-											</div>
-											<div class="col" id="comDiv">
-												<div class="form-group row">
-													<div class="col-7">
-														<div class="form-group col-6 row ml-3">
-															<!-- <label id="lcode">Company ID :</label> -->
-															<div class="col">
-																<input type="hidden" name="company.comID"
-																	class="form-control" id="comID"
-																	value="<%=session.getAttribute("company.comID")%>" />
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-										<div class="row">
-											<div class="col-5">
-												<div class="form-group row">
-													<label class="col-5 mt-1">Month</label>
-													<div class="col-7">
-														<select name="" id="sa" class="custom-select"
-															onchange="loadRePeriodCode()">
-															<option value="">--SELECT--</option>
-															<option value="01">January</option>
-															<option value="02">February</option>
-															<option value="03">march</option>
-															<option value="04">April</option>
-															<option value="05">May</option>
-															<option value="06">June</option>
-															<option value="07">July</option>
-															<option value="08">August</option>
-															<option value="09">September</option>
-															<option value="10">October</option>
-															<option value="11">November</option>
-															<option value="12">December</option>
-														</select> <span id="validateMP"></span>
-													</div>
-												</div>
-											</div>
-											<div class="col-4">
-												<div class="form-group row" id="endDateDiv">
-													<label class="col-5 mt-1">End Date</label>
-													<div class="col-7">
-														<form:input type="text" class="form-control" id="pMonth"
-															path="pMonth" onchange="getPeriodIDReDates()"
-															placeholder="End Date" readOnly="true" />
-														<span id="validateED"></span>
-													</div>
-												</div>
-											</div>
-										</div>
-										<div class="row">
-											<div class="col-5">
-												<div class="form-group row">
-													<label class="col-5 mt-1">PayCode</label>
-													<div class="col-7">
-														<form:select path="monthDePk.payCodeid.payCodeID"
-															id="payCode" class="custom-select">
-															<form:option value="">--SELECT--</form:option>
-															<c:forEach items="${empMoMaAll}" var="b">
-																<form:option value="${b.payCodeID}">${b.payCode}</form:option>
-															</c:forEach>
-														</form:select>
-														<span id="validatePC"></span>
-													</div>
-												</div>
-											</div>
-											<div class="col-4">
-												<div class="form-group row" id="payPeriodDiv">
-													<label class="col-5 mt-1">PayPeriod</label>
-													<div class="col-7">
-														<input type="text" name="periodCode" class="form-control"
-															id="periodCode" placeholder="Period Code"
-															onchange="getRelatedDate()" readOnly>
-													</div>
-												</div>
-											</div>
-										</div>
-										<div class="row">
-											<div class="col-5">
-												<div class="form-group row">
-													<label class="col-5 mt-1">Allowance Type</label>
-													<div class="col-7">
-														<form:select path="monthDePk.payType.deductTypeCode"
-															id="deductTypeCode" class="custom-select"
-															onchange="loadAddDed()">
-															<form:option value="">--SELECT--</form:option>
-															<c:forEach items="${addDedTypes}" var="b">
-																<form:option value="${b.deductTypeCode}">${b.desc}</form:option>
-															</c:forEach>
-														</form:select>
-														<span id="validateDT"></span>
-													</div>
-												</div>
-											</div>
-											<div class="col-4">
-												<div class="form-group row" id="alloTypeDiv">
-													<label class="col-5 mt-1">Type</label>
-													<div class="col-7">
-														<input type="text" name="addDeType" class="form-control"
-															id="addDeType" placeholder="type" readOnly>
-													</div>
-												</div>
-											</div>
-										</div>
-										<div class="row">
-											<div class="form-group col-12">
-												<p class="col-3" id="para01">Add To All Employees In</p>
-											</div>
-										</div>
-										<div class="row">
-											<div class="col-8">
-												<div class="form-group">
-													<ul class="nav nav-pills nav-secondary nav-pills-no-bd"
-														id="pills-tab-without-border" role="tablist">
-														<li class="nav-item"><a class="nav-link"
-															id="pills-home-tab-nobd" data-toggle="pill"
-															href="#pills-home-nobd" role="tab"
-															aria-controls="pills-home-nobd" aria-selected="true">Department</a>
-														</li>
-														<li class="nav-item"><a class="nav-link"
-															id="pills-profile-tab-nobd" data-toggle="pill"
-															href="#pills-profile-nobd" role="tab"
-															aria-controls="pills-profile-nobd" aria-selected="false">Location</a>
-														</li>
-														<li class="nav-item"><a class="nav-link"
-															id="pills-contact-tab-nobd" data-toggle="pill"
-															href="#pills-contact-nobd" role="tab"
-															aria-controls="pills-contact-nobd" aria-selected="false">Category</a>
-														</li>
-														<li class="nav-item"><a class="nav-link"
-															id="pills-contact-tab-nobd4" data-toggle="pill"
-															href="#pills-contact-nobd4" role="tab"
-															aria-controls="pills-contact-nobd" aria-selected="false">Type</a>
-														</li>
-														<li class="nav-item"><a class="nav-link"
-															id="pills-contact-tab-nobd5" data-toggle="pill"
-															href="#pills-contact-nobd5" role="tab"
-															aria-controls="pills-contact-nobd5" aria-selected="false">Employee</a></li>
-													</ul>
-													<div class="tab-content mt-2 mb-3"
-														id="pills-without-border-tabContent">
-														<div class="tab-pane fade show" id="pills-home-nobd"
-															role="tabpanel" aria-labelledby="pills-home-tab-nobd">
-															<div class="row">
-																<div class="col-6">
-																	<div class="form-group row">
-																		<select name="depID" id="depID" class="custom-select"
-																			onchange="loadRelatedDep()">
-																			<option value="">--SELECT--</option>
-																			<c:forEach items="${departments}" var="b">
-																				<option value="${b.depID}">${b.department}</option>
-																			</c:forEach>
-																		</select>
-																	</div>
-																</div>
-															</div>
-														</div>
-														<div class="tab-pane fade" id="pills-profile-nobd"
-															role="tabpanel" aria-labelledby="pills-profile-tab-nobd">
-															<div class="row">
-																<div class="col-6">
-																	<div class="form-group row">
-																		<select name="loid" id="loid" class="custom-select"
-																			onchange=" loadRelatedLoc()">
-																			<option value="">--SELECT--</option>
-																			<c:forEach items="${allLocs}" var="b">
-																				<option value="${b.loid}">${b.location}</option>
-																			</c:forEach>
-																		</select>
-																	</div>
-																</div>
-															</div>
-														</div>
-														<div class="tab-pane fade" id="pills-contact-nobd"
-															role="tabpanel" aria-labelledby="pills-contact-tab-nobd">
-															<div class="row">
-																<div class="col-6">
-																	<div class="form-group row">
-																		<select name="catgoryID" id="catgoryID"
-																			class="custom-select" onchange=" loadRelatedCat()">
-																			<option value="">--SELECT--</option>
-																			<c:forEach items="${categories}" var="b">
-																				<option value="${b.catgoryID}">${b.category}</option>
-																			</c:forEach>
-																		</select>
-																	</div>
-																</div>
-															</div>
-														</div>
-														<div class="tab-pane fade" id="pills-contact-nobd4"
-															role="tabpanel" aria-labelledby="pills-contact-tab-nobd4">
-															<div class="row">
-																<div class="col-6">
-																	<div class="form-group row">
-																		<select name="tid" id="tid" class="custom-select"
-																			onchange="loadRelatedType()">
-																			<option value="">--SELECT--</option>
-																			<c:forEach items="${types}" var="b">
-																				<option value="${b.tid}">${b.type}</option>
-																			</c:forEach>
-																		</select>
-																	</div>
-																</div>
-															</div>
-														</div>
-														<div class="tab-pane fade" id="pills-contact-nobd5"
-															role="tabpanel" aria-labelledby="pills-contact-tab-nobd5">
-															<div class="row">
-																<div class="col-6">
-																	<div class="form-group row">
-																		<select name="empID" id="empID" class="custom-select"
-																			onchange="loadEmpToTable()">
-																			<option value="">--SELECT--</option>
-																			<c:forEach items="${employees}" var="b">
-																				<option value="${b.empID}">${b.name}
-																					${b.lastname}</option>
-																			</c:forEach>
-																		</select>
-																	</div>
-																</div>
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-										<div class="row">
 											<div class="col-6">
-												<div class="form-group row">
-													<label class="col-3 mt-1">Add To All Employees</label>
-													<div class="col-2">
-														<input class="form-check-input ml-5 mt-2" type="radio"
-															name="inlineRadioOptions" id="inlineRadio5"
-															value="option1" onchange="loadAllEmps()">
+												<div class="row">
+													<div class="col-6">
+														<div class="form-group">
+															<label>Year & Month</label> <input type="text"
+																class="form-control" name="datepicker" id="datepicker"
+																placeholder="Pick a Year and Month"
+																onchange="loadRePeriodCode()" />
+														</div>
 													</div>
-													<div class="col-7"></div>
+												</div>
+												<div class="row">
+													<div class="col-6" id="startDateDiv">
+														<div class="form-group">
+															<div class="input-group">
+																<div class="input-group-prepend">
+																	<span class="input-group-text">From</span>
+																</div>
+																<form:input type="text" path="pYear"
+																	class="form-control" id="startDate"
+																	placeholder="Start Date" />
+															</div>
+														</div>
+													</div>
+													<div class="col-6">
+														<div class="form-group" id="endDateDiv">
+															<div class="input-group">
+																<div class="input-group-prepend">
+																	<span class="input-group-text">To</span>
+																</div>
+																<form:input type="text" class="form-control" id="pMonth"
+																	path="pMonth" onchange="getPeriodIDReDates()"
+																	placeholder="End Date" />
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="row">
+													<div class="col-6">
+														<div class="form-group" id="payCodeValDiv">
+															<label>PayCode</label>
+															<form:select path="monthDePk.payCodeid.payCodeID"
+																id="payCode" class="form-control">
+																<form:option value="">Select PayCode</form:option>
+																<c:forEach items="${empMoMaAll}" var="b">
+																	<form:option value="${b.payCodeID}">${b.payCode}</form:option>
+																</c:forEach>
+															</form:select>
+														</div>
+													</div>
+													<div class="col-6">
+														<div class="form-group mt-4" id="payPeriodValDiv">
+															<div class="input-group">
+																<div class="input-group-prepend">
+																	<span class="input-group-text">PayPeriod</span>
+																</div>
+																<input type="text" name="periodCodeVal"
+																	class="form-control" id="periodCodeVal"
+																	placeholder="PayPeriod Value">
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="row" id="hiddenRow">
+													<div class="col-6" id="payPeriodDiv">
+														<div class="form-group">
+															<label>PayPeriod</label> <input type="text"
+																name="periodCode" class="form-control" id="periodCode"
+																placeholder="Period Code" onchange="getRelatedDate()"
+																readOnly>
+														</div>
+													</div>
+													<div class="col-6" id="companyDiv">
+														<div class="form-group">
+															<label>Company ID </label> <input type="text"
+																name="company.comID" class="form-control" id="comID"
+																value="<%=session.getAttribute("company.comID")%>"
+																readOnly />
+														</div>
+													</div>
+												</div>
+												<div class="row">
+													<div class="col-6">
+														<div class="form-group">
+															<label>Allowance Type</label>
+															<form:select path="monthDePk.payType.deductTypeCode"
+																id="deductTypeCode" class="form-control"
+																onchange="loadAddDed()">
+																<form:option value="">--SELECT--</form:option>
+																<c:forEach items="${addDedTypes}" var="b">
+																	<form:option value="${b.deductTypeCode}">${b.desc}</form:option>
+																</c:forEach>
+															</form:select>
+														</div>
+													</div>
+													<div class="col-6" id="alloTypeDiv">
+														<div class="form-group mt-4">
+															<div class="input-group">
+																<div class="input-group-prepend">
+																	<span class="input-group-text">Type</span>
+																</div>
+																<input type="text" name="addDeType"
+																class="form-control" id="addDeType" placeholder="type">
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="row">
+													<div class="col-6">
+														<div class="form-group">
+															<label>Add to employees in</label> <select
+																class="form-control" name="seperateSelect"
+																id="sepSelect" onChange="loadRelatedSelect();">
+																<option value="" selected>--SELECT--</option>
+																<option value="department">Department</option>
+																<option value="location">Location</option>
+																<option value="category">Category</option>
+																<option value="type">Type</option>
+																<option value="employee">Employee</option>
+																<option value="allEmployee">All Employee</option>
+															</select>
+														</div>
+													</div>
+													<div class="col-6">
+														<div class="form-group" id="loadSepDiv"></div>
+													</div>
+												</div>
+												<div class="row" id="hiddenRow">
+													<div class="col-6">
+														<div class="form-group">
+															<label>Amount</label> <input type="text"
+																class="form-control" id="vlivateAllEmps"
+																name="vlivateAllEmps" placeholder="Enter Amount"
+																readOnly>
+														</div>
+													</div>
+													<div class="col-6">
+														<div class="form-group">
+															<label>Table EmpID</label> <input type="text"
+																id="tEmpID1" class="form-control"
+																name="monthDePk.empID.empID" readOnly>
+														</div>
+													</div>
+												</div>
+												<div class="row">
+													<div class="col-10">
+														<div class="form-group">
+															<button type="submit" id="submitBtn"
+																class="btn btn-success">
+																<i class="fa fa-plus"></i> Add Month Details
+															</button>
+															<button type="reset" id="resetBtn"
+																class="browse btn btn-danger ml-2"
+																onClick="slideUpDatable01()">
+																<i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
+																Reset
+															</button>
+														</div>
+													</div>
 												</div>
 											</div>
-										</div>
-										<div class="row" id="amtDiv">
 											<div class="col-6">
-												<div class="form-group row">
-													<label class="col-3 mt-1">Amount</label>
-													<div class="col-2"></div>
-													<div class="col-7">
-														<input type="text" class="form-control"
-															id="vlivateAllEmps" name="vlivateAllEmps"
-															placeholder="Enter Amount">
-													</div>
+												<div class="scrollable" id="dataTableBasic">
+													<table id="tableMoSaDetails" class="table table-hover"
+														cellspacing="0" width="100%">
+														<thead>
+															<tr>
+																<th></th>
+																<th>Emp. No.</th>
+																<th>Full Name</th>
+																<th>Amount</th>
+															</tr>
+														</thead>
+														<tbody>
+															<tr>
+															</tr>
+														</tbody>
+													</table>
 												</div>
 											</div>
 										</div>
-										<div class="row" id="tblEmpDiv">
-											<div class="col-6">
-												<div class="form-group row">
-													<label class="col-3 mt-1">Table EmpID</label>
-													<div class="col-2"></div>
-													<div class="col-7">
-														<input type="text" id="tEmpID1" class="form-control"
-															name="monthDePk.empID.empID">
-													</div>
-												</div>
-											</div>
-										</div>
-										<div class="col-12">
-											<div class="scrollable">
-												<table id="tableMoSaDetails" class="table table-hover"
-													cellspacing="0" width="100%">
+									</form:form>
+									<div class="row">
+										<div class="form-group">
+											<div class="table-responsive mt-3">
+												<table id="basic-datatables"
+													class="display table table-striped table-hover border border-primary">
 													<thead>
 														<tr>
-															<th></th>
-															<th>EmpID</th>
-															<th>Name</th>
+															<th>Emp.No.</th>
+															<th>Full Name</th>
+															<th>Allowance</th>
+															<th>PayCode</th>
+															<th>Start Date</th>
+															<th>End Date</th>
 															<th>Amount</th>
+															<th>Action</th>
 														</tr>
 													</thead>
 													<tbody>
-														<tr>
-														</tr>
+														<c:forEach items="${findAllEmpMoSaDetails}" var="s">
+															<tr>
+																<td id="tPro"><div>${s.monthDePk.empID.empID}</div></td>
+																<td id="tItem"><div>${s.monthDePk.empID.name}
+																		${s.monthDePk.empID.lastname}</div></td>
+																<td id="tItem"><div>${s.monthDePk.payType.desc}</div></td>
+																<td id="tItem"><div>${s.monthDePk.payCodeid.payCode}</div></td>
+																<td id="tItem"><div>${s.pYear}</div></td>
+																<td id="tItem"><div>${s.pMonth}</div></td>
+																<td id="tItem"><div>${s.amount}</div></td>
+																<td id="tItem"><div>
+																		<a
+																			href="updateDeductForm?id=${s.monthDePk.empID.empID}"><i
+																			class="far fa-edit"></i></a>
+																	</div></td>
+															</tr>
+														</c:forEach>
 													</tbody>
 												</table>
 											</div>
 										</div>
-										<span id='validateAM'></span>
-										<div class="row">
-											<div class="form-group col-12 mt-3">
-												<button type="submit" id="submitBtn" class="btn btn-success">
-													<i class="fa fa-plus"></i> Add Month Details
-												</button>
-												<button type="reset" id="resetBtn"
-													class="browse btn btn-danger ml-2">
-													<i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
-													Reset
-												</button>
-											</div>
-										</div>
-									</form:form>
-									<div class="table-responsive mt-3">
-											<table id="basic-datatables"
-												class="display table table-striped table-hover">
-												<thead>
-													<tr>
-														<th>Emp. ID</th>
-														<th>Full Name</th>
-														<th>Allowance Name</th>
-														<th>PayCode</th>
-														<th>Start Date</th>
-														<th>End Date</th>
-														<th>Amount</th>
-														<th>Action</th>
-													</tr>
-												</thead>
-												<tbody>
-													<c:forEach items="${findAllEmpMoSaDetails}" var="s">
-														<tr>
-															<td id="tPro"><div>${s.monthDePk.empID.empID}</div></td>
-															<td id="tItem"><div>${s.monthDePk.empID.name}
-																	${s.monthDePk.empID.lastname}</div></td>
-															<td id="tItem"><div>${s.monthDePk.payType.desc}</div></td>
-															<td id="tItem"><div>${s.monthDePk.payCodeid.payCode}</div></td>
-															<td id="tItem"><div>${s.pYear}</div></td>
-															<td id="tItem"><div>${s.pMonth}</div></td>
-															<td id="tItem"><div>${s.amount}</div></td>
-															<td id="tItem"><div>
-																	<a
-																		href="updateDeductForm?id=${s.monthDePk.empID.empID}"><i
-																		class="far fa-edit"></i></a>
-																</div></td>
-														</tr>
-													</c:forEach>
-												</tbody>
-											</table>
-										</div>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -489,92 +382,99 @@
 	<script
 		src="<c:url value='resources/hrm/ajax/monthSalaryDetails03.js'/>"></script>
 	<script src="<c:url value='resources/hrm/js/yearpicker.js'/>"></script>
-		<!-- jQuery Scrollbar -->
+	<!-- jQuery Scrollbar -->
 	<script
 		src="resources/assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
 	<!-- Datatables -->
 	<script src="resources/assets/js/plugin/datatables/datatables.min.js"></script>
+	<!-- combined year and month picker js -->
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.2.0/js/bootstrap-datepicker.min.js"></script>
 </body>
-<script type="text/javascript">
-	google_ad_client = "ca-pub-2783044520727903";
-	/* jQuery_demo */
-	google_ad_slot = "2780937993";
-	google_ad_width = 728;
-	google_ad_height = 90;
-	//
-</script>
-<script type="text/javascript">
-	var _gaq = _gaq || [];
-	_gaq.push([ '_setAccount', 'UA-36251023-1' ]);
-	_gaq.push([ '_setDomainName', 'jqueryscript.net' ]);
-	_gaq.push([ '_trackPageview' ]);
+<script>
+	$(document)
+			.ready(
+					function() {
+						$('#basic-datatables').DataTable({});
 
-	(function() {
-		var ga = document.createElement('script');
-		ga.type = 'text/javascript';
-		ga.async = true;
-		ga.src = ('https:' == document.location.protocol ? 'https://ssl'
-				: 'http://www')
-				+ '.google-analytics.com/ga.js';
-		var s = document.getElementsByTagName('script')[0];
-		s.parentNode.insertBefore(ga, s);
-	})();
+						$('#multi-filter-select')
+								.DataTable(
+										{
+											"pageLength" : 20,
+											initComplete : function() {
+												this
+														.api()
+														.columns()
+														.every(
+																function() {
+																	var column = this;
+																	var select = $(
+																			'<select class="form-control"><option value=""></option></select>')
+																			.appendTo(
+																					$(
+																							column
+																									.footer())
+																							.empty())
+																			.on(
+																					'change',
+																					function() {
+																						var val = $.fn.dataTable.util
+																								.escapeRegex($(
+																										this)
+																										.val());
+
+																						column
+																								.search(
+																										val ? '^'
+																												+ val
+																												+ '$'
+																												: '',
+																										true,
+																										false)
+																								.draw();
+																					});
+
+																	column
+																			.data()
+																			.unique()
+																			.sort()
+																			.each(
+																					function(
+																							d,
+																							j) {
+																						select
+																								.append('<option value="'+d+'">'
+																										+ d
+																										+ '</option>')
+																					});
+																});
+											}
+										});
+
+						// Add Row
+						$('#add-row').DataTable({
+							"pageLength" : 20,
+						});
+
+						var action = '<td> <div class="form-button-action"> <button type="button" data-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task"> <i class="fa fa-edit"></i> </button> <button type="button" data-toggle="tooltip" title="" class="btn btn-link btn-danger" data-original-title="Remove"> <i class="fa fa-times"></i> </button> </div> </td>';
+
+						$('#addRowButton').click(
+								function() {
+									$('#add-row').dataTable().fnAddData(
+											[ $("#addName").val(),
+													$("#addPosition").val(),
+													$("#addOffice").val(),
+													action ]);
+									$('#addRowModal').modal('hide');
+
+								});
+					});
 </script>
 <script>
-	$(document).ready(function() {
-		$(".yearpicker").yearpicker({
-			year : 2017,
-			startYear : 2012,
-			endYear : 2030
-		});
+	$("#datepicker").datepicker({
+		format : "yyyy-mm",
+		startView : "months",
+		minViewMode : "months"
 	});
 </script>
-<script>
-		$(document).ready(function() {
-			$('#basic-datatables').DataTable({
-			});
-
-			$('#multi-filter-select').DataTable( {
-				"pageLength": 20,
-				initComplete: function () {
-					this.api().columns().every( function () {
-						var column = this;
-						var select = $('<select class="form-control"><option value=""></option></select>')
-						.appendTo( $(column.footer()).empty() )
-						.on( 'change', function () {
-							var val = $.fn.dataTable.util.escapeRegex(
-								$(this).val()
-								);
-
-							column
-							.search( val ? '^'+val+'$' : '', true, false )
-							.draw();
-						} );
-
-						column.data().unique().sort().each( function ( d, j ) {
-							select.append( '<option value="'+d+'">'+d+'</option>' )
-						} );
-					} );
-				}
-			});
-
-			// Add Row
-			$('#add-row').DataTable({
-				"pageLength": 20,
-			});
-
-			var action = '<td> <div class="form-button-action"> <button type="button" data-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task"> <i class="fa fa-edit"></i> </button> <button type="button" data-toggle="tooltip" title="" class="btn btn-link btn-danger" data-original-title="Remove"> <i class="fa fa-times"></i> </button> </div> </td>';
-
-			$('#addRowButton').click(function() {
-				$('#add-row').dataTable().fnAddData([
-					$("#addName").val(),
-					$("#addPosition").val(),
-					$("#addOffice").val(),
-					action
-					]);
-				$('#addRowModal').modal('hide');
-
-			});
-		});
-	</script>
 </html>
