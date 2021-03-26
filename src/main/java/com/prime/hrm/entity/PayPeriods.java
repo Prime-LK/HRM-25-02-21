@@ -28,6 +28,9 @@ public class PayPeriods {
 	@Column(name="Status")
 	private String status;
 	
+	@Column(name="Description")
+	private String desc;
+	
 	@ManyToOne(optional=false, fetch = FetchType.EAGER)
 	@JoinColumn(name="Company_ID", referencedColumnName="Company_ID")
 	private CompanyMaster company;
@@ -80,13 +83,22 @@ public class PayPeriods {
 		this.company = company;
 	}
 	
-	public PayPeriods(String payPeriodID, String startDate, String endDate, String payDate, String status,
+	public String getDesc() {
+		return desc;
+	}
+
+	public void setDesc(String desc) {
+		this.desc = desc;
+	}
+
+	public PayPeriods(String payPeriodID, String startDate, String endDate, String payDate, String status, String desc,
 			CompanyMaster company) {
 		this.payPeriodID = payPeriodID;
 		this.startDate = startDate;
 		this.endDate = endDate;
 		this.payDate = payDate;
 		this.status = status;
+		this.desc = desc;
 		this.company = company;
 	}
 

@@ -88,7 +88,7 @@
 	text-transform: capitalize;
 }
 
-#ppIDDiv {
+#ppIDDiv, #comDiv {
 	display: none;
 }
 </style>
@@ -143,13 +143,19 @@
 												placeholder="Enter Date Of Birth" id="endDate" />
 											<span id="div2"></span>
 										</div>
+										<div class="col-sm-3 mt-4 ">
+											<label>Description</label>
+											<form:input path="desc" type="text" class="form-control "
+												placeholder="Description" id="desc" />
+											<span id=""></span>
+										</div>
 										<div class="col-sm-3 mt-4 offset-2" id="ppIDDiv">
 											<label>PayPeriod ID</label>
 											<form:input path="payPeriodID" type="text" class="border-0"
 												id="payPeriodID" />
 											<span id="div3"></span>
 										</div>
-										<div class="col-sm-3 mt-4 offset-2">
+										<div class="col-sm-3 mt-4 offset-2" id="comDiv">
 											<!-- <label>Company ID</label> -->
 											<input name="company.comID" type="hidden" class="border-0"
 												id="comID"
@@ -191,6 +197,7 @@
 													<th>End Date</th>
 													<th>Pay Date</th>
 													<th>status</th>
+													<th>Description</th>
 													<th>Action</th>
 												</tr>
 											</thead>
@@ -201,6 +208,7 @@
 														<td>${p.endDate}</td>
 														<td>${p.payDate}</td>
 														<td>${p.status}</td>
+														<td>${p.desc}</td>
 														<td><a
 															href="updatepayPeriods?payPeriodID=${p.payPeriodID}">
 																<i class="far fa-edit"></i>
