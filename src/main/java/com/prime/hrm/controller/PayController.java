@@ -225,7 +225,7 @@ public class PayController {
 	@PostMapping("/saveProcessPayRollData1")
 	public String saveProcessPayrollData01(String payCodeID, String periodID, String processUser, String startDate,
 			String endDate, RedirectAttributes ra, String comID, Model m) {
-
+		
 		//check already process the data
 		List<ProcessPayrollDetails> ppd = proPaDeService.getAllRecords();
 		if (ppd.isEmpty()) {
@@ -1220,6 +1220,13 @@ public class PayController {
 		return "salaryMonthEnd";
 	}
 
+	@GetMapping("/loadProcessYearAndMonth")
+	@ResponseBody
+	public String[][] getProcessYearAndMonth() {
+		String[][] data = payService.getProcessYearAndMonth();
+		return data;
+	}
+	
 	@GetMapping("/salaryMonthEndFor01")
 	public String salaryMonthEndFor01(Map<String, Object> map) {
 		map.put("salaryHisMasForm01", new SalaryHistoryMaster());
@@ -1633,7 +1640,7 @@ public class PayController {
 			public void run() {
 				try {
 					Thread.sleep(10000);
-					proPaMaService.deleteAllDataOfProcessPayrollMaster();
+					moProMaService.deleteAllDataMoProMas();
 					proPaMaService.deleteAllDataOfProcessPayrollMaster();
 					proPaDeService.deleteAllProcessPayrollDetailsData();
 					System.out.println("All Data Deleted Successfully");
@@ -2063,7 +2070,7 @@ public class PayController {
 			public void run() {
 				try {
 					Thread.sleep(10000);
-					proPaMaService.deleteAllDataOfProcessPayrollMaster();
+					moProMaService.deleteAllDataMoProMas();
 					proPaMaService.deleteAllDataOfProcessPayrollMaster();
 					proPaDeService.deleteAllProcessPayrollDetailsData();
 					System.out.println("All Data Deleted Successfully");

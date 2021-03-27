@@ -1,3 +1,7 @@
+function manageFields() {
+	$("#payPeriodValDiv").hide();
+	$("#payCodeValDiv").hide();
+}
 function loadPayPeriod() {
 	var x = document.getElementById("startDate").value;
 	var y = document.getElementById("endDate").value;
@@ -12,10 +16,9 @@ function loadPayPeriod() {
 		success : function(data) {
 			
 			document.getElementById("periodID").value = data.payPeriodID;
+			document.getElementById("periodIDVal").value = data.desc;
 			loadPayCode();
-			$("#periodIDDiv").show();
-			$('#payCodeDiv').show();
-
+			visibleFields();
 		},
 		error : function(e) {
 			alert("Pay Period Not Found");
@@ -35,11 +38,14 @@ function loadPayCode() {
 		success : function(data) {
 
 			document.getElementById("payCodeID").value = data.payCodeID;
-//			loadDetails();
-
+			document.getElementById("payCodeIDVal").value = data.payCode;
 		},
 		error : function(e) {
 			alert("ID Does not Exists");
 		}
 	});
+}
+function visibleFields() {
+	$("#payPeriodValDiv").slideDown();
+	$("#payCodeValDiv").slideDown();
 }

@@ -96,4 +96,9 @@ public interface SalaryHistoryMasterRepository extends JpaRepository<SalaryHisto
 			"inner join pay_codes f on a.Pay_Code_ID = f.Pay_Code_ID \r\n" + 
 			"where f.Pay_Code_ID =:Pay_Code_ID group by a.Emp_ID) a group by empId order by empId)b)c",nativeQuery=true)
 	public String[][] saveSalaryHistoryMaster(@Param("Pay_Code_ID")String payCodeiID);
+	
+	@Query(value="SELECT a.Pay_Period_ID, b.Start_Date, b.End_Date from process_payroll_details a\n" + 
+			"INNER JOIN pay_periods b ON a.Pay_Period_ID = b.Pay_Period_ID\n" + 
+			"GROUP BY a.Pay_Period_ID", nativeQuery=true)
+	public String[][] getProcessYearAndMonth();
 }

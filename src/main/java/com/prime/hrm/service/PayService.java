@@ -249,6 +249,11 @@ public class PayService {
 			return saHisMaRepo.getShMaxID();
 		}
 	}
+	
+	public String[][] getProcessYearAndMonth() {
+		return saHisMaRepo.getProcessYearAndMonth();
+	}
+	
 	//end of salary history master functions
 	
 	//begin of salary history details functions
