@@ -20,9 +20,9 @@ import com.prime.hrm.repository.EmployeeDetailsRepository;
 import com.prime.hrm.repository.PayAddDeductTypesRepository;
 import com.prime.hrm.repository.PayCodeRepository;
 import com.prime.hrm.repository.PayPeriodsRepository;
+import com.prime.hrm.repository.ProcessPayrollDetailsRepository;
 import com.prime.hrm.repository.ProcessPayrollMasterRepository;
 import com.prime.hrm.repository.ProcessPayrollRepository;
-import com.prime.hrm.repository.SalaryAnalyzeReportRepository;
 import com.prime.hrm.repository.SalaryAnalyzeRepository;
 import com.prime.hrm.repository.SalaryHistoryDetailsRepository;
 import com.prime.hrm.repository.SalaryHistoryMasterRepository;
@@ -65,7 +65,7 @@ public class PayService {
 	private SalaryAnalyzeRepository saRepo;
 
 	@Autowired
-	private SalaryAnalyzeReportRepository saReRepo;
+	private ProcessPayrollDetailsRepository saReRepo;
 	
 	@Autowired
 	private EntityManager em;
@@ -304,33 +304,58 @@ public class PayService {
 		return addDedRepo.getAllowanceTypes();
 	}
 	
-	public List<SalaryAnalyzeReport> saveReportData(List<SalaryAnalyzeReport> details) {
-		return saReRepo.saveAll(details);
-	}
+//	public List<SalaryAnalyzeReport> saveReportData(List<SalaryAnalyzeReport> details) {
+//		return saReRepo.saveAll(details);
+//	}
 	
 	@SuppressWarnings("unchecked")
 	public List<SalaryAnalyze> getSalaryAnalyzeTable03Data() {
 		return em.createNamedStoredProcedureQuery("firstQuery").getResultList();
 	}
-	
+	//new
+	public String[][] getAllowanceName(String alloID) {
+		return saReRepo.getAllowanceName(alloID);
+	}
+	public String getMaxSaID() {
+		if(saRepo.getMaxSaID() == null) {
+			return "1";
+		} else {
+			return saRepo.getMaxSaID();
+		}
+	} 
+	public String[][] getSAtableData(String allID) {
+		return saReRepo.getSAtableData(allID);
+	}
+	public String[][] getListOfAllowances() {
+		return saRepo.getListOfAllowances();
+	}
+	public String[][] getSalaryAnalyzeTableHeaderData() {
+		return saRepo.getSalaryAnalyzeTableHeaderData();
+	}
+	public String[][] getSalaryAnalyzeTableBodyData() {
+		return saRepo.getSalaryAnalyzeTableBodyData();
+	} 
+	public String[][] getSelectedAllowanceDetails(String allo) {
+		return saReRepo.getSelectedAllowanceDetails(allo);
+	}
 	//salary analyze methods end
 	
 	// begin of fixed transactional details report
 	
-	public String[][] getFTDataRelatedEmployee(String empID) {
-		return saRepo.getFTDataRelatedEmployee(empID);
+	public String[][] getFTDataRelatedEmployee(String empID,String comID) {
+		return saRepo.getFTDataRelatedEmployee(empID,comID);
 	}
 	
-	public String[][] getAllEmpFTBodyData() {
-		return saRepo.getAllEmpFTBodyData();
+	public String[][] getAllEmpFTBodyData(String comID) {
+		return saRepo.getAllEmpFTBodyData(comID);
 	}
 	
-	public String[][] GetDataToFTDRRelatedDepartment(String depID) {
-		return saRepo.GetDataToFTDRRelatedDepartment(depID);
+	public String[][] GetDataToFTDRRelatedDepartment(String depID,String comID) {
+		return saRepo.GetDataToFTDRRelatedDepartment(depID,comID);
 	}
 	
-	public String[][] getDataRelatedAllDepartments() {
-		return saRepo.getDataRelatedAllDepartments();
+	public String[][] getDataRelatedAllDepartments(String comID) {
+		return saRepo.getDataRelatedAllDepartments(comID);
 	}
 	
 	// end of fixed transactional details report

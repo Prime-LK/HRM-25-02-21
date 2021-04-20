@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,7 +21,6 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.prime.hrm.entity.CompanyMaster;
-import com.prime.hrm.entity.DepartmentMaster;
 import com.prime.hrm.entity.Employee;
 import com.prime.hrm.entity.MonthProcessMaster;
 import com.prime.hrm.entity.MonthProcessPayCode;
@@ -34,18 +32,14 @@ import com.prime.hrm.entity.ProcessPayroll;
 import com.prime.hrm.entity.ProcessPayrollDetails;
 import com.prime.hrm.entity.ProcessPayrollDetailsPK;
 import com.prime.hrm.entity.ProcessPayrollMaster;
-import com.prime.hrm.entity.SalaryAnalyze;
-import com.prime.hrm.entity.SalaryAnalyzePK;
 import com.prime.hrm.entity.SalaryHistoryDetails;
 import com.prime.hrm.entity.SalaryHistoryDetailsPK;
 import com.prime.hrm.entity.SalaryHistoryMaster;
 import com.prime.hrm.entity.SalaryHistoryMasterPK;
 import com.prime.hrm.entity.Setting;
-import com.prime.hrm.service.DepartmentService;
 import com.prime.hrm.service.EmployeeSalaryService;
 import com.prime.hrm.service.MonthProcessMasterService;
 import com.prime.hrm.service.MonthProcessPayCodeService;
-import com.prime.hrm.service.PayAddDeductTypeService;
 import com.prime.hrm.service.PayService;
 import com.prime.hrm.service.ProcessPayrollDetailsService;
 import com.prime.hrm.service.ProcessPayrollMasterService;
@@ -249,13 +243,13 @@ public class PayController {
 			List<ProcessPayrollMaster> list2 = new ArrayList<>();
 			List<ProcessPayrollDetails> list3 = new ArrayList<>();
 
-			String[][] table01Data = proPaMaService.loadTable01Data(payCodeID);
-			String[][] moProPcData = proPaMaService.getMoProPCTabbleData(payCodeID);
-			String[][] table03Data = proPaMaService.sampleSave(payCodeID);
-			String[][] othCalPri = proPaMaService.otherGrossPerCal(); // other allowances gross per
-			String[][] dedCalPri = proPaMaService.dedGrossPerCal(); // deduction allowances gross per
-			String[][] addCalPri = proPaMaService.addGrossPerCal();// addition allowances gross per
-			String[][] empListCalPri = proPaMaService.calPriEmpList(); // emp cal pro
+			String[][] table01Data = proPaMaService.loadTable01Data(payCodeID,comID);
+			String[][] moProPcData = proPaMaService.getMoProPCTabbleData(payCodeID,comID);
+			String[][] table03Data = proPaMaService.sampleSave(payCodeID,comID);
+			String[][] othCalPri = proPaMaService.otherGrossPerCal(comID); // other allowances gross per
+			String[][] dedCalPri = proPaMaService.dedGrossPerCal(comID); // deduction allowances gross per
+			String[][] addCalPri = proPaMaService.addGrossPerCal(comID);// addition allowances gross per
+			String[][] empListCalPri = proPaMaService.calPriEmpList(comID); // emp cal pro
 
 			// save of month process paycode
 			for (int i = 0; i < table01Data.length; i++) {
@@ -310,7 +304,7 @@ public class PayController {
 				obj03PK.setPayType(addDed);
 
 				obj03.setProPayDePK(obj03PK);
-				obj03.setAmount(table03Data[i][2]);
+				obj03.setAmount(table03Data[i][3]);
 				obj03.setCompany(com);
 
 				list3.add(obj03);
@@ -471,13 +465,13 @@ public class PayController {
 			List<ProcessPayrollMaster> list2 = new ArrayList<>();
 			List<ProcessPayrollDetails> list3 = new ArrayList<>();
 
-			String[][] table01Data = proPaMaService.loadTable01Data(payCodeID);
-			String[][] moProPcData = proPaMaService.getMoProPCTabbleData(payCodeID);
-			String[][] table03Data = proPaMaService.sampleSave(payCodeID);
-			String[][] othCalPri = proPaMaService.otherGrossPerCal(); // other allowances gross per
-			String[][] dedCalPri = proPaMaService.dedGrossPerCal(); // deduction allowances gross per
-			String[][] addCalPri = proPaMaService.addGrossPerCal();// addition allowances gross per
-			String[][] empListCalPri = proPaMaService.calPriEmpList(); // emp cal pro
+			String[][] table01Data = proPaMaService.loadTable01Data(payCodeID,comID);
+			String[][] moProPcData = proPaMaService.getMoProPCTabbleData(payCodeID,comID);
+			String[][] table03Data = proPaMaService.sampleSave(payCodeID,comID);
+			String[][] othCalPri = proPaMaService.otherGrossPerCal(comID); // other allowances gross per
+			String[][] dedCalPri = proPaMaService.dedGrossPerCal(comID); // deduction allowances gross per
+			String[][] addCalPri = proPaMaService.addGrossPerCal(comID);// addition allowances gross per
+			String[][] empListCalPri = proPaMaService.calPriEmpList(comID); // emp cal pro
 
 			// save of month process master
 			for (int i = 0; i < table01Data.length; i++) {
@@ -528,7 +522,7 @@ public class PayController {
 				obj03PK.setPayType(addDed);
 
 				obj03.setProPayDePK(obj03PK);
-				obj03.setAmount(table03Data[i][2]);
+				obj03.setAmount(table03Data[i][3]);
 				obj03.setCompany(com);
 
 				list3.add(obj03);
@@ -690,13 +684,13 @@ public class PayController {
 			List<ProcessPayrollMaster> list2 = new ArrayList<>();
 			List<ProcessPayrollDetails> list3 = new ArrayList<>();
 
-			String[][] table01Data = proPaMaService.loadTable01Data(payCodeID);
-			String[][] moProPcData = proPaMaService.getMoProPCTabbleData(payCodeID);
-			String[][] table03Data = proPaMaService.sampleSave(payCodeID);
-			String[][] othCalPri = proPaMaService.otherGrossPerCal(); // other allowances gross per
-			String[][] dedCalPri = proPaMaService.dedGrossPerCal(); // deduction allowances gross per
-			String[][] addCalPri = proPaMaService.addGrossPerCal();// addition allowances gross per
-			String[][] empListCalPri = proPaMaService.calPriEmpList(); // emp cal pro
+			String[][] table01Data = proPaMaService.loadTable01Data(payCodeID,comID);
+			String[][] moProPcData = proPaMaService.getMoProPCTabbleData(payCodeID,comID);
+			String[][] table03Data = proPaMaService.sampleSave(payCodeID,comID);
+			String[][] othCalPri = proPaMaService.otherGrossPerCal(comID); // other allowances gross per
+			String[][] dedCalPri = proPaMaService.dedGrossPerCal(comID); // deduction allowances gross per
+			String[][] addCalPri = proPaMaService.addGrossPerCal(comID);// addition allowances gross per
+			String[][] empListCalPri = proPaMaService.calPriEmpList(comID); // emp cal pro
 
 			for (int i = 0; i < table01Data.length; i++) {
 
@@ -751,7 +745,7 @@ public class PayController {
 				obj03PK.setPayType(addDed);
 
 				obj03.setProPayDePK(obj03PK);
-				obj03.setAmount(table03Data[i][2]);
+				obj03.setAmount(table03Data[i][3]);
 				obj03.setCompany(com);
 
 				list3.add(obj03);
@@ -912,28 +906,28 @@ public class PayController {
 			List<ProcessPayrollMaster> list2 = new ArrayList<>();
 			List<ProcessPayrollDetails> list3 = new ArrayList<>();
 
-			String[][] table01Data = proPaMaService.loadTable01Data(payCodeID);
-			String[][] moProPcData = proPaMaService.getMoProPCTabbleData(payCodeID);
-			String[][] table03Data = proPaMaService.sampleSave(payCodeID);
-			String[][] othCalPri = proPaMaService.otherGrossPerCal(); // other allowances gross per
-			String[][] dedCalPri = proPaMaService.dedGrossPerCal(); // deduction allowances gross per
-			String[][] addCalPri = proPaMaService.addGrossPerCal();// addition allowances gross per
-			String[][] empListCalPri = proPaMaService.calPriEmpList(); // emp cal pro
+			String[][] moProMa = proPaMaService.saveDataMonthProcessMaster(payCodeID,comID);
+			String[][] moProPcData = proPaMaService.getMoProPCTabbleData(payCodeID,comID);
+			String[][] table03Data = proPaMaService.sampleSave(payCodeID,comID);
+			String[][] othCalPri = proPaMaService.otherGrossPerCal(comID); // other allowances gross per
+			String[][] dedCalPri = proPaMaService.dedGrossPerCal(comID); // deduction allowances gross per
+			String[][] addCalPri = proPaMaService.addGrossPerCal(comID);// addition allowances gross per
+			String[][] empListCalPri = proPaMaService.calPriEmpList(comID); // emp cal pro
 
 			// save of month process master
-			for (int i = 0; i < table01Data.length; i++) {
+			for (int i = 0; i < moProMa.length; i++) {
 				MonthProcessMaster obj01 = new MonthProcessMaster();
 
 				obj01.setMoProMasterID("00000".substring(moProMaService.getMID().length()) + moProMaService.getMID());
-				obj01.setEmps(table01Data[i][0]);
-				obj01.setTotalBSalary(table01Data[i][1]);
-				obj01.setTotAddition(table01Data[i][2]);
-				obj01.setTotDeduction(table01Data[i][3]);
+				obj01.setEmps(moProMa[i][0]);
+				obj01.setTotalBSalary(moProMa[i][1]);
+				obj01.setTotAddition(moProMa[i][2]);
+				obj01.setTotDeduction(moProMa[i][3]);
 				obj01.setPayPeriod(pp);
 				obj01.setProcessUser(processUser);
 				obj01.setProcessDate(dtf.format(ldt));
 				obj01.setCompany(com);
-
+				
 				list.add(obj01);
 			}
 			// save of process payroll master
@@ -970,7 +964,7 @@ public class PayController {
 				obj03PK.setPayType(addDed);
 
 				obj03.setProPayDePK(obj03PK);
-				obj03.setAmount(table03Data[i][2]);
+				obj03.setAmount(table03Data[i][3]);
 				obj03.setCompany(com);
 
 				list3.add(obj03);
@@ -1101,16 +1095,16 @@ public class PayController {
 	// load processPayroll data table 01
 	@GetMapping("/getTableData01")
 	@ResponseBody
-	public String[][] loadTable01Data(@RequestParam("payCodeID") String payCodeID) {
-		String[][] table01Data = proPaMaService.loadTable01Data(payCodeID);
+	public String[][] loadTable01Data(@RequestParam("payCodeID") String payCodeID, @RequestParam("comID") String comID) {
+		String[][] table01Data = proPaMaService.loadTable01Data(payCodeID,comID);
 		return table01Data;
 	}
 
 	// table 02
 	@GetMapping("/getTableData02")
 	@ResponseBody
-	public String[][] loadTable02Data(@RequestParam("payCodeID") String payCodeID) {
-		String[][] table02Data = proPaMaService.loadTable02Data(payCodeID);
+	public String[][] loadTable02Data(@RequestParam("payCodeID") String payCodeID, @RequestParam("comID") String comID) {
+		String[][] table02Data = proPaMaService.loadTable02Data(payCodeID,comID);
 		return table02Data;
 	}
 
@@ -1132,36 +1126,65 @@ public class PayController {
 		return table03Data;
 	}
 
-	// calPriorityData
+	// depends on gross salary data (calculation priority)
 	@GetMapping("/calPriorityData")
 	@ResponseBody
-	public String calPriorityData(@RequestParam("payCodeID") String payCodeID, @RequestParam("empID") String empID) {
-		String calPriorityData = proPaMaService.CalPriorotyData(payCodeID, empID);
+	public String calPriorityData(@RequestParam("payCodeID") String payCodeID, @RequestParam("empID") String empID,
+			 @RequestParam("comID") String comID) {
+		String calPriorityData = proPaMaService.CalPriorotyData(payCodeID, empID,comID);
 		return calPriorityData;
 	}
 
-	// calPriorityData
 	@GetMapping("/otherGrossValues")
 	@ResponseBody
-	public String[][] otherGrossValues(@RequestParam("empID") String empID) {
-		String[][] otherGrossValues = proPaMaService.otherGrossPerValues(empID);
+	public String[][] getFixAndVariableOthGrossPercentageValues(@RequestParam("empID") String empID,
+			@RequestParam("comID") String comID) {
+		String[][] otherGrossValues = proPaMaService.getFixAndVariableOthGrossPercentageValues(empID,comID);
 		return otherGrossValues;
 	}
 
-	// dedPriorityData
 	@GetMapping("/dedGrossPerValues")
 	@ResponseBody
-	public String[][] dedGrossPerValues(@RequestParam("empID") String empID) {
-		String[][] dedGrossPerValues = proPaMaService.dedGrossPerValues(empID);
+	public String[][] getFixAndVariableDedGrossPercentageValues(@RequestParam("empID") String empID,
+			@RequestParam("comID") String comID) {
+		String[][] dedGrossPerValues = proPaMaService.getFixAndVariableDedGrossPercentageValues(empID,comID);
 		return dedGrossPerValues;
 	}
 
-	// addPriorityData
 	@GetMapping("/addGrossPerValues")
 	@ResponseBody
-	public String[][] addGrossPerValues(@RequestParam("empID") String empID) {
-		String[][] addGrossPerValues = proPaMaService.addGrossPerValues(empID);
+	public String[][] getFixAndVariableAddGrossPercentageValues(@RequestParam("empID") String empID, @RequestParam("comID") String comID) {
+		String[][] addGrossPerValues = proPaMaService.addGrossPerValues(empID,comID);
 		return addGrossPerValues;
+	}
+	
+	// Depends on basic salary data
+	@GetMapping("/addBasicPerValues")
+	@ResponseBody
+	public String getBasicSalaryCalculatePercentageValues(@RequestParam("empID") String empID, @RequestParam("comID") String comID) {
+		String addGrossPerValues = proPaMaService.getBasicSalaryCalculatePercentageValues(empID,comID);
+		return addGrossPerValues;
+	}
+	
+	@GetMapping("/addBasicPerValuesBasic")
+	@ResponseBody
+	public String[][] getFixAndVariableAddBasicPercentageValues(@RequestParam("empID") String empID, @RequestParam("comID") String comID) {
+		String[][] addGrossPerValues = proPaMaService.getFixAndVariableAddBasicPercentageValues(empID,comID);
+		return addGrossPerValues;
+	}
+	
+	@GetMapping("/dedBasicPerValuesBasic")
+	@ResponseBody
+	public String[][] getFixAndVariableDedBasicPercentageValues(@RequestParam("empID") String empID, @RequestParam("comID") String comID) {
+		String[][] dedGrossPerValues = proPaMaService.getFixAndVariableDedBasicPercentageValues(empID,comID);
+		return dedGrossPerValues;
+	}
+	
+	@GetMapping("/othBasicPerValuesBasic")
+	@ResponseBody
+	public String[][] getFixAndVariableOthBasicPercentageValues(@RequestParam("empID") String empID, @RequestParam("comID") String comID) {
+		String[][] dedGrossPerValues = proPaMaService.getFixAndVariableOthBasicPercentageValues(empID,comID);
+		return dedGrossPerValues;
 	}
 
 	@GetMapping("/checkPerOrNotWhenEdit")
@@ -1256,11 +1279,11 @@ public class PayController {
 		List<SalaryHistoryMaster> list = new ArrayList<>();
 		List<SalaryHistoryDetails> list2 = new ArrayList<>();
 
-		String[][] table03Data = proPaMaService.sampleSave(payCodeID);
-		String[][] othCalPri = proPaMaService.otherGrossPerCal(); // other allowances gross per
-		String[][] dedCalPri = proPaMaService.dedGrossPerCal(); // deduction allowances gross per
-		String[][] addCalPri = proPaMaService.addGrossPerCal();// addition allowances gross per
-		String[][] empListCalPri = proPaMaService.calPriEmpList(); // emp cal pro
+		String[][] table03Data = proPaMaService.sampleSave(payCodeID,comID);
+		String[][] othCalPri = proPaMaService.otherGrossPerCal(comID); // other allowances gross per
+		String[][] dedCalPri = proPaMaService.dedGrossPerCal(comID); // deduction allowances gross per
+		String[][] addCalPri = proPaMaService.addGrossPerCal(comID);// addition allowances gross per
+		String[][] empListCalPri = proPaMaService.calPriEmpList(comID); // emp cal pro
 		String[][] saHisMaData = payService.saveSalaryHistoryMaster(payCodeID);
 
 		// save salary history master
@@ -1471,11 +1494,11 @@ public class PayController {
 		List<SalaryHistoryMaster> list = new ArrayList<>();
 		List<SalaryHistoryDetails> list2 = new ArrayList<>();
 
-		String[][] table03Data = proPaMaService.sampleSave(payCodeID);
-		String[][] othCalPri = proPaMaService.otherGrossPerCal(); // other allowances gross per
-		String[][] dedCalPri = proPaMaService.dedGrossPerCal(); // deduction allowances gross per
-		String[][] addCalPri = proPaMaService.addGrossPerCal();// addition allowances gross per
-		String[][] empListCalPri = proPaMaService.calPriEmpList(); // emp cal pro
+		String[][] table03Data = proPaMaService.sampleSave(payCodeID,comID);
+		String[][] othCalPri = proPaMaService.otherGrossPerCal(comID); // other allowances gross per
+		String[][] dedCalPri = proPaMaService.dedGrossPerCal(comID); // deduction allowances gross per
+		String[][] addCalPri = proPaMaService.addGrossPerCal(comID);// addition allowances gross per
+		String[][] empListCalPri = proPaMaService.calPriEmpList(comID); // emp cal pro
 		String[][] saHisMaData = payService.saveSalaryHistoryMaster(payCodeID);
 
 		// save salary history master
@@ -1686,11 +1709,11 @@ public class PayController {
 		List<SalaryHistoryMaster> list = new ArrayList<>();
 		List<SalaryHistoryDetails> list2 = new ArrayList<>();
 
-		String[][] table03Data = proPaMaService.sampleSave(payCodeID);
-		String[][] othCalPri = proPaMaService.otherGrossPerCal(); // other allowances gross per
-		String[][] dedCalPri = proPaMaService.dedGrossPerCal(); // deduction allowances gross per
-		String[][] addCalPri = proPaMaService.addGrossPerCal();// addition allowances gross per
-		String[][] empListCalPri = proPaMaService.calPriEmpList(); // emp cal pro
+		String[][] table03Data = proPaMaService.sampleSave(payCodeID,comID);
+		String[][] othCalPri = proPaMaService.otherGrossPerCal(comID); // other allowances gross per
+		String[][] dedCalPri = proPaMaService.dedGrossPerCal(comID); // deduction allowances gross per
+		String[][] addCalPri = proPaMaService.addGrossPerCal(comID);// addition allowances gross per
+		String[][] empListCalPri = proPaMaService.calPriEmpList(comID); // emp cal pro
 		String[][] saHisMaData = payService.saveSalaryHistoryMaster(payCodeID);
 
 		// save salary history master
@@ -1901,11 +1924,11 @@ public class PayController {
 		List<SalaryHistoryMaster> list = new ArrayList<>();
 		List<SalaryHistoryDetails> list2 = new ArrayList<>();
 
-		String[][] table03Data = proPaMaService.sampleSave(payCodeID);
-		String[][] othCalPri = proPaMaService.otherGrossPerCal(); // other allowances gross per
-		String[][] dedCalPri = proPaMaService.dedGrossPerCal(); // deduction allowances gross per
-		String[][] addCalPri = proPaMaService.addGrossPerCal();// addition allowances gross per
-		String[][] empListCalPri = proPaMaService.calPriEmpList(); // emp cal pro
+		String[][] table03Data = proPaMaService.sampleSave(payCodeID,comID);
+		String[][] othCalPri = proPaMaService.otherGrossPerCal(comID); // other allowances gross per
+		String[][] dedCalPri = proPaMaService.dedGrossPerCal(comID); // deduction allowances gross per
+		String[][] addCalPri = proPaMaService.addGrossPerCal(comID);// addition allowances gross per
+		String[][] empListCalPri = proPaMaService.calPriEmpList(comID); // emp cal pro
 		String[][] saHisMaData = payService.saveSalaryHistoryMaster(payCodeID);
 
 		// save salary history master
