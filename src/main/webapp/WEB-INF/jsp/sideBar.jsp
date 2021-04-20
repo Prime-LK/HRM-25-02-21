@@ -86,18 +86,18 @@
 				</a>
 					<div class="collapse" id="base3">
 						<ul class="nav nav-collapse">
-							<li><a href="payAddDeductTypes"> <span class="sub-item">Addition & Deduction Type</span></a></li>
+							<li><a href="payAddDeductTypes"> <span class="sub-item">Set Allowance Types</span></a></li>
 							<li><a href="setting"> <span class="sub-item">Setting</span></a></li>
 							<li><a href="createPayPeriod"> <span class="sub-item">Pay Periods</span></a></li>
 							<li><a href="Paycodes"> <span class="sub-item">Pay Codes</span></a></li>
 							<li><a href="employeeSalaryMaster"> <span class="sub-item">Employee Salary</span></a></li>
-							<li><a href="getEmployeeSalaryDetailsPage"> <span class="sub-item">Employee Salary Details</span></a></li>
-							<li><a href="getEmpMonthSalaryDetailsPage"> <span class="sub-item">Month Salary Details</span></a></li>
-							<li><a href="getProcessPayrollPage"> <span class="sub-item">Process Payroll Run</span></a></li>
-							<li><a href="getSalaryMonthEnd"> <span class="sub-item">Salary Month End</span></a></li>
+							<li><a href="getEmployeeSalaryDetailsPage"> <span class="sub-item">Allocate Fix Allowances</span></a></li>
+							<li><a href="getEmpMonthSalaryDetailsPage"> <span class="sub-item">Allocate Month Allowances</span></a></li>
+							<li><a href="getProcessPayrollPage"> <span class="sub-item">Salary Process</span></a></li>
+							<li><a href="getSalaryMonthEnd"> <span class="sub-item">Month End</span></a></li>
 							<li class="dropdown-divider">Reports</li>
-							<li><a href="processPayRollReport"> <span class="sub-item">Payroll Report</span></a></li>
-							<li><a href="getSalaryAnalyzer"> <span class="sub-item">Analyze Salary</span></a></li>
+							<li><a href="processPayRollReport"> <span class="sub-item">PaySlip</span></a></li>
+							<li><a href="getSalaryAnalyzer"> <span class="sub-item">Salary Analyze</span></a></li>
 							<li><a href="getFTDReport"> <span class="sub-item">Fixed Transaction details</span></a></li>
 						</ul>
 					</div></li>

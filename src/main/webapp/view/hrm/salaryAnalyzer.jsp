@@ -95,7 +95,7 @@
 }
 </style>
 </head>
-<body>
+<body onload="inVisibleFields()">
 	<div class="wrapper">
 		<div class="main-header">
 			<!-- Logo Header -->
@@ -136,7 +136,7 @@
 												<label class="col-5">Year</label>
 												<div class="col-7">
 													<form:input type="text" class="yearpicker form-control"
-														path="year" placeholder="Enter Process Year" id="year" />
+														path="year" autocomplete="off" placeholder="Pick a Year" id="year" />
 												</div>
 											</div>
 										</div>

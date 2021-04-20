@@ -65,11 +65,13 @@ function loadPayCode() {
 
 function loadDetails() {
 	var x = document.getElementById("payCodeID").value;
+	var f = document.getElementById("comID").value;	
 	$.ajax({
 				type : "GET",
 				url : "getTableData01",
 				data : {
-					"payCodeID" : x
+					"payCodeID" : x,
+					"comID" : f
 				},
 				success : function(data) {
 					$("#detailsTbl1").empty();
@@ -92,11 +94,13 @@ function loadDetails() {
 
 function getEmpDetailsRelatedPayCodeID1(e) {	
 	var x = document.getElementById("payCodeID").value;
+	var f = document.getElementById("comID").value;	
 	$.ajax({
 		type : "GET",
 		url : "getTableData02",
 		data : {
-			"payCodeID" : x
+			"payCodeID" : x,
+			"comID" : f
 		},
 		success : function(data) {
 
@@ -147,58 +151,37 @@ function getEmpWithDetails1(e) {
 					$("span:empty").remove();
 				}	
 				var result1 = 	
-							  '<span class="col-7">'+ data[i][4] +'</span>'
-							+ '<span class="col-5">'+ data[i][5] +'</span>'
-							
-							+ '<span class="col-7">'+ data[i][6] +'</span>'
-							+ '<span class="col-5">'+ data[i][7] +'</span>'
-							
-							+ '<span class="col-7">'+ data[i][10] +'</span>'
-							+ '<span class="col-5">'+ data[i][11] +'</span>'
-							
-							+ '<span class="col-7">'+ data[i][12] +'</span>'
-							+ '<span class="col-5">'+ data[i][13] +'</span>'
-							
-							+ '<span class="col-7">'+ data[i][14] +'</span>'
-							+ '<span class="col-5">'+ data[i][15] +'</span>';	
-				
-				            $("#additions").append(result1);
-				                
-				var result2 =
-						      '<span class="col-7">'+ data[i][16] +'</span>'
-							+ '<span class="col-5">'+ data[i][17] +'</span>';
-						
-							+ '<span class="col-7">'+ data[i][18] +'</span>'
-							+ '<span class="col-5">'+ data[i][19] +'</span>'
-						
-							+ '<span class="col-7">'+ data[i][22] +'</span>'
-							+ '<span class="col-5">'+ data[i][23] +'</span>'
-						
-							+ '<span class="col-7">'+ data[i][24] +'</span>'
-							+ '<span class="col-5">'+ data[i][25] +'</span>'
-							
-							+ '<span class="col-7">'+ data[i][26] +'</span>'
-							+ '<span class="col-5">'+ data[i][27] +'</span>';
-				
-							$("#deductions").append(result2);	
-			
-				var result3 = 			
-						      '<span class="col-7">'+ data[i][28] +'</span>'
-							+ '<span class="col-5">'+ data[i][29] +'</span>'
-						
-							+ '<span class="col-7">'+ data[i][30] +'</span>'
-							+ '<span class="col-5">'+ data[i][31] +'</span>'
-						
-							+ '<span class="col-7">'+ data[i][34] +'</span>'
-							+ '<span class="col-5">'+ data[i][35] +'</span>'
-						
-							+ '<span class="col-7">'+ data[i][36] +'</span>'
-							+ '<span class="col-5">'+ data[i][37] +'</span>'
-							
-							+ '<span class="col-7">'+ data[i][38] +'</span>'
-							+ '<span class="col-5">'+ data[i][39] +'</span>';
-						
-							$("#others").append(result3);
+					  '<span id="additionData" class="col-7">'+ data[i][4] +'</span>'
+					+ '<span id="additionData" class="col-5">'+ data[i][5] +'</span>'
+					+ '<span id="additionData" class="col-7">'+ data[i][6] +'</span>'
+					+ '<span id="additionData" class="col-5">'+ data[i][7] +'</span>'
+					+ '<span id="additionData" class="col-7">'+ data[i][8] +'</span>'
+					+ '<span id="additionData" class="col-5">'+ data[i][9] +'</span>'
+					+ '<span id="additionData" class="col-7">'+ data[i][10] +'</span>'
+					+ '<span id="additionData" class="col-5">'+ data[i][11] +'</span>';	
+		            $("#additions").append(result1);
+		                
+		var result2 =
+				      '<span id="deductionData" class="col-7">'+ data[i][12] +'</span>'
+					+ '<span id="deductionData" class="col-5">'+ data[i][13] +'</span>'
+					+ '<span id="deductionData" class="col-7">'+ data[i][14] +'</span>'
+					+ '<span id="deductionData" class="col-5">'+ data[i][15] +'</span>'
+					+ '<span id="deductionData" class="col-7">'+ data[i][16] +'</span>'
+					+ '<span id="deductionData" class="col-5">'+ data[i][17] +'</span>'
+					+ '<span id="deductionData" class="col-7">'+ data[i][18] +'</span>'
+					+ '<span id="deductionData" class="col-5">'+ data[i][19] +'</span>';
+					$("#deductions").append(result2);	
+	
+		var result3 = 			
+				      '<span id="otherData" class="col-7">'+ data[i][20] +'</span>'
+					+ '<span id="otherData" class="col-5">'+ data[i][21] +'</span>'
+					+ '<span id="otherData" class="col-7">'+ data[i][22] +'</span>'
+					+ '<span id="otherData" class="col-5">'+ data[i][23] +'</span>'
+					+ '<span id="otherData" class="col-7">'+ data[i][24] +'</span>'
+					+ '<span id="otherData" class="col-5">'+ data[i][25] +'</span>'
+					+ '<span id="otherData" class="col-7">'+ data[i][26] +'</span>'
+					+ '<span id="otherData" class="col-5">'+ data[i][27] +'</span>';
+					$("#others").append(result3);
 
 			}
 
@@ -211,12 +194,14 @@ function getEmpWithDetails1(e) {
 
 function getCalProritoy(e) {
 	var x = document.getElementById("payCodeID").value;
+	var f = document.getElementById("comID").value;
 	$.ajax({
 		type : "GET",
 		url : "calPriorityData",
 		data : {
 			"payCodeID" : x,
-			"empID" : e
+			"empID" : e,
+			"comID" : f
 		},
 		success : function(data1) {
 			
@@ -224,7 +209,8 @@ function getCalProritoy(e) {
 				type : "GET",
 				url : "otherGrossValues",
 				data : {
-					"empID" : e
+					"empID" : e,
+					"comID" : f
 				},
 				success : function(data) {
 					
@@ -247,7 +233,8 @@ function getCalProritoy(e) {
 				type : "GET",
 				url : "dedGrossPerValues",
 				data : {
-					"empID" : e
+					"empID" : e,
+					"comID" : f
 				},
 				success : function(data2) {
 					
@@ -271,7 +258,8 @@ function getCalProritoy(e) {
 				type : "GET",
 				url : "addGrossPerValues",
 				data : {
-					"empID" : e
+					"empID" : e,
+					"comID" : f
 				},
 				success : function(data3) {
 					
@@ -296,7 +284,94 @@ function getCalProritoy(e) {
 		}
 	});
 }
-
+function calculatePerValuesInBasicSalary(e) {
+	var x = document.getElementById("comID").value;
+	$.ajax({
+		type : "GET",
+		url : "addBasicPerValues",
+		data : {
+			"comID" : x,
+			"empID" : e
+		},
+		success : function(data1) {
+			$.ajax({
+				type : "GET",
+				url : "othBasicPerValuesBasic",
+				data : {
+					"empID" : e,
+					"comID" : x
+				},
+				success : function(data) {
+					
+					for(var i = 0; i < data.length; i++) {
+						
+						var result3 = 	
+								  '<span id="otherData" class="col-7">'+ data[i][0] +'</span>'
+								+ '<span id="otherData" class="col-5">'+ (data1 * data[i][1])/100 +'</span>';
+							$("#others").append(result3);
+						
+					}
+					
+				},
+				error : function(e) {
+					alert("Employee Other Percentage Values Not Found");
+				}
+			});
+			
+			$.ajax({
+				type : "GET",
+				url : "dedBasicPerValuesBasic",
+				data : {
+					"empID" : e,
+					"comID" : x
+				},
+				success : function(data2) {
+					
+					for(var i = 0; i < data2.length; i++) {
+						
+						var result2 = 			
+								  '<span id="deductionData" class="col-7">'+ data2[i][0] +'</span>'
+								+ '<span id="deductionData" class="col-5">'+ (data1 * data2[i][1])/100 +'</span>';
+						
+							$("#deductions").append(result2);
+						
+					}
+					
+				},
+				error : function(e) {
+					alert("Employee Deduction Percentage Values Not Found");
+				}
+			});
+			
+			$.ajax({
+				type : "GET",
+				url : "addBasicPerValuesBasic",
+				data : {
+					"empID" : e,
+					"comID" : x
+				},
+				success : function(data4) {
+					
+					for(var i = 0; i < data4.length; i++) {
+						var result1 = 
+							      '<span id="additionData" class="col-7">'+ data4[i][0] +'</span>'
+								+ '<span id="additionData" class="col-5">'+ (data1 * data4[i][1])/100 +'</span>';						
+							$("#additions").append(result1);
+						
+					}
+					
+				},
+				error : function(e) {
+					alert("Employee Addition Percentage Values Not Found");
+				}
+			});
+			
+		},
+		error : function(e) {
+			alert("Error Found Calculation in percentage allowance in basic salary");
+		}
+	});
+}
 
 function toggleDetailsTbl1() {
 	$("#detailsTbl1Column").slideDown();

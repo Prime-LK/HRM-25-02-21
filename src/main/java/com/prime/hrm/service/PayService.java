@@ -12,7 +12,6 @@ import com.prime.hrm.entity.PayCode;
 import com.prime.hrm.entity.PayPeriods;
 import com.prime.hrm.entity.ProcessPayroll;
 import com.prime.hrm.entity.SalaryAnalyze;
-import com.prime.hrm.entity.SalaryAnalyzeReport;
 import com.prime.hrm.entity.SalaryHistoryDetails;
 import com.prime.hrm.entity.SalaryHistoryMaster;
 import com.prime.hrm.entity.Setting;
@@ -266,22 +265,9 @@ public class PayService {
 		return setRepo.loadRelatedHeader();
 	}
 	
-	//salary analize methods begin
-	
+	//salary analyze methods begin	
 	public List<PayAddDeductTypes> getAllAllowancesTypes() {
 		return addDedRepo.getAllAllowanceTypes();
-	}
-	
-	public String[][] getSalaryAnalizerTableData02() {
-		return saRepo.getSalaryAnalizerTableData02();
-	}
-	
-	public String[][] getSalaryAnalizerTableData02Header() {
-		return saRepo.getSalaryAnalizerTableData02Header();
-	}
-	
-	public String[][] salaryAnalizeReportData() {
-		return saRepo.salaryAnalizeReportData();
 	}
 	
 	public void saveSaDetails(SalaryAnalyze detail) {
@@ -304,18 +290,6 @@ public class PayService {
 		return addDedRepo.getAllowanceTypes();
 	}
 	
-//	public List<SalaryAnalyzeReport> saveReportData(List<SalaryAnalyzeReport> details) {
-//		return saReRepo.saveAll(details);
-//	}
-	
-	@SuppressWarnings("unchecked")
-	public List<SalaryAnalyze> getSalaryAnalyzeTable03Data() {
-		return em.createNamedStoredProcedureQuery("firstQuery").getResultList();
-	}
-	//new
-	public String[][] getAllowanceName(String alloID) {
-		return saReRepo.getAllowanceName(alloID);
-	}
 	public String getMaxSaID() {
 		if(saRepo.getMaxSaID() == null) {
 			return "1";
@@ -323,25 +297,20 @@ public class PayService {
 			return saRepo.getMaxSaID();
 		}
 	} 
-	public String[][] getSAtableData(String allID) {
-		return saReRepo.getSAtableData(allID);
-	}
+	
 	public String[][] getListOfAllowances() {
 		return saRepo.getListOfAllowances();
 	}
+	
 	public String[][] getSalaryAnalyzeTableHeaderData() {
 		return saRepo.getSalaryAnalyzeTableHeaderData();
 	}
+	
 	public String[][] getSalaryAnalyzeTableBodyData() {
 		return saRepo.getSalaryAnalyzeTableBodyData();
 	} 
-	public String[][] getSelectedAllowanceDetails(String allo) {
-		return saReRepo.getSelectedAllowanceDetails(allo);
-	}
-	//salary analyze methods end
 	
 	// begin of fixed transactional details report
-	
 	public String[][] getFTDataRelatedEmployee(String empID,String comID) {
 		return saRepo.getFTDataRelatedEmployee(empID,comID);
 	}

@@ -632,13 +632,6 @@ public class PayControllerReport {
 		return payService.getAllDetails();
 	}
 
-	@GetMapping("/addTableToAllowance")
-	@ResponseBody
-	public String[][] getAllowanceName(@RequestParam("adjType") String adjType) {
-		String[][] data = payService.getAllowanceName(adjType);
-		return data;
-	}
-
 	// salary analyze report begin
 	@GetMapping("/SalaryAnalyzeReport")
 	public ModelAndView getSalaryAnalyzeReportReport(HttpSession session, HttpServletRequest request,

@@ -125,7 +125,7 @@
 								<div class="row">
 									<div class="col-4">
 										<div class="form-group">
-											<label>Report Filters</label> <select class="form-control"
+											<label>Filters</label> <select class="form-control"
 												name="seperateSelect" id="sepSelect"
 												onChange="loadRelatedSelect();">
 												<option value="" selected>--SELECT--</option>

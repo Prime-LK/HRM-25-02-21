@@ -16,7 +16,7 @@ function addDataToTbl() {
 				"company.comID" : d
 			},
 			success : function(data) {
-//				loadAllAllowances();
+
 			},
 			error : function() {
 				alert("Couldn't data saved !");
@@ -53,37 +53,37 @@ function getTableData() {
 			for (var i = 0; i < data.length; i++) {
 				var result = "<tr>" 
 						   + "<th>" + data[i][0] + "</th>" 
-						   + "<th>" + data[i][1] + "</th>"
-						   + "<th>" + data[i][2] + "</th>"
-						   + "<th>" + data[i][3] + "</th>"
-						   + "<th id='col01'><span class='abc'>" + data[i][4] + "</span></th>"
-						   + "<th>" + data[i][5] + "</th>" 
-						   + "<th>" + data[i][6] + "</th>"
-						   + "<th>" + data[i][7] + "</th>"
-						   + "<th>" + data[i][8] + "</th>"
-						   + "<th>" + data[i][9] + "</th>"
-						   + "<th>" + data[i][10] + "</th>" 
-						   + "<th>" + data[i][11] + "</th>"
-						   + "<th>" + data[i][12] + "</th>"
-						   + "<th>" + data[i][13] + "</th>"
-						   + "<th>" + data[i][14] + "</th>"
-						   + "<th>" + data[i][15] + "</th>" 
-						   + "<th>" + data[i][16] + "</th>"
-						   + "<th>" + data[i][17] + "</th>"
-						   + "<th>" + data[i][18] + "</th>"
-						   + "<th>" + data[i][19] + "</th>"
-						   + "<th>" + data[i][20] + "</th>" 
-						   + "<th>" + data[i][21] + "</th>"
-						   + "<th>" + data[i][22] + "</th>"
-						   + "<th>" + data[i][23] + "</th>"
-						   + "<th>" + data[i][24] + "</th>"
-						   + "<th>" + data[i][25] + "</th>" 
-						   + "<th>" + data[i][26] + "</th>"
-						   + "<th>" + data[i][27] + "</th>"
-						   + "<th>" + data[i][28] + "</th>"
-						   + "<th>" + data[i][29] + "</th>"
-						   + "<th>" + data[i][30] + "</th>"
-						   + "<th>" + data[i][31] + "</th>"
+						   + "<th><span id='allowanceLBL1'>" + data[i][1] + "</span></th>"
+						   + "<th><span id='allowanceLBL2'>" + data[i][2] + "</span></th>"
+						   + "<th><span id='allowanceLBL3'>" + data[i][3] + "</span></th>"
+						   + "<th><span id='allowanceLBL4'>" + data[i][4] + "</span></th>"
+						   + "<th><span id='allowanceLBL5'>" + data[i][5] + "</span></th>" 
+						   + "<th><span id='allowanceLBL6'>" + data[i][6] + "</span></th>"
+						   + "<th><span id='allowanceLBL7'>" + data[i][7] + "</span></th>"
+						   + "<th><span id='allowanceLBL8'>" + data[i][8] + "</span></th>"
+						   + "<th><span id='allowanceLBL9'>" + data[i][9] + "</span></th>"
+						   + "<th><span id='allowanceLBL10'>" + data[i][10] + "</span></th>" 
+						   + "<th><span id='allowanceLBL11'>" + data[i][11] + "</span></th>"
+						   + "<th><span id='allowanceLBL12'>" + data[i][12] + "</span></th>"
+						   + "<th><span id='allowanceLBL13'>" + data[i][13] + "</span></th>"
+						   + "<th><span id='allowanceLBL14'>" + data[i][14] + "</span></th>"
+						   + "<th><span id='allowanceLBL15'>" + data[i][15] + "</span></th>" 
+						   + "<th><span id='allowanceLBL16'>" + data[i][16] + "</span></th>"
+						   + "<th><span id='allowanceLBL17'>" + data[i][17] + "</span></th>"
+						   + "<th><span id='allowanceLBL18'>" + data[i][18] + "</span></th>"
+						   + "<th><span id='allowanceLBL19'>" + data[i][19] + "</span></th>"
+						   + "<th><span id='allowanceLBL20'>" + data[i][20] + "</span></th>" 
+						   + "<th><span id='allowanceLBL21'>" + data[i][21] + "</span></th>"
+						   + "<th><span id='allowanceLBL22'>" + data[i][22] + "</span></th>"
+						   + "<th><span id='allowanceLBL23'>" + data[i][23] + "</span></th>"
+						   + "<th><span id='allowanceLBL24'>" + data[i][24] + "</span></th>"
+						   + "<th><span id='allowanceLBL25'>" + data[i][25] + "</span></th>" 
+						   + "<th><span id='allowanceLBL26'>" + data[i][26] + "</span></th>"
+						   + "<th><span id='allowanceLBL27'>" + data[i][27] + "</span></th>"
+						   + "<th><span id='allowanceLBL28'>" + data[i][28] + "</span></th>"
+						   + "<th><span id='allowanceLBL29'>" + data[i][29] + "</span></th>"
+						   + "<th><span id='allowanceLBL30'>" + data[i][30] + "</span></th>"
+						   + "<th><span id='allowanceLBL31'>" + data[i][31] + "</span></th>"
 						   + "</tr>";
 				$("#detailsTbl thead").append(result);
 			}
@@ -99,41 +99,43 @@ function getTableData() {
 			$("#detailsTbl tbody").empty();
 			for (var i = 0; i < data.length; i++) {
 				var result = "<tr>" 
-				    		+ "<td id='theadData'>" + data[i][0] + "</td>" 
-				    		+ "<td id='theadData'>" + data[i][1] + "</td>"
-				    		+ "<td id='theadData'>" + data[i][2] + "</td>"
-						    + "<td id='theadData'>" + data[i][3] + "</td>"
-						    + "<td id='theadData'>" + data[i][4] + "</td>"
-						    + "<td id='theadData'>" + data[i][5] + "</td>" 
-						    + "<td id='theadData'>" + data[i][6] + "</td>"
-						    + "<td id='theadData'>" + data[i][7] + "</td>"
-						    + "<td id='theadData'>" + data[i][8] + "</td>"
-						    + "<td id='theadData'>" + data[i][9] + "</td>"
-						    + "<td id='theadData'>" + data[i][10] + "</td>" 
-						    + "<td id='theadData'>" + data[i][11] + "</td>"
-						    + "<td id='theadData'>" + data[i][12] + "</td>"
-						    + "<td id='theadData'>" + data[i][13] + "</td>"
-						    + "<td id='theadData'>" + data[i][14] + "</td>"
-						    + "<td id='theadData'>" + data[i][15] + "</td>" 
-						    + "<td id='theadData'>" + data[i][16] + "</td>"
-						    + "<td id='theadData'>" + data[i][17] + "</td>"
-						    + "<td id='theadData'>" + data[i][18] + "</td>"
-						    + "<td id='theadData'>" + data[i][19] + "</td>"
-						    + "<td id='theadData'>" + data[i][20] + "</td>" 
-						    + "<td id='theadData'>" + data[i][21] + "</td>"
-						    + "<td id='theadData'>" + data[i][22] + "</td>"
-						    + "<td id='theadData'>" + data[i][23] + "</td>"
-						    + "<td id='theadData'>" + data[i][24] + "</td>"
-						    + "<td id='theadData'>" + data[i][25] + "</td>" 
-						    + "<td id='theadData'>" + data[i][26] + "</td>"
-						    + "<td id='theadData'>" + data[i][27] + "</td>"
-						    + "<td id='theadData'>" + data[i][28] + "</td>"
-						    + "<td id='theadData'>" + data[i][29] + "</td>"
-						    + "<td id='theadData'>" + data[i][30] + "</td>"
-						    + "<td id='theadData'>" + data[i][31] + "</td>"
-						    + "</tr>";
+							+ "<td>" + data[i][0] + "</td>" 
+							+ "<td><span id='allowance1'>" + data[i][1] + "</span></td>"
+							+ "<td><span id='allowance2'>" + data[i][2] + "</span></td>"
+							+ "<td><span id='allowance3'>" + data[i][3] + "</span></td>"
+							+ "<td><span id='allowance4'>" + data[i][4] + "</span></td>"
+					   		+ "<td><span id='allowance5'>" + data[i][5] + "</span></td>" 
+					   		+ "<td><span id='allowance6'>" + data[i][6] + "</span></td>"
+					   		+ "<td><span id='allowance7'>" + data[i][7] + "</span></td>"
+					   		+ "<td><span id='allowance8'>" + data[i][8] + "</span></td>"
+					   		+ "<td><span id='allowance9'>" + data[i][9] + "</span></td>"
+					   		+ "<td><span id='allowance10'>" + data[i][10] + "</span></td>" 
+					   		+ "<td><span id='allowance11'>" + data[i][11] + "</span></td>"
+					   		+ "<td><span id='allowance12'>" + data[i][12] + "</span></td>"
+					   		+ "<td><span id='allowance13'>" + data[i][13] + "</span></td>"
+					   		+ "<td><span id='allowance14'>" + data[i][14] + "</span></td>"
+					   		+ "<td><span id='allowance15'>" + data[i][15] + "</span></td>" 
+					   		+ "<td><span id='allowance16'>" + data[i][16] + "</span></td>"
+					   		+ "<td><span id='allowance17'>" + data[i][17] + "</span></td>"
+					   		+ "<td><span id='allowance18'>" + data[i][18] + "</span></td>"
+					   		+ "<td><span id='allowance19'>" + data[i][19] + "</span></td>"
+					   		+ "<td><span id='allowance20'>" + data[i][20] + "</span></td>" 
+					   		+ "<td><span id='allowance21'>" + data[i][21] + "</span></td>"
+					   		+ "<td><span id='allowance22'>" + data[i][22] + "</span></td>"
+					   		+ "<td><span id='allowance23'>" + data[i][23] + "</span></td>"
+					   		+ "<td><span id='allowance24'>" + data[i][24] + "</span></td>"
+					   		+ "<td><span id='allowance25'>" + data[i][25] + "</span></td>" 
+					   		+ "<td><span id='allowance26'>" + data[i][26] + "</span></td>"
+					   		+ "<td><span id='allowance27'>" + data[i][27] + "</span></td>"
+					   		+ "<td><span id='allowance28'>" + data[i][28] + "</span></td>"
+					   		+ "<td><span id='allowance29'>" + data[i][29] + "</span></td>"
+					   		+ "<td><span id='allowance30'>" + data[i][30] + "</span></td>"
+					   		+ "<td><span id='allowance31'>" + data[i][31] + "</span></td>"
+					   		+ "</tr>";
 				$("#detailsTbl tbody").append(result);
 			}
+			visibleFields();
+			getVal();
 		},
 		error : function() {
 			alert("Table Body Data Not Found !");
@@ -141,439 +143,265 @@ function getTableData() {
 	});
 }
 
-//function loadAllAllowances() {
-//	$.ajax({
-//		type : 'GET',
-//		url : "allSalaryAnalize",
-//		success : function(data) {
-//			$("#alloTable tbody").empty();
-//			for (var i = 0; i < data.length; i++) {
-//				var result = "<tr><td>"
-//						+ data[i].saPK.addDedType.deductTypeCode + "</td>"
-//						+ "<td>" + data[i].saPK.addDedType.desc + "</td></tr>";
-//				$("#alloTable tbody").append(result);
-//			}
-//		},
-//		error : function() {
-//			alert("Allowance Data Not Found !");
-//		}
-//	});
-//}
-//function getTableData() {
-//	$.ajax({
-//		type : 'GET',
-//		url : "salaryAnalyzeTableHeaderData",
-//		success : function(data) {
-//			$("#detailsTbl thead").empty();
-//			for (var i = 0; i < data.length; i++) {
-//				if(data[i][31] === "undefined") {
-////					$('#detailsTbl th').hide();
-//					console.log('papaya found');
-//				}
-//				var result = "<tr>" 
-//						   + "<th>" + data[i][0] + "</th>" 
-//						   + "<th>" + data[i][1] + "</th>"
-//						   + "<th>" + data[i][2] + "</th>"
-//						   + "<th>" + data[i][3] + "</th>"
-//						   + "<th>" + data[i][4] + "</th>"
-//						   + "<th>" + data[i][5] + "</th>" 
-//						   + "<th>" + data[i][6] + "</th>"
-//						   + "<th>" + data[i][7] + "</th>"
-//						   + "<th>" + data[i][8] + "</th>"
-//						   + "<th>" + data[i][9] + "</th>"
-//						   + "<th>" + data[i][10] + "</th>" 
-//						   + "<th>" + data[i][11] + "</th>"
-//						   + "<th>" + data[i][12] + "</th>"
-//						   + "<th>" + data[i][13] + "</th>"
-//						   + "<th>" + data[i][14] + "</th>"
-//						   + "<th>" + data[i][15] + "</th>" 
-//						   + "<th>" + data[i][16] + "</th>"
-//						   + "<th>" + data[i][17] + "</th>"
-//						   + "<th>" + data[i][18] + "</th>"
-//						   + "<th>" + data[i][19] + "</th>"
-//						   + "<th>" + data[i][20] + "</th>" 
-//						   + "<th>" + data[i][21] + "</th>"
-//						   + "<th>" + data[i][22] + "</th>"
-//						   + "<th>" + data[i][23] + "</th>"
-//						   + "<th>" + data[i][24] + "</th>"
-//						   + "<th>" + data[i][25] + "</th>" 
-//						   + "<th>" + data[i][26] + "</th>"
-//						   + "<th>" + data[i][27] + "</th>"
-//						   + "<th>" + data[i][28] + "</th>"
-//						   + "<th>" + data[i][29] + "</th>"
-//						   + "<th>" + data[i][30] + "</th>"
-//						   + "<th>" + data[i][31] + "</th>"
-//						   + "</tr>";
-//				$("#detailsTbl thead").append(result);
-//			}
-//		},
-//		error : function() {
-//			alert("Table Header Data Not Found !");
-//		}
-//	});
-//	$.ajax({
-//		type : 'GET',
-//		url : "salaryAnalyzeTableBodyData",
-//		success : function(data) {
-//			$("#detailsTbl tbody").empty();
-//			for (var i = 0; i < data.length; i++) {
-//				var result = "<tr>" 
-//				    		+ "<td id='theadData'>" + data[i][0] + "</td>" 
-//				    		+ "<td id='theadData'>" + data[i][1] + "</td>"
-//				    		+ "<td id='theadData'>" + data[i][2] + "</td>"
-//						    + "<td id='theadData'>" + data[i][3] + "</td>"
-//						    + "<td id='theadData'>" + data[i][4] + "</td>"
-//						    + "<td id='theadData'>" + data[i][5] + "</td>" 
-//						    + "<td id='theadData'>" + data[i][6] + "</td>"
-//						    + "<td id='theadData'>" + data[i][7] + "</td>"
-//						    + "<td id='theadData'>" + data[i][8] + "</td>"
-//						    + "<td id='theadData'>" + data[i][9] + "</td>"
-//						    + "<td id='theadData'>" + data[i][10] + "</td>" 
-//						    + "<td id='theadData'>" + data[i][11] + "</td>"
-//						    + "<td id='theadData'>" + data[i][12] + "</td>"
-//						    + "<td id='theadData'>" + data[i][13] + "</td>"
-//						    + "<td id='theadData'>" + data[i][14] + "</td>"
-//						    + "<td id='theadData'>" + data[i][15] + "</td>" 
-//						    + "<td id='theadData'>" + data[i][16] + "</td>"
-//						    + "<td id='theadData'>" + data[i][17] + "</td>"
-//						    + "<td id='theadData'>" + data[i][18] + "</td>"
-//						    + "<td id='theadData'>" + data[i][19] + "</td>"
-//						    + "<td id='theadData'>" + data[i][20] + "</td>" 
-//						    + "<td id='theadData'>" + data[i][21] + "</td>"
-//						    + "<td id='theadData'>" + data[i][22] + "</td>"
-//						    + "<td id='theadData'>" + data[i][23] + "</td>"
-//						    + "<td id='theadData'>" + data[i][24] + "</td>"
-//						    + "<td id='theadData'>" + data[i][25] + "</td>" 
-//						    + "<td id='theadData'>" + data[i][26] + "</td>"
-//						    + "<td id='theadData'>" + data[i][27] + "</td>"
-//						    + "<td id='theadData'>" + data[i][28] + "</td>"
-//						    + "<td id='theadData'>" + data[i][29] + "</td>"
-//						    + "<td id='theadData'>" + data[i][30] + "</td>"
-//						    + "<td id='theadData'>" + data[i][31] + "</td>"
-//						    + "</tr>";
-//				$("#detailsTbl tbody").append(result);
-//				
-//				$('#detailsTbl tr').each(function() {
-//				    var customerId = $(this).find("#theadData").html();    
-//				    console.log(customerId);
-//				});	
-//			}
-//		},
-//		error : function() {
-//			alert("Table Body Data Not Found !");
-//		}
-//	});
-//}
-//
-//
-//
-// //function saveSaData() {
-// // var a = document.getElementById("year").value;
-// // var b = document.getElementById("month").value;
-// // var c = document.getElementById("depID").value;
-// // var d = document.getElementById("comID").value;
-// // var e = document.getElementById("adjType").value;
-// // $.ajax({
-// // type : 'POST',
-// // url : "saveSalaryAnalyzeData",
-// // data: { "saPK.year":a, "saPK.month":b, "saPK.depatment.depID":c,
-// "company.comID":d, "saPK.addDedType.deductTypeCode":e },
-// // success : function(data) {
-// // console.log('data saved successfully');
-// // },
-// // error : function() {
-// // alert("Couldn't data saved !");
-// // }
-// // });
-// //}
-//
-// function getTable02Data() {
-// $.ajax({
-// type : 'GET',
-// url : "saTblData02Header",
-// success : function(data) {
-// //set table header (allowances name) if exists
-// $("#detailsTbl thead").empty();
-// for (var i = 0; i < data.length; i++) {
-// var result = "<tr>"
-// + "<th id='depHeader'>" + data[i][0] + "</th>"
-// + "<th id='budHeader'>" + data[i][1] + "</th>"
-// + "<th id='attHeader'>" + data[i][2] + "</th>"
-// + "<th id='riskHeader'>" + data[i][3] + "</th>"
-// + "<th id='perfoHeader'>" + data[i][4] + "</th>"
-// + "<th id='nightHeader'>" + data[i][5] + "</th>"
-// + "<th id='targetHeader'>" + data[i][6] + "</th>"
-// + "<th id='traineeHeader'>" + data[i][7] + "</th>"
-// + "<th id='otherHeader'>" + data[i][8] + "</th>"
-// + "<th id='riggerHeader'>" + data[i][9] + "</th>"
-// + "<th id='salesHeader'>" + data[i][10] + "</th>"
-// + "<th id='transHeader'>" + data[i][11] + "</th>"
-// + "<th id='siteHeader'>" + data[i][12] + "</th>"
-// + "<th id='nopayHeader'>" + data[i][13] + "</th>"
-// + "<th id='festivalHeader'>" + data[i][14] + "</th>"
-// + "<th id='insuHeader'>" + data[i][15] + "</th>"
-// + "<th id='mobileHeader'>" + data[i][16] + "</th>"
-// + "<th id='saAdHeader'>" + data[i][17] + "</th>"
-// + "<th id='epf8Header'>" + data[i][18] + "</th>"
-// + "<th id='welfareHeader'>" + data[i][19] + "</th>"
-// + "<th id='lapHeader'>" + data[i][20] + "</th>"
-// + "<th id='bikeHeader'>" + data[i][21] + "</th>"
-// + "<th id='pmHeader'>" + data[i][22] + "</th>"
-// + "<th id='epf12Header'>" + data[i][23] + "</th>"
-// + "<th id='epf3Header'>" + data[i][24] + "</th></tr>";
-// $("#detailsTbl thead").append(result);
-//		
-// // if not found allowances name hide table column
-// //dep
-// if(data[i][0] == null) {
-// $('#detailsTbl th#depHeader').hide();
-// } else {
-// //bud
-// if(data[i][1] == null) {
-// $('#detailsTbl th#budHeader').hide();
-// }
-// //att
-// if(data[i][2] == null) {
-// $('#detailsTbl th#attHeader').hide();
-// }
-// //risk
-// if(data[i][3] == null) {
-// $('#detailsTbl th#riskHeader').hide();
-// }
-// //perfo
-// if(data[i][4] == null) {
-// $('#detailsTbl th#perfoHeader').hide();
-// }
-// //night
-// if(data[i][5] == null) {
-// $('#detailsTbl th#nightHeader').hide();
-// }
-// //target
-// if(data[i][6] == null) {
-// $('#detailsTbl th#targetHeader').hide();
-// }
-// //trainee
-// if(data[i][7] == null) {
-// $('#detailsTbl th#traineeHeader').hide();
-// }
-// //other
-// if(data[i][8] == null) {
-// $('#detailsTbl th#otherHeader').hide();
-// }
-// //rigger
-// if(data[i][9] == null) {
-// $('#detailsTbl th#riggerHeader').hide();
-// }
-// //sales
-// if(data[i][10] == null) {
-// $('#detailsTbl th#salesHeader').hide();
-// }
-// //trans
-// if(data[i][11] == null) {
-// $('#detailsTbl th#transHeader').hide();
-// }
-// //site
-// if(data[i][12] == null) {
-// $('#detailsTbl th#siteHeader').hide();
-// }
-// //nopay
-// if(data[i][13] == null) {
-// $('#detailsTbl th#nopayHeader').hide();
-// }
-// //festival
-// if(data[i][14] == null) {
-// $('#detailsTbl th#festivalHeader').hide();
-// }
-// //insurance
-// if(data[i][15] == null) {
-// $('#detailsTbl th#insuHeader').hide();
-// }
-// //mobile
-// if(data[i][16] == null) {
-// $('#detailsTbl th#mobileHeader').hide();
-// }
-// //salary ad
-// if(data[i][17] == null) {
-// $('#detailsTbl th#saAdHeader').hide();
-// }
-// //epf8
-// if(data[i][18] == null) {
-// $('#detailsTbl th#epf8Header').hide();
-// }
-// //welfare
-// if(data[i][19] == null) {
-// $('#detailsTbl th#welfareHeader').hide();
-// }
-// //lap
-// if(data[i][20] == null) {
-// $('#detailsTbl th#lapHeader').hide();
-// }
-// //bike
-// if(data[i][21] == null) {
-// $('#detailsTbl th#bikeHeader').hide();
-// }
-// //pm
-// if(data[i][22] == null) {
-// $('#detailsTbl th#pmHeader').hide();
-// }
-// //epf12
-// if(data[i][23] == null) {
-// $('#detailsTbl th#epf12Header').hide();
-// }
-// //epf3
-// if(data[i][24] == null) {
-// $('#detailsTbl th#epf3Header').hide();
-// }
-// }
-// }
-// },
-// error : function() {
-// alert("Details Table 2 Header Error Found !");
-// }
-// });
-//
-// $.ajax({
-// type : 'GET',
-// url : "saTblData02",
-// success : function(data) {
-// //set table data (allowances amount) if exists
-// $("#detailsTbl tbody").empty();
-// for (var i = 0; i < data.length; i++) {
-// var result = "<tr>"
-// + "<td id='dep'>" + data[i][0] + "</td>"
-// + "<td id='bud'>" + data[i][1] + "</td>"
-// + "<td id='att'>" + data[i][2] + "</td>"
-// + "<td id='risk'>" + data[i][3] + "</td>"
-// + "<td id='perfo'>" + data[i][4] + "</td>"
-// + "<td id='night'>" + data[i][5] + "</td>"
-// + "<td id='target'>" + data[i][6] + "</td>"
-// + "<td id='trainee'>" + data[i][7] + "</td>"
-// + "<td id='other'>" + data[i][8] + "</td>"
-// + "<td id='rigger'>" + data[i][9] + "</td>"
-// + "<td id='sales'>" + data[i][10] + "</td>"
-// + "<td id='trans'>" + data[i][11] + "</td>"
-// + "<td id='site'>" + data[i][12] + "</td>"
-// + "<td id='nopay'>" + data[i][13] + "</td>"
-// + "<td id='festival'>" + data[i][14] + "</td>"
-// + "<td id='insu'>" + data[i][15] + "</td>"
-// + "<td id='mobile'>" + data[i][16] + "</td>"
-// + "<td id='saAd'>" + data[i][17] + "</td>"
-// + "<td id='epf8'>" + data[i][18] + "</td>"
-// + "<td id='welfare'>" + data[i][19] + "</td>"
-// + "<td id='lap'>" + data[i][20] + "</td>"
-// + "<td id='bike'>" + data[i][21] + "</td>"
-// + "<td id='pm'>" + data[i][22] + "</td>"
-// + "<td id='epf12'>" + data[i][23] + "</td>"
-// + "<td id='epf3'>" + data[i][24] + "</td></tr>";
-// $("#detailsTbl tbody").append(result);
-//				
-// // if not found allowances amount hide table column
-// //dep
-// if(data[i][0] == null) {
-// $('#detailsTbl td#dep').hide();
-// } else {
-// //bud
-// if(data[i][1] == null) {
-// $('#detailsTbl td#bud').hide();
-// }
-// //att
-// if(data[i][2] == null) {
-// $('#detailsTbl td#att').hide();
-// }
-// //risk
-// if(data[i][3] == null) {
-// $('#detailsTbl td#risk').hide();
-// }
-// //perfo
-// if(data[i][4] == null) {
-// $('#detailsTbl td#perfo').hide();
-// }
-// //night
-// if(data[i][5] == null) {
-// $('#detailsTbl td#night').hide();
-// }
-// //target
-// if(data[i][6] == null) {
-// $('#detailsTbl td#target').hide();
-// }
-// //trainee
-// if(data[i][7] == null) {
-// $('#detailsTbl td#trainee').hide();
-// }
-// //other
-// if(data[i][8] == null) {
-// $('#detailsTbl td#other').hide();
-// }
-// //rigger
-// if(data[i][9] == null) {
-// $('#detailsTbl td#rigger').hide();
-// }
-// //sales
-// if(data[i][10] == null) {
-// $('#detailsTbl td#sales').hide();
-// }
-// //trans
-// if(data[i][11] == null) {
-// $('#detailsTbl td#trans').hide();
-// }
-// //site
-// if(data[i][12] == null) {
-// $('#detailsTbl td#site').hide();
-// }
-// //nopay
-// if(data[i][13] == null) {
-// $('#detailsTbl td#nopay').hide();
-// }
-// //festival
-// if(data[i][14] == null) {
-// $('#detailsTbl td#festival').hide();
-// }
-// //insurance
-// if(data[i][15] == null) {
-// $('#detailsTbl td#insu').hide();
-// }
-// //mobile
-// if(data[i][16] == null) {
-// $('#detailsTbl td#mobile').hide();
-// }
-// //salary ad
-// if(data[i][17] == null) {
-// $('#detailsTbl td#saAd').hide();
-// }
-// //epf8
-// if(data[i][18] == null) {
-// $('#detailsTbl td#epf8').hide();
-// }
-// //welfare
-// if(data[i][19] == null) {
-// $('#detailsTbl td#welfare').hide();
-// }
-// //lap
-// if(data[i][20] == null) {
-// $('#detailsTbl td#lap').hide();
-// }
-// //bike
-// if(data[i][21] == null) {
-// $('#detailsTbl td#bike').hide();
-// }
-// //pm
-// if(data[i][22] == null) {
-// $('#detailsTbl td#pm').hide();
-// }
-// //epf12
-// if(data[i][23] == null) {
-// $('#detailsTbl td#epf12').hide();
-// }
-// //epf3
-// if(data[i][24] == null) {
-// $('#detailsTbl td#epf3').hide();
-// }
-// }
-// }
-// },
-// error : function() {
-// alert("Details Table 2 Data Error Found !");
-// }
-// });
-//
-// }
+
+function inVisibleFields() {
+	$('#detailsTableDiv').hide();
+}
+
+function visibleFields() {
+	$('#detailsTableDiv').slideDown();
+}
+
+function getVal() {
+	var a1 = $('#allowanceLBL1').text();
+	var a2 = $('#allowanceLBL2').text();
+	var a3 = $('#allowanceLBL3').text();
+	var a4 = $('#allowanceLBL4').text();
+	var a5 = $('#allowanceLBL5').text();
+	var a6 = $('#allowanceLBL6').text();
+	var a7 = $('#allowanceLBL7').text();
+	var a8 = $('#allowanceLBL8').text();
+	var a9 = $('#allowanceLBL9').text();
+	var a10 = $('#allowanceLBL10').text();
+	var a11 = $('#allowanceLBL11').text();
+	var a12 = $('#allowanceLBL12').text();
+	var a13 = $('#allowanceLBL13').text();
+	var a14 = $('#allowanceLBL14').text();
+	var a15 = $('#allowanceLBL15').text();
+	var a16 = $('#allowanceLBL16').text();
+	var a17 = $('#allowanceLBL17').text();
+	var a18 = $('#allowanceLBL18').text();
+	var a19 = $('#allowanceLBL19').text();
+	var a20 = $('#allowanceLBL20').text();
+	var a21 = $('#allowanceLBL21').text();
+	var a22 = $('#allowanceLBL22').text();
+	var a23 = $('#allowanceLBL23').text();
+	var a24 = $('#allowanceLBL24').text();
+	var a25 = $('#allowanceLBL25').text();
+	var a26 = $('#allowanceLBL26').text();
+	var a27 = $('#allowanceLBL27').text();
+	var a28 = $('#allowanceLBL28').text();
+	var a29 = $('#allowanceLBL29').text();
+	var a30 = $('#allowanceLBL30').text();
+	var a31 = $('#allowanceLBL31').text();
+	
+	var b1 = $('#allowanceLBL1').text();
+	var b2 = $('#allowanceLBL2').text();
+	var b3 = $('#allowanceLBL3').text();
+	var b4 = $('#allowanceLBL4').text();
+	var b5 = $('#allowanceLBL5').text();
+	var b6 = $('#allowanceLBL6').text();
+	var b7 = $('#allowanceLBL7').text();
+	var b8 = $('#allowanceLBL8').text();
+	var b9 = $('#allowanceLBL9').text();
+	var b10 = $('#allowanceLBL10').text();
+	var b11 = $('#allowanceLBL11').text();
+	var b12 = $('#allowanceLBL12').text();
+	var b13 = $('#allowanceLBL13').text();
+	var b14 = $('#allowanceLBL14').text();
+	var b15 = $('#allowanceLBL15').text();
+	var b16 = $('#allowanceLBL16').text();
+	var b17 = $('#allowanceLBL17').text();
+	var b18 = $('#allowanceLBL18').text();
+	var b19 = $('#allowanceLBL19').text();
+	var b20 = $('#allowanceLBL20').text();
+	var b21 = $('#allowanceLBL21').text();
+	var b22 = $('#allowanceLBL22').text();
+	var b23 = $('#allowanceLBL23').text();
+	var b24 = $('#allowanceLBL24').text();
+	var b25 = $('#allowanceLBL25').text();
+	var b26 = $('#allowanceLBL26').text();
+	var b27 = $('#allowanceLBL27').text();
+	var b28 = $('#allowanceLBL28').text();
+	var b29 = $('#allowanceLBL29').text();
+	var b30 = $('#allowanceLBL30').text();
+	var b31 = $('#allowanceLBL31').text();
+	//th data
+	if(a1 === "undefined") {
+		$('#allowanceLBL1').remove();
+	}
+	if(a2 === "undefined") {
+		$('#allowanceLBL2').remove();
+	}
+	if(a3 === "undefined") {
+		$('#allowanceLBL3').remove();
+	}
+	if(a4 === "undefined") {
+		$('#allowanceLBL4').remove();
+	}
+	if(a5 === "undefined") {
+		$('#allowanceLBL5').remove();
+	}
+	if(a6 === "undefined") {
+		$('#allowanceLBL6').remove();
+	}
+	if(a7 === "undefined") {
+		$('#allowanceLBL7').remove();
+	}
+	if(a8 === "undefined") {
+		$('#allowanceLBL8').remove();
+	}
+	if(a9 === "undefined") {
+		$('#allowanceLBL9').remove();
+	}
+	if(a10 === "undefined") {
+		$('#allowanceLBL10').remove();
+	}
+	if(a11 === "undefined") {
+		$('#allowanceLBL11').remove();
+	}
+	if(a12 === "undefined") {
+		$('#allowanceLBL12').remove();
+	}
+	if(a13 === "undefined") {
+		$('#allowanceLBL13').remove();
+	}
+	if(a14 === "undefined") {
+		$('#allowanceLBL14').remove();
+	}
+	if(a15 === "undefined") {
+		$('#allowanceLBL15').remove();
+	}
+	if(a16 === "undefined") {
+		$('#allowanceLBL16').remove();
+	}
+	if(a17 === "undefined") {
+		$('#allowanceLBL17').remove();
+	}
+	if(a18 === "undefined") {
+		$('#allowanceLBL18').remove();
+	}
+	if(a19 === "undefined") {
+		$('#allowanceLBL19').remove();
+	}
+	if(a20 === "undefined") {
+		$('#allowanceLBL20').remove();
+	}
+	if(a21 === "undefined") {
+		$('#allowanceLBL21').remove();
+	}
+	if(a22 === "undefined") {
+		$('#allowanceLBL22').remove();
+	}
+	if(a23 === "undefined") {
+		$('#allowanceLBL23').remove();
+	}
+	if(a24 === "undefined") {
+		$('#allowanceLBL24').remove();
+	}
+	if(a25 === "undefined") {
+		$('#allowanceLBL25').remove();
+	}
+	if(a26 === "undefined") {
+		$('#allowanceLBL26').remove();
+	}
+	if(a27 === "undefined") {
+		$('#allowanceLBL27').remove();
+	}
+	if(a28 === "undefined") {
+		$('#allowanceLBL28').remove();
+	}
+	if(a29 === "undefined") {
+		$('#allowanceLBL29').remove();
+	}
+	if(a30 === "undefined") {
+		$('#allowanceLBL30').remove();
+	}
+	if(a31 === "undefined") {
+		$('#allowanceLBL31').remove();
+	}
+	//td data
+	if(b1 === "undefined") {
+	    $('#allowance1').remove();
+	}
+	if(b2 === "undefined") {
+	    $('#allowance2').remove();
+	}
+	if(b3 === "undefined") {
+	    $('#allowance3').remove();
+	}
+	if(b4 === "undefined") {
+	    $('#allowance4').remove();
+	}
+	if(b5 === "undefined") {
+	    $('#allowance5').remove();
+	}
+	if(b6 === "undefined") {
+	    $('#allowance6').remove();
+	}
+	if(b7 === "undefined") {
+	    $('#allowance7').remove();
+	}
+	if(b8 === "undefined") {
+	    $('#allowance8').remove();
+	}
+	if(b9 === "undefined") {
+	    $('#allowance9').remove();
+	}
+	if(b10 === "undefined") {
+	    $('#allowance10').remove();
+	}
+	if(b11 === "undefined") {
+	    $('#allowance11').remove();
+	}
+	if(b12 === "undefined") {
+	    $('#allowance12').remove();
+	}
+	if(b13 === "undefined") {
+	    $('#allowance13').remove();
+	}
+	if(b14 === "undefined") {
+	    $('#allowance14').remove();
+	}
+	if(b15 === "undefined") {
+	    $('#allowance15').remove();
+	}
+	if(b16 === "undefined") {
+	    $('#allowance16').remove();
+	}
+	if(b17 === "undefined") {
+	    $('#allowance17').remove();
+	}
+	if(b18 === "undefined") {
+	    $('#allowance18').remove();
+	}
+	if(b19 === "undefined") {
+	    $('#allowance19').remove();
+	}
+	if(b20 === "undefined") {
+	    $('#allowance20').remove();
+	}
+	if(b21 === "undefined") {
+	    $('#allowance21').remove();
+	}
+	if(b22 === "undefined") {
+	    $('#allowance22').remove();
+	}
+	if(b23 === "undefined") {
+	    $('#allowance23').remove();
+	}
+	if(b24 === "undefined") {
+	    $('#allowance24').remove();
+	}
+	if(b25 === "undefined") {
+	    $('#allowance25').remove();
+	}
+	if(b26 === "undefined") {
+	    $('#allowance26').remove();
+	}
+	if(b27 === "undefined") {
+	    $('#allowance27').remove();
+	}
+	if(b28 === "undefined") {
+	    $('#allowance28').remove();
+	}
+	if(b29 === "undefined") {
+	    $('#allowance29').remove();
+	}
+	if(b30 === "undefined") {
+	    $('#allowance30').remove();
+	}
+	if(b31 === "undefined") {
+	    $('#allowance31').remove();
+	}
+}

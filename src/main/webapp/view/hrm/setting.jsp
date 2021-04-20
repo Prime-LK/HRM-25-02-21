@@ -122,7 +122,7 @@
 									<div class="row">
 										<div class="col-4">
 											<div class="form-group row">
-												<label>Do You want create multiple Pay Periods?</label>
+												<label>Allocate multiple Pay Periods</label>
 											</div>
 										</div>
 										<div class="col-2">
@@ -141,7 +141,7 @@
 									<div class="row">
 										<div class="col-4">
 											<div class="form-group row">
-												<label>Do You want create multiple Pay Codes?</label>
+												<label>Allocate multiple Pay Codes</label>
 											</div>
 										</div>
 										<div class="col-2 ">

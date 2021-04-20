@@ -20,132 +20,132 @@ public interface SalaryAnalyzeRepository extends JpaRepository<SalaryAnalyze, St
 	@Query(value = "CALL salary_Analyze_Table_Data()",nativeQuery=true)
 	public String[][] getSalaryAnalyzeTableBodyData();
 	
-	@Query(value="select d.Department,\r\n" + 
-			"sum(case when e.Description like 'Bud%' then (b.Amount) else null end) as Budgatery,\r\n" + 
-			"sum(case when e.Description like 'Attendance%' then (b.Amount) else null end) as Attendance,\r\n" + 
-			"sum(case when e.Description like 'Risk %' then (b.Amount) else null end) as Risk,\r\n" + 
-			"sum(case when e.Description like 'Performance%' then (b.Amount) else null end) as Performance,\r\n" + 
-			"sum(case when e.Description like 'Night%' then (b.Amount) else null end) as Night,\r\n" + 
-			"sum(case when e.Description like 'Target%' then (b.Amount) else null end) as Target,\r\n" + 
-			"sum(case when e.Description like 'Trainee%' then (b.Amount) else null end) as Trainee,\r\n" + 
-			"sum(case when e.Description like 'Other%' then (b.Amount) else null end) as Other,\r\n" + 
-			"sum(case when e.Description like 'Rigger%' then (b.Amount) else null end) as Rigger,\r\n" + 
-			"sum(case when e.Description like 'Sales Commission%' then (b.Amount) else null end) as SalesCommission,\r\n" + 
-			"sum(case when e.Description like 'Transport%' then (b.Amount) else null end) as Transport,\r\n" + 
-			"sum(case when e.Description like 'Site%' then (b.Amount) else null end) as Site,\r\n" + 
-			"sum(case when e.Description like 'nopay%' then (b.Amount) else null end) as nopay,\r\n" + 
-			"sum(case when e.Description like 'Festival Advance%' then (b.Amount) else null end) as FestivalAdvance,\r\n" + 
-			"sum(case when e.Description like 'Insurance%' then (b.Amount) else null end) as Insurance,\r\n" + 
-			"sum(case when e.Description like 'Mobile Phone%' then (b.Amount) else null end) as MobilePhone,\r\n" + 
-			"sum(case when e.Description like 'Salary Advance%' then (b.Amount) else null end) as SalaryAdvance,\r\n" + 
-			"sum(case when e.Description like 'EPF 8%' then (b.Amount) else null end) as EPF_8,\r\n" + 
-			"sum(case when e.Description like 'Welfare Fund%' then (b.Amount) else null end) as WelfareFund,\r\n" + 
-			"sum(case when e.Description like 'laptop%' then (b.Amount) else null end) as Laptop,\r\n" + 
-			"sum(case when e.Description like 'bike%' then (b.Amount) else null end) as Bike,\r\n" + 
-			"sum(case when e.Description like 'PM%' then (b.Amount) else null end) as PM,\r\n" + 
-			"sum(case when e.Description like 'EPF 12%' then (b.Amount) else null end) as EPF_12,\r\n" + 
-			"sum(case when e.Description like 'EPF 3%' then (b.Amount) else null end) as EPF_3\r\n" + 
-			"from salary_analyze a\r\n" + 
-			"inner join process_payroll_details b on a.Pay_Add_Deduct_Type_Code = b.Pay_Add_Deduct_Type_Code\r\n" + 
-			"inner join department d on a.Department_ID = d.Department_ID \r\n" + 
-			"inner join pay_add_deduct_types e on a.Pay_Add_Deduct_Type_Code = e.Pay_Add_Deduct_Type_Code\r\n" + 
-			"group by a.Department_ID",nativeQuery=true)
-	public String[][] getSalaryAnalizerTableData02();
+//	@Query(value="select d.Department,\r\n" + 
+//			"sum(case when e.Description like 'Bud%' then (b.Amount) else null end) as Budgatery,\r\n" + 
+//			"sum(case when e.Description like 'Attendance%' then (b.Amount) else null end) as Attendance,\r\n" + 
+//			"sum(case when e.Description like 'Risk %' then (b.Amount) else null end) as Risk,\r\n" + 
+//			"sum(case when e.Description like 'Performance%' then (b.Amount) else null end) as Performance,\r\n" + 
+//			"sum(case when e.Description like 'Night%' then (b.Amount) else null end) as Night,\r\n" + 
+//			"sum(case when e.Description like 'Target%' then (b.Amount) else null end) as Target,\r\n" + 
+//			"sum(case when e.Description like 'Trainee%' then (b.Amount) else null end) as Trainee,\r\n" + 
+//			"sum(case when e.Description like 'Other%' then (b.Amount) else null end) as Other,\r\n" + 
+//			"sum(case when e.Description like 'Rigger%' then (b.Amount) else null end) as Rigger,\r\n" + 
+//			"sum(case when e.Description like 'Sales Commission%' then (b.Amount) else null end) as SalesCommission,\r\n" + 
+//			"sum(case when e.Description like 'Transport%' then (b.Amount) else null end) as Transport,\r\n" + 
+//			"sum(case when e.Description like 'Site%' then (b.Amount) else null end) as Site,\r\n" + 
+//			"sum(case when e.Description like 'nopay%' then (b.Amount) else null end) as nopay,\r\n" + 
+//			"sum(case when e.Description like 'Festival Advance%' then (b.Amount) else null end) as FestivalAdvance,\r\n" + 
+//			"sum(case when e.Description like 'Insurance%' then (b.Amount) else null end) as Insurance,\r\n" + 
+//			"sum(case when e.Description like 'Mobile Phone%' then (b.Amount) else null end) as MobilePhone,\r\n" + 
+//			"sum(case when e.Description like 'Salary Advance%' then (b.Amount) else null end) as SalaryAdvance,\r\n" + 
+//			"sum(case when e.Description like 'EPF 8%' then (b.Amount) else null end) as EPF_8,\r\n" + 
+//			"sum(case when e.Description like 'Welfare Fund%' then (b.Amount) else null end) as WelfareFund,\r\n" + 
+//			"sum(case when e.Description like 'laptop%' then (b.Amount) else null end) as Laptop,\r\n" + 
+//			"sum(case when e.Description like 'bike%' then (b.Amount) else null end) as Bike,\r\n" + 
+//			"sum(case when e.Description like 'PM%' then (b.Amount) else null end) as PM,\r\n" + 
+//			"sum(case when e.Description like 'EPF 12%' then (b.Amount) else null end) as EPF_12,\r\n" + 
+//			"sum(case when e.Description like 'EPF 3%' then (b.Amount) else null end) as EPF_3\r\n" + 
+//			"from salary_analyze a\r\n" + 
+//			"inner join process_payroll_details b on a.Pay_Add_Deduct_Type_Code = b.Pay_Add_Deduct_Type_Code\r\n" + 
+//			"inner join department d on a.Department_ID = d.Department_ID \r\n" + 
+//			"inner join pay_add_deduct_types e on a.Pay_Add_Deduct_Type_Code = e.Pay_Add_Deduct_Type_Code\r\n" + 
+//			"group by a.Department_ID",nativeQuery=true)
+//	public String[][] getSalaryAnalizerTableData02();
 	
-	@Query(value="select * from(select 'Department' as department,\r\n" + 
-			"max(case when e.Description like 'Bud%' then e.Description else null end) as Budgatery,\r\n" + 
-			"max(case when e.Description like 'Attendance%' then e.Description else null end) as Attendance,\r\n" + 
-			"max(case when e.Description like 'Risk %' then e.Description else null end) as Risk,\r\n" + 
-			"max(case when e.Description like 'Performance%' then e.Description else null end) as Performance,\r\n" + 
-			"max(case when e.Description like 'Night%' then e.Description else null end) as Night,\r\n" + 
-			"max(case when e.Description like 'Target%' then e.Description else null end) as Target,\r\n" + 
-			"max(case when e.Description like 'Trainee%' then e.Description else null end) as Trainee,\r\n" + 
-			"max(case when e.Description like 'Other%' then e.Description else null end) as Other,\r\n" + 
-			"max(case when e.Description like 'Rigger%' then e.Description else null end) as Rigger,\r\n" + 
-			"max(case when e.Description like 'Sales Commission%' then e.Description else null end) as SalesCommission,\r\n" + 
-			"max(case when e.Description like 'Transport%' then e.Description else null end) as Transport,\r\n" + 
-			"max(case when e.Description like 'Site%' then e.Description else null end) as Site,\r\n" + 
-			"max(case when e.Description like 'nopay%' then e.Description else null end) as nopay,\r\n" + 
-			"max(case when e.Description like 'Festival Advance%' then e.Description else null end) as FestivalAdvance,\r\n" + 
-			"max(case when e.Description like 'Insurance%' then e.Description else null end) as Insurance,\r\n" + 
-			"max(case when e.Description like 'Mobile Phone%' then e.Description else null end) as MobilePhone,\r\n" + 
-			"max(case when e.Description like 'Salary Advance%' then e.Description else null end) as SalaryAdvance,\r\n" + 
-			"max(case when e.Description like 'EPF 8%' then e.Description else null end) as EPF_8,\r\n" + 
-			"max(case when e.Description like 'Welfare Fund%' then e.Description else null end) as WelfareFund,\r\n" + 
-			"max(case when e.Description like 'laptop%' then e.Description else null end) as Laptop,\r\n" + 
-			"max(case when e.Description like 'bike%' then e.Description else null end) as Bike,\r\n" + 
-			"max(case when e.Description like 'PM%' then e.Description else null end) as PM,\r\n" + 
-			"max(case when e.Description like 'EPF 12%' then e.Description else null end) as EPF_12,\r\n" + 
-			"max(case when e.Description like 'EPF 3%' then e.Description else null end) as EPF_3\r\n" + 
-			"from salary_analyze a\r\n" + 
-			"inner join process_payroll_details b on a.Pay_Add_Deduct_Type_Code = b.Pay_Add_Deduct_Type_Code\r\n" + 
-			"inner join department d on a.Department_ID = d.Department_ID \r\n" + 
-			"inner join pay_add_deduct_types e on a.Pay_Add_Deduct_Type_Code = e.Pay_Add_Deduct_Type_Code) b\r\n" + 
-			"group by department",nativeQuery=true)
-	public String[][] getSalaryAnalizerTableData02Header();
+//	@Query(value="select * from(select 'Department' as department,\r\n" + 
+//			"max(case when e.Description like 'Bud%' then e.Description else null end) as Budgatery,\r\n" + 
+//			"max(case when e.Description like 'Attendance%' then e.Description else null end) as Attendance,\r\n" + 
+//			"max(case when e.Description like 'Risk %' then e.Description else null end) as Risk,\r\n" + 
+//			"max(case when e.Description like 'Performance%' then e.Description else null end) as Performance,\r\n" + 
+//			"max(case when e.Description like 'Night%' then e.Description else null end) as Night,\r\n" + 
+//			"max(case when e.Description like 'Target%' then e.Description else null end) as Target,\r\n" + 
+//			"max(case when e.Description like 'Trainee%' then e.Description else null end) as Trainee,\r\n" + 
+//			"max(case when e.Description like 'Other%' then e.Description else null end) as Other,\r\n" + 
+//			"max(case when e.Description like 'Rigger%' then e.Description else null end) as Rigger,\r\n" + 
+//			"max(case when e.Description like 'Sales Commission%' then e.Description else null end) as SalesCommission,\r\n" + 
+//			"max(case when e.Description like 'Transport%' then e.Description else null end) as Transport,\r\n" + 
+//			"max(case when e.Description like 'Site%' then e.Description else null end) as Site,\r\n" + 
+//			"max(case when e.Description like 'nopay%' then e.Description else null end) as nopay,\r\n" + 
+//			"max(case when e.Description like 'Festival Advance%' then e.Description else null end) as FestivalAdvance,\r\n" + 
+//			"max(case when e.Description like 'Insurance%' then e.Description else null end) as Insurance,\r\n" + 
+//			"max(case when e.Description like 'Mobile Phone%' then e.Description else null end) as MobilePhone,\r\n" + 
+//			"max(case when e.Description like 'Salary Advance%' then e.Description else null end) as SalaryAdvance,\r\n" + 
+//			"max(case when e.Description like 'EPF 8%' then e.Description else null end) as EPF_8,\r\n" + 
+//			"max(case when e.Description like 'Welfare Fund%' then e.Description else null end) as WelfareFund,\r\n" + 
+//			"max(case when e.Description like 'laptop%' then e.Description else null end) as Laptop,\r\n" + 
+//			"max(case when e.Description like 'bike%' then e.Description else null end) as Bike,\r\n" + 
+//			"max(case when e.Description like 'PM%' then e.Description else null end) as PM,\r\n" + 
+//			"max(case when e.Description like 'EPF 12%' then e.Description else null end) as EPF_12,\r\n" + 
+//			"max(case when e.Description like 'EPF 3%' then e.Description else null end) as EPF_3\r\n" + 
+//			"from salary_analyze a\r\n" + 
+//			"inner join process_payroll_details b on a.Pay_Add_Deduct_Type_Code = b.Pay_Add_Deduct_Type_Code\r\n" + 
+//			"inner join department d on a.Department_ID = d.Department_ID \r\n" + 
+//			"inner join pay_add_deduct_types e on a.Pay_Add_Deduct_Type_Code = e.Pay_Add_Deduct_Type_Code) b\r\n" + 
+//			"group by department",nativeQuery=true)
+//	public String[][] getSalaryAnalizerTableData02Header();
 	
-	@Query(value="select * from(select 'Department' as department,\r\n" + 
-			"max(case when e.Description like 'Bud%' then e.Description else null end) as Budgatery,\r\n" + 
-			"max(case when e.Description like 'Attendance%' then e.Description else null end) as Attendance,\r\n" + 
-			"max(case when e.Description like 'Risk %' then e.Description else null end) as Risk,\r\n" + 
-			"max(case when e.Description like 'Performance%' then e.Description else null end) as Performance,\r\n" + 
-			"max(case when e.Description like 'Night%' then e.Description else null end) as Night,\r\n" + 
-			"max(case when e.Description like 'Target%' then e.Description else null end) as Target,\r\n" + 
-			"max(case when e.Description like 'Trainee%' then e.Description else null end) as Trainee,\r\n" + 
-			"max(case when e.Description like 'Other%' then e.Description else null end) as Other,\r\n" + 
-			"max(case when e.Description like 'Rigger%' then e.Description else null end) as Rigger,\r\n" + 
-			"max(case when e.Description like 'Sales Commission%' then e.Description else null end) as SalesCommission,\r\n" + 
-			"max(case when e.Description like 'Transport%' then e.Description else null end) as Transport,\r\n" + 
-			"max(case when e.Description like 'Site%' then e.Description else null end) as Site,\r\n" + 
-			"max(case when e.Description like 'nopay%' then e.Description else null end) as nopay,\r\n" + 
-			"max(case when e.Description like 'Festival Advance%' then e.Description else null end) as FestivalAdvance,\r\n" + 
-			"max(case when e.Description like 'Insurance%' then e.Description else null end) as Insurance,\r\n" + 
-			"max(case when e.Description like 'Mobile Phone%' then e.Description else null end) as MobilePhone,\r\n" + 
-			"max(case when e.Description like 'Salary Advance%' then e.Description else null end) as SalaryAdvance,\r\n" + 
-			"max(case when e.Description like 'EPF 8%' then e.Description else null end) as EPF_8,\r\n" + 
-			"max(case when e.Description like 'Welfare Fund%' then e.Description else null end) as WelfareFund,\r\n" + 
-			"max(case when e.Description like 'laptop%' then e.Description else null end) as Laptop,\r\n" + 
-			"max(case when e.Description like 'bike%' then e.Description else null end) as Bike,\r\n" + 
-			"max(case when e.Description like 'PM%' then e.Description else null end) as PM,\r\n" + 
-			"max(case when e.Description like 'EPF 12%' then e.Description else null end) as EPF_12,\r\n" + 
-			"max(case when e.Description like 'EPF 3%' then e.Description else null end) as EPF_3\r\n" + 
-			"from salary_analyze a\r\n" + 
-			"inner join process_payroll_details b on a.Pay_Add_Deduct_Type_Code = b.Pay_Add_Deduct_Type_Code\r\n" + 
-			"inner join department d on a.Department_ID = d.Department_ID \r\n" + 
-			"inner join pay_add_deduct_types e on a.Pay_Add_Deduct_Type_Code = e.Pay_Add_Deduct_Type_Code) b\r\n" + 
-			"group by department\r\n" + 
-			"union all\r\n" + 
-			"select d.Department,\r\n" + 
-			"sum(case when e.Description like 'Bud%' then (b.Amount) else null end) as Budgatery,\r\n" + 
-			"sum(case when e.Description like 'Attendance%' then (b.Amount) else null end) as Attendance,\r\n" + 
-			"sum(case when e.Description like 'Risk %' then (b.Amount) else null end) as Risk,\r\n" + 
-			"sum(case when e.Description like 'Performance%' then (b.Amount) else null end) as Performance,\r\n" + 
-			"sum(case when e.Description like 'Night%' then (b.Amount) else null end) as Night,\r\n" + 
-			"sum(case when e.Description like 'Target%' then (b.Amount) else null end) as Target,\r\n" + 
-			"sum(case when e.Description like 'Trainee%' then (b.Amount) else null end) as Trainee,\r\n" + 
-			"sum(case when e.Description like 'Other%' then (b.Amount) else null end) as Other,\r\n" + 
-			"sum(case when e.Description like 'Rigger%' then (b.Amount) else null end) as Rigger,\r\n" + 
-			"sum(case when e.Description like 'Sales Commission%' then (b.Amount) else null end) as SalesCommission,\r\n" + 
-			"sum(case when e.Description like 'Transport%' then (b.Amount) else null end) as Transport,\r\n" + 
-			"sum(case when e.Description like 'Site%' then (b.Amount) else null end) as Site,\r\n" + 
-			"sum(case when e.Description like 'nopay%' then (b.Amount) else null end) as nopay,\r\n" + 
-			"sum(case when e.Description like 'Festival Advance%' then (b.Amount) else null end) as FestivalAdvance,\r\n" + 
-			"sum(case when e.Description like 'Insurance%' then (b.Amount) else null end) as Insurance,\r\n" + 
-			"sum(case when e.Description like 'Mobile Phone%' then (b.Amount) else null end) as MobilePhone,\r\n" + 
-			"sum(case when e.Description like 'Salary Advance%' then (b.Amount) else null end) as SalaryAdvance,\r\n" + 
-			"sum(case when e.Description like 'EPF 8%' then (b.Amount) else null end) as EPF_8,\r\n" + 
-			"sum(case when e.Description like 'Welfare Fund%' then (b.Amount) else null end) as WelfareFund,\r\n" + 
-			"sum(case when e.Description like 'laptop%' then (b.Amount) else null end) as Laptop,\r\n" + 
-			"sum(case when e.Description like 'bike%' then (b.Amount) else null end) as Bike,\r\n" + 
-			"sum(case when e.Description like 'PM%' then (b.Amount) else null end) as PM,\r\n" + 
-			"sum(case when e.Description like 'EPF 12%' then (b.Amount) else null end) as EPF_12,\r\n" + 
-			"sum(case when e.Description like 'EPF 3%' then (b.Amount) else null end) as EPF_3\r\n" + 
-			"from salary_analyze a\r\n" + 
-			"inner join process_payroll_details b on a.Pay_Add_Deduct_Type_Code = b.Pay_Add_Deduct_Type_Code\r\n" + 
-			"inner join department d on a.Department_ID = d.Department_ID \r\n" + 
-			"inner join pay_add_deduct_types e on a.Pay_Add_Deduct_Type_Code = e.Pay_Add_Deduct_Type_Code\r\n" + 
-			"group by a.Department_ID",nativeQuery=true)
-	public String[][] salaryAnalizeReportData();
+//	@Query(value="select * from(select 'Department' as department,\r\n" + 
+//			"max(case when e.Description like 'Bud%' then e.Description else null end) as Budgatery,\r\n" + 
+//			"max(case when e.Description like 'Attendance%' then e.Description else null end) as Attendance,\r\n" + 
+//			"max(case when e.Description like 'Risk %' then e.Description else null end) as Risk,\r\n" + 
+//			"max(case when e.Description like 'Performance%' then e.Description else null end) as Performance,\r\n" + 
+//			"max(case when e.Description like 'Night%' then e.Description else null end) as Night,\r\n" + 
+//			"max(case when e.Description like 'Target%' then e.Description else null end) as Target,\r\n" + 
+//			"max(case when e.Description like 'Trainee%' then e.Description else null end) as Trainee,\r\n" + 
+//			"max(case when e.Description like 'Other%' then e.Description else null end) as Other,\r\n" + 
+//			"max(case when e.Description like 'Rigger%' then e.Description else null end) as Rigger,\r\n" + 
+//			"max(case when e.Description like 'Sales Commission%' then e.Description else null end) as SalesCommission,\r\n" + 
+//			"max(case when e.Description like 'Transport%' then e.Description else null end) as Transport,\r\n" + 
+//			"max(case when e.Description like 'Site%' then e.Description else null end) as Site,\r\n" + 
+//			"max(case when e.Description like 'nopay%' then e.Description else null end) as nopay,\r\n" + 
+//			"max(case when e.Description like 'Festival Advance%' then e.Description else null end) as FestivalAdvance,\r\n" + 
+//			"max(case when e.Description like 'Insurance%' then e.Description else null end) as Insurance,\r\n" + 
+//			"max(case when e.Description like 'Mobile Phone%' then e.Description else null end) as MobilePhone,\r\n" + 
+//			"max(case when e.Description like 'Salary Advance%' then e.Description else null end) as SalaryAdvance,\r\n" + 
+//			"max(case when e.Description like 'EPF 8%' then e.Description else null end) as EPF_8,\r\n" + 
+//			"max(case when e.Description like 'Welfare Fund%' then e.Description else null end) as WelfareFund,\r\n" + 
+//			"max(case when e.Description like 'laptop%' then e.Description else null end) as Laptop,\r\n" + 
+//			"max(case when e.Description like 'bike%' then e.Description else null end) as Bike,\r\n" + 
+//			"max(case when e.Description like 'PM%' then e.Description else null end) as PM,\r\n" + 
+//			"max(case when e.Description like 'EPF 12%' then e.Description else null end) as EPF_12,\r\n" + 
+//			"max(case when e.Description like 'EPF 3%' then e.Description else null end) as EPF_3\r\n" + 
+//			"from salary_analyze a\r\n" + 
+//			"inner join process_payroll_details b on a.Pay_Add_Deduct_Type_Code = b.Pay_Add_Deduct_Type_Code\r\n" + 
+//			"inner join department d on a.Department_ID = d.Department_ID \r\n" + 
+//			"inner join pay_add_deduct_types e on a.Pay_Add_Deduct_Type_Code = e.Pay_Add_Deduct_Type_Code) b\r\n" + 
+//			"group by department\r\n" + 
+//			"union all\r\n" + 
+//			"select d.Department,\r\n" + 
+//			"sum(case when e.Description like 'Bud%' then (b.Amount) else null end) as Budgatery,\r\n" + 
+//			"sum(case when e.Description like 'Attendance%' then (b.Amount) else null end) as Attendance,\r\n" + 
+//			"sum(case when e.Description like 'Risk %' then (b.Amount) else null end) as Risk,\r\n" + 
+//			"sum(case when e.Description like 'Performance%' then (b.Amount) else null end) as Performance,\r\n" + 
+//			"sum(case when e.Description like 'Night%' then (b.Amount) else null end) as Night,\r\n" + 
+//			"sum(case when e.Description like 'Target%' then (b.Amount) else null end) as Target,\r\n" + 
+//			"sum(case when e.Description like 'Trainee%' then (b.Amount) else null end) as Trainee,\r\n" + 
+//			"sum(case when e.Description like 'Other%' then (b.Amount) else null end) as Other,\r\n" + 
+//			"sum(case when e.Description like 'Rigger%' then (b.Amount) else null end) as Rigger,\r\n" + 
+//			"sum(case when e.Description like 'Sales Commission%' then (b.Amount) else null end) as SalesCommission,\r\n" + 
+//			"sum(case when e.Description like 'Transport%' then (b.Amount) else null end) as Transport,\r\n" + 
+//			"sum(case when e.Description like 'Site%' then (b.Amount) else null end) as Site,\r\n" + 
+//			"sum(case when e.Description like 'nopay%' then (b.Amount) else null end) as nopay,\r\n" + 
+//			"sum(case when e.Description like 'Festival Advance%' then (b.Amount) else null end) as FestivalAdvance,\r\n" + 
+//			"sum(case when e.Description like 'Insurance%' then (b.Amount) else null end) as Insurance,\r\n" + 
+//			"sum(case when e.Description like 'Mobile Phone%' then (b.Amount) else null end) as MobilePhone,\r\n" + 
+//			"sum(case when e.Description like 'Salary Advance%' then (b.Amount) else null end) as SalaryAdvance,\r\n" + 
+//			"sum(case when e.Description like 'EPF 8%' then (b.Amount) else null end) as EPF_8,\r\n" + 
+//			"sum(case when e.Description like 'Welfare Fund%' then (b.Amount) else null end) as WelfareFund,\r\n" + 
+//			"sum(case when e.Description like 'laptop%' then (b.Amount) else null end) as Laptop,\r\n" + 
+//			"sum(case when e.Description like 'bike%' then (b.Amount) else null end) as Bike,\r\n" + 
+//			"sum(case when e.Description like 'PM%' then (b.Amount) else null end) as PM,\r\n" + 
+//			"sum(case when e.Description like 'EPF 12%' then (b.Amount) else null end) as EPF_12,\r\n" + 
+//			"sum(case when e.Description like 'EPF 3%' then (b.Amount) else null end) as EPF_3\r\n" + 
+//			"from salary_analyze a\r\n" + 
+//			"inner join process_payroll_details b on a.Pay_Add_Deduct_Type_Code = b.Pay_Add_Deduct_Type_Code\r\n" + 
+//			"inner join department d on a.Department_ID = d.Department_ID \r\n" + 
+//			"inner join pay_add_deduct_types e on a.Pay_Add_Deduct_Type_Code = e.Pay_Add_Deduct_Type_Code\r\n" + 
+//			"group by a.Department_ID",nativeQuery=true)
+//	public String[][] salaryAnalizeReportData();
 	
 	// begin of fixed transactional details report
 	@Query(value="select * from (\n" + 
