@@ -13,8 +13,6 @@
 <html lang="en">
 <head>
 <%@include file="../../WEB-INF/jsp/head.jsp"%>
-<link href="<c:url value='resources/hrm/css/salaryAnalyze.css'/>"
-	rel="stylesheet">
 <link href="<c:url value='resources/hrm/css/yearpicker.css'/>"
 	rel="stylesheet" type="text/css">
 <style>
@@ -75,16 +73,29 @@
 
 .iconstyle {
 	width: 7%;
-	color: blue';
+	color: 'blue';
 }
 
 .icon-pre-ve {
 	width: 150%;
 }
-</style>
+/* from css */
+.scrollable {
+	height: 200px;
+	overflow: scroll;
+}
 
+* {
+	text-transform: capitalize;
+}
+
+#hiddenDicv {
+	display: none; 
+	
+}
+</style>
 </head>
-<body onload="checkStatusofDropdowns();">
+<body>
 	<div class="wrapper">
 		<div class="main-header">
 			<!-- Logo Header -->
@@ -108,7 +119,6 @@
 							</div>
 							<div class="col-xl-2 col-lg-2"></div>
 							<div class="ml-md-auto py-2 py-md-4"></div>
-
 							<div class="ml-md-auto py-2 py-md-4"></div>
 						</div>
 					</div>
@@ -118,152 +128,180 @@
 					<div class="container-fluid">
 						<div class="card">
 							<div class="card-body">
-								<form:form action="saveSalaryAnalyzeData" method="post"
-									modelAttribute="salaryAnalyzeForm" id="formSalaryAnalyze">
+								<form:form action="saveSalaryAnalyze"
+									modelAttribute="salaryAnalyze">
 									<div class="row">
-										<div class="row form-group col-7" id="yearDiv">
-											<label id="lsd1">Year</label>
-											<div class="col">
-												<form:input type="text" class="yearpicker form-control"
-													path="saPK.year" placeholder="Enter Process Year" id="year" />
+										<div class="col-6">
+											<div class="row form-group" id="yearDiv">
+												<label class="col-5">Year</label>
+												<div class="col-7">
+													<form:input type="text" class="yearpicker form-control"
+														path="year" placeholder="Enter Process Year" id="year" />
+												</div>
 											</div>
 										</div>
-
-										<div class="row form-group col-4" id="yearDiv">
-											<div>
+									</div>
+									<div class="row">
+										<div class="col-6">
+											<div class="row form-group" id="monthDiv">
+												<label class="col-5">Month</label>
+												<div class="col-7">
+													<form:select id="month" class="form-control" path="month">
+														<form:option value="">--SELECT--</form:option>
+														<form:option value="01">January</form:option>
+														<form:option value="02">February</form:option>
+														<form:option value="03">march</form:option>
+														<form:option value="04">April</form:option>
+														<form:option value="05">May</form:option>
+														<form:option value="06">June</form:option>
+														<form:option value="07">July</form:option>
+														<form:option value="08">August</form:option>
+														<form:option value="09">September</form:option>
+														<form:option value="10">October</form:option>
+														<form:option value="11">November</form:option>
+														<form:option value="12">December</form:option>
+													</form:select>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-6">
+											<div class="row form-group" id="depDIv">
+												<label class="col-5">Department</label>
+												<div class="col-7">
+													<form:select id="depID" class="form-control"
+														path="depatment.depID">
+														<option value="">--SELECT--</option>
+														<c:forEach items="${departmentsList}" var="b">
+															<form:option value="${b.depID}">${b.department}</form:option>
+														</c:forEach>
+													</form:select>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-6">
+											<div class="row form-group">
+												<label class="col-5">Allowance Type</label>
+												<div class="col-7">
+													<form:select id="adjType" class="form-control"
+														path="addDedType.deductTypeCode">
+														<option value="">--SELECT--</option>
+														<c:forEach items="${payAddDeductTypeList}" var="b">
+															<form:option value="${b.deductTypeCode}">${b.desc}</form:option>
+														</c:forEach>
+													</form:select>
+												</div>
+											</div>
+										</div>
+										<div class="row col-6">
+											<div class="form-check">
+												<div class="form-check">
+													<label class="form-check-label"> <input
+														onClick="addDataToTbl()" id="addAllAllowance"
+														class="form-check-input" type="checkbox" value="checkbox">
+														<span class="form-check-sign">All</span>
+													</label>
+												</div>
+											</div>
+											<div class="form-group mt-2">
+												<button type="submit"
+													class="btn btn-success btn-sm">Add</button>
+											</div>
+											<div class="form-group mt-2">
+												<button type="reset" onclick="clearAllowance()"
+													class="btn btn-danger btn-sm">Clear</button>
+											</div>
+										</div>
+									</div>
+									<div class="row" id="hiddenDicv">
+										<div class="col-6">
+											<div class="row form-group">
+												<label class="col-5">Company No.</label>
+												<div class="col-7">
+													<input type="text" class="form-control"
+														name="company.comID"
+														value="<%=session.getAttribute("company.comID")%>"
+														id="comID" readOnly>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="row" id="hiddenDicv">
+										<div class="col-6">
+											<div class="row form-group">
+												<label class="col-5">Salary Analyze No.</label>
+												<div class="col-7">
+													<form:input type="text" class="form-control" path="saID"
+														id="saID" readOnly="true"/>
+												</div>
+											</div>
+										</div>
+									</div>
+								</form:form>
+								<div class="row">
+									<div class="col-12">
+										<div class="row form-group">
+											<label class="col-2 ml-4"></label>
+											<div class="col-7 ml-2">
+												<div id="alloTableDiv">
+													<div class="scrollable">
+														<table class="table table-bordered table-striped mb-0"
+															id="alloTable">
+															<thead>
+																<tr>
+																	<th scope="col">Allowance No.</th>
+																	<th scope="col">Allowance Name</th>
+																</tr>
+															</thead>
+															<tbody>
+																<c:forEach items="${allSalaryAnalizes}" var="na">
+																	<tr>
+																		<td id="tNid">${na.addDedType.deductTypeCode}</td>
+																		<td id="tNa">${na.addDedType.desc}</td>
+																	</tr>
+																</c:forEach>
+															</tbody>
+														</table>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-6">
+										<div class="row form-group">
+											<label class="col-5"></label>
+											<div class="col-7">
+												<button type="submit" class="btn btn-info btn-sm"
+													onClick="getTableData()">View</button>
 												<a href="SalaryAnalyzeReport"
-													class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+													class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm ml-3"><i
 													class="fas fa-download fa-sm text-white-50"></i> Generate
 													Report</a>
 											</div>
 										</div>
 									</div>
-
-									<div class="row">
-										<div class="row form-group col-7" id="monthDiv">
-											<label id="led1">Month</label>
-											<div class="col">
-												<form:select id="month" class="form-control"
-													path="saPK.month">
-													<form:option value="">Select Month</form:option>
-													<form:option value="01">January</form:option>
-													<form:option value="02">February</form:option>
-													<form:option value="03">march</form:option>
-													<form:option value="04">April</form:option>
-													<form:option value="05">May</form:option>
-													<form:option value="06">June</form:option>
-													<form:option value="07">July</form:option>
-													<form:option value="08">August</form:option>
-													<form:option value="09">September</form:option>
-													<form:option value="10">October</form:option>
-													<form:option value="11">November</form:option>
-													<form:option value="12">December</form:option>
-												</form:select>
-											</div>
-										</div>
-									</div>
-
-									<div class="row">
-										<div class="row form-group col-7" id="depDIv">
-											<label id="dLbl">Department</label>
-											<div class="col">
-												<form:select id="depID" class="form-control"
-													path="saPK.depatment.depID">
-													<form:option value="">Select Department</form:option>
-													<c:forEach items="${departments}" var="b">
-														<form:option value="${b.depID}">${b.department}</form:option>
-													</c:forEach>
-												</form:select>
-											</div>
-										</div>
-									</div>
-
-									<div class="row">
-										<div class="row form-group col-7" id="adjType">
-											<label id="dLbl">Salary Adjustment Type</label>
-											<div class="col">
-												<form:select id="adjType" class="form-control"
-													path="saPK.addDedType.deductTypeCode">
-													<form:option value="">Select Allowance Type</form:option>
-													<c:forEach items="${Allowances}" var="b">
-														<form:option value="${b.deductTypeCode}">${b.desc}</form:option>
-													</c:forEach>
-												</form:select>
-											</div>
-										</div>
-
-										<!-- <div class="col-4 form-group" id="alloIdDiv">
-															<input type="text" class="form-control"
-																id="allowanceID" readOnly>
-														</div> -->
-
-										<div class="col-4 form-group" id="alloIdDiv">
-											<input type="text" class="form-control" name="company.comID"
-												value="<%=session.getAttribute("company.comID")%>"
-												id="comID" readOnly>
-										</div>
-
-										<div class="form-check ml-3 mr-3" id="cbDiv">
-											<input type="checkbox" class="form-check-input"
-												id="addAllAllowance" onchange="loadAllAllowances()"
-												onclick="saveListOfData()"> <label
-												class="form-check-label" for="addAllAllowance">All</label>
-										</div>
-
-										<div class="form-group ml-1" id="addBtn">
-											<button type="submit" id="btnOne"
-												class="btn btn-success btn-sm">Add</button>
-										</div>
-
-										<div class="form-group ml-1" id="clearBtn">
-											<button type="button" id="btnTwo" onclick="clearAllowance()"
-												class="btn btn-danger btn-sm">Clear</button>
-										</div>
-									</div>
-								</form:form>
-								<div class="row">
-									<div class="col-7" id="alloTableDiv">
-										<div class="table-wrapper-scroll-y my-custom-scrollbar">
-											<table class="table table-bordered table-striped mb-0"
-												id="alloTable">
-												<thead>
-													<tr>
-														<th scope="col">Allowance ID</th>
-														<th scope="col">Allowance Name</th>
-													</tr>
-												</thead>
-												<tbody>
-													<c:forEach items="${allSalaryAnalize}" var="na">
-														<tr>
-															<td id="tNid">${na.saPK.addDedType.deductTypeCode}</td>
-															<td id="tNa">${na.saPK.addDedType.desc}</td>
-
-														</tr>
-													</c:forEach>
-												</tbody>
-											</table>
-										</div>
-									</div>
 								</div>
 								<div class="row">
-									<div class="form-group ml-3 mt-3 mb-3">
-										<button type="button" id="viewBtn" class="btn btn-info btn-sm"
-											onclick="getTable02Data()">View</button>
-									</div>
-								</div>
-
-								<div class="rwo">
-									<div id="detailsTableDiv">
-										<div class="scrollable">
-											<table class="table table-hover" width="100%" cellspacing="0"
-												id="detailsTbl">
-												<thead>
-													<tr></tr>
-												</thead>
-												<tbody>
-													<tr></tr>
-												</tbody>
-											</table>
+									<div class="col-12">
+										<div class="form-group">
+											<div id="detailsTableDiv">
+												<div class="scrollable">
+													<table class="table table-hover" width="100%"
+														cellspacing="0" id="detailsTbl">
+														<thead>
+															<tr></tr>
+														</thead>
+														<tbody>
+															<tr></tr>
+														</tbody>
+													</table>
+												</div>
+											</div>
 										</div>
 									</div>
 								</div>
@@ -271,7 +309,6 @@
 						</div>
 					</div>
 				</div>
-
 			</div>
 			<%@include file="../../WEB-INF/jsp/footer.jsp"%>
 		</div>
@@ -282,6 +319,5 @@
 	<script src="<c:url value='/resources/hrm/js/yearpicker.js'/>"></script>
 	<!-- table scroller -->
 	<script src="<c:url value='/resources/hrm/js/table-scroller.js'/>"></script>
-
 </body>
 </html>

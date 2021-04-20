@@ -2,9 +2,12 @@ package com.prime.hrm.service;
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.prime.hrm.entity.ProcessPayrollDetails;
 import com.prime.hrm.entity.ProcessPayrollMaster;
 import com.prime.hrm.repository.ProcessPayrollMasterRepository;
 
@@ -13,6 +16,7 @@ public class ProcessPayrollMasterService {
 
 	@Autowired
 	private ProcessPayrollMasterRepository proPaMaRepo;
+
 	
 	public String getMaxID() {
 		if(proPaMaRepo.maxMID() == null) {
@@ -30,23 +34,58 @@ public class ProcessPayrollMasterService {
 	public String[][] getReportData() {
 		return proPaMaRepo.getReportData();
 	}
+	
+	public String[][] getAllEmpWithAllowancesReportBodyData() {
+		return proPaMaRepo.getAllEmpWithAllowancesReportBodyData();
+	}
+	
+	public String[][] getAllEmpWithAllowancesReportBodySumData(String comID) {
+		return proPaMaRepo.getAllEmpWithAllowancesReportBodySumData(comID);
+	}
+	
+	public String[][] getAllEmpWithAllowancesReportHeadData() {
+		return proPaMaRepo.getAllEmpWithAllowancesReportHeadData();
+	}
+	
+	public String[][] getAllEmpWithAllowancesReportHeaderSumData(String comID) {
+		return proPaMaRepo.getAllEmpWithAllowancesReportHeaderSumData(comID);
+	}
+	
 	//end of the employee report 01 data
 	
 	//employee pay slip methods
-	public String[][] paySlipData(String empID) {
-		return proPaMaRepo.paySlipData(empID);
+	public String[][] paySlipData(String empID, String comID) {
+		return proPaMaRepo.paySlipData(empID,comID);
 	}
-	// end payslip data
+	
+	public String loggedCompanyName(String comID) {
+		return proPaMaRepo.loggedComapanyName(comID);
+	}
+	
+	//All Employees paySlips data
+	public String[][] getAllEmpsPaySlips(String comID) {
+		return proPaMaRepo.getAllEmpsPaySlips(comID);
+	}
+	
+	//related department payslip
+	public String[][] getEmpRelatedDepartmentPaySlip(String comID, String depID) {
+		return proPaMaRepo.getEmpRelatedDepartmentPaySlip(comID, depID);
+	}
+	
+	//related startDate and endDate
+	public String[][] getPaySlipRelatedStartDateAndEndDate(String comID,String startDate, String endDate) {
+		return proPaMaRepo.getPayslipRelatedStartDateAndEndDate(comID, startDate, endDate);
+	}
 	
 	//load proceePayorll tables data
 	//table 01
-	public String[][] loadTable01Data(String payCodeID) {
-		return proPaMaRepo.loadTable01Data(payCodeID);
+	public String[][] loadTable01Data(String payCodeID, String comID) {
+		return proPaMaRepo.loadTable01Data(payCodeID, comID);
 	}
 	
 	//table 02
-	public String[][] loadTable02Data(String payCodeID) {
-		return proPaMaRepo.loadTable02Data(payCodeID);
+	public String[][] loadTable02Data(String payCodeID, String comID) {
+		return proPaMaRepo.loadTable02Data(payCodeID,comID);
 	}
 	
 	//table 03
@@ -60,23 +99,42 @@ public class ProcessPayrollMasterService {
 	}
 	
 	//calPrioritData
-	public String CalPriorotyData(String payCodeID,String empID) {
-		return proPaMaRepo.CalPriorotyData(payCodeID, empID);
-	}
-	
-	//otherGrossValues
-	public String[][] otherGrossPerValues(String empID) {
-		return proPaMaRepo.otherGrossPerValues(empID);
-	}
-	
+	public String CalPriorotyData(String payCodeID,String empID, String comID) {
+		return proPaMaRepo.CalPriorotyData(payCodeID, empID, comID);
+	}	
 	//dedgrossPerValues
 	public String[][] dedGrossPerValues(String empID) {
 		return proPaMaRepo.dedGrossPerValues(empID);
 	}
 	
-	//addgrossPerValues
-	public String[][] addGrossPerValues(String empID) {
-		return proPaMaRepo.addGrossPerValues(empID);
+	//calculate calculation priority	
+	public String[][] addGrossPerValues(String empID,String comID) {
+		return proPaMaRepo.addGrossPerValues(empID,comID);
+	}
+	
+	public String[][] getFixAndVariableDedGrossPercentageValues(String empID, String comID) {
+		return proPaMaRepo.getFixAndVariableDedGrossPercentageValues(empID, comID);
+	}
+
+	public String[][] getFixAndVariableOthGrossPercentageValues(String empID,String comID) {
+		return proPaMaRepo.getFixAndVariableOthGrossPercentageValues(empID,comID);
+	}
+
+	//depends on basic salary
+	public String getBasicSalaryCalculatePercentageValues(String empID,String comID) {
+		return proPaMaRepo.getBasicSalaryCalculatePercentageValues(empID,comID);
+	}
+	
+	public String[][] getFixAndVariableAddBasicPercentageValues(String empID, String comID) {
+		return proPaMaRepo.getFixAndVariableAddBasicPercentageValues(empID, comID);
+	}
+	
+	public String[][] getFixAndVariableDedBasicPercentageValues(String empID, String comID) {
+		return proPaMaRepo.getFixAndVariableDedBasicPercentageValues(empID, comID);
+	}
+	
+	public String[][] getFixAndVariableOthBasicPercentageValues(String empID, String comID) {
+		return proPaMaRepo.getFixAndVariableOthBasicPercentageValues(empID, comID);
 	}
 	
 	public List<ProcessPayrollMaster> saveDataList(List<ProcessPayrollMaster> list) {
@@ -84,29 +142,33 @@ public class ProcessPayrollMasterService {
 	}
 	
 	//totalGross
-	public String[][] getMoProPCTabbleData(String payCodeID) {
-		return proPaMaRepo.getMoProPCTabbleData(payCodeID);
+	public String[][] getMoProPCTabbleData(String payCodeID, String comID) {
+		return proPaMaRepo.getMoProPCTabbleData(payCodeID,comID);
 	}
 	
 	//save data of process payroll
-	public String[][] sampleSave(String payCodeID) {
-		return proPaMaRepo.sampleSave(payCodeID);
+	public String[][] sampleSave(String payCodeID,String comID) {
+		return proPaMaRepo.sampleSave(payCodeID,comID);
 	}
 	
-	public String[][] addGrossPerCal() {
-		return proPaMaRepo.addGrossPerCal();
+	public String[][] saveDataMonthProcessMaster(String payCodeID, String comID) {
+		return proPaMaRepo.saveDataMonthProcessMaster(payCodeID, comID);
 	}
 	
-	public String[][] dedGrossPerCal() {
-		return proPaMaRepo.dedGrossPerCal();
+	public String[][] addGrossPerCal(String comID) {
+		return proPaMaRepo.addGrossPerCal(comID);
 	}
 	
-	public String[][] otherGrossPerCal() {
-		return proPaMaRepo.otherGrossPerCal();
+	public String[][] dedGrossPerCal(String comID) {
+		return proPaMaRepo.dedGrossPerCal(comID);
 	}
 	
-	public String[][] calPriEmpList() {
-		return proPaMaRepo.calPriEmpList();
+	public String[][] otherGrossPerCal(String comID) {
+		return proPaMaRepo.otherGrossPerCal(comID);
+	}
+	
+	public String[][] calPriEmpList(String comID) {
+		return proPaMaRepo.calPriEmpList(comID);
 	}
 	
 	public void deleteAllDataOfProcessPayrollMaster() {

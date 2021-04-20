@@ -5,10 +5,21 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.prime.hrm.entity.SalaryAnalyze;
-import com.prime.hrm.entity.SalaryAnalyzePK;
 
-public interface SalaryAnalyzeRepository extends JpaRepository<SalaryAnalyze, SalaryAnalyzePK> {
+public interface SalaryAnalyzeRepository extends JpaRepository<SalaryAnalyze, String> {
 
+	@Query(value="SELECT (max(cm.saID)+1) FROM SalaryAnalyze cm")
+	public String getMaxSaID();
+	
+	@Query(value = "select a.Pay_Add_Deduct_Type_Code from pay_add_deduct_types a",nativeQuery=true)
+	public String[][] getListOfAllowances();
+	
+	@Query(value = "CALL salary_Analyze_Table_Header()",nativeQuery=true)
+	public String[][] getSalaryAnalyzeTableHeaderData();
+	
+	@Query(value = "CALL salary_Analyze_Table_Data()",nativeQuery=true)
+	public String[][] getSalaryAnalyzeTableBodyData();
+	
 	@Query(value="select d.Department,\r\n" + 
 			"sum(case when e.Description like 'Bud%' then (b.Amount) else null end) as Budgatery,\r\n" + 
 			"sum(case when e.Description like 'Attendance%' then (b.Amount) else null end) as Attendance,\r\n" + 
@@ -137,88 +148,126 @@ public interface SalaryAnalyzeRepository extends JpaRepository<SalaryAnalyze, Sa
 	public String[][] salaryAnalizeReportData();
 	
 	// begin of fixed transactional details report
-	@Query(value="select * from (\r\n" + 
-			"select a.Employee_ID as empID, a.Employee_ID as tempEmpID, \r\n" + 
-			"'' as fixAllDesc, b.name as fname, b.lastname as lname, \r\n" + 
-			"'' as amount,'' as fixAlloID\r\n" + 
-			"from process_payroll_details a\r\n" + 
-			"inner join employee_master b on a.Employee_ID = b.Employee_ID\r\n" + 
-			"inner join pay_add_deduct_types c on a.Pay_Add_Deduct_Type_Code = c.Pay_Add_Deduct_Type_Code\r\n" + 
-			"where a.Employee_ID =:Employee_ID group by empID\r\n" + 
-			"union all\r\n" + 
-			"select a.Employee_ID as empID, '' as tempEmpID,  \r\n" + 
-			"(case when c.Add_Deduct_Type = 'fixedType' then c.Description else null end) as fixAllDesc,\r\n" + 
-			"c.Calculation_Priority_Seq as calPriority, c.Add_Deduct_Value as relatedValues,\r\n" + 
-			"a.Amount as amount,\r\n" + 
-			"(case when c.Add_Deduct_Type = 'fixedType' then c.Pay_Add_Deduct_Type_Code else null end) as fixAlloID\r\n" + 
-			"from process_payroll_details a\r\n" + 
-			"inner join employee_master b on a.Employee_ID = b.Employee_ID\r\n" + 
-			"inner join pay_add_deduct_types c on a.Pay_Add_Deduct_Type_Code = c.Pay_Add_Deduct_Type_Code\r\n" + 
-			"where a.Employee_ID =:Employee_ID) a where fixAlloID is not null",nativeQuery=true)
-	public String[][] getFTDataRelatedEmployee(@Param("Employee_ID")String empID);
+	@Query(value="select * from (\n" + 
+			"select a.Employee_ID as empID, a.Employee_ID as tempEmpID, \n" + 
+			"'' as fixAllDesc, b.name as fname, b.lastname as lname, \n" + 
+			"'' as amount,'' as fixAlloID\n" + 
+			"from process_payroll_details a\n" + 
+			"inner join employee_master b on a.Employee_ID = b.Employee_ID\n" + 
+			"inner join pay_add_deduct_types c on a.Pay_Add_Deduct_Type_Code = c.Pay_Add_Deduct_Type_Code\n" + 
+			"inner join company_master d on a.Company_ID = d.Company_ID \n" + 
+			"where a.Company_ID =:Company_ID and a.Employee_ID =:Employee_ID group by empID\n" + 
+			"union all\n" + 
+			"select a.Employee_ID as empID, '' as tempEmpID,  \n" + 
+			"(case when c.Add_Deduct_Type = 'fixedType' then c.Description else null end) as fixAllDesc,\n" + 
+			"c.Calculation_Priority_Seq as calPriority, c.Add_Deduct_Value as relatedValues,\n" + 
+			"a.Amount as amount,\n" + 
+			"(case when c.Add_Deduct_Type = 'fixedType' then c.Pay_Add_Deduct_Type_Code else null end) as fixAlloID\n" + 
+			"from process_payroll_details a\n" + 
+			"inner join employee_master b on a.Employee_ID = b.Employee_ID\n" + 
+			"inner join pay_add_deduct_types c on a.Pay_Add_Deduct_Type_Code = c.Pay_Add_Deduct_Type_Code\n" + 
+			"inner join company_master d on a.Company_ID = d.Company_ID \n" + 
+			"where a.Company_ID =:Company_ID and a.Employee_ID =:Employee_ID) a where fixAlloID is not null;",nativeQuery=true)
+	public String[][] getFTDataRelatedEmployee(@Param("Employee_ID")String empID,@Param("Company_ID")String comID);
 	
-	@Query(value="select * from \r\n" + 
-			"(select a.Employee_ID as empID, a.Employee_ID as tempEmpID, b.name as fname, b.lastname as lname, \r\n" + 
-			"'' as calPriority, '' as relatedValues, '' as amount\r\n" + 
-			"from process_payroll_details a\r\n" + 
-			"inner join employee_master b on a.Employee_ID = b.Employee_ID\r\n" + 
-			"inner join pay_add_deduct_types c on a.Pay_Add_Deduct_Type_Code = c.Pay_Add_Deduct_Type_Code\r\n" + 
-			"group by a.Employee_ID\r\n" + 
-			"union all\r\n" + 
-			"select * from(select a.Employee_ID as empID, '' as tempEmpID,  \r\n" + 
-			"(case when c.Add_Deduct_Type = 'fixedType' then c.Description else null end) as fixAllDesc,\r\n" + 
-			"c.Calculation_Priority_Seq as calPriority, c.Add_Deduct_Value as relatedValues,\r\n" + 
-			"a.Amount as amount,\r\n" + 
-			"(case when c.Add_Deduct_Type = 'fixedType' then c.Pay_Add_Deduct_Type_Code else null end) as fixAlloID\r\n" + 
-			"from process_payroll_details a\r\n" + 
-			"inner join employee_master b on a.Employee_ID = b.Employee_ID\r\n" + 
-			"inner join pay_add_deduct_types c on a.Pay_Add_Deduct_Type_Code = c.Pay_Add_Deduct_Type_Code)a where fixAlloID is not null) b\r\n" + 
-			"order by empID",nativeQuery=true)
-	public String[][] getAllEmpFTBodyData();
+	@Query(value="SELECT empID, tempID, colNo, fixAllDesc, max(fname), max(lname),'' as final_amount, fixAlloID \n" + 
+			"from (select a.Employee_ID as empID,  a.Employee_ID as tempID, '' as colNo, \n" + 
+			"'' as fixAllDesc, '' as fname, '' as lname, '' as amount, '' as fixAlloID\n" + 
+			"from process_payroll_details a\n" + 
+			"inner join company_master d on a.Company_ID = d.Company_ID \n" + 
+			"where a.Company_ID =:Company_ID group by tempID\n" + 
+			"UNION ALL \n" + 
+			"SELECT \n" + 
+			"a.Employee_ID as empID, '' as tempID, '01' as colNo, '' as fixAllDesc, b.name as fname, b.lastname as lname,\n" + 
+			"'' as amount, '' as fixAlloID\n" + 
+			"from process_payroll_details a \n" + 
+			"inner join employee_master b on a.Employee_ID = b.Employee_ID \n" + 
+			"inner join company_master d on a.Company_ID = d.Company_ID where a.Company_ID =:Company_ID\n" + 
+			"group by empID) b group by empID\n" + 
+			"UNION ALL\n" + 
+			"SELECT * from (select a.Employee_ID as empID, '' as tempID, '02' as colNo, \n" + 
+			"(case when c.Add_Deduct_Type = 'fixedType' then c.Description else null end) as fixAllDesc,\n" + 
+			"c.Calculation_Priority_Seq as calPriority, c.Add_Deduct_Value as relatedValues,\n" + 
+			"a.Amount as final_amount,\n" + 
+			"(case when c.Add_Deduct_Type = 'fixedType' then c.Pay_Add_Deduct_Type_Code else null end) as fixAlloID\n" + 
+			"from process_payroll_details a\n" + 
+			"inner join employee_master b on a.Employee_ID = b.Employee_ID \n" + 
+			"inner join pay_add_deduct_types c on a.Pay_Add_Deduct_Type_Code = c.Pay_Add_Deduct_Type_Code\n" + 
+			"inner join company_master d on a.Company_ID = d.Company_ID where a.Company_ID =:Company_ID)a \n" + 
+			"where fixAlloID is not null order by empID,colNo;",nativeQuery=true)
+	public String[][] getAllEmpFTBodyData(@Param("Company_ID")String comID);
 	
-	@Query(value="select * from ( select a.Employee_ID as empID, a.Employee_ID as tempEmpID, \r\n" + 
-			"'' as fixAllDesc, b.name as fname, b.lastname as lname, \r\n" + 
-			"'' as amount, '' as fixAlloID\r\n" + 
-			"from process_payroll_details a\r\n" + 
-			"inner join employee_master b on a.Employee_ID = b.Employee_ID\r\n" + 
-			"inner join pay_add_deduct_types c on a.Pay_Add_Deduct_Type_Code = c.Pay_Add_Deduct_Type_Code\r\n" + 
-			"inner join employee_details e on b.Employee_ID = e.Employee_ID\r\n" + 
-			"inner join department f on e.Department_ID = f.Department_ID\r\n" + 
-			"where e.Department_ID =:Department_ID group by empID\r\n" + 
-			"union all\r\n" + 
-			"select a.Employee_ID as empID, '' as tempEmpID,\r\n" + 
-			"(case when c.Add_Deduct_Type = 'fixedType' then c.Description else null end) as fixAllDesc,\r\n" + 
-			"c.Calculation_Priority_Seq as calPriority, c.Add_Deduct_Value as relatedValues,\r\n" + 
-			"a.Amount as amount,\r\n" + 
-			"(case when c.Add_Deduct_Type = 'fixedType' then c.Pay_Add_Deduct_Type_Code else null end) as fixAlloID\r\n" + 
-			"from process_payroll_details a\r\n" + 
-			"inner join employee_master b on a.Employee_ID = b.Employee_ID\r\n" + 
-			"inner join pay_add_deduct_types c on a.Pay_Add_Deduct_Type_Code = c.Pay_Add_Deduct_Type_Code\r\n" + 
-			"inner join employee_details e on b.Employee_ID = e.Employee_ID\r\n" + 
-			"inner join department f on e.Department_ID = f.Department_ID\r\n" + 
-			"where e.Department_ID =:Department_ID) a where fixAlloID is not null order by empID",nativeQuery=true)
-	public String[][] GetDataToFTDRRelatedDepartment(@Param("Department_ID")String depID);
+	@Query(value="SELECT empID, tempID, colNo, fixAllDesc, max(fname), max(lname), '' as final_amount, fixAlloID \n" + 
+			"from (\n" + 
+			"select a.Employee_ID as empID,  a.Employee_ID as tempID, '' as colNo, \n" + 
+			"'' as fixAllDesc, '' as fname, '' as lname, '' as amount, '' as fixAlloID\n" + 
+			"from process_payroll_details a\n" + 
+			"inner join company_master d on a.Company_ID = d.Company_ID \n" + 
+			"inner join employee_master b on a.Employee_ID = b.Employee_ID\n" + 
+			"inner join employee_details e on b.Employee_ID = e.Employee_ID\n" + 
+			"inner join department f on e.Department_ID = f.Department_ID\n" + 
+			"where a.Company_ID =:Company_ID and e.Department_ID =:Department_ID group by tempID\n" + 
+			"UNION ALL \n" + 
+			"SELECT \n" + 
+			"a.Employee_ID as empID, '' as tempID, '01' as colNo, '' as fixAllDesc, b.name as fname, b.lastname as lname,\n" + 
+			"'' as amount, '' as fixAlloID\n" + 
+			"from process_payroll_details a \n" + 
+			"inner join employee_master b on a.Employee_ID = b.Employee_ID \n" + 
+			"inner join employee_details e on b.Employee_ID = e.Employee_ID\n" + 
+			"inner join department f on e.Department_ID = f.Department_ID\n" + 
+			"inner join company_master d on a.Company_ID = d.Company_ID \n" + 
+			"where a.Company_ID =:Company_ID and e.Department_ID =:Department_ID group by empID) b group by empID\n" + 
+			"UNION ALL\n" + 
+			"SELECT * from (select a.Employee_ID as empID, '' as tempID, '02' as colNo, \n" + 
+			"(case when c.Add_Deduct_Type = 'fixedType' then c.Description else null end) as fixAllDesc,\n" + 
+			"c.Calculation_Priority_Seq as calPriority, c.Add_Deduct_Value as relatedValues,\n" + 
+			"a.Amount as final_amount,\n" + 
+			"(case when c.Add_Deduct_Type = 'fixedType' then c.Pay_Add_Deduct_Type_Code else null end) as fixAlloID\n" + 
+			"from process_payroll_details a\n" + 
+			"inner join employee_master b on a.Employee_ID = b.Employee_ID \n" + 
+			"inner join pay_add_deduct_types c on a.Pay_Add_Deduct_Type_Code = c.Pay_Add_Deduct_Type_Code\n" + 
+			"inner join employee_details e on b.Employee_ID = e.Employee_ID\n" + 
+			"inner join department f on e.Department_ID = f.Department_ID\n" + 
+			"inner join company_master d on a.Company_ID = d.Company_ID \n" + 
+			"where a.Company_ID =:Company_ID and e.Department_ID =:Department_ID)a \n" + 
+			"where fixAlloID is not null order by empID,colNo;",nativeQuery=true)
+	public String[][] GetDataToFTDRRelatedDepartment(@Param("Department_ID")String depID,@Param("Company_ID")String comID);
 	
-	@Query(value="select * from (\r\n" + 
-			"select a.Employee_ID as empID, a.Employee_ID as tempEmpID, \r\n" + 
-			"'' as fixAllDesc, b.name as fname, b.lastname as lname, \r\n" + 
-			"'' as amount, '' as fixAlloID\r\n" + 
-			"from process_payroll_details a\r\n" + 
-			"inner join employee_master b on a.Employee_ID = b.Employee_ID\r\n" + 
-			"inner join pay_add_deduct_types c on a.Pay_Add_Deduct_Type_Code = c.Pay_Add_Deduct_Type_Code\r\n" + 
-			"inner join employee_details e on b.Employee_ID = e.Employee_ID\r\n" + 
-			"inner join department f on e.Department_ID = f.Department_ID\r\n" + 
-			"group by empID\r\n" + 
-			"union all\r\n" + 
-			"select a.Employee_ID as empID, '' as tempEmpID, \r\n" + 
-			"(case when c.Add_Deduct_Type = 'fixedType' then c.Description else null end) as fixAllDesc,\r\n" + 
-			"c.Calculation_Priority_Seq as calPriority, c.Add_Deduct_Value as relatedValues, a.Amount as amount,\r\n" + 
-			"(case when c.Add_Deduct_Type = 'fixedType' then c.Pay_Add_Deduct_Type_Code else null end) as fixAlloID\r\n" + 
-			"from process_payroll_details a\r\n" + 
-			"inner join employee_master b on a.Employee_ID = b.Employee_ID\r\n" + 
-			"inner join pay_add_deduct_types c on a.Pay_Add_Deduct_Type_Code = c.Pay_Add_Deduct_Type_Code\r\n" + 
-			"inner join employee_details e on b.Employee_ID = e.Employee_ID\r\n" + 
-			"inner join department f on e.Department_ID = f.Department_ID) a where fixAlloID is not null order by empID",nativeQuery=true)
-	public String[][] getDataRelatedAllDepartments();
+	@Query(value="SELECT empID, tempID, colNo, fixAllDesc, max(fname), max(lname), '' as final_amount, fixAlloID \n" + 
+			"from (\n" + 
+			"select a.Employee_ID as empID,  a.Employee_ID as tempID, '' as colNo, \n" + 
+			"'' as fixAllDesc, '' as fname, '' as lname, '' as amount, '' as fixAlloID\n" + 
+			"from process_payroll_details a\n" + 
+			"inner join company_master d on a.Company_ID = d.Company_ID \n" + 
+			"inner join employee_master b on a.Employee_ID = b.Employee_ID\n" + 
+			"inner join employee_details e on b.Employee_ID = e.Employee_ID\n" + 
+			"inner join department f on e.Department_ID = f.Department_ID\n" + 
+			"where a.Company_ID =:Company_ID group by tempID\n" + 
+			"UNION ALL \n" + 
+			"SELECT \n" + 
+			"a.Employee_ID as empID, '' as tempID, '01' as colNo, '' as fixAllDesc, b.name as fname, b.lastname as lname,\n" + 
+			"'' as amount, '' as fixAlloID\n" + 
+			"from process_payroll_details a \n" + 
+			"inner join employee_master b on a.Employee_ID = b.Employee_ID \n" + 
+			"inner join company_master d on a.Company_ID = d.Company_ID \n" + 
+			"inner join employee_details e on b.Employee_ID = e.Employee_ID\n" + 
+			"inner join department f on e.Department_ID = f.Department_ID\n" + 
+			"where a.Company_ID =:Company_ID\n" + 
+			"group by empID) b group by empID\n" + 
+			"UNION ALL\n" + 
+			"SELECT * from (select a.Employee_ID as empID, '' as tempID, '02' as colNo, \n" + 
+			"(case when c.Add_Deduct_Type = 'fixedType' then c.Description else null end) as fixAllDesc,\n" + 
+			"c.Calculation_Priority_Seq as calPriority, c.Add_Deduct_Value as relatedValues,\n" + 
+			"a.Amount as final_amount,\n" + 
+			"(case when c.Add_Deduct_Type = 'fixedType' then c.Pay_Add_Deduct_Type_Code else null end) as fixAlloID\n" + 
+			"from process_payroll_details a\n" + 
+			"inner join employee_master b on a.Employee_ID = b.Employee_ID \n" + 
+			"inner join pay_add_deduct_types c on a.Pay_Add_Deduct_Type_Code = c.Pay_Add_Deduct_Type_Code\n" + 
+			"inner join company_master d on a.Company_ID = d.Company_ID\n" + 
+			"inner join employee_details e on b.Employee_ID = e.Employee_ID \n" + 
+			"inner join department f on e.Department_ID = f.Department_ID\n" + 
+			"where a.Company_ID =:Company_ID)a \n" + 
+			"where fixAlloID is not null order by empID,colNo;",nativeQuery=true)
+	public String[][] getDataRelatedAllDepartments(@Param("Company_ID")String comID);
 	// end of fixed transactional details report
 }

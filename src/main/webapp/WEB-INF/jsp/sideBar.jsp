@@ -95,6 +95,10 @@
 							<li><a href="getEmpMonthSalaryDetailsPage"> <span class="sub-item">Month Salary Details</span></a></li>
 							<li><a href="getProcessPayrollPage"> <span class="sub-item">Process Payroll Run</span></a></li>
 							<li><a href="getSalaryMonthEnd"> <span class="sub-item">Salary Month End</span></a></li>
+							<li class="dropdown-divider">Reports</li>
+							<li><a href="processPayRollReport"> <span class="sub-item">Payroll Report</span></a></li>
+							<li><a href="getSalaryAnalyzer"> <span class="sub-item">Analyze Salary</span></a></li>
+							<li><a href="getFTDReport"> <span class="sub-item">Fixed Transaction details</span></a></li>
 						</ul>
 					</div></li>
 
@@ -156,9 +160,6 @@
 							<li><a href="dependentReport"> <span class="sub-item">Dependent Report</span></a></li>
 							<li><a href="qualificationReport"> <span class="sub-item">Qualification Report</span></a></li>
 							<li><a href="skillReport"> <span class="sub-item">Skill Report</span></a></li>
-							<li><a href="processPayRollReport"> <span class="sub-item">Payroll Report</span></a></li>
-							<li><a href="getSalaryAnalyzer"> <span class="sub-item">Analyze Salary</span></a></li>
-							<li><a href="getFTDReport"> <span class="sub-item">Fixed Transaction details</span></a></li>
 						</ul>
 					</div></li>
 			</ul>
