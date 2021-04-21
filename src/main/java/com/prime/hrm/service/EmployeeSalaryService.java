@@ -283,11 +283,6 @@ public class EmployeeSalaryService {
 		return empMoDeSaRepo.updateListDetails(deductTypeCode, payCodeID);
 	}
 	
-	//load fixed type allowance noly
-	public List<PayAddDeductTypes> loadFixedTypeOnly() {
-		return addDedRepo.getFixedType();
-	}
-	
 	public List<EmployeeMonthSalaryDetails> getAllMoSaDetails() {
 		return (List<EmployeeMonthSalaryDetails>) empMoDeSaRepo.findAll();
 	}

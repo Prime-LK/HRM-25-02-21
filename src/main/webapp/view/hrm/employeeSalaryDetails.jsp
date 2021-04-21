@@ -80,12 +80,16 @@
 }
 /* form css */
 .scrollable {
-	height: 400px;
+	height: 330px;
 	overflow: scroll;
 }
 
 #companyRow, #addedUserRow, #inactiveUserRow {
 	 display: none; 
+}
+
+#filterEmp thead th, tbody{
+	font-size: 12px;
 }
 
 #tableEmpId {
@@ -262,10 +266,9 @@
 													cellspacing="0" id="filterEmp">
 													<thead>
 														<tr>
-															<th>Emp. No.</th>
+															<th>Emp.No.</th>
 															<th>Name</th>
 															<th>Category</th>
-															<th>Type</th>
 														</tr>
 													</thead>
 													<tbody>

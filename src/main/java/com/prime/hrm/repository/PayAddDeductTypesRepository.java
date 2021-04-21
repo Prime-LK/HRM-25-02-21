@@ -19,9 +19,6 @@ public interface PayAddDeductTypesRepository extends CrudRepository<PayAddDeduct
 	@Query(value="SELECT t FROM PayAddDeductTypes t WHERE t.addDeType = 'variableType'")
 	public List<PayAddDeductTypes> getVariableType();
 	
-	@Query(value="SELECT t FROM PayAddDeductTypes t WHERE t.addDeType = 'fixedType'")
-	public List<PayAddDeductTypes> getFixedType();
-	
 	@Query(value="select a from PayAddDeductTypes a")
 	public List<PayAddDeductTypes> getAllAllowanceTypes();
 	

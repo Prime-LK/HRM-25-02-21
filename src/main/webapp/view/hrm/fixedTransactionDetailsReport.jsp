@@ -13,8 +13,6 @@
 <html lang="en">
 <head>
 <%@include file="../../WEB-INF/jsp/head.jsp"%>
-<link href="<c:url value='/resources/hrm/css/FTDReport.css'/>"
-	rel="stylesheet">
 <style>
 .vidSty {
 	font-family: Arial, Helvetica, sans-serif;

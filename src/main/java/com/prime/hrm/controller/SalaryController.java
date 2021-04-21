@@ -1060,7 +1060,6 @@ public class SalaryController {
 	@RequestMapping(value = "/loadEmprelatedLocation", method = RequestMethod.GET)
 	public @ResponseBody List<EmployeeDetails> loadrelevantemployeeTOsalaryDetailsbasedonLocation(
 			@RequestParam("loid") String loid) {
-
 		List<EmployeeDetails> relatedEmployee = employeeSalaryService
 				.loadrelevantempbasedOnLocationTosalaryDetails(loid);
 		System.out.println(loid);
@@ -1070,7 +1069,6 @@ public class SalaryController {
 
 	// load employee category
 	@ModelAttribute("loadcategory")
-
 	public List<EmployeeCategory> getAllempCategory() {
 		return employeeService.getAllCategories();
 	}
@@ -1079,11 +1077,7 @@ public class SalaryController {
 	@RequestMapping(value = "/loadrelatedEmpBasedOnCatgory", method = RequestMethod.GET)
 	public @ResponseBody List<EmployeeDetails> loadrelevantemployeeTOsalaryDetailsbasedonCategory(
 			@RequestParam("catgoryID") String catgoryID) {
-
-		List<EmployeeDetails> relatedEmployee = employeeSalaryService
-				.loadrelevantempbasedOnCategoryTosalaryDetails(catgoryID);
-		System.out.println(catgoryID);
-
+		List<EmployeeDetails> relatedEmployee = employeeSalaryService.loadrelevantempbasedOnCategoryTosalaryDetails(catgoryID);
 		return relatedEmployee;
 	}
 
@@ -1135,14 +1129,6 @@ public class SalaryController {
 	@ResponseBody
 	public Setting showOrDisablePayCode() {
 		Setting s = employeeSalaryService.showOrDisablePayCode();
-		return s;
-	}
-
-	// load fixed type only
-	@GetMapping("/loadFixedTypeOnly")
-	@ResponseBody
-	public List<PayAddDeductTypes> loadFixedTypeOnly() {
-		List<PayAddDeductTypes> s = employeeSalaryService.loadFixedTypeOnly();
 		return s;
 	}
 

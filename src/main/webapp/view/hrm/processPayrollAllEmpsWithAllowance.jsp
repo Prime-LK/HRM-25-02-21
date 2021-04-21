@@ -101,7 +101,7 @@
 						<div
 							class="d-flex align-items-left align-items-md-center flex-column flex-md-row">
 							<div class="col-xl-12 col-lg-2">
-								<h2 class="text-white pb-2 fw-bold">Process Payroll All Employees and Allowance Data</h2>
+								<h2 class="text-white pb-2 fw-bold">PaySheet</h2>
 							</div>
 							<div class="col-xl-2 col-lg-2"></div>
 							<div class="ml-md-auto py-2 py-md-4"></div>

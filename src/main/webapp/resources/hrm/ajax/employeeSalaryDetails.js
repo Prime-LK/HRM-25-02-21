@@ -68,24 +68,23 @@ function loadRelatedSelect() {
 			success:function(data) {
 				$('#loadSepDiv').empty();
 				var result = '<label>Category</label>'
-					       + '<select class="form-control" name="cat" id="catgoryID"' 
+					       + '<select class="form-control" name="cat" id="catID"' 
 					       + 'onchange="loadRelatedcategoryEmployee();visibleDataTable01()">'
 						   + '<option value="" selected="true">--SELECT--</option>'
 						   + '</select>';
 				$('#loadSepDiv').append(result);
 				
-				var slctSubcat = $('#catgoryID'), option = "";
+				var slctSubcat = $('#catID'), option = "";
 				slctSubcat.empty();
 				selected_option = "<option value='' selected>--SELECT--</option>"
 				slctSubcat.append(selected_option);
 				
 				for (var i = 0; i < data.length; i++) {
 					option = option
-							+ "<option value='"+data[i].catID + "'>"
+							+ "<option value='"+data[i].catgoryID + "'>"
 							+ data[i].category + "</option>";
 				}
 				slctSubcat.append(option);
-
 			},
 			error:function(e) {
 				alert("Error Found Loading Category Data");
@@ -203,13 +202,12 @@ function loadRelatedDepEmployee() {
 				var result = "<tr><td><input name='empdetailPK.empID.empID' id='tableEmpId' value =" 
 			  		 + data[i].detailsPK.empID.empID + " readOnly></td><td>" 
 			  		 + data[i].detailsPK.empID.name + " "+data[i].detailsPK.empID.lastname+"</td><td>" 
-			  		 + data[i].empType.type + "</td><td>" 
 			  		 + data[i].category.category + "</td></tr>";			  		
 				$("#filterEmp tbody").append(result);			
 			}
 		},
 		error:function(e) {
-			alert("Not Found Employees Or Departments");
+			alert("Not Found Employees Related Departments");
 		}
 	});
 }
@@ -231,45 +229,37 @@ function loadRelatedLocationEmployee() {
 				var result = "<tr><td><input name='empdetailPK.empID.empID' id='tableEmpId' value =" 
 			  		 + data[i].detailsPK.empID.empID + " ></td><td>" 
 			  		 + data[i].detailsPK.empID.name + " "+data[i].detailsPK.empID.lastname+"</td><td>" 
-			  		 + data[i].empType.type + "</td><td>" 
 			  		 + data[i].category.category + "</td></tr>";
 				
 				$("#filterEmp tbody").append(result);
 			}
 		},
 		error:function(e) {
-			alert("Not Found Employees Or Departments");
+			alert("Not Found Employees Related Location");
 		}
 	});
 }
 
 //load employee based on employee category
 function loadRelatedcategoryEmployee() {
-
-	var y = document.getElementById("catgoryID").value;
-
+	var y = document.getElementById("catID").value;
 	$.ajax({
 		type: "GET",
 		url: "loadrelatedEmpBasedOnCatgory",
 		data: {"catgoryID": y},
 		success:function(data) {
-			
+			console.log(y);
 			$("#filterEmp tbody").empty();
-
 			for (var i = 0; i < data.length; i++) {
-				  
 				var result = "<tr><td><input name='empdetailPK.empID.empID'  id='tableEmpId' value =" 
 			  		 + data[i].detailsPK.empID.empID + " ></td><td>" 
 			  		 + data[i].detailsPK.empID.name + ""+data[i].detailsPK.empID.lastname+"</td><td>" 
-			  		 + data[i].empType.type + "</td><td>" 
 			  		 + data[i].category.category + "</td></tr>";
-			  	
-			  		
 				$("#filterEmp tbody").append(result);
 			}
 		},
 		error:function(e) {
-			alert("Not Found Employees Or Departments");
+			alert("Not Found Employees Related Category");
 		}
 	});
 }
@@ -292,8 +282,7 @@ function loadRelatedEmployeebasedOnTypes() {
 				  
 				var result = "<tr><td><input name='empdetailPK.empID.empID' id='tableEmpId' value =" 
 			  		 + data[i].detailsPK.empID.empID + " readOnly></td><td>" 
-			  		 + data[i].detailsPK.empID.name + " "+data[i].detailsPK.empID.lastname+"</td><td>" 
-			  		 + data[i].empType.type + "</td><td>" 
+			  		 + data[i].detailsPK.empID.name + " "+data[i].detailsPK.empID.lastname+"</td><td>"  
 			  		 + data[i].category.category + "</td></tr>";
 			  	
 			  		
@@ -301,7 +290,7 @@ function loadRelatedEmployeebasedOnTypes() {
 			}
 		},
 		error:function(e) {
-			alert("Not Found Employees Or Departments");
+			alert("Not Found Employees Related Type");
 		}
 	});
 }
@@ -319,8 +308,7 @@ function loadEmployee() {
 				  
 				var result = "<tr><td><input name='empdetailPK.empID.empID' id='tableEmpId' value =" 
 			  		 + data[i].detailsPK.empID.empID + " readOnly /></td><td>" 
-			  		 + data[i].detailsPK.empID.name + " "+data[i].detailsPK.empID.lastname+"</td><td>" 
-			  		 + data[i].empType.type + "</td><td>" 
+			  		 + data[i].detailsPK.empID.name + " "+data[i].detailsPK.empID.lastname+"</td><td>"  
 			  		 + data[i].category.category + "</td></tr>";			  		
 				$("#filterEmp tbody").append(result);
 			}
@@ -343,37 +331,13 @@ function loadAllEmployee() {
 				var result = "<tr><td><input name='empdetailPK.empID.empID' id='tableEmpId' value =" 
 			  		 + data[i].detailsPK.empID.empID + " readOnly></td><td>" 
 			  		 + data[i].detailsPK.empID.name + " "+data[i].detailsPK.empID.lastname+"</td><td>" 
-			  		 + data[i].empType.type + "</td><td>" 
 			  		 + data[i].category.category + "</td></tr>";
 			  	
 				$("#filterEmp tbody").append(result);
 			}
 		},
 		error:function(e) {
-			alert("Not Found Employees Or Departments");
-		}
-	});
-}
-
-function loadFixedTypeOnly() {
-	$.ajax({
-		type: "GET",
-		url: "loadFixedTypeOnly",
-		success:function(data) {
-			var slctSubcat = $('#addDedctTypeID'), option = "";
-			slctSubcat.empty();
-			selected_option = "<option value='' selected>Select Type</option>"
-			slctSubcat.append(selected_option);
-
-			for (var i = 0; i < data.length; i++) {
-				option = option
-						+ "<option value='"+data[i].deductTypeCode + "'>"
-						+ data[i].desc + "</option>";
-			}
-			slctSubcat.append(option);
-		},
-		error:function(e) {
-			alert("Deduct Type Not Found");
+			alert("Not Found Employees");
 		}
 	});
 }

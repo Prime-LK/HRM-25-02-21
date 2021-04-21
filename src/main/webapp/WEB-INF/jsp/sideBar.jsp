@@ -91,8 +91,8 @@
 							<li><a href="createPayPeriod"> <span class="sub-item">Pay Periods</span></a></li>
 							<li><a href="Paycodes"> <span class="sub-item">Pay Codes</span></a></li>
 							<li><a href="employeeSalaryMaster"> <span class="sub-item">Employee Salary</span></a></li>
-							<li><a href="getEmployeeSalaryDetailsPage"> <span class="sub-item">Allocate Fix Allowances</span></a></li>
-							<li><a href="getEmpMonthSalaryDetailsPage"> <span class="sub-item">Allocate Month Allowances</span></a></li>
+							<li><a href="getEmployeeSalaryDetailsPage"> <span class="sub-item">Allocate Allowances Yearly</span></a></li>
+							<li><a href="getEmpMonthSalaryDetailsPage"> <span class="sub-item">Allocate Allowances Monthly</span></a></li>
 							<li><a href="getProcessPayrollPage"> <span class="sub-item">Salary Process</span></a></li>
 							<li><a href="getSalaryMonthEnd"> <span class="sub-item">Month End</span></a></li>
 							<li class="dropdown-divider">Reports</li>

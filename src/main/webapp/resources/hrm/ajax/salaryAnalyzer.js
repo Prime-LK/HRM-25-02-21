@@ -45,6 +45,7 @@ function clearAllowance() {
 }
 
 function getTableData() {
+	var table = document.getElementById("detailsTbl");
 	$.ajax({
 		type : 'GET',
 		url : "salaryAnalyzeTableHeaderData",

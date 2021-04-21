@@ -129,7 +129,7 @@
 												name="seperateSelect" id="sepSelect"
 												onChange="loadRelatedSelect();">
 												<option value="" selected>--SELECT--</option>
-												<option value="category">Category</option>
+												<!-- <option value="category">Category</option> -->
 												<option value="department">Department</option>
 												<option value="employee">Per Employee PaySlip</option>
 												<option value="allEmp">All Employees PaySlip</option>
