@@ -7,7 +7,7 @@ function getDefaultHeader() {
 					if (data.multipayperiod == 'Yes'
 							&& data.multipaycode == 'Yes') {
 
-						window.location.href = "getEmpMonthSalaryDetailsPage01";
+						window.location.href = "getPage";
 
 					} else if (data.multipayperiod == 'No'
 							&& data.multipaycode == 'Yes') {

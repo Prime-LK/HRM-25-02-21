@@ -1,8 +1,6 @@
 function getCompletePage() {
-	$("#periodIDDiv").hide();
-	$('#processUserDiv').hide();
-	$("#detailsTbl").hide();
-	$("#sample").hide();
+	$("#payPeriodValDiv").hide();
+	$("#detailsTbl1Column").hide();
 }
 
 function loadPayPeriod() {
@@ -19,9 +17,9 @@ function loadPayPeriod() {
 		success : function(data) {
 			
 			document.getElementById("periodID").value = data.payPeriodID;
+			document.getElementById("periodIDVal").value = data.desc;
 			loadPayCode();
-			$("#periodIDDiv").show();
-
+			fieldsVisible();
 		},
 		error : function(e) {
 			alert("Pay Period Not Found");
@@ -58,7 +56,6 @@ function loadPayCode() {
 			}
 			
 			slctSubcat.append(option);
-
 		},
 		error : function(e) {
 			alert("Pay Code Not Found");
@@ -68,26 +65,26 @@ function loadPayCode() {
 
 function loadDetails() {
 	var x = document.getElementById("payCodeID").value;
+	var f = document.getElementById("comID").value;	
 	$.ajax({
 				type : "GET",
 				url : "getTableData01",
 				data : {
-					"payCodeID" : x
+					"payCodeID" : x,
+					"comID" : f
 				},
 				success : function(data) {
-
-					$("#tableProcessPayroll tbody").empty();
+					$("#detailsTbl1").empty();
 					for (var i = 0; i < data.length; i++) {
-						var result = "<tr>" +
-								  "<td>"+ data[i][0]+ "</td>"
-								+ "<td>"+ data[i][1]+ "</td>"
-								+ "<td>"+ data[i][2]+ "</td>"
-								+ "<td>"+ data[i][3]+ "</td>"
-								+ "<td>"+ data[i][4]+ "</td>"
-								+ "<td><a onclick='getEmpDetailsRelatedPayCodeID1(); toggleDetails();'>" 
-								+ "<img src='resources/img/more.png' width='25px' height='25px'></a></tr>";
-						$("#tableProcessPayroll tbody").append(result);
-					}
+							var result =  '<li class="list-group-item">'+ data[i][0] +'</li>'
+										+ '<li class="list-group-item">'+ data[i][1] +'</li>'
+										+ '<li class="list-group-item">'+ data[i][2] +'</li>'
+										+ '<li class="list-group-item">'+ data[i][3] +'</li>'
+										+ '<li class="list-group-item">'+ data[i][4] +'</li>';
+										$("#detailsTbl1").append(result);
+
+					} 
+					toggleDetailsTbl1();
 				},
 				error : function(e) {
 					alert("Table 01 Employee Data Not Found");
@@ -97,11 +94,13 @@ function loadDetails() {
 
 function getEmpDetailsRelatedPayCodeID1(e) {	
 	var x = document.getElementById("payCodeID").value;
+	var f = document.getElementById("comID").value;	
 	$.ajax({
 		type : "GET",
 		url : "getTableData02",
 		data : {
-			"payCodeID" : x
+			"payCodeID" : x,
+			"comID" : f
 		},
 		success : function(data) {
 
@@ -130,80 +129,60 @@ function getEmpDetailsRelatedPayCodeID1(e) {
 function getEmpWithDetails1(e) {
 	// load 'more' button related fields
 	var p = document.getElementById("payCodeID").value;
+	var q = document.getElementById("comID").value;
 	$.ajax({
 		type : "GET",
 		url : "getTableData03",
 		data : {
 			"empID" : e,
-			"payCodeID" : p
+			"payCodeID" : p,
+			"comID" : q
 		},
 		success : function(data) {
-
-			$('#slipEmpID').val('');
-			$('#empnameoftble3').val('');
-			$('#empssoftble3').val('');
-			$('#miniTable1 tbody').empty();
-			$('#miniTable2 tbody').empty();
-			$('#miniTable3 tbody').empty();
-
+			$("#additions").empty();
+			$("#deductions").empty();
+			$("#others").empty();
 			for (var i = 0; i < data.length; i++) {				
-				document.getElementById("empidoftble3").value = data[i][0];
-				document.getElementById("empnameoftble3").value = data[i][1] + " " + data[i][2];
-				document.getElementById("empssoftble3").value = data[i][3];			
+				$("#empidoftble3").text(data[i][0]);
+				$("#empnameoftble3").text(data[i][1] + " " + data[i][2]);
+				$("#empssoftble3").text(data[i][3]);
 				
-				var result1 = 						
-							"<tr><td id='miniRow1'>" + data[i][4] + "</td>"
-							+ "<td id='miniRow2'>" + data[i][5] + "</td></tr>"
-							
-						    + "<tr><td id='miniRow1'>" + data[i][6] + "</td>"
-							+ "<td id='miniRow2'>" + data[i][7] + "</td></tr>"
-							
-					        + "<tr><td id='miniRow1'>" + data[i][10] + "</td>" 
-							+ "<td id='miniRow2'>" + data[i][11] + "</td></tr>"
-							
-							+ "<tr><td id='miniRow1'>" + data[i][12] + "</td>" 
-							+ "<td id='miniRow2'>" + data[i][13] + "</td></tr>"
-								
-						    + "<tr><td id='miniRow1'>" + data[i][14] + "</td>" 
-							+ "<td id='miniRow2'>" + data[i][15] + "</td></tr>";
-				
-				            $("#miniTable1").append(result1);	
-				                
-				var result2 = 						
-							"<tr><td id='miniRow1'>" + data[i][16] + "</td>"
-							+ "<td id='miniRow2'>" + data[i][17] + "</td></tr>"
-					
-							+ "<tr><td id='miniRow1'>" + data[i][18] + "</td>"
-							+ "<td id='miniRow2'>" + data[i][19] + "</td></tr>"
-					
-							+ "<tr><td id='miniRow1'>" + data[i][22] + "</td>" 
-							+ "<td id='miniRow2'>" + data[i][23] + "</td></tr>"
-					
-							+ "<tr><td id='miniRow1'>" + data[i][24] + "</td>" 
-							+ "<td id='miniRow2'>" + data[i][25] + "</td></tr>"
-						
-							+ "<tr><td id='miniRow1'>" + data[i][26] + "</td>" 
-							+ "<td id='miniRow2'>" + data[i][27] + "</td></tr>";
-				
-							$("#miniTable2").append(result2);	
-			
-				var result3 = 						
-							"<tr><td id='miniRow1'>" + data[i][28] + "</td>" 
-							+ "<td id='miniRow2'>" + data[i][29] + "</td></tr>"
-						
-							+ "<tr><td id='miniRow1'>" + data[i][30] + "</td>" 
-							+ "<td id='miniRow2'>" + data[i][31] + "</td></tr>"
-						
-							+ "<tr><td id='miniRow1'>" + data[i][34] + "</td>" 
-							+ "<td id='miniRow2'>" + data[i][35] + "</td></tr>"
-						
-							+ "<tr><td id='miniRow1'>" + data[i][36] + "</td>" 
-							+ "<td id='miniRow2'>" + data[i][37] + "</td></tr>"
-						
-							+ "<tr><td id='miniRow1'>" + data[i][38] + "</td>" 
-							+ "<td id='miniRow2'>" + data[i][39] + "</td></tr>";
-						
-							$("#miniTable3").append(result3);
+				if(data[i][i] == '') {
+					$("span:empty").remove();
+				}	
+				var result1 = 	
+					  '<span id="additionData" class="col-7">'+ data[i][4] +'</span>'
+					+ '<span id="additionData" class="col-5">'+ data[i][5] +'</span>'
+					+ '<span id="additionData" class="col-7">'+ data[i][6] +'</span>'
+					+ '<span id="additionData" class="col-5">'+ data[i][7] +'</span>'
+					+ '<span id="additionData" class="col-7">'+ data[i][8] +'</span>'
+					+ '<span id="additionData" class="col-5">'+ data[i][9] +'</span>'
+					+ '<span id="additionData" class="col-7">'+ data[i][10] +'</span>'
+					+ '<span id="additionData" class="col-5">'+ data[i][11] +'</span>';	
+		            $("#additions").append(result1);
+		                
+		var result2 =
+				      '<span id="deductionData" class="col-7">'+ data[i][12] +'</span>'
+					+ '<span id="deductionData" class="col-5">'+ data[i][13] +'</span>'
+					+ '<span id="deductionData" class="col-7">'+ data[i][14] +'</span>'
+					+ '<span id="deductionData" class="col-5">'+ data[i][15] +'</span>'
+					+ '<span id="deductionData" class="col-7">'+ data[i][16] +'</span>'
+					+ '<span id="deductionData" class="col-5">'+ data[i][17] +'</span>'
+					+ '<span id="deductionData" class="col-7">'+ data[i][18] +'</span>'
+					+ '<span id="deductionData" class="col-5">'+ data[i][19] +'</span>';
+					$("#deductions").append(result2);	
+	
+		var result3 = 			
+				      '<span id="otherData" class="col-7">'+ data[i][20] +'</span>'
+					+ '<span id="otherData" class="col-5">'+ data[i][21] +'</span>'
+					+ '<span id="otherData" class="col-7">'+ data[i][22] +'</span>'
+					+ '<span id="otherData" class="col-5">'+ data[i][23] +'</span>'
+					+ '<span id="otherData" class="col-7">'+ data[i][24] +'</span>'
+					+ '<span id="otherData" class="col-5">'+ data[i][25] +'</span>'
+					+ '<span id="otherData" class="col-7">'+ data[i][26] +'</span>'
+					+ '<span id="otherData" class="col-5">'+ data[i][27] +'</span>';
+					$("#others").append(result3);
+
 			}
 
 		},
@@ -215,12 +194,14 @@ function getEmpWithDetails1(e) {
 
 function getCalProritoy(e) {
 	var x = document.getElementById("payCodeID").value;
+	var f = document.getElementById("comID").value;
 	$.ajax({
 		type : "GET",
 		url : "calPriorityData",
 		data : {
 			"payCodeID" : x,
-			"empID" : e
+			"empID" : e,
+			"comID" : f
 		},
 		success : function(data1) {
 			
@@ -228,17 +209,17 @@ function getCalProritoy(e) {
 				type : "GET",
 				url : "otherGrossValues",
 				data : {
-					"empID" : e
+					"empID" : e,
+					"comID" : f
 				},
 				success : function(data) {
 					
 					for(var i = 0; i < data.length; i++) {
 						
-						var result3 = 						
-						    "<tr><td id='miniRow1'>" + data[i][0] + "</td>" 
-							+ "<td id='miniRow2'>" + (data1 * data[i][1])/100 + "</td></tr>";
-						
-							$("#miniTable3").append(result3);
+						var result3 = 	
+							  '<span class="col-7">'+ data[i][0] +'</span>'
+							+ '<span class="col-5">'+ (data1 * data[i][1])/100 +'</span>';
+						$("#others").append(result3);
 						
 					}
 					
@@ -252,17 +233,18 @@ function getCalProritoy(e) {
 				type : "GET",
 				url : "dedGrossPerValues",
 				data : {
-					"empID" : e
+					"empID" : e,
+					"comID" : f
 				},
 				success : function(data2) {
 					
 					for(var i = 0; i < data2.length; i++) {
 						
-						var result2 = 						
-						    "<tr><td id='miniRow1'>" + data2[i][0] + "</td>" 
-							+ "<td id='miniRow2'>" + (data1 * data2[i][1])/100 + "</td></tr>";
-						
-							$("#miniTable2").append(result2);
+						var result2 = 			
+							  '<span class="col-7">'+ data2[i][0] +'</span>'
+							+ '<span class="col-5">'+ (data1 * data2[i][1])/100 +'</span>';
+					
+						$("#deductions").append(result2);
 						
 					}
 					
@@ -276,17 +258,17 @@ function getCalProritoy(e) {
 				type : "GET",
 				url : "addGrossPerValues",
 				data : {
-					"empID" : e
+					"empID" : e,
+					"comID" : f
 				},
 				success : function(data3) {
 					
 					for(var i = 0; i < data3.length; i++) {
 						
-						var result1 = 						
-						    "<tr><td id='miniRow1'>" + data3[i][0] + "</td>" 
-							+ "<td id='miniRow2'>" + (data1 * data3[i][1])/100 + "</td></tr>";
-						
-							$("#miniTable1").append(result1);
+						var result1 = 
+						      '<span class="col-7">'+ data3[i][0] +'</span>'
+							+ '<span class="col-5">'+ (data1 * data3[i][1])/100 +'</span>';						
+						$("#additions").append(result1);
 						
 					}
 					
@@ -302,12 +284,107 @@ function getCalProritoy(e) {
 		}
 	});
 }
+function calculatePerValuesInBasicSalary(e) {
+	var x = document.getElementById("comID").value;
+	$.ajax({
+		type : "GET",
+		url : "addBasicPerValues",
+		data : {
+			"comID" : x,
+			"empID" : e
+		},
+		success : function(data1) {
+			$.ajax({
+				type : "GET",
+				url : "othBasicPerValuesBasic",
+				data : {
+					"empID" : e,
+					"comID" : x
+				},
+				success : function(data) {
+					
+					for(var i = 0; i < data.length; i++) {
+						
+						var result3 = 	
+								  '<span id="otherData" class="col-7">'+ data[i][0] +'</span>'
+								+ '<span id="otherData" class="col-5">'+ (data1 * data[i][1])/100 +'</span>';
+							$("#others").append(result3);
+						
+					}
+					
+				},
+				error : function(e) {
+					alert("Employee Other Percentage Values Not Found");
+				}
+			});
+			
+			$.ajax({
+				type : "GET",
+				url : "dedBasicPerValuesBasic",
+				data : {
+					"empID" : e,
+					"comID" : x
+				},
+				success : function(data2) {
+					
+					for(var i = 0; i < data2.length; i++) {
+						
+						var result2 = 			
+								  '<span id="deductionData" class="col-7">'+ data2[i][0] +'</span>'
+								+ '<span id="deductionData" class="col-5">'+ (data1 * data2[i][1])/100 +'</span>';
+						
+							$("#deductions").append(result2);
+						
+					}
+					
+				},
+				error : function(e) {
+					alert("Employee Deduction Percentage Values Not Found");
+				}
+			});
+			
+			$.ajax({
+				type : "GET",
+				url : "addBasicPerValuesBasic",
+				data : {
+					"empID" : e,
+					"comID" : x
+				},
+				success : function(data4) {
+					
+					for(var i = 0; i < data4.length; i++) {
+						var result1 = 
+							      '<span id="additionData" class="col-7">'+ data4[i][0] +'</span>'
+								+ '<span id="additionData" class="col-5">'+ (data1 * data4[i][1])/100 +'</span>';						
+							$("#additions").append(result1);
+						
+					}
+					
+				},
+				error : function(e) {
+					alert("Employee Addition Percentage Values Not Found");
+				}
+			});
+			
+		},
+		error : function(e) {
+			alert("Error Found Calculation in percentage allowance in basic salary");
+		}
+	});
+}
 
-function toggleDetails() {
-	$("#detailsTbl").slideToggle();
-	$("#sample").slideUp();
+function toggleDetailsTbl1() {
+	$("#detailsTbl1Column").slideDown();
+}
+
+function toggleDetailsTbl2() {
+	$("#detailsTbl").slideDown();
 }
 
 function togglePaySlip() {
 	$("#sample").slideDown();
+}
+
+function fieldsVisible() {
+	$("#payPeriodValDiv").slideDown();
 }

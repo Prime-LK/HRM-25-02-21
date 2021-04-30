@@ -2,46 +2,50 @@
 	text-transform: capitalize;
 }
 
-.foo {
-	bottom: 6px;
-}
-
-input[type=text] {
-	width: 200px;
-	height: 30px;
-}
-
-input[type=email] {
-	height: 30px;
-}
-
-input[type=date] {
-	height: 30px;
-}
-
-#lnameDiv {
-	margin-left: 100px;
-}
-
-label {
-	font-size: 12px;
-}
-
-#nameRow {
-	margin-top: -25px;
-}
-
-select {
-	height: 30px;
-}
-
-#address {
-	width: 445px;
-}
 #comDiv {
     display:none; 
 }
 
+#profileImg {
+	display: none;	
+}
+
 #msg, #msgConNo01, #msgConNo02, #msgEmail, #msgFname, #msgLname {
 	color: red;
+}
+
+/*the container must be positioned relative:*/
+.autocomplete {
+  position: relative;
+  display: inline-block;
+}
+
+.autocomplete-items {
+  position: absolute;
+  border: 1px solid #d4d4d4;
+  border-bottom: none;
+  border-top: none;
+  z-index: 99;
+  /*position the autocomplete items to be the same width as the container:*/
+  top: 100%;
+  left: 0;
+  right: 0;
+}
+
+.autocomplete-items div {
+  padding: 10px;
+  cursor: pointer;
+  background-color: #fff; 
+  border-bottom: 1px solid #d4d4d4; 
+}
+
+/*when hovering an item:*/
+.autocomplete-items div:hover {
+  background-color: #e9e9e9; 
+}
+
+/*when navigating through the items using the arrow keys:*/
+.autocomplete-active {
+  background-color: DodgerBlue !important; 
+  color: #ffffff; 
 }

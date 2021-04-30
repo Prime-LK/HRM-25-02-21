@@ -67,22 +67,22 @@ function loadAttendanceRecords() {
 					$("#dataTable tbody").empty();
 
 					for (var i = 0; i < data.length; i++) {
-						var result = ' <tr>' +
-						'<td style="display:none">' + data[i].attendanceId + '</td>' +
-				        '<td>' + data[i].date + '</td>' +
-				        '<td style="display:none">' + data[i].shiftId + '</td>' +
-				        '<td>' + data[i].shift + '</td>' +
-				        '<td style="display:none">' + data[i].departmentId + '</td>' +
-				        '<td>' + data[i].department + '</td>' +
-				        '<td style="display:none">' + data[i].employeeId + '</td>' +
-				        '<td>' + data[i].employee + '</td>' +
-				        '<td style="display:none">' + data[i].startTime + '</td>' +
-				        '<td style="display:none">' + data[i].endTime + '</td>' +
-				        '<td>' + data[i].onTime + '</td>' +
-				        '<td>' + data[i].offTime + '</td>' +
-				        '<td>' + data[i].approvalStatus + '</td>' +
-				        '<td>' + '<a href="#" onclick="updateEmployeeAttendance(' + data[i].attendanceId + ', ' + data[i].employee + ', ' + data[i].departmentId + ', ' + data[i].department + ', ' + data[i].shiftId + ', ' + data[i].shift + ', new Date(' + data[i].date + '), ' + data[i].startTime +', ' + data[i].endTime + ' )"><i class="far fa-edit"></i></a></td>' +
-				      '</tr>';
+						var result = " <tr>" +
+						"<td style='display:none'>" + data[i].attendanceId + "</td>" +
+				        "<td>" + data[i].date + "</td>" +
+				        "<td style='display:none'>" + data[i].shiftId + "</td>" +
+				        "<td>" + data[i].shift + "</td>" +
+				        "<td style='display:none'>" + data[i].departmentId + "</td>" +
+				        "<td>" + data[i].department + "</td>" +
+				        "<td style='display:none'>" + data[i].employeeId + "</td>" +
+				        "<td>" + data[i].employee + "</td>" +
+				        "<td style='display:none'>" + data[i].startTime + "</td>" +
+				        "<td style='display:none'>" + data[i].endTime + "</td>" +
+				        "<td>" + data[i].onTime + "</td>" +
+				        "<td>" + data[i].offTime + "</td>" +
+				        "<td>" + data[i].approvalStatus + "</td>" +
+				        "<td>" + "<button onClick='updateEmployeeAttendance(" + data[i].attendanceId + ", " + data[i].employee + ", " + data[i].departmentId + ", " + data[i].department + ", " + data[i].shiftId + ", " + data[i].shift + ", new Date(" + data[i].date + "), " + data[i].startTime +", " + data[i].endTime + " )'><i class='far fa-edit'></i></button></td>" +
+				      "</tr>";
 					
 						$("#dataTable tbody").append(result);
 						

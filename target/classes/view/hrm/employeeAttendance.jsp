@@ -91,9 +91,9 @@
 			<%@include file="../../WEB-INF/jsp/navbar.jsp"%>
 			<!-- End Navbar -->
 		</div>
-		<!-- Sidebar -->
-		<%@include file="../../WEB-INF/jsp/sideBar.jsp"%>
-		<!-- End Sidebar -->
+		<!-- slideBar -->
+		<%@include file="../../WEB-INF/jsp/slideBar.jsp"%>
+		<!-- End slideBar -->
 		<div class="main-panel">
 			<div class="content">
 				<div class="panel-header bg-primary-gradient">
@@ -314,10 +314,12 @@
 
 	<!-- Datatable -->
 	<script src="<c:url value='/resources/hrm/ajax/datatable.js'/>"></script>
-	
+
 	<!-- Page level custom scripts -->
-	<script src="<c:url value='/resources/hrm/ajax/employeeAttendance.js'/>"></script>
-	<script src="<c:url value='/resources/hrm/ajax/employeeAttendance1.js'/>"></script>
+	<script
+		src="<c:url value='/resources/hrm/ajax/employeeAttendance.js'/>"></script>
+	<script
+		src="<c:url value='/resources/hrm/ajax/employeeAttendance1.js'/>"></script>
 
 </body>
 </html>

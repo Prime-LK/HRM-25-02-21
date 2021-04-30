@@ -91,9 +91,9 @@
 			<%@include file="../../WEB-INF/jsp/navbar.jsp"%>
 			<!-- End Navbar -->
 		</div>
-		<!-- Sidebar -->
-		<%@include file="../../WEB-INF/jsp/sideBar.jsp"%>
-		<!-- End Sidebar -->
+		<!-- slideBar -->
+		<%@include file="../../WEB-INF/jsp/slideBar.jsp"%>
+		<!-- End slideBar -->
 		<div class="main-panel">
 			<div class="content">
 				<div class="panel-header bg-primary-gradient">
@@ -129,28 +129,14 @@
 												<div class="col-9">
 													<div class="form-group row">
 														<div class="col-sm-4">
-															<label>Year</label> <input type="text"
-																class="yearpicker form-control" id="year" name="year"
-																placeholder="Enter Year" onchange="">
+															<label>Start Date</label><input id="startDate"
+																name="startDate" type="date" class="form-control"
+																value="" required onchange="" required="true" />
 														</div>
 														<div class="col-sm-4">
-															<label>Month</label> <select name="month" id="month"
-																class="custom-select" onchange="">
-																<option value="" selected disabled>- Select
-																	Month -</option>
-																<option value="1">January</option>
-																<option value="2">February</option>
-																<option value="3">March</option>
-																<option value="4">April</option>
-																<option value="5">May</option>
-																<option value="6">June</option>
-																<option value="7">July</option>
-																<option value="8">August</option>
-																<option value="9">September</option>
-																<option value="10">October</option>
-																<option value="11">November</option>
-																<option value="12">December</option>
-															</select>
+															<label>End Date</label><input id="endDate" name="endDate"
+																type="date" class="form-control" value="" required
+																onchange="" required="true" />
 														</div>
 													</div>
 												</div>
@@ -160,7 +146,7 @@
 													<div class="form-group row">
 														<div class="col-sm-4">
 															<label>Department</label> <select id="selectDepartment"
-																name=""
+																name="departmentId"
 																class="form-control form-control-user col-12 foo text-capitalize"
 																onchange="loadEmployeesByDepartment()">
 																<option value="" disabled selected>- Select
@@ -264,9 +250,11 @@
 
 	<!-- Page level custom scripts -->
 
-	<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/jquery-ui.min.js"></script>
+	<script
+		src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/jquery-ui.min.js"></script>
 	<script src="<c:url value='/resources/hrm/js/employeeAttendance.js'/>"></script>
-	<script src="<c:url value='/resources/hrm/ajax/employeeAttendance.js'/>"></script>
+	<script
+		src="<c:url value='/resources/hrm/ajax/employeeAttendance.js'/>"></script>
 	<script src="<c:url value='/resources/hrm/ajax/attendanceReport.js'/>"></script>
 
 </body>

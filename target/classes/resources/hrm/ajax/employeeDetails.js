@@ -1,38 +1,40 @@
 function getDetails() {
-	var x = document.getElementById("empID").value;	
+	var x = document.getElementById("empID").value;
 	$.ajax({
 		type : "GET",
 		url : "getRelatedTableData",
-		data : { "empID" : x },
+		data : {
+			"empID" : x
+		},
 		success : function(data) {
-			if(x != null) {
-				alert(x + " Employee already exists do you want to edit data check table !")
-			}
-				var result = "<tr>"
-					    + "<td><a href=updateDetails?empID="
-						+ data.detailsPK.empID.empID + "><img src='resources/img/edit.png' width='25px' height='25px'></a></td>"
-						+ "<td>" + data.detailsPK.detailID + "</td>"
-						+ "<td>" + data.detailsPK.empID.empID + "</td>"
-						+ "<td>" + data.company.comID + "</td>"
-						+ "<td>" + data.status + "</td>"
-						+ "<td>" + data.category.category + "</td>"
-					    + "<td>" + data.designation.designation + "</td>"
-					    + "<td>" + data.empType.type + "</td>" 
-					    + "<td>" + data.joinedDate + "</td>"
-					    + "<td>" + data.basicSalary + "</td>" 
-					    + "<td>" + data.department.department + "</td>"
-					    + "<td>" + data.salaryGrade.grade + "</td>"
-					    + "<td>" + data.location.location + "</td>"
-					    + "<td>" + data.salaryRange.range + "</td>"
-					    + "<td>" + data.jobProfile.profile + "</td>"
-					    + "<td>" + data.reporting + "</td>"
-					    + "<td>" + data.epfNo + "</td>"
-					    + "<td>" + data.resignDate + "</td></tr>";
-				$("#empDeTable tbody").append(result);
+			var result = "<ul class='list-group list-group-flush'> "
+					+ "<li class='list-group-item' id='epfNoData'>" + data.epfNo + "</li>"
+					+ "<li class='list-group-item' id='epfNoData'>" + data.joinedDate + "</li>"
+					+ "<li class='list-group-item' id='epfNoData'>" + data.status + "</li>"
+					+ "<li class='list-group-item' id='epfNoData'>" + data.basicSalary + "</li>"
+					+ "<li class='list-group-item' id='epfNoData'>" + data.designation.designation + "</li>"
+					+ "</ul>";
+			$("#card001Details").append(result);
+			
+			var result2 = "<ul class='list-group list-group-flush'> "
+				+ "<li class='list-group-item' id='epfNoData'>" + data.category.category + "</li>"
+				+ "<li class='list-group-item' id='epfNoData'>" + data.empType.type + "</li>"
+				+ "<li class='list-group-item' id='epfNoData'>" + data.department.department + "</li>"
+				+ "<li class='list-group-item' id='epfNoData'>" + data.salaryGrade.grade + "</li>"
+				+ "<li class='list-group-item' id='epfNoData'>" + data.salaryRange.range + "</li>"
+				+ "</ul>";
+		    $("#card002Details").append(result2);
+		
+		   var result3 = "<ul class='list-group list-group-flush'> "
+			+ "<li class='list-group-item' id='epfNoData'>" + data.reporting + "</li>"
+			+ "<li class='list-group-item' id='epfNoData'>" + data.jobProfile.profile + "</li>"
+			+ "<li class='list-group-item' id='epfNoData'>" + data.location.location + "</li>"
+			+ "<li class='list-group-item' id='epfNoData'>" + data.resignDate + "</li>"
+			+ "</ul>";
+	     $("#card003Details").append(result3);
 		},
 		error : function(e) {
-			alert("Employee ID Not Found " + x);
+			// alert("Employee ID Not Found " + x);
 		}
 	});
 }
-

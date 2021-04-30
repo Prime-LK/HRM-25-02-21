@@ -91,9 +91,9 @@
 			<%@include file="../../WEB-INF/jsp/navbar.jsp"%>
 			<!-- End Navbar -->
 		</div>
-		<!-- Sidebar -->
-		<%@include file="../../WEB-INF/jsp/sideBar.jsp"%>
-		<!-- End Sidebar -->
+		<!-- slideBar -->
+		<%@include file="../../WEB-INF/jsp/slideBar.jsp"%>
+		<!-- End slideBar -->
 		<div class="main-panel">
 			<div class="content">
 				<div class="panel-header bg-primary-gradient">
@@ -330,8 +330,9 @@
 		src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/jquery-ui.min.js"></script>
 	<script src="<c:url value='/resources/hrm/js/employeeAttendance.js'/>"></script>
 	<script src="<c:url value='/resources/hrm/ajax/attendanceRevise.js'/>"></script>
-	<script src="<c:url value='/resources/hrm/ajax/employeeAttendance.js'/>"></script>
-	
+	<script
+		src="<c:url value='/resources/hrm/ajax/employeeAttendance.js'/>"></script>
+
 	<!-- Datatable -->
 	<script src="<c:url value='/resources/hrm/ajax/datatable.js'/>"></script>
 

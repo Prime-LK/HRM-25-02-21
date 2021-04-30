@@ -137,7 +137,7 @@
 
 					},
 					error : function() {
-						alert("Image Not Found");
+						/* alert("Image Not Found"); */
 					}
 
 				});

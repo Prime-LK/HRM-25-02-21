@@ -81,7 +81,7 @@ function loadEmployeeShiftDetails() {
 
 function updateEmployeeAttendance(id, name, depId, department, sftId, sftName,
 		dte, sT, eT) {
-
+	alert("Working");
 	$.ajax({
 		type : 'GET',
 		url : "updateEmployeeAttendance",

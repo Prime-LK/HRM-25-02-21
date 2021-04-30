@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="paySlipAllEmployees" pageWidth="420" pageHeight="595" columnWidth="380" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="8e524706-627a-41be-838f-c38b4af1de37">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<field name="title" class="java.lang.String"/>
+	<field name="labelColumnOne" class="java.lang.String"/>
+	<field name="labelColumnOneData" class="java.lang.String"/>
+	<field name="labelColumnTwo" class="java.lang.String"/>
+	<field name="labelColumnTwoData" class="java.lang.String"/>
+	<field name="labelColumnThreeData" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<columnHeader>
+		<band height="15">
+			<line>
+				<reportElement x="0" y="12" width="344" height="1" uuid="99741967-917f-43e7-a82e-0a7d5aa17d87"/>
+			</line>
+			<textField>
+				<reportElement x="0" y="0" width="344" height="10" uuid="77757396-09fd-4b40-a538-64d8fb6304b8"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{title}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="12" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement x="278" y="0" width="66" height="10" isRemoveLineWhenBlank="true" uuid="df71815d-65cf-4aea-9d90-e885bb8b18f0"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{labelColumnThreeData}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="0" width="110" height="10" isRemoveLineWhenBlank="true" uuid="bb943029-25db-4288-be5b-86b53ef22d55"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{labelColumnOne}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="110" y="0" width="100" height="10" isRemoveLineWhenBlank="true" uuid="d7834edd-89f3-4cb8-a810-49c7ceb4b704"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{labelColumnOneData}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="210" y="0" width="33" height="10" isRemoveLineWhenBlank="true" uuid="5a7f3882-d416-42c3-9799-231d5f955e1d"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{labelColumnTwo}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="243" y="0" width="35" height="10" isRemoveLineWhenBlank="true" uuid="bd22ad08-4aac-4964-aa39-794d62491597"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{labelColumnTwoData}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

@@ -1,9 +1,6 @@
 //get data based on periodID
 function loadPeriodData() {
-
 	var y = document.getElementById("payPeriodID");
-	
-	
 	$.ajax({
 		type: "GET",
 		url: "loadDataBasedOnpayPeriodID",
@@ -12,49 +9,38 @@ function loadPeriodData() {
 			document.getElementById("startDate").value=data.startDate;	
 			document.getElementById("endDate").value=data.endDate;	
 			document.getElementById("status").value=data.status;
-			
 		},
 		error:function(e) {
-			alert("ID Does not Exists");
+//			alert("ID Does not Exists");
 		}
 	});
 }
 
-//load saved data based on periodID 
+// load saved data based on periodID
 function loadSavedData() {
-
 	var y = document.getElementById("payPeriodID");
-
-	
 	$.ajax({
 		type: "GET",
 		url: "loadDataToGrid",
 		data: {"payPeriodID" : y.value},
 		success:function(data) {
 			$("#tablePayCode tbody").empty();
-			
-//			alert(data);
 			for (var i = 0; i < data.length; i++) {
-				var result = "<tr><td>" 
-					  	 + data[i].periodID.payPeriodID
-						+ "</td><td>" + data[i].payCode + "</td><td>"
+				var result = "<tr><td>" + data[i].payCode + "</td><td>"
 						+ data[i].startDate + "</td><td>" + data[i].endDate
 						+ "</td><td>" + data[i].remarks + "</td><td>"
 						+ data[i].status + "</td><td><a href=updatePayCode?payCodeID="
-						+data[i].payCodeID+  "><img src='resources/img/edit.png' width='25px' height='25px'></a></td><td> </td></tr>";
-								
-				       
+						+ data[i].payCodeID+ "><i class='far fa-edit'></i></td></tr>";	       
 				$("#tablePayCode tbody").append(result);
-			}
-			
+			}	
 		},
 		error:function(e) {
-			alert("ID Does not Exists");
+//			alert("ID Does not Exists");
 		}
 	});
 }
 
-//get payperiod ID using dates
+// get payperiod ID using dates
 function loadpayperiodfromdates() {
 	var x = document.getElementById("startDate");
 	var y = document.getElementById("endDate");
@@ -74,42 +60,31 @@ function loadpayperiodfromdates() {
 			
 		},
 		error:function(e) {
-			alert("ID Does not Exists");
+//			alert("ID Does not Exists");
 		}
 	});
 	
 	$.ajax({
 		type: "GET",
-		url: "loadPeriodlist",
+		url: "loadDataToGridBYSDAndED",
 		data: {"endDate" : y.value , "startDate" : x.value},
 		success:function(data) {
-			
 			$("#tablePayCode tbody").empty();
-			
-			
 			for (var i = 0; i < data.length; i++) {
-				var result = "<tr><td>" 
-					  	 + data[i].periodID.payPeriodID
-						+ "</td><td>" + data[i].payCode + "</td><td>"
+				var result = "<tr><td>" + data[i].payCode + "</td><td>"
 						+ data[i].startDate + "</td><td>" + data[i].endDate
 						+ "</td><td>" + data[i].remarks + "</td><td>"
 						+ data[i].status + "</td><td><a href=updatePayCode?payCodeID="
-						+data[i].payCodeID+  "><img src='resources/img/edit.png' width='25px' height='25px'></a></td><td> </td></tr>";
-								
-				       
+						+data[i].payCodeID+  "><i class='far fa-edit'></i></a></td></tr>";
 				$("#tablePayCode tbody").append(result);
 			}
-			
 		},
 		error:function(e) {
-			alert("ID Does not Exists");
+//			alert("ID Does not Exists");
 		}
-	});
-	
+	});	
 }
-
-
-//validations-----
+// validations-----
 
 $("#payCodeform").submit(function(e) {
     e.preventDefault();

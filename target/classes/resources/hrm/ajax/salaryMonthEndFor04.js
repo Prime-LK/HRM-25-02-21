@@ -1,6 +1,42 @@
+function manageFields() {
+	$("#payPeriodValDiv").hide();
+	$("#payCodeValDiv").hide();
+	$("#startDateDiv").hide();
+	$("#endDateDiv").hide();
+	
+	loadProcessYearAndMonth();
+}
+
+function loadProcessYearAndMonth() {
+	$.ajax({
+		type : "GET",
+		url : "loadProcessYearAndMonth",
+		success : function(data) {
+			for(var i = 0; i < data.length; i++) {
+				
+				var a = new Date(data[i][1]);
+				
+				var y1 = a.getFullYear();
+				var m1 = a.getMonth()+1;
+				
+				var format = y1 +'-'+ m1;
+				
+				$('#datepicker').val(format);
+				loadPayPeriod();
+			}
+		},
+		error : function(e) {
+			
+		}
+	});
+}
+
 function loadPayPeriod() {
-	var x = document.getElementById("startDate").value;
-	var y = document.getElementById("sa").value;
+	var fieldVal = $('#datepicker').val();
+
+	var year1 = new Date(fieldVal);
+	var x = year1.getFullYear();
+	var y = year1.getMonth() + 1;
 
 	$.ajax({
 		type : "GET",
@@ -27,19 +63,20 @@ function loadPayPeriod() {
 			var dFormat = gg1 + '-' + gg2 + '-' + gg3;
 			var dFormat2 = dd1 + '-' + dd2 + '-' + dd3;
 
-			document.getElementById("startDateValue").value = dFormat;
-			document.getElementById("endDateValue").value = dFormat2;
+			document.getElementById("startDate").value = dFormat;
+			document.getElementById("endDate").value = dFormat2;
 			document.getElementById("periodID").value = data.payPeriodID;
+			document.getElementById("periodIDVal").value = data.desc;
 
 			loadPayCode();
+			visibleFields()
 
 		},
 		error : function(e) {
 			alert("Pay Code not Found");
 		}
 	});
-
-	}
+}
 
 function loadPayCode() {
 var z = document.getElementById("periodID").value;
@@ -49,18 +86,21 @@ var z = document.getElementById("periodID").value;
 		url: "getPayCodeUsingPeriond",
 		data: {"periodID" : z},
 		success:function(data) { 
-
+			$("#payCodeID").empty();
+			$("#payCodeIDVal").empty();
 			document.getElementById("payCodeID").value = data.payCodeID;
-//			loadRelatedEmpDetails();
-			$("#periodIDDiv").show();
-			$("#payCodeDiv").show();
-			$("#startDateDiv").show();
-			$("#endDateDiv").show();
-			
+			document.getElementById("payCodeIDVal").value = data.payCode;
 		},
 		error:function(e) {
 			alert("ID Does not Exists");
 		}
 	});
 	
+}
+
+function visibleFields() {
+	$("#payPeriodValDiv").slideDown();
+	$("#payCodeValDiv").slideDown();
+	$("#startDateDiv").slideDown();
+	$("#endDateDiv").slideDown();
 }
