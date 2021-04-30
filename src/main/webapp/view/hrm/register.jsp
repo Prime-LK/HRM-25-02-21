@@ -94,9 +94,9 @@
 			<%@include file="../../WEB-INF/jsp/navbar.jsp"%>
 			<!-- End Navbar -->
 		</div>
-		<!-- Sidebar -->
-		<%@include file="../../WEB-INF/jsp/sideBar.jsp"%>
-		<!-- End Sidebar -->
+		<!-- slideBar -->
+		<%@include file="../../WEB-INF/jsp/slideBar.jsp"%>
+		<!-- End slideBar -->
 		<div class="main-panel">
 			<form:form action="saveEmployee" method="post"
 				modelAttribute="saveRegister" enctype="multipart/form-data"

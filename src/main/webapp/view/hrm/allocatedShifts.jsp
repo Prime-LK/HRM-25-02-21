@@ -93,7 +93,7 @@
 			<!-- End Navbar -->
 		</div>
 		<!-- Sidebar -->
-		<%@include file="../../WEB-INF/jsp/sideBar.jsp"%>
+		<%@include file="../../WEB-INF/jsp/slideBar.jsp"%>
 		<!-- End Sidebar -->
 		<div class="main-panel">
 			<div class="content">
