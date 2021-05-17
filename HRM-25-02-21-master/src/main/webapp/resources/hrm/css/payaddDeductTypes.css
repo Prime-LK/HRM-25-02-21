@@ -1,0 +1,53 @@
+* {
+	text-transform: capitalize;
+}
+
+#adjusmentIDDiv, #comID {
+	display: none;
+}
+
+label {
+	font-weight: bold;
+}
+
+
+#div1 {
+	border: 1px solid black;
+	padding: 10px 10px 10px 10px;
+	 width: 280px; 
+}
+
+#div2 {
+	border: 1px solid black;
+	padding: 10px 10px 10px 10px;
+	 width: 280px; 
+}
+
+#div3 {
+	border: 1px solid black;
+	padding: 10px 10px 10px 10px;
+	 width: 280px; 
+}
+
+#div4 {
+	border: 1px solid black;
+	padding: 10px 10px 10px 10px;
+	 width: 280px; 
+}
+
+#div5 {
+	border: 1px solid black;
+	padding: 10px 10px 10px 10px;
+	 width: 280px; 
+}
+
+
+
+
+
+
+
+
+
+
+

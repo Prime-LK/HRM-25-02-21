@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="employeeQualificationReport" pageWidth="710" pageHeight="1000" columnWidth="630" leftMargin="40" rightMargin="40" topMargin="40" bottomMargin="40" uuid="7593781c-6c39-4ee9-af06-f8d5d520b143">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<field name="empid" class="java.lang.String"/>
+	<field name="empfname" class="java.lang.String"/>
+	<field name="emplname" class="java.lang.String"/>
+	<field name="qtype" class="java.lang.String"/>
+	<field name="qdesc" class="java.lang.String"/>
+	<field name="qaward" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="42" width="555" height="37" uuid="c28130d4-47fa-44d8-954a-28bf9e995f6d"/>
+				<textElement verticalAlignment="Top">
+					<font fontName="SansSerif" size="24" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Employee Qualification Report]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="46" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="139" height="35" uuid="10097886-6fa0-43f0-8b6d-9426d1ba9078"/>
+				<textElement verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Qualification Type :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="139" y="0" width="157" height="35" uuid="98e0c2d4-24cc-424e-a5b5-2ea491186973"/>
+				<textElement verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{qtype}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="43" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="72" y="0" width="143" height="43" backcolor="#F0F0F0" uuid="4c9679a9-9cb4-44fc-b9f4-852c8ceaa11c"/>
+				<textElement verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Employee Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="381" y="2" width="93" height="40" backcolor="#F0F0F0" uuid="f06b07e1-19fd-4eb1-91bb-ed7223dae6a5"/>
+				<textElement verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[  Award on]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="1" width="474" height="1" uuid="3bfc64ed-5009-483b-9d4c-efe26fad1190"/>
+			</line>
+			<staticText>
+				<reportElement mode="Opaque" x="215" y="4" width="166" height="38" backcolor="#F0F0F0" uuid="431eaaf7-4ac3-413b-9d41-2a4cf591ecb0"/>
+				<textElement verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[  Description]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="2" width="72" height="41" backcolor="#F0F0F0" uuid="08da6ccf-3dbd-44bb-ae8d-554a8af967be"/>
+				<textElement verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Emp ID]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="83" splitType="Stretch">
+			<textField>
+				<reportElement x="72" y="13" width="143" height="21" uuid="9805ac58-4f30-4b73-8473-f0ccc4885b1b"/>
+				<textElement verticalAlignment="Top">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{empfname}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="72" y="33" width="143" height="25" uuid="a7175a03-a5e7-42bf-8804-33dc6485d087"/>
+				<textElement verticalAlignment="Top">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{emplname}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="392" y="13" width="82" height="47" uuid="8a6fc97b-6cae-482a-a9ae-d66053df6de0"/>
+				<textElement verticalAlignment="Top">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{qaward}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="-1" width="474" height="2" uuid="8b4e847c-4201-4734-ba4a-ed33f5597706"/>
+			</line>
+			<textField>
+				<reportElement x="215" y="13" width="177" height="47" uuid="2173ecf0-e202-4a8d-8546-a688d35901bd"/>
+				<textElement verticalAlignment="Top">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{qdesc}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="13" width="72" height="45" uuid="beee9ff6-2d2e-49c7-8ab5-cfdd0c5f5959"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{empid}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

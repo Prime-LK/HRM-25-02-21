@@ -1,0 +1,66 @@
+* {
+	text-transform: capitalize;
+}
+
+#row01 {
+	margin-left: -15px;
+}
+
+.scrollable {
+	width: 650px;
+	height: 300px;
+	overflow: scroll;
+	margin-left: 10px;
+}
+
+#deps {
+	height: 35px;
+	margin-left: -10px;
+}
+
+#dep {
+	margin-top: 45px;
+	margin-bottom: 35px;
+	background-color: white;
+	border: none;
+	font-size: 14px;
+} 
+
+#lbl01 {
+	margin-top: 10px;
+	font-size: 11px;
+}
+
+#progress01 {
+	margin-top: 10px;
+}
+
+#spn01 {
+	margin-top: 11px;
+	margin-left: 7px;
+	font-size: 10px;
+	text-transform: capitalize;
+	font-weight: bold;
+}
+
+#colName {
+	margin-left: 18px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

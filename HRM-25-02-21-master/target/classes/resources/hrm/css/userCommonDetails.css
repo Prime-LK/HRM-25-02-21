@@ -1,0 +1,24 @@
+#comDeRow {
+	margin-left: -25px;
+}
+
+#comDeId {
+	color: #FFFFFF;
+	font-weight: bold;
+	font-size: 12px;
+	
+}
+
+#button {
+	margin-top: -7px;
+	margin-left: 1px;
+	width: 80px;
+} 
+
+#comDiv {
+	display:none;
+}
+
+#file {
+	display:none;
+}
