@@ -1,0 +1,69 @@
+* {
+	text-transform: capitalize;
+}
+
+#lsd1, #led1, #dLbl, #adjType {
+	font-size: 15px;
+}
+
+#year {
+	margin-left: 133px;
+	width: 250px;
+	font-size: 12px;
+	margin-top: -5px;
+}
+
+#month {
+	margin-left: 118px;
+	width: 250px;
+	font-size: 12px;
+	margin-top: -5px;
+}
+
+#depID {
+	margin-left: 81px;
+	width: 250px;
+	font-size: 12px;
+	margin-top: -5px;
+}
+
+#adjType {
+	font-size: 12px;
+	margin-top: -5px;
+}
+
+#addBtn, #cbDiv, #clearBtn {
+	margin-top: -5px;
+}
+
+.scrollable {
+	height: 200px;
+	overflow: scroll;
+}
+
+#alloTableDiv {
+	margin-left: 150px;
+}
+
+#viewBtn {
+	margin-left: 150px;
+}
+
+#alloData {
+	font-size: 12px;
+	text-transform: capitalize;
+}
+
+.my-custom-scrollbar {
+	position: relative;
+	height: 200px;
+	overflow: auto;
+}
+
+.table-wrapper-scroll-y {
+	display: block;
+}
+
+#alloIdDiv {
+	display: none;
+}

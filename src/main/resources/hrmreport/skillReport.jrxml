@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="skillReport" pageWidth="710" pageHeight="1000" columnWidth="630" leftMargin="40" rightMargin="40" topMargin="40" bottomMargin="40" uuid="438e738a-f783-4592-b53c-0a08efbf4c83">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<field name="empid" class="java.lang.String"/>
+	<field name="fname" class="java.lang.String"/>
+	<field name="lname" class="java.lang.String"/>
+	<field name="sType" class="java.lang.String"/>
+	<field name="profeciency" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="34" width="630" height="35" forecolor="#000000" uuid="2ad71165-d09b-4b8d-8bf3-1138431b79f7"/>
+				<textElement>
+					<font size="26" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Skills Report]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="86" splitType="Stretch">
+			<textField>
+				<reportElement x="100" y="0" width="128" height="35" uuid="6ce6ff03-9a0e-4940-86a5-8c4310c96222"/>
+				<textElement verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{sType}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="100" height="35" uuid="c64b9fcb-41c3-4a3c-9498-3f9692f51eaa"/>
+				<textElement verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Skill Type :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="88" y="51" width="140" height="35" backcolor="#F0F0F0" uuid="907e8f77-337a-476a-a2e6-02d7b2d2420c"/>
+				<textElement verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[  Emp Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="51" width="88" height="35" backcolor="#F0F0F0" uuid="05223f84-e1de-4091-8072-a78de7992c19"/>
+				<textElement verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Emp ID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="228" y="51" width="402" height="35" backcolor="#F0F0F0" uuid="ecbb648f-1ab3-46b7-9a9d-db084908397b"/>
+				<textElement verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[                                      Description]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="51" width="630" height="1" uuid="46c186c6-81d0-43c2-9113-8173822870fa"/>
+			</line>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="1" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="0" width="630" height="1" uuid="d7300f48-f767-420f-aafe-d374a536935b"/>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="74" splitType="Stretch">
+			<textField>
+				<reportElement x="88" y="34" width="125" height="20" uuid="d44931dd-529b-409e-bbdd-9ca5f42a8061"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[   $F{lname}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="10" width="70" height="24" uuid="df1b3e24-b680-4bed-aee4-a19a877555c3"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{empid}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="88" y="10" width="125" height="20" uuid="3ccbf40f-f805-4d1c-a01c-360531b6c156"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[   $F{fname}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="66" width="630" height="1" uuid="abb83a66-366f-4cf2-a579-000f1d1ae313"/>
+			</line>
+			<textField>
+				<reportElement x="228" y="10" width="402" height="56" uuid="1703de79-2c75-4bb9-a579-e86eead0ab09"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[   $F{profeciency}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="19" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="15" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="41" splitType="Stretch"/>
+	</summary>
+</jasperReport>

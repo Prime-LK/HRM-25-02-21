@@ -1,0 +1,391 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="shift_detail_report" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="570800bc-e41f-4a17-8db4-4b1e50444aa3">
+	<property name="ireport.zoom" value="1.6105100000000019"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="start_date" class="java.lang.String"/>
+	<parameter name="end_date" class="java.lang.String"/>
+	<parameter name="department" class="java.lang.String"/>
+	<parameter name="employee" class="java.lang.String"/>
+	<parameter name="shift" class="java.lang.String"/>
+	<field name="date" class="java.lang.String"/>
+	<field name="weekday" class="java.lang.String"/>
+	<field name="day_type" class="java.lang.String"/>
+	<field name="shift" class="java.lang.String"/>
+	<field name="department" class="java.lang.String"/>
+	<field name="employee_name" class="java.lang.String"/>
+	<field name="start_time" class="java.lang.String"/>
+	<field name="end_time" class="java.lang.String"/>
+	<field name="on_time" class="java.lang.String"/>
+	<field name="off_time" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="85" splitType="Stretch">
+			<frame>
+				<reportElement x="0" y="0" width="802" height="85" uuid="6b29590f-cb67-486e-b52f-db04e43fbffa"/>
+				<image>
+					<reportElement x="2" y="0" width="48" height="48" uuid="84ab418b-4696-4bff-ba99-0e89491f933f"/>
+					<imageExpression><![CDATA["resources/hrm/img/shift.png"]]></imageExpression>
+				</image>
+				<staticText>
+					<reportElement x="49" y="0" width="407" height="47" uuid="28e485ac-85a0-46b4-a773-91486e61f990"/>
+					<textElement verticalAlignment="Top">
+						<font fontName="Segoe UI" size="32"/>
+						<paragraph lineSpacing="Single" firstLineIndent="20"/>
+					</textElement>
+					<text><![CDATA[Shift Detail Report]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="70" y="48" width="30" height="15" uuid="6ad8fc6d-2a4b-4764-a2ba-d90f71415bca"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Segoe UI" size="10"/>
+					</textElement>
+					<text><![CDATA[Period]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="558" y="8" width="90" height="15" uuid="66dbb385-bdbc-43ce-bbe4-9d1bf97a30ed"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Segoe UI" size="10"/>
+					</textElement>
+					<text><![CDATA[Department]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="558" y="28" width="90" height="15" uuid="a208f215-5e6c-4b9a-8954-7d420d66879f"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Segoe UI" size="10"/>
+					</textElement>
+					<text><![CDATA[Employee]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="558" y="48" width="90" height="15" uuid="f3a5042f-d899-4df0-b3d7-6c67de04590f"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Segoe UI" size="10"/>
+					</textElement>
+					<text><![CDATA[Shift]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="100" y="48" width="20" height="15" uuid="92a02917-c67f-42e6-9092-92632e2346b1"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Segoe UI" size="10"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="647" y="28" width="20" height="15" uuid="449a4a2b-13c9-4657-8eb8-a053c93f954f"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Segoe UI" size="10"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="647" y="8" width="20" height="15" uuid="c8d30655-594e-453c-99cd-b6ae79d52718"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Segoe UI" size="10"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="647" y="48" width="20" height="15" uuid="1774d3b6-e8d4-4112-b72e-45a5aacf5bca"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Segoe UI" size="10"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="184" y="48" width="14" height="15" uuid="c21d3d0a-f680-484d-a183-d0ead4d8943e"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Segoe UI" size="10"/>
+					</textElement>
+					<text><![CDATA[-]]></text>
+				</staticText>
+				<textField isBlankWhenNull="true">
+					<reportElement x="120" y="48" width="65" height="15" uuid="c8094739-8363-4994-956d-50234119653f"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Segoe UI" size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{start_date}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="197" y="48" width="65" height="15" uuid="c2a26dbf-8e0e-4b80-8f49-1bf8a5a6537b"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Segoe UI" size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{end_date}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="667" y="8" width="130" height="15" uuid="13bc7bf7-365f-47d4-b477-9fa30cde94e5"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Segoe UI" size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{department}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="667" y="28" width="130" height="15" uuid="e78d4f85-1945-4401-a7ae-8e3c28894591"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Segoe UI" size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{employee}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="667" y="48" width="130" height="15" uuid="3d7fa074-8819-4f9f-9740-a7099e6922eb"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Segoe UI" size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{shift}]]></textFieldExpression>
+				</textField>
+				<frame>
+					<reportElement x="552" y="0" width="250" height="70" uuid="9fdba45c-29d1-409c-8b68-d9c1d90e390e"/>
+					<box>
+						<pen lineWidth="1.0" lineStyle="Dashed"/>
+						<topPen lineWidth="1.0" lineStyle="Dashed"/>
+						<leftPen lineWidth="1.0" lineStyle="Dashed"/>
+						<bottomPen lineWidth="1.0" lineStyle="Dashed"/>
+						<rightPen lineWidth="1.0" lineStyle="Dashed"/>
+					</box>
+				</frame>
+			</frame>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="25" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="140" y="0" width="70" height="15" forecolor="#FFFFFF" backcolor="#000000" uuid="297b2146-4add-4975-888e-a82459eebb27"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Segoe UI"/>
+				</textElement>
+				<text><![CDATA[Day Type]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="592" y="0" width="70" height="15" forecolor="#FFFFFF" backcolor="#000000" uuid="1877ab87-dfe2-4db5-bb0a-b5652ab701db"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Segoe UI"/>
+				</textElement>
+				<text><![CDATA[End Time]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="310" y="0" width="100" height="15" forecolor="#FFFFFF" backcolor="#000000" uuid="add79cb4-0ea9-45da-9a44-66f7cd18eb57"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Segoe UI"/>
+				</textElement>
+				<text><![CDATA[Department]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="522" y="0" width="70" height="15" forecolor="#FFFFFF" backcolor="#000000" uuid="793857ed-1820-479a-8327-9ae08c1ad0a7"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Segoe UI"/>
+				</textElement>
+				<text><![CDATA[Start Time]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="732" y="0" width="70" height="15" forecolor="#FFFFFF" backcolor="#000000" uuid="5fa2a328-c812-4e31-8132-63c1096b52f8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Segoe UI"/>
+				</textElement>
+				<text><![CDATA[Off Time]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="70" y="0" width="70" height="15" forecolor="#FFFFFF" backcolor="#000000" uuid="7fbeb3d7-6e49-4b29-834d-119879b99280"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Segoe UI"/>
+				</textElement>
+				<text><![CDATA[Weekday]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="662" y="0" width="70" height="15" forecolor="#FFFFFF" backcolor="#000000" uuid="0f0fd9c6-9586-4e0c-94a9-9d0e7f21f01f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Segoe UI"/>
+				</textElement>
+				<text><![CDATA[On Time]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="70" height="15" forecolor="#FFFFFF" backcolor="#000000" uuid="0e498fd8-9a68-4e3b-b6f4-003e104071b7"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Segoe UI"/>
+				</textElement>
+				<text><![CDATA[Date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="210" y="0" width="100" height="15" forecolor="#FFFFFF" backcolor="#000000" uuid="96a853b0-6360-4eee-907e-7fa06a072158"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Segoe UI"/>
+				</textElement>
+				<text><![CDATA[Shift]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="410" y="0" width="112" height="15" forecolor="#FFFFFF" backcolor="#000000" uuid="c4a4418e-4abb-438b-9ded-ad761e5c8550"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Segoe UI"/>
+				</textElement>
+				<text><![CDATA[Employee Name]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="12" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement x="310" y="0" width="100" height="12" uuid="fb866867-a8ce-44a1-8f47-e4d888c1e382"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Segoe UI" size="8"/>
+					<paragraph firstLineIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{department}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="410" y="0" width="112" height="12" uuid="e8a2d93e-921e-4f4d-b9d8-05e57daa8832"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Segoe UI" size="8"/>
+					<paragraph firstLineIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{employee_name}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="0" width="70" height="12" uuid="60817cd2-429c-4a4e-8a74-965ae7646c62"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Segoe UI" size="8"/>
+					<paragraph firstLineIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{date}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="662" y="0" width="70" height="12" uuid="14060abc-3876-43b9-a6b3-7be5f791b4c5"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Segoe UI" size="8"/>
+					<paragraph firstLineIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{on_time}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="70" y="0" width="70" height="12" uuid="0aea1724-ef4b-4a8a-ac5b-e840cd6d1b6e"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Segoe UI" size="8"/>
+					<paragraph firstLineIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{weekday}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="732" y="0" width="70" height="12" uuid="a92ce6c5-4521-47da-9f31-c6ca3c96fe34"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Segoe UI" size="8"/>
+					<paragraph firstLineIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{off_time}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="140" y="0" width="70" height="12" uuid="3a5e91c5-5183-40a7-a9f7-98b0ac04aae9"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Segoe UI" size="8"/>
+					<paragraph firstLineIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{day_type}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="210" y="0" width="100" height="12" uuid="2b55852b-0d71-45c4-bfd8-d0a87371feef"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Segoe UI" size="8"/>
+					<paragraph firstLineIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{shift}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="592" y="0" width="70" height="12" uuid="3d3ec82e-6e36-49cc-aec5-70f0539b7b8f"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Segoe UI" size="8"/>
+					<paragraph firstLineIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{end_time}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="522" y="0" width="70" height="12" uuid="f83ea4bd-3c07-4837-aeb8-b725af367f69"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Segoe UI" size="8"/>
+					<paragraph firstLineIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{start_time}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="25" splitType="Stretch">
+			<textField>
+				<reportElement mode="Opaque" x="0" y="10" width="802" height="15" forecolor="#FFFFFF" backcolor="#000000" uuid="7303fc44-5e89-4096-984e-05933a90e8b1"/>
+				<box rightPadding="5"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Segoe UI" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of" + " " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

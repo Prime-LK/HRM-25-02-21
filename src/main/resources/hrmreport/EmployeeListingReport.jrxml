@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="EmployeeListingReport" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="842" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="3737c8f8-35e7-4ea0-bf9f-c557f6bbbdf3">
+	<property name="ireport.zoom" value="1.0000000000000038"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="companny" class="java.lang.String"/>
+	<parameter name="address" class="java.lang.String"/>
+	<parameter name="deparment" class="java.lang.String"/>
+	<parameter name="emptype" class="java.lang.String"/>
+	<parameter name="design" class="java.lang.String"/>
+	<parameter name="employee" class="java.lang.String"/>
+	<parameter name="costcenter" class="java.lang.String"/>
+	<parameter name="empcatP" class="java.lang.String"/>
+	<parameter name="religionP" class="java.lang.String"/>
+	<parameter name="civistaP" class="java.lang.String"/>
+	<field name="empno" class="java.lang.String"/>
+	<field name="name" class="java.lang.String"/>
+	<field name="nic" class="java.lang.String"/>
+	<field name="tel" class="java.lang.String"/>
+	<field name="phone" class="java.lang.String"/>
+	<field name="email" class="java.lang.String"/>
+	<field name="depar" class="java.lang.String"/>
+	<field name="empty" class="java.lang.String"/>
+	<field name="des" class="java.lang.String"/>
+	<field name="basicsal" class="java.lang.String"/>
+	<field name="joindate" class="java.lang.String"/>
+	<field name="dob" class="java.lang.String"/>
+	<pageHeader>
+		<band height="167">
+			<textField>
+				<reportElement x="97" y="36" width="656" height="20" uuid="6b49a67e-dc73-43a6-a53e-860b4ad24947"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{companny}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="97" y="56" width="656" height="20" uuid="e78af55c-a957-459f-9aae-c883000a5884"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{address}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="97" y="16" width="656" height="20" forecolor="#000000" uuid="2ace482a-5e4e-46a6-a753-ced9e680d33d"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["EMPLOYEE LISTING REPORT"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="77" width="117" height="19" uuid="a1f06462-0d2b-40cd-93e1-2022552123ce"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Department]]></text>
+			</staticText>
+			<line>
+				<reportElement x="10" y="76" width="818" height="1" uuid="85fa6316-5012-4d30-97b9-24515a774bd8"/>
+			</line>
+			<textField>
+				<reportElement x="127" y="77" width="265" height="20" uuid="6cf66f28-5687-4fe0-8ebf-56b82288f624"/>
+				<textFieldExpression><![CDATA[$P{deparment}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="96" width="117" height="19" uuid="45a57e38-bc25-4ecf-9154-e8cf1228c9c5"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Designation]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="127" y="95" width="265" height="20" uuid="df12f8b2-5550-4a72-8faf-2fa60e7febfe"/>
+				<textFieldExpression><![CDATA[$P{design}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="412" y="77" width="152" height="19" uuid="a15fd972-b5bc-4e45-8a9a-fe7dd40f0c03"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Employee Type]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="412" y="115" width="152" height="21" uuid="6b310c2a-81c6-4525-b94e-cb0c7c3ac5b3"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Employee]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="564" y="75" width="264" height="21" uuid="6591a267-9705-4131-90b4-dbd7aeb3c897"/>
+				<textFieldExpression><![CDATA[$P{emptype}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="564" y="116" width="264" height="20" uuid="7154a6b0-a3bd-424f-a5d6-fe8e70fdbf45"/>
+				<textFieldExpression><![CDATA[$P{employee}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="412" y="96" width="152" height="21" uuid="dcd885d0-6390-4124-8cf0-b3f6e8805760"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Employee Category]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="564" y="96" width="264" height="20" uuid="84368d94-65f9-45ac-b54b-0b4409cd490b"/>
+				<textFieldExpression><![CDATA[$P{empcatP}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="127" y="117" width="265" height="20" uuid="863ac63d-a7ba-4a67-aeef-a0b03130d03e"/>
+				<textFieldExpression><![CDATA[$P{religionP}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="127" y="137" width="265" height="20" uuid="514aa312-5505-4e7a-9da6-4d92ee0f13c6"/>
+				<textFieldExpression><![CDATA[$P{civistaP}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="117" width="117" height="20" uuid="f6d66477-1bc7-47ef-99d0-9ceedf7d4523"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Religion]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="137" width="117" height="20" uuid="f55e8cb1-ffdc-4af5-84cc-9d65b54420ee"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Civil Status]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="21">
+			<staticText>
+				<reportElement x="10" y="1" width="60" height="19" uuid="1da4458d-eff1-4fd2-8548-0e6f20fab703"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[EmpNo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="286" y="1" width="77" height="19" uuid="3aeb1020-d9a1-4abf-a61a-9e8c80824dc0"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NIC]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="70" y="1" width="216" height="19" uuid="32a99854-de9a-42d3-b4f9-124121af19a4"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="363" y="1" width="99" height="19" uuid="03c2ebb0-4652-49b5-8574-9394160e5d46"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tel]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="462" y="1" width="102" height="19" uuid="bc60c61f-dbb5-425e-af73-faa59665ec92"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Email]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="626" y="1" width="115" height="19" uuid="fc2f4d1d-8c31-4c28-a693-b8e0cdc82e40"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[BasicSalary]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="741" y="1" width="87" height="19" uuid="c0214530-90a5-4733-b9b4-1d18d201c38b"/>
+				<box leftPadding="5">
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Join Date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="564" y="1" width="62" height="19" uuid="1490c960-8192-4671-af4a-5eb11e456cc6"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DOB]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="21">
+			<textField>
+				<reportElement x="70" y="0" width="216" height="20" isPrintWhenDetailOverflows="true" uuid="b9743123-64d1-4082-a653-c71af055060e"/>
+				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="363" y="0" width="99" height="20" uuid="b521ba29-44e5-4a9d-87d7-9cc7c8f6ab33"/>
+				<textFieldExpression><![CDATA[$F{tel}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="10" y="0" width="60" height="20" uuid="f2be2cbd-7853-402f-9587-10e274defef1"/>
+				<textFieldExpression><![CDATA[$F{empno}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="286" y="0" width="77" height="20" uuid="31c12391-8065-4039-b482-1d0d983953e9"/>
+				<textFieldExpression><![CDATA[$F{nic}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="462" y="0" width="102" height="20" uuid="e6a2142b-9d79-4e23-95a1-9a31ba300ac0"/>
+				<textFieldExpression><![CDATA[$F{email}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="753" y="0" width="75" height="20" uuid="ec54c4d9-95d6-4f5a-8876-38e26282366c"/>
+				<textFieldExpression><![CDATA[$F{joindate}]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement x="626" y="0" width="115" height="20" uuid="f02f08cd-174f-497d-8256-8242e82ce5a3"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{basicsal}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="564" y="0" width="62" height="20" uuid="a8eb412e-3631-4c95-9ff7-f4043bf0f202"/>
+				<textFieldExpression><![CDATA[$F{dob}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

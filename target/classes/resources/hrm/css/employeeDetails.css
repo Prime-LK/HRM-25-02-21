@@ -1,0 +1,32 @@
+* {
+	text-transform: capitalize;
+}
+
+#userPreviousDetails {
+	font-size: 12px;	
+}
+
+.list-group-item {
+	height: 3.5rem;
+	color: #000000;
+}
+
+#card001, #card002, #card003 {
+	font-weight: bold;
+	color: #808080;
+	width: 10rem;
+}
+
+#lsTitle {
+	border: none;
+}
+
+#epfNoData {
+	color: #0000CD;
+	font-weight: bold;
+	border: none;
+}
+
+#hiddenRow {
+	 display: none;
+}

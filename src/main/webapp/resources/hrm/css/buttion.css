@@ -1,0 +1,19 @@
+@charset "ISO-8859-1";
+
+.file {
+  visibility: hidden;
+  position: absolute;
+}
+#file {
+	visibility: hidden;
+	width: 0px;
+}
+#clButton {
+		margin-left: 10px;
+}
+
+.file2 {
+  visibility: hidden;
+  position: absolute;
+}	
+	
