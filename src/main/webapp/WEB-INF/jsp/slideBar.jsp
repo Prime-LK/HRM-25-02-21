@@ -160,6 +160,10 @@
 							<li><a href="dependentReport"> <span class="sub-item">Dependent Report</span></a></li>
 							<li><a href="qualificationReport"> <span class="sub-item">Qualification Report</span></a></li>
 							<li><a href="skillReport"> <span class="sub-item">Skill Report</span></a></li>
+							
+							
+							<li><a href="employeeContactListing"> <span class="sub-item">Employee Contact Listing</span></a></li>
+							<li><a href="employeeListingRpt"> <span class="sub-item">Employee Listing Report</span></a></li>
 						</ul>
 					</div></li>
 			</ul>

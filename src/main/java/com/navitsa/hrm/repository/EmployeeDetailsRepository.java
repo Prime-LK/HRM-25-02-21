@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
+import com.navitsa.hrm.entity.Employee;
 import com.navitsa.hrm.entity.EmployeeDetails;
 import com.navitsa.hrm.entity.EmployeeDetailsPK;
 
@@ -311,5 +312,17 @@ public interface EmployeeDetailsRepository extends CrudRepository<EmployeeDetail
 	
 	@Query(value="SELECT er FROM EmployeeDetails er WHERE er.department.depID=:departmentId AND er.company.comID=:companyId")
 	public List<EmployeeDetails> filterEmployeesByDepartmentAndCompany(@Param("departmentId") String departmentId, @Param("companyId") String companyId);
+	
+	@Query(value = "SELECT COALESCE(concat(ed.detailsPK.empID.empID,''),' ') as empno,COALESCE(concat(ed.detailsPK.empID.name,' ',ed.detailsPK.empID.lastname),' ') as name,COALESCE(concat(ed.detailsPK.empID.address,' ',ed.detailsPK.empID.city),' ') as address,COALESCE(concat(ed.detailsPK.empID.contact_num1,''),' ') as tel,COALESCE(concat(ed.detailsPK.empID.contact_num2,''),' ') as phone,COALESCE(concat(ed.detailsPK.empID.email,''),' ') as email,COALESCE(concat(ed.department.department,''),' ') as depar,COALESCE(concat(ed.empType.type,''),' ') as empty,COALESCE(concat(ed.designation.designation,''),' ') as des FROM EmployeeDetails ed WHERE  ed.department.depID like :dep and ed.empType.tid like :emptyp and ed.designation.did like :dis AND ed.detailsPK.empID.empID like :empid and ed.detailsPK.empID.company.comID=:comID and ed.status='ACTIVE' order by ed.department.depID,ed.empType.tid,ed.designation.did")
+	public String[][] getEmployeeListrptPrivew(@Param("dep")String dep,@Param("dis")String dis,@Param("emptyp")String emptyp,@Param("empid") String empid,@Param("comID") String companyId);
+	
+	@Query(value = "SELECT COALESCE(concat(ed.detailsPK.empID.empID,''),' ') as empno,COALESCE(concat(ed.detailsPK.empID.name,' ',ed.detailsPK.empID.lastname),' ') as name,COALESCE(concat(ed.detailsPK.empID.address,' ',ed.detailsPK.empID.city),' ') as address,COALESCE(concat(ed.detailsPK.empID.contact_num1,''),' ') as tel,COALESCE(concat(ed.detailsPK.empID.contact_num2,''),' ') as phone,COALESCE(concat(ed.detailsPK.empID.email,''),' ') as email,COALESCE(concat(ed.department.department,''),' ') as depar,COALESCE(concat(ed.empType.type,''),' ') as empty,COALESCE(concat(ed.designation.designation,''),' ') as des, COALESCE(ed.category.catgoryID,' '), COALESCE(ed.detailsPK.empID.religion.rid,' '),COALESCE(ed.detailsPK.empID.mStatus,' ')"
+			+ ",COALESCE(ed.detailsPK.empID.id_Number,' '),COALESCE(ed.basicSalary,'0'),COALESCE(ed.detailsPK.empID.dob,' '),COALESCE(ed.joinedDate,' ')  FROM EmployeeDetails ed "
+			+ "WHERE  ed.category.catgoryID like :empcat AND ed.detailsPK.empID.religion.rid like :religion AND ed.detailsPK.empID.mStatus like :civista and ed.department.depID like :dep and ed.empType.tid like :emptyp and ed.designation.did like :dis AND ed.detailsPK.empID.empID like :empid and ed.detailsPK.empID.company.comID=:comID and ed.status='ACTIVE' order by ed.department.depID,ed.empType.tid,ed.designation.did")
+	public String[][] getEmployeeListrptPrivewbyreligion(@Param("dep")String dep,@Param("dis")String dis,@Param("emptyp")String emptyp,@Param("empid") String empid,@Param("empcat") String empcat,@Param("religion")  String religion,@Param("civista")  String civista,@Param("comID") String companyId);
+	
+	
+	
+	
 	
 }

@@ -45,4 +45,7 @@ public class DepartmentService {
 	public List<DepartmentMaster> getDepartmentsByCompany(String companyId) {
 		return (List<DepartmentMaster>) depRepo.getDepartmentsByCompany(companyId);
 	}
+
+	
+	
 }

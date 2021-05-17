@@ -53,7 +53,7 @@ public class CompanyMasterController {
 	@GetMapping("/updateComDetails")
 	public ModelAndView updateDepDetails(@RequestParam("comID") String comID) {
 		ModelAndView mav = new ModelAndView("hrm/companyMaster");
-		CompanyMaster dm = comService.getOneData(comID);
+		CompanyMaster dm = comService.findbyCompanyid(comID);
 		mav.addObject("companyMasterObject", dm);
 		return mav;
 	}

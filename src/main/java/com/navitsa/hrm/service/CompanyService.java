@@ -26,15 +26,13 @@ public class CompanyService {
 		comRepo.save(a);
 	}
 	
-	public CompanyMaster getOneData(String id) {
+	public CompanyMaster findbyCompanyid(String id) {
 		return comRepo.findById(id).get();
 	}
 	
 	public List<CompanyMaster> getAllComDetails() {
 		return comRepo.findAll();
 	}
-	
-	
-	
+
 	
 }

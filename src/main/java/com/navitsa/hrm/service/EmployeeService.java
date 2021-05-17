@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.navitsa.hrm.entity.DesignationMaster;
 import com.navitsa.hrm.entity.Employee;
@@ -294,5 +296,26 @@ public class EmployeeService {
 	public Employee getEmployeeByCompany(String employeeId, String companyId) {
 		return empRepo.getEmployeeByCompany(employeeId, companyId);
 	}
-
+	public List<EmployeeType> getAllTypesByCompanny(String companyId) {
+		return empTypeRepo.getAllTypesByCompanny(companyId);
+	}
+	
+	public List<Employee> getEmployeeListrpt(String dep,String dis,String emptyp, String empid,String empcat,String religion, String civista,String companyid){
+		return empRepo.getEmployeeListrpt(dep,dis,emptyp,empid,empcat,religion,civista,companyid);
+	}
+	public String[][] getEmployeeListrptPrivew(String dep,String dis,String emptyp, String empid,String companyid){
+		return empDeRepo.getEmployeeListrptPrivew(dep,dis,emptyp,empid,companyid);
+	}
+	public List<EmployeeCategory> getAllCategoriesBycompanyID(String companyId) {
+		return catRepo.getAllCategoriesBycompanyID(companyId);
+	}
+	public List<ReligionMaster> getAllReligionBycompanyID(String companyId) {
+		return religionRepo.getAllReligionBycompanyID(companyId);
+	}
+	public String[][] getEmployeeListrptPrivewbyreligion(String dep,String dis,String emptyp, String empid,String empcat, String religion, String civista,String companyid){
+		return empDeRepo.getEmployeeListrptPrivewbyreligion(dep,dis,emptyp,empid,empcat,religion,civista,companyid);
+	}
+	
+	
 }
+

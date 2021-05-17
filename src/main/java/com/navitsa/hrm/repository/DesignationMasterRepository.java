@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
+import com.navitsa.hrm.entity.DepartmentMaster;
 import com.navitsa.hrm.entity.DesignationMaster;
 
 public interface DesignationMasterRepository extends CrudRepository<DesignationMaster, String> {
@@ -15,4 +16,6 @@ public interface DesignationMasterRepository extends CrudRepository<DesignationM
 	
 	@Query(value="SELECT dm FROM DesignationMaster dm WHERE dm.company.comID = :companyId")
 	public List<DesignationMaster> getAllDesignationsByCompany(@Param("companyId") String companyId);
+	
+	
 }

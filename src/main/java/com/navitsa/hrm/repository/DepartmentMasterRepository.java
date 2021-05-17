@@ -22,4 +22,9 @@ public interface DepartmentMasterRepository extends CrudRepository<DepartmentMas
 
 	@Query(value = "SELECT Department_ID, Department, Company_ID FROM department where department.Department_ID = :departmentId AND department.Company_ID = :companyId", nativeQuery = true)
 	public DepartmentMaster getDepartmentByIdAndCompany(@Param("departmentId") String departmentId, @Param("companyId") String companyId);
+
+	@Query(value = "SELECT dm FROM DepartmentMaster dm where dm.company.comID=:companyId")
+	public List<DepartmentMaster> getAllDepByCenter(@Param("companyId") String companyId);
+
+
 }

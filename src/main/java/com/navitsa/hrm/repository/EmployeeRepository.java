@@ -6,6 +6,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.navitsa.hrm.entity.Employee;
 
@@ -56,6 +58,10 @@ public interface EmployeeRepository extends CrudRepository<Employee, String> {
 
 	@Query(value = "SELECT e FROM Employee e WHERE e.empID = :employeeId AND e.company.comID = :companyId")
 	public Employee getEmployeeByCompany(@Param("employeeId") String employeeId, @Param("companyId") String companyId);
+	
+	@Query(value = "SELECT em FROM Employee em,EmployeeDetails ed WHERE ed.detailsPK.empID.empID=em.empID and ed.department.depID like :dep and ed.empType.tid like :emptyp and ed.designation.did like :dis AND em.empID like :empid and ed.category.catgoryID like :empcat AND em.religion.rid like :religion AND em.mStatus like :civista and em.company.comID=:comID")
+	public List<Employee> getEmployeeListrpt(@Param("dep")String dep,@Param("dis")String dis,@Param("emptyp")String emptyp,@Param("empid") String empid,@Param("empcat") String empcat,@Param("religion") String religion,@Param("civista")  String civista,@Param("comID") String companyId);
+	
 	
 }
 
