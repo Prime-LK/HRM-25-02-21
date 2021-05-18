@@ -116,12 +116,29 @@
 					<div class="container-fluid">
 						<div class="card">
 							<div class="card-body">
+
+			                	<c:if test = "${success ==1}">
+									<div class="alert alert-success alert-dismissible">
+									  <button type="button" class="close" data-dismiss="alert">&times;</button>
+									  <strong>Success!</strong> Data Successfully Saved.
+									</div>
+								</c:if>
+								<c:if test = "${success ==0}">
+								  <div class="alert alert-danger alert-dismissible">
+								    <button type="button" class="close" data-dismiss="alert">&times;</button>
+								    <strong>Warning!</strong>Something went wrong ! Please try again!
+								  </div>
+								</c:if>
+							
 								<div class="container">
 									<form:form action="saveDeType" method="post"
 										modelAttribute="deductForm" onsubmit="formValidation()"
 										id="deductForm">
+										<form:input type="hidden" path="deductTypeCode" id="deductTypeCode"/>
+										<form:input type="hidden" path="company.comID" id="comID"/>
+											
 										<div class="row">
-											<div class="col-6">
+											<div class="col">
 												<div class="form-group row">
 													<label class="col-4">description</label>
 													<form:input type="text" path="desc"
@@ -129,7 +146,7 @@
 														placeholder="enter type" />
 												</div>
 											</div>
-											<div class="col-6">
+											<div class="col">
 												<div class="form-group row">
 													<label class="col-4">Ledger code</label>
 													<form:input type="text" path="ledgerCode"
@@ -137,31 +154,20 @@
 														placeholder="enter ledger code" readOnly="true" />
 												</div>
 											</div>
-											<div class="col" id="adjusmentIDDiv">
-												<form:input type="text" path="deductTypeCode"
-													class="form-control" id="deductTypeCode"
-													value="${said.deductTypeCode}" placeholder="Enter ID" />
-											</div>
-											<div class="col">
-												<input type="text" name="company.comID" class="form-control"
-													id="comID"
-													value="<%=session.getAttribute("company.comID")%>"
-													placeholder="Company ID" />
-											</div>
 										</div>
 										<div class="row">
 											<div class="col-4">
 												<div class="form-group row">
 													<div id="div1">
 														<label>Addition or deduction</label> <br>
-														<form:radiobutton path="addDeStatus" value="addition"
+														<form:radiobutton path="addDeStatus" value="ADD"
 															checked="checked" />
 														Addition
 														<form:radiobutton path="addDeStatus" class="ml-4"
-															value="deduction" />
+															value="DED" />
 														Deduction
 														<form:radiobutton path="addDeStatus" class="ml-4"
-															value="other" />
+															value="OTH" />
 														Other
 													</div>
 												</div>
@@ -170,14 +176,14 @@
 												<div class="form-group row">
 													<div id="div2">
 														<label>calculation cycle</label> <br>
-														<form:radiobutton path="addDePeriod" value="month"
+														<form:radiobutton path="addDePeriod" value="Monthly"
 															checked="checked" />
 														monthly
 														<form:radiobutton path="addDePeriod" class="ml-4"
-															value="day" />
+															value="Daily" />
 														daily
 														<form:radiobutton path="addDePeriod" class="ml-4"
-															value="hour" />
+															value="Hourly" />
 														hourly
 													</div>
 												</div>
@@ -187,11 +193,11 @@
 													<div id="div3">
 														<label>calculated as</label> <br>
 														<form:radiobutton path="isPercentage"
-															onchange="checkIfPercentage()" value="percentage"
+															onchange="checkIfPercentage()" value="Yes"
 															checked="checked" id="isPercentage" />
 														percentage
 														<form:radiobutton path="isPercentage" class="ml-4"
-															value="value" id="isPercentage2"
+															value="No" id="isPercentage2"
 															onchange="checkIfPercentage2()" />
 														value
 													</div>
@@ -203,11 +209,11 @@
 												<div class="form-group row">
 													<div id="div4">
 														<label>based on</label> <br>
-														<form:radiobutton path="onBaSalary" value="basicSalary"
+														<form:radiobutton path="onBaSalary" value="BasicSalary"
 															checked="checked" />
 														basic salary
 														<form:radiobutton path="onBaSalary" class="ml-4"
-															value="grossSalary" />
+															value="GrossSalary" />
 														gross salary
 													</div>
 												</div>
@@ -216,11 +222,11 @@
 												<div class="form-group row">
 													<div id="div5">
 														<label>Type</label> <br>
-														<form:radiobutton path="addDeType" value="fixedType"
+														<form:radiobutton path="addDeType" value="Fixed"
 															checked="checked" />
 														fixed type
 														<form:radiobutton path="addDeType" class="ml-4"
-															value="variableType" />
+															value="Variable" />
 														variable type
 													</div>
 												</div>
@@ -269,10 +275,10 @@
 													<label class="col-3">Is active</label>
 													<div class="selectgroup w-100 col-5 ml-4">
 														<label class="selectgroup-item"> <form:radiobutton
-																path="isActive" value="active" class="selectgroup-input" />
+																path="isActive" value="Active" class="selectgroup-input" />
 															<span class="selectgroup-button">Active</span>
 														</label> <label class="selectgroup-item"> <form:radiobutton
-																path="isActive" value="day" class="selectgroup-input" />
+																path="isActive" value="Day" class="selectgroup-input" />
 															<span class="selectgroup-button">Depends on Day</span>
 														</label>
 													</div>
