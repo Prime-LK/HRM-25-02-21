@@ -28,9 +28,17 @@ public class ApplyLeave_Service {
 		return (List<ApplyLeave_Entity>) ALRepo.findAll();
 	}
 	
-	public void savepage(ApplyLeave_Entity applyleave) {
+	public void applyLeave(ApplyLeave_Entity applyleave) {
 
 		ALRepo.save(applyleave);
 
+	}
+	
+	public String getMaxID() {
+		if(ALRepo.getMaxID() == null) {
+			return "1";
+		} else {
+			return ALRepo.getMaxID();
+		}
 	}
 }

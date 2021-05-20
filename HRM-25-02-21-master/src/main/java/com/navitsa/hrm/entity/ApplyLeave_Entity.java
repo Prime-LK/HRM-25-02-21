@@ -3,8 +3,6 @@ package com.navitsa.hrm.entity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -16,36 +14,35 @@ public class ApplyLeave_Entity {
 	
 	@Id
 	@Column(name = "ID")
-	@GeneratedValue (strategy = GenerationType.IDENTITY)
 	private String leaveID;
+	
+	@Column(name = "Type")
+	private String type;
 	
 	@Column(name = "Days")
 	private String days;
 	
-	@Column(name = "Type")
-	private String types;
+	@Column(name = "Time")
+	private String time;
 	
 	@Column(name = "Description")
 	private String desc;
 	
-	@Column(name = "Time")
-	private String time;
-		
 	@ManyToOne(optional = false, fetch = FetchType.EAGER)
-	@JoinColumn(name = "LeaveType", referencedColumnName = "leaveCode")
-	private leaveClass leaveType;
-	
-	@ManyToOne(optional = false, fetch = FetchType.EAGER)
-	@JoinColumn(name = "Department", referencedColumnName = "Department_ID")
+	@JoinColumn(name = "Department_ID", referencedColumnName = "Department_ID")
 	private DepartmentMaster department;
 	
 	@ManyToOne(optional = false, fetch = FetchType.EAGER)
-	@JoinColumn(name = "Date", referencedColumnName = "Date")
-	private CalanderEntity date;
+	@JoinColumn(name = "Employee_ID", referencedColumnName = "Employee_ID")
+	private Employee employee;
 	
 	@ManyToOne(optional = false, fetch = FetchType.EAGER)
-	@JoinColumn(name = "Name", referencedColumnName = "Employee_ID")
-	private Employee name;
+	@JoinColumn(name = "leaveCode", referencedColumnName = "leaveCode")
+	private leaveClass leaveType;
+	
+	@ManyToOne(optional=false, fetch = FetchType.EAGER)
+	@JoinColumn(name="CompanyID", referencedColumnName="Company_ID")
+	private CompanyMaster company;
 
 	public String getLeaveID() {
 		return leaveID;
@@ -53,6 +50,14 @@ public class ApplyLeave_Entity {
 
 	public void setLeaveID(String leaveID) {
 		this.leaveID = leaveID;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 	public String getDays() {
@@ -63,12 +68,12 @@ public class ApplyLeave_Entity {
 		this.days = days;
 	}
 
-	public String getTypes() {
-		return types;
+	public String getTime() {
+		return time;
 	}
 
-	public void setTypes(String types) {
-		this.types = types;
+	public void setTime(String time) {
+		this.time = time;
 	}
 
 	public String getDesc() {
@@ -79,12 +84,20 @@ public class ApplyLeave_Entity {
 		this.desc = desc;
 	}
 
-	public String getTime() {
-		return time;
+	public DepartmentMaster getDepartment() {
+		return department;
 	}
 
-	public void setTime(String time) {
-		this.time = time;
+	public void setDepartment(DepartmentMaster department) {
+		this.department = department;
+	}
+
+	public Employee getEmployee() {
+		return employee;
+	}
+
+	public void setEmployee(Employee employee) {
+		this.employee = employee;
 	}
 
 	public leaveClass getLeaveType() {
@@ -95,30 +108,13 @@ public class ApplyLeave_Entity {
 		this.leaveType = leaveType;
 	}
 
-	public DepartmentMaster getDepartment() {
-		return department;
+	public CompanyMaster getCompany() {
+		return company;
 	}
 
-	public void setDepartment(DepartmentMaster department) {
-		this.department = department;
+	public void setCompany(CompanyMaster company) {
+		this.company = company;
 	}
-
-	public CalanderEntity getDate() {
-		return date;
-	}
-
-	public void setDate(CalanderEntity date) {
-		this.date = date;
-	}
-
-	public Employee getName() {
-		return name;
-	}
-
-	public void setName(Employee name) {
-		this.name = name;
-	}
-
 	
 	
 }

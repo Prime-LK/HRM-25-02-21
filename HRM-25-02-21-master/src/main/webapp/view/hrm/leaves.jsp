@@ -130,15 +130,5 @@
 	</div>
 <%@include file="../../WEB-INF/jsp/commJs.jsp"%>
 
-	<script>
-		$(document).ready(function() {
-		    $('#example').DataTable( {
-		    	//"scrollY": "400px",
-		    	"processing": true,
-		        "columnDefs": [{ "orderable": false, "targets": 2 }]
-		    } );
-		} );
-	</script>
-
 </body>
 </html>
