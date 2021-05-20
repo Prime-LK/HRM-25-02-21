@@ -129,7 +129,7 @@
 					<div class="collapse" id="base5">
 						<ul class="nav nav-collapse">
 							<li><a href="calanderOpen"> <span class="sub-item">Calander</span></a></li>
-							<li><a href="leaveOpen"> <span class="sub-item">Leave</span></a></li>
+							<li><a href="leaveTypes"> <span class="sub-item">Leave</span></a></li>
 							<li><a href="EmpEntitOpen"> <span class="sub-item">Employee Entitlements</span></a></li>
 							<li><a href="ApplyleaveOpen"> <span class="sub-item">Leave Apply</span></a></li>
 						</ul>

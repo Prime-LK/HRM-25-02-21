@@ -5,7 +5,6 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-@SuppressWarnings("unused")
 @Entity
 @Table(name="leaves")
 public class leaveClass {
@@ -35,9 +34,4 @@ public class leaveClass {
 		this.leaveType = leaveType;
 	}
 
-
-
-
-	
-	
 }

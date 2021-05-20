@@ -28,7 +28,7 @@ public class LeaveclassService {
 		leaveClassRepository.save(leaves);
 	}
 
-	public leaveClass getRm(String leaveCode) {
+	public leaveClass getLeaveTypeByCode(String leaveCode) {
 		
 		return leaveClassRepository.findById(leaveCode).get();
 		
