@@ -15,4 +15,7 @@ public interface ApplyLeave_Repository extends CrudRepository<ApplyLeave_Entity,
 			"WHERE a.Date BETWEEN :Date1 AND :Date2",nativeQuery=true)
 	public List<CalanderEntity> getCalanderDetail2(@Param("Date1")String date1,@Param("Date2")String date2);
 	
+	@Query(value="SELECT (max(a.leaveID)+1) FROM ApplyLeave_Entity a")
+	public String getMaxID();
+	
 }

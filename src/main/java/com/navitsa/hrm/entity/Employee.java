@@ -84,7 +84,7 @@ public class Employee{
 	@Column(name="Bank_ID")
 	private String bank_Code;
 	
-	@ManyToOne(optional=false, fetch = FetchType.EAGER)
+	@ManyToOne(optional=true, fetch = FetchType.EAGER)
 	@JoinColumn(name="Branch_ID", referencedColumnName ="Branch_ID")
 	private Bank bankBranch_Code;
 	
