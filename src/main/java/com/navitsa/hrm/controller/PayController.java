@@ -86,7 +86,7 @@ public class PayController {
 			System.out.println("final word------------------:" + yes);
 			if (yes.equalsIgnoreCase("Yes")) {
 				payService.savePayPeriods(payPeriods);
-				return "redirect:/hrm/createPayPeriod";
+				return "redirect:/createPayPeriod";
 			} else {
 				m.addAttribute("mesg", "Dont allowed to Create multiple Pay Periods ");
 				return "hrm/createPayPeriod";
@@ -138,7 +138,7 @@ public class PayController {
 		if (yes.equalsIgnoreCase("Yes")) {
 			payService.savePayCodes(payCode);
 
-			return "redirect:/hrm/Paycodes";
+			return "redirect:/Paycodes";
 
 		} else {
 

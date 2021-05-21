@@ -91,7 +91,7 @@ public class SalaryController {
 	@RequestMapping(value = "/saveEmpSalaryMaster", method = RequestMethod.POST)
 	public String saveemployeeSalaryMaster(@ModelAttribute("empSalaryMaster") EmployeeSalaryMaster sm) {
 		employeeSalaryService.saveEmpSalary(sm);
-		return "redirect:/hrm/employeeSalaryMaster";
+		return "redirect:/employeeSalaryMaster";
 	}
 
 	@ModelAttribute("getAllEmpSaMaster")
