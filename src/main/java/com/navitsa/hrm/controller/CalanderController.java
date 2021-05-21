@@ -28,7 +28,7 @@ public class CalanderController {
 		model.put("calander", new CalanderEntity());
 		model.put("calanderAll", calanderService.getAll());
 
-		return "hrm/Calander";
+		return "hrm/calendar";
 	}
 
 	@GetMapping("/calenderDetails")
