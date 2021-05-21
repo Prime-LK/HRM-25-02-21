@@ -116,12 +116,29 @@
 					<div class="container-fluid">
 						<div class="card">
 							<div class="card-body">
+
+			                	<c:if test = "${success ==1}">
+									<div class="alert alert-success alert-dismissible">
+									  <button type="button" class="close" data-dismiss="alert">&times;</button>
+									  <strong>Success!</strong> Data Successfully Saved.
+									</div>
+								</c:if>
+								<c:if test = "${success ==0}">
+								  <div class="alert alert-danger alert-dismissible">
+								    <button type="button" class="close" data-dismiss="alert">&times;</button>
+								    <strong>Warning!</strong>Something went wrong ! Please try again!
+								  </div>
+								</c:if>
+							
 								<div class="container">
 									<form:form action="saveDeType" method="post"
 										modelAttribute="deductForm" onsubmit="formValidation()"
 										id="deductForm">
+										<form:input type="hidden" path="deductTypeCode" id="deductTypeCode"/>
+										<form:input type="hidden" path="company.comID" id="comID"/>
+											
 										<div class="row">
-											<div class="col-6">
+											<div class="col">
 												<div class="form-group row">
 													<label class="col-4">description</label>
 													<form:input type="text" path="desc"
@@ -129,24 +146,13 @@
 														placeholder="enter type" />
 												</div>
 											</div>
-											<div class="col-6">
+											<div class="col">
 												<div class="form-group row">
 													<label class="col-4">Ledger code</label>
 													<form:input type="text" path="ledgerCode"
 														class="form-control col-5" id="ledgerCode"
 														placeholder="enter ledger code" readOnly="true" />
 												</div>
-											</div>
-											<div class="col" id="adjusmentIDDiv">
-												<form:input type="text" path="deductTypeCode"
-													class="form-control" id="deductTypeCode"
-													value="${said.deductTypeCode}" placeholder="Enter ID" />
-											</div>
-											<div class="col">
-												<input type="text" name="company.comID" class="form-control"
-													id="comID"
-													value="<%=session.getAttribute("company.comID")%>"
-													placeholder="Company ID" />
 											</div>
 										</div>
 										<div class="row">

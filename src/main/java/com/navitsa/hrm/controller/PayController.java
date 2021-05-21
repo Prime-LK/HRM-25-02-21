@@ -183,7 +183,7 @@ public class PayController {
 	@RequestMapping(value = "/saveSetting", method = RequestMethod.POST)
 	public String savePaycode(@ModelAttribute("setting") Setting setting) {
 		payService.saveSetting(setting);
-		return "redirect:/hrm/setting";
+		return "redirect:/setting";
 	}
 
 	// get current settings
