@@ -14,16 +14,16 @@
 					<ul class="navbar-nav topbar-nav ml-md-auto align-items-center">
 					
 											<li class="nav-item fw-bold"  style="color: #ffffff; font-size: 20px; " >
-							<a href="#" data-toggle="modal"data-target="#logoutModal"><img src="resources/assets/img/logout.png" alt="navbar brand" class="navbar-brand" style="width: 40px;"></a>
+<!-- 							<a href="#" data-toggle="modal"data-target="#logoutModal"><img src="resources/assets/img/logout.png" alt="navbar brand" class="navbar-brand" style="width: 40px;"></a> -->
 						</li>
 					
 					
 						<li class="nav-item fw-bold"  style="color: #ffffff; font-size: 20px; " >
-							<%=session.getAttribute("country")%>
+<%-- 							<%=session.getAttribute("country")%> --%>
 						</li>
 						
 						<li>
-						<img class="float-right" src="data:image/jpg;base64,<%=session.getAttribute("countryimg")%>" style="height:25px; width:35px; " />
+<%-- 						<img class="float-right" src="data:image/jpg;base64,<%=session.getAttribute("countryimg")%>" style="height:25px; width:35px; " /> --%>
 						
 						</li>
 <!-- 						<li class="nav-item toggle-nav-search hidden-caret"> -->

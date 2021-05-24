@@ -52,6 +52,7 @@ public class LoginController {
 			session.setAttribute("empName", emp.get(0).getName());
 			session.setAttribute("password", emp.get(0).getPassword());
 			session.setAttribute("company.comID", emp.get(0).getCompany().getComID());
+			session.setAttribute("centerName", emp.get(0).getCompany().getComName());
 			mav = new ModelAndView("hrm/hrmdashboard");
 			mav.addObject("empID", emp.get(0).getEmpID());
 			mav.addObject("empImg", employee.getProfileImg());

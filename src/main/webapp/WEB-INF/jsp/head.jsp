@@ -16,32 +16,32 @@
 	</script>
 	<script type="text/javascript">    
 	
-	       function disableBackButtonAllBrowsers() {
+// 	       function disableBackButtonAllBrowsers() {
 	
-	            window.history.forward()
+// 	            window.history.forward()
 	
-	        };
+// 	        };
 	
 	
-	        window.onload = disableBackButtonAllBrowsers();
+// 	        window.onload = disableBackButtonAllBrowsers();
 	
-	        window.onpageshow = function (evts) {  
+// 	        window.onpageshow = function (evts) {  
 	
-	                       if (evts.persisted) {
+// 	                       if (evts.persisted) {
 	
-	                                disableBackButtonAllBrowsers(); 
+// 	                                disableBackButtonAllBrowsers(); 
 	
-	                        }
+// 	                        }
 	
-	         }; 
+// 	         }; 
 	
 	       
 	
-	        window.onunload = function () { 
+// 	        window.onunload = function () { 
 	
-	                void (0) 
+// 	                void (0) 
 	
-	        };
+// 	        };
 	
 	 </script>
 	<!-- CSS Files -->
