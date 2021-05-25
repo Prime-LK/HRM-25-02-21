@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="leave_report" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="7731ef15-db55-4067-b2a7-f5e45ebd5852">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Crosstab Data Text" hAlign="Center"/>
+	<parameter name="departmentName" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="companyName" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="companyAddress" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="companyContactNo" class="java.lang.String" isForPrompting="false"/>
+	<field name="type" class="java.lang.String"/>
+	<field name="days" class="java.lang.String"/>
+	<field name="desc" class="java.lang.String"/>
+	<field name="employee.empID" class="java.lang.String"/>
+	<field name="employee.name" class="java.lang.String"/>
+	<field name="employee.lastname" class="java.lang.String"/>
+	<field name="leaveType.leaveCode" class="java.lang.String"/>
+	<field name="leaveType.leaveType" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="26" splitType="Stretch">
+			<staticText>
+				<reportElement x="10" y="0" width="244" height="26" uuid="28f139e9-debb-4a27-b26e-8bc906a2060d"/>
+				<textElement>
+					<font size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Leave Report]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="100">
+			<textField>
+				<reportElement x="10" y="12" width="244" height="20" uuid="63d4ff9c-3535-41cd-8cfd-d6bb6c4d6dda"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{companyName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="10" y="42" width="244" height="20" uuid="8e74cc49-1b35-4b0e-a871-4747f8a2bba0"/>
+				<textFieldExpression><![CDATA[$P{companyAddress}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="10" y="73" width="244" height="20" uuid="4a4d832a-4b7b-45f0-9b8a-adc6a786a0fa"/>
+				<textFieldExpression><![CDATA[$P{companyContactNo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="376" y="32" width="179" height="20" uuid="564e12ec-3b3e-48cb-a0ab-3b9e66b11b5a"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{departmentName}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="10" y="93" width="545" height="1" uuid="005d282f-17f3-4264-af88-d17725978252"/>
+			</line>
+			<textField pattern="dd/MM/yyyy h.mm a">
+				<reportElement x="376" y="69" width="180" height="20" uuid="f627b425-7473-475a-b650-5eb550b7dd3f"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<summary>
+		<band height="102" splitType="Stretch">
+			<crosstab>
+				<reportElement x="0" y="0" width="555" height="102" uuid="25ae06f5-3ece-42b6-be71-7ffe165b8b53"/>
+				<rowGroup name="employee.empID" width="175">
+					<bucket class="java.lang.String">
+						<bucketExpression><![CDATA[$F{employee.lastname}]]></bucketExpression>
+					</bucket>
+					<crosstabRowHeader>
+						<cellContents backcolor="#F0F8FF" mode="Transparent">
+							<textField>
+								<reportElement style="Crosstab Data Text" x="0" y="0" width="175" height="15" uuid="5c582f7e-3e02-4d66-8afe-5fe1b2b71330"/>
+								<textElement textAlignment="Left"/>
+								<textFieldExpression><![CDATA[$V{employee.empID}]]></textFieldExpression>
+							</textField>
+							<line>
+								<reportElement style="Crosstab Data Text" x="0" y="16" width="175" height="1" uuid="0ed94317-50ad-4a3a-af01-f4220cc97a42"/>
+								<graphicElement>
+									<pen lineStyle="Dotted"/>
+								</graphicElement>
+							</line>
+						</cellContents>
+					</crosstabRowHeader>
+					<crosstabTotalRowHeader>
+						<cellContents/>
+					</crosstabTotalRowHeader>
+				</rowGroup>
+				<columnGroup name="leaveType.leaveCode" height="15" headerPosition="Stretch">
+					<bucket class="java.lang.String">
+						<bucketExpression><![CDATA[$F{leaveType.leaveCode}]]></bucketExpression>
+					</bucket>
+					<crosstabColumnHeader>
+						<cellContents backcolor="#F0F8FF" mode="Transparent">
+							<textField>
+								<reportElement style="Crosstab Data Text" x="0" y="0" width="71" height="15" uuid="686cc2a1-2f76-4bf7-9db5-1ca24c0cefeb"/>
+								<textElement>
+									<font size="9"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{leaveType.leaveCode}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabColumnHeader>
+					<crosstabTotalColumnHeader>
+						<cellContents/>
+					</crosstabTotalColumnHeader>
+				</columnGroup>
+				<columnGroup name="type" height="13">
+					<bucket class="java.lang.String">
+						<bucketExpression><![CDATA[$F{type}]]></bucketExpression>
+					</bucket>
+					<crosstabColumnHeader>
+						<cellContents backcolor="#F0F8FF" mode="Transparent">
+							<textField>
+								<reportElement style="Crosstab Data Text" x="0" y="0" width="71" height="13" uuid="a8b11701-80f8-4d2d-9e9a-4d00fb5a96d4"/>
+								<textElement>
+									<font size="9"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{type}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabColumnHeader>
+					<crosstabTotalColumnHeader>
+						<cellContents/>
+					</crosstabTotalColumnHeader>
+				</columnGroup>
+				<measure name="daysMeasure" class="java.lang.String">
+					<measureExpression><![CDATA[$F{days}]]></measureExpression>
+				</measure>
+				<crosstabCell width="71" height="17">
+					<cellContents>
+						<textField isBlankWhenNull="true">
+							<reportElement style="Crosstab Data Text" x="0" y="0" width="71" height="15" uuid="07315820-57f3-4954-a53a-edea009108ec"/>
+							<textElement>
+								<font size="8"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{daysMeasure}]]></textFieldExpression>
+						</textField>
+						<line>
+							<reportElement style="Crosstab Data Text" x="0" y="16" width="71" height="1" uuid="92e6f03c-dfa3-4e79-8eeb-e75c38ba31e0"/>
+							<graphicElement>
+								<pen lineStyle="Dotted"/>
+							</graphicElement>
+						</line>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell height="25" rowTotalGroup="employee.empID">
+					<cellContents backcolor="#BFE1FF" mode="Opaque">
+						<textField>
+							<reportElement style="Crosstab Data Text" x="0" y="0" width="50" height="25" uuid="6c08c0d4-ed0d-4eda-8cb5-75e282616d67"/>
+							<textFieldExpression><![CDATA[$V{daysMeasure}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="50" columnTotalGroup="leaveType.leaveCode">
+					<cellContents backcolor="#005FB3" mode="Opaque">
+						<textField>
+							<reportElement style="Crosstab Data Text" x="0" y="0" width="50" height="25" forecolor="#FFFFFF" uuid="1a9d117e-5a0c-4f30-bf4a-bdce78163c0e"/>
+							<textFieldExpression><![CDATA[$V{daysMeasure}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell rowTotalGroup="employee.empID" columnTotalGroup="leaveType.leaveCode">
+					<cellContents backcolor="#005FB3" mode="Opaque">
+						<textField>
+							<reportElement style="Crosstab Data Text" x="0" y="0" width="50" height="25" forecolor="#FFFFFF" uuid="3fa3d4ed-7464-4938-a752-70af5ba68a06"/>
+							<textFieldExpression><![CDATA[$V{daysMeasure}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="50" columnTotalGroup="type">
+					<cellContents backcolor="#BFE1FF" mode="Opaque">
+						<textField>
+							<reportElement style="Crosstab Data Text" x="0" y="0" width="50" height="25" uuid="d3304a9d-0555-40c6-bf02-5230cd5c5831"/>
+							<textFieldExpression><![CDATA[$V{daysMeasure}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell rowTotalGroup="employee.empID" columnTotalGroup="type">
+					<cellContents backcolor="#BFE1FF" mode="Opaque">
+						<textField>
+							<reportElement style="Crosstab Data Text" x="0" y="0" width="50" height="25" uuid="eaf042c1-2b0b-4bb2-83d0-5c719e2e7cab"/>
+							<textFieldExpression><![CDATA[$V{daysMeasure}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+			</crosstab>
+		</band>
+	</summary>
+</jasperReport>

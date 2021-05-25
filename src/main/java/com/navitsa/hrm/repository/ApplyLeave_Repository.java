@@ -17,5 +17,8 @@ public interface ApplyLeave_Repository extends CrudRepository<ApplyLeave_Entity,
 	
 	@Query(value="SELECT (max(a.leaveID)+1) FROM ApplyLeave_Entity a")
 	public String getMaxID();
+
+	@Query(value="SELECT l FROM ApplyLeave_Entity l WHERE l.department.depID =:dep_id")
+	public List<ApplyLeave_Entity> findAllByDepID(@Param("dep_id") String dep_id);
 	
 }

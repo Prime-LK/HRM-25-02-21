@@ -90,7 +90,7 @@
 														path="employee.empID" required="">
 														<form:option value="" selected="true">--Select--</form:option>
 														<c:forEach items="${EmpAll}" var="emp">
-															<form:option value="${emp.empID}">${emp.name}</form:option>
+															<form:option value="${emp.empID}">${emp.name} ${emp.lastname}</form:option>
 														</c:forEach>
 													</form:select>
 												</div>
@@ -110,7 +110,7 @@
 
 											<div class="form-group row">
 												<div class="col-lg-8">
-													<label>Type</label>
+													<label>Full / Half</label>
 													<form:select class="form-control form-control-sm" id="type"
 														path="type" required="">
 														<form:option value="" selected="true">--Select--</form:option>

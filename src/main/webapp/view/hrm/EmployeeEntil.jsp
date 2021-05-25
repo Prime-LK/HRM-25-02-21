@@ -97,7 +97,7 @@
 											</div>
 											<div class="form-group row">
 												<div class="col-lg-8">
-													<label>Leave Amount</label>
+													<label>No of Days</label>
 													<form:input path="leaveAmount" class="form-control form-control-sm" id="leaveAmount" required="true" />
 												</div>
 											</div>

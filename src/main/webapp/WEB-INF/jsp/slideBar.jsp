@@ -128,8 +128,8 @@
 				</a>
 					<div class="collapse" id="base5">
 						<ul class="nav nav-collapse">
-							<li><a href="calanderOpen"> <span class="sub-item">Calander</span></a></li>
-							<li><a href="leaveTypes"> <span class="sub-item">Leave</span></a></li>
+							<li><a href="calanderOpen"> <span class="sub-item">Calendar</span></a></li>
+							<li><a href="leaveTypes"> <span class="sub-item">Leave Types</span></a></li>
 							<li><a href="employeeEntitlements"> <span class="sub-item">Employee Entitlements</span></a></li>
 							<li><a href="applyLeaves"> <span class="sub-item">Leave Apply</span></a></li>
 						</ul>
@@ -164,6 +164,8 @@
 							
 							<li><a href="employeeContactListing"> <span class="sub-item">Employee Contact Listing</span></a></li>
 							<li><a href="employeeListingRpt"> <span class="sub-item">Employee Listing Report</span></a></li>
+							
+							<li><a href="leaveSummaryReport"> <span class="sub-item">Leave Summary Report</span></a></li>
 						</ul>
 					</div></li>
 			</ul>

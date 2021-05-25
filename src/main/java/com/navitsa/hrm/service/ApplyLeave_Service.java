@@ -41,4 +41,9 @@ public class ApplyLeave_Service {
 			return ALRepo.getMaxID();
 		}
 	}
+	
+	public List<ApplyLeave_Entity> getappliedLeaves(String dep_id) {
+		
+		return ALRepo.findAllByDepID(dep_id);
+	}
 }
