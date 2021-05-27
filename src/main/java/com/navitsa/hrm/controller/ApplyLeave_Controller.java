@@ -10,12 +10,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.navitsa.hrm.entity.ApplyLeave_Entity;
 import com.navitsa.hrm.entity.CompanyMaster;
 import com.navitsa.hrm.entity.DepartmentMaster;
 import com.navitsa.hrm.entity.Employee;
+import com.navitsa.hrm.entity.EmployeeContactInfo;
 import com.navitsa.hrm.entity.leaveClass;
 import com.navitsa.hrm.service.ApplyLeave_Service;
 import com.navitsa.hrm.service.DepartmentService;
@@ -83,7 +86,10 @@ public class ApplyLeave_Controller {
 			RedirectAttributes redirectAttributes) {
 		try {
 			applyleave.setLeaveID("00000".substring(ALService.getMaxID().length()) + ALService.getMaxID());
+			applyleave.setApproved(false);
+			
 			ALService.applyLeave(applyleave);
+			
 			redirectAttributes.addFlashAttribute("success", 1);
 			return "redirect:/applyLeaves";	
 		} catch (Exception e) {
@@ -93,5 +99,12 @@ public class ApplyLeave_Controller {
 
 	}
 	
-
+	@RequestMapping(value="/getAppliedLeavesByEmployee", method=RequestMethod.GET)
+	public @ResponseBody List<ApplyLeave_Entity> getAppliedLeavesByEmployee(@RequestParam String employeeID) {
+		
+		List<ApplyLeave_Entity> ls = ALService.getappliedLeavesByEmployee(employeeID);
+		return ls;
+		
+	}
+	
 }

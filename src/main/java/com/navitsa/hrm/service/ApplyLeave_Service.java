@@ -46,4 +46,9 @@ public class ApplyLeave_Service {
 		
 		return ALRepo.findAllByDepID(dep_id);
 	}
+
+	public List<ApplyLeave_Entity> getappliedLeavesByEmployee(String employeeID) {
+
+		return ALRepo.findAllByEmployeeID(employeeID);
+	}
 }

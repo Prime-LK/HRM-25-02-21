@@ -28,6 +28,9 @@ public class ApplyLeave_Entity {
 	@Column(name = "Description")
 	private String desc;
 	
+	@Column(name = "Approved")
+	private Boolean approved;
+	
 	@ManyToOne(optional = false, fetch = FetchType.EAGER)
 	@JoinColumn(name = "Department_ID", referencedColumnName = "Department_ID")
 	private DepartmentMaster department;
@@ -115,6 +118,33 @@ public class ApplyLeave_Entity {
 	public void setCompany(CompanyMaster company) {
 		this.company = company;
 	}
-	
+
+	public Boolean getApproved() {
+		return approved;
+	}
+
+	public void setApproved(Boolean approved) {
+		this.approved = approved;
+	}
+
+	public ApplyLeave_Entity(String leaveID, String type, String days, String time, String desc, Boolean approved,
+			DepartmentMaster department, Employee employee, leaveClass leaveType, CompanyMaster company) {
+		super();
+		this.leaveID = leaveID;
+		this.type = type;
+		this.days = days;
+		this.time = time;
+		this.desc = desc;
+		this.approved = approved;
+		this.department = department;
+		this.employee = employee;
+		this.leaveType = leaveType;
+		this.company = company;
+	}
+
+	public ApplyLeave_Entity() {
+		super();
+
+	}
 	
 }

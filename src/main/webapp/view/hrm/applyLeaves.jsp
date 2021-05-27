@@ -87,7 +87,7 @@
 												<div class="col-lg-8">
 													<label>Employee</label>
 													<form:select class="form-control form-control-sm" id="employee"
-														path="employee.empID" required="">
+														path="employee.empID" required="" onchange="getAppliedLeaves(this.value)">
 														<form:option value="" selected="true">--Select--</form:option>
 														<c:forEach items="${EmpAll}" var="emp">
 															<form:option value="${emp.empID}">${emp.name} ${emp.lastname}</form:option>
@@ -150,6 +150,21 @@
 									</div>
 									<div class="col-xl col-md-6 mb-4">
 									
+										<div class="table-responsive">
+											<table class="table table-striped">
+												<thead>
+													<tr>
+														<th>Leave Type</th>													
+														<th>Full / Half</th>
+														<th>Days</th>
+														<th>Approved</th>
+													</tr>
+												</thead>
+												<tbody>
+
+												</tbody>
+											</table>
+										</div>
 
 																			
 									</div>
@@ -179,6 +194,40 @@ function getDayCount() {
 	var days = Math.floor(res / 86400);
 	
 	document.getElementById("days").value = days;
+}
+
+function getAppliedLeaves(str)
+{
+	if (str=="") {
+       	$("table tbody").empty();
+       	return;
+       	
+	}else{
+			$.ajax({
+		    type: 'GET',
+		    url: "getAppliedLeavesByEmployee",
+		    data: {"employeeID" : str},
+		    success: function(data){
+
+		    	$("table tbody").empty();
+				for(var i=0; i<data.length; i++){
+					
+					if(data[i].approved == true)
+						var markup = "<tr><td>"+data[i].leaveType.leaveType+"</td><td>"+data[i].type+"</td><td>" + data[i].days + "</td><td style='background-color:#00FF00'>Yes</td></tr>";
+					else
+						var markup = "<tr><td>"+data[i].leaveType.leaveType+"</td><td>"+data[i].type+"</td><td>" + data[i].days + "</td><td>No</td></tr>";
+		       		 
+					
+					$("table tbody").append(markup);
+		       	 }
+
+		    },
+		    error:function(){
+		        alert("error");
+		    }
+		
+		});
+	}
 }
 </script>
 
