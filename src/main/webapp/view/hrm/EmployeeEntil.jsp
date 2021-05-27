@@ -115,15 +115,17 @@
 											<table class="table table-striped">
 												<thead>
 													<tr>
+														<th scope="col">Code</th>
 														<th scope="col">Employee Category</th>
 														<th scope="col">Leave Type</th>
-														<th scope="col">Leave Amount</th>
+														<th scope="col">No of Days</th>
 													</tr>
 												</thead>
 
 												<tbody>
 													<c:forEach items="${entitlementAll}" var="et">
 														<tr>
+															<td id="trCode">${et.ent_ID}</td>
 															<td id="trCat">${et.empCategory.category}</td>
 															<td id="trType">${et.leaveType.leaveType}</td>
 															<td id="trAmou">${et.leaveAmount}</td>
