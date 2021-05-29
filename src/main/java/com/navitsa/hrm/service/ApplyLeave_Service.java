@@ -51,4 +51,14 @@ public class ApplyLeave_Service {
 
 		return ALRepo.findAllByEmployeeID(employeeID);
 	}
+
+	public int getSumOfApprovedLeaves(String employeeID,String leaveTypeID) {
+		
+		return ALRepo.getSumOfApprovedLeaves(employeeID,leaveTypeID);
+	}
+	
+	public int getSumOfApprovedLeavesHalf(String employeeID,String leaveTypeID) {
+		
+		return ALRepo.getSumOfApprovedLeavesHalf(employeeID,leaveTypeID);
+	}
 }

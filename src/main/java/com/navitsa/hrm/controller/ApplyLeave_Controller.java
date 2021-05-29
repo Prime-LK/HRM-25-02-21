@@ -18,10 +18,10 @@ import com.navitsa.hrm.entity.ApplyLeave_Entity;
 import com.navitsa.hrm.entity.CompanyMaster;
 import com.navitsa.hrm.entity.DepartmentMaster;
 import com.navitsa.hrm.entity.Employee;
-import com.navitsa.hrm.entity.EmployeeContactInfo;
 import com.navitsa.hrm.entity.leaveClass;
 import com.navitsa.hrm.service.ApplyLeave_Service;
 import com.navitsa.hrm.service.DepartmentService;
+import com.navitsa.hrm.service.EmpEntitlementService;
 import com.navitsa.hrm.service.EmployeeService;
 import com.navitsa.hrm.service.LeaveclassService;
 
@@ -39,6 +39,9 @@ public class ApplyLeave_Controller {
 	
 	@Autowired
 	private DepartmentService depService;
+	
+	@Autowired
+	private EmpEntitlementService empEntitlementService;
 	
 	
 	@RequestMapping(value = "/applyLeaves", method = RequestMethod.GET)
@@ -104,6 +107,44 @@ public class ApplyLeave_Controller {
 		
 		List<ApplyLeave_Entity> ls = ALService.getappliedLeavesByEmployee(employeeID);
 		return ls;
+		
+	}
+	
+	@RequestMapping(value="/getBalanceLeaves", method=RequestMethod.GET)
+	public @ResponseBody String getBalanceLeaves(@RequestParam String employeeID,
+			@RequestParam String leaveTypeID) {
+
+		Employee employee =  empService.getEmp(employeeID);
+		String empCat = employee.getEmployeeCategory();
+		
+		String noOfDays = empEntitlementService.findByIDs(leaveTypeID,empCat);
+		String msg = "";
+		
+		if(noOfDays == null) {
+			msg = "There is no entitlements for "+empCat;
+		}else {
+			
+			try {
+				
+				int sumOfApprovedLeavesFull =  ALService.getSumOfApprovedLeaves(employeeID,leaveTypeID);
+				int sumOfApprovedLeavesHalf =  ALService.getSumOfApprovedLeavesHalf(employeeID,leaveTypeID);
+				double sumOfAllLeaves = sumOfApprovedLeavesFull + sumOfApprovedLeavesHalf/2.0;
+				
+				double balanceLeaves = Integer.valueOf(noOfDays)  - sumOfAllLeaves;
+				
+				if(balanceLeaves%1 == 0)
+					msg  = "TOTAL "+empCat+" "+leaveTypeID+" : "+noOfDays+"\n"+"Balance Leaves : "+ (int) balanceLeaves+" day(s)";
+				else {
+					int fullDays = (int) (balanceLeaves/1);
+					msg  = "TOTAL "+empCat+" "+leaveTypeID+" : "+noOfDays+"\n"+"Balance Leaves : "+fullDays+" day(s)"+" 1 Half Day";
+				}
+				
+			} catch (Exception e) {
+				msg = "TOTAL "+empCat+" "+leaveTypeID+" : "+noOfDays+"\n"+"Balance Leaves : "+noOfDays;
+			}
+		
+		}
+		return msg;
 		
 	}
 	

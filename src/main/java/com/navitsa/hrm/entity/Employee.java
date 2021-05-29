@@ -119,6 +119,9 @@ public class Employee{
 	@Column(name="Emp_Password")
 	private String password;
 	
+	@Column(name="EmpCateCode")
+	private String employeeCategory;
+	
 	public String getEmpID() {
 		return empID;
 	}
@@ -432,5 +435,14 @@ public class Employee{
 		this.password = password;
 		this.company = company;
 	}
+
+	public String getEmployeeCategory() {
+		return employeeCategory;
+	}
+
+	public void setEmployeeCategory(String employeeCategory) {
+		this.employeeCategory = employeeCategory;
+	}
+	
 	
 }

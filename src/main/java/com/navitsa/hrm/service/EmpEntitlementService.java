@@ -57,4 +57,9 @@ public class EmpEntitlementService {
 
 	}
 
+	public String findByIDs(String leaveTypeID, String employeeCategory) {
+		
+		return empEntRepo.findByIDs(leaveTypeID,employeeCategory);
+	}
+
 }

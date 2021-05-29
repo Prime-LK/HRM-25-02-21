@@ -88,7 +88,7 @@
 													<label>Employee</label>
 													<form:select class="form-control form-control-sm" id="employee"
 														path="employee.empID" required="" onchange="getAppliedLeaves(this.value)">
-														<form:option value="" selected="true">--Select--</form:option>
+														<form:option value="">--Select--</form:option>
 														<c:forEach items="${EmpAll}" var="emp">
 															<form:option value="${emp.empID}">${emp.name} ${emp.lastname}</form:option>
 														</c:forEach>
@@ -99,7 +99,7 @@
 												<div class="col-lg-8">
 													<label>Leave Type</label>
 													<form:select class="form-control form-control-sm" id="leaveType"
-														path="leaveType.leaveCode" required="">
+														path="leaveType.leaveCode" required="" onchange="getBalanceLeaves(this.value)">
 														<form:option value="" selected="true">--Select--</form:option>
 														<c:forEach items="${leaveAll}" var="l">
 															<form:option value="${l.leaveCode}">${l.leaveType}</form:option>
@@ -215,7 +215,7 @@ function getAppliedLeaves(str)
 					if(data[i].approved == true)
 						var markup = "<tr><td>"+data[i].leaveType.leaveType+"</td><td>"+data[i].type+"</td><td>" + data[i].days + "</td><td style='background-color:#00FF00'>Yes</td></tr>";
 					else
-						var markup = "<tr><td>"+data[i].leaveType.leaveType+"</td><td>"+data[i].type+"</td><td>" + data[i].days + "</td><td>No</td></tr>";
+						var markup = "<tr><td>"+data[i].leaveType.leaveType+"</td><td>"+data[i].type+"</td><td>" + data[i].days + "</td><td>Pending</td></tr>";
 		       		 
 					
 					$("table tbody").append(markup);
@@ -229,7 +229,55 @@ function getAppliedLeaves(str)
 		});
 	}
 }
+
+$(document).ready(function(){
+	
+    // Initialize select2
+    //$("#employee").select2();
+   
+});
+
+function getBalanceLeaves(str) {
+	
+	var employeeID = document.getElementById("employee").value;
+	if (str=="" || employeeID=="") {
+       	//$("table tbody").empty();
+       	return;
+       	
+	}else{
+			$.ajax({
+		    type: 'GET',
+		    url: "getBalanceLeaves",
+		    data: {"employeeID":employeeID, "leaveTypeID":str},
+		    success: function(data){
+
+/* 		    	$("table tbody").empty();
+				for(var i=0; i<data.length; i++){
+					
+					if(data[i].approved == true)
+						var markup = "<tr><td>"+data[i].leaveType.leaveType+"</td><td>"+data[i].type+"</td><td>" + data[i].days + "</td><td style='background-color:#00FF00'>Yes</td></tr>";
+					else
+						var markup = "<tr><td>"+data[i].leaveType.leaveType+"</td><td>"+data[i].type+"</td><td>" + data[i].days + "</td><td>Pending</td></tr>";
+		       		 
+					
+					$("table tbody").append(markup);
+		       	 } */
+		       	 
+		       	 alert(data);
+
+		    },
+		    error:function(){
+		        alert("error");
+		    }
+		
+		});
+	}
+}
+
 </script>
+
+<script src="<c:url value='/resources/hrm/js/select2/select2.min.js'/>"></script>
+
 
 </body>
 </html>

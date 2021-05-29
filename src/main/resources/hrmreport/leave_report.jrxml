@@ -9,7 +9,7 @@
 	<parameter name="companyAddress" class="java.lang.String" isForPrompting="false"/>
 	<parameter name="companyContactNo" class="java.lang.String" isForPrompting="false"/>
 	<field name="type" class="java.lang.String"/>
-	<field name="days" class="java.lang.String"/>
+	<field name="days" class="java.lang.Integer"/>
 	<field name="desc" class="java.lang.String"/>
 	<field name="employee.empID" class="java.lang.String"/>
 	<field name="employee.name" class="java.lang.String"/>
@@ -126,7 +126,7 @@
 						<cellContents/>
 					</crosstabTotalColumnHeader>
 				</columnGroup>
-				<measure name="daysMeasure" class="java.lang.String">
+				<measure name="daysMeasure" class="java.lang.Integer" calculation="Sum">
 					<measureExpression><![CDATA[$F{days}]]></measureExpression>
 				</measure>
 				<crosstabCell width="71" height="17">

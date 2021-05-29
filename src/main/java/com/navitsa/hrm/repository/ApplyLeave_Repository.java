@@ -23,5 +23,21 @@ public interface ApplyLeave_Repository extends CrudRepository<ApplyLeave_Entity,
 
 	@Query(value="SELECT l FROM ApplyLeave_Entity l WHERE l.employee.empID =:employeeID")
 	public List<ApplyLeave_Entity> findAllByEmployeeID(@Param("employeeID") String employeeID);
+
+	@Query(value="SELECT SUM(Days) FROM applyleaves "
+			+ "WHERE Employee_ID=:employeeID "
+			+ "AND LeaveCode=:leaveTypeID "
+			+ "AND Type='Full' "
+			+ "AND Approved=1",nativeQuery = true)
+	public int getSumOfApprovedLeaves(@Param("employeeID") String employeeID,
+			@Param("leaveTypeID") String leaveTypeID);
+	
+	@Query(value="SELECT SUM(Days) FROM applyleaves "
+			+ "WHERE Employee_ID=:employeeID "
+			+ "AND LeaveCode=:leaveTypeID "
+			+ "AND Type='Half' "
+			+ "AND Approved=1",nativeQuery = true)
+	public int getSumOfApprovedLeavesHalf(@Param("employeeID") String employeeID,
+			@Param("leaveTypeID") String leaveTypeID);
 	
 }

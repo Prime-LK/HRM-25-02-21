@@ -20,7 +20,7 @@ public class ApplyLeave_Entity {
 	private String type;
 	
 	@Column(name = "Days")
-	private String days;
+	private int days;
 	
 	@Column(name = "Time")
 	private String time;
@@ -63,11 +63,11 @@ public class ApplyLeave_Entity {
 		this.type = type;
 	}
 
-	public String getDays() {
+	public int getDays() {
 		return days;
 	}
 
-	public void setDays(String days) {
+	public void setDays(int days) {
 		this.days = days;
 	}
 
@@ -127,7 +127,7 @@ public class ApplyLeave_Entity {
 		this.approved = approved;
 	}
 
-	public ApplyLeave_Entity(String leaveID, String type, String days, String time, String desc, Boolean approved,
+	public ApplyLeave_Entity(String leaveID, String type, int days, String time, String desc, Boolean approved,
 			DepartmentMaster department, Employee employee, leaveClass leaveType, CompanyMaster company) {
 		super();
 		this.leaveID = leaveID;
