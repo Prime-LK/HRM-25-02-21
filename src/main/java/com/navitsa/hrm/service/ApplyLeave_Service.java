@@ -42,9 +42,9 @@ public class ApplyLeave_Service {
 		}
 	}
 	
-	public List<ApplyLeave_Entity> getappliedLeaves(String dep_id) {
+	public List<ApplyLeave_Entity> getappliedLeaves(String dep_id,String employee_id) {
 		
-		return ALRepo.findAllByDepID(dep_id);
+		return ALRepo.findAllByDepID(dep_id,employee_id);
 	}
 
 	public List<ApplyLeave_Entity> getappliedLeavesByEmployee(String employeeID) {
@@ -54,11 +54,25 @@ public class ApplyLeave_Service {
 
 	public int getSumOfApprovedLeaves(String employeeID,String leaveTypeID) {
 		
-		return ALRepo.getSumOfApprovedLeaves(employeeID,leaveTypeID);
+		if(ALRepo.getSumOfApprovedLeaves(employeeID,leaveTypeID) == null) {
+			return 0;
+		} else {
+			return Integer.valueOf(ALRepo.getSumOfApprovedLeaves(employeeID,leaveTypeID));
+		}
+		
 	}
 	
 	public int getSumOfApprovedLeavesHalf(String employeeID,String leaveTypeID) {
 		
-		return ALRepo.getSumOfApprovedLeavesHalf(employeeID,leaveTypeID);
+		if(ALRepo.getSumOfApprovedLeavesHalf(employeeID,leaveTypeID) == null) {
+			return 0;
+		} else {
+			return Integer.valueOf(ALRepo.getSumOfApprovedLeavesHalf(employeeID,leaveTypeID));
+		}
+
+	}
+
+	public void updateApprovedStatus(String applyLeaveID) {
+		ALRepo.updateApprovedStatus(applyLeaveID);	
 	}
 }

@@ -18,8 +18,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.navitsa.hrm.entity.ApplyLeave_Entity;
 import com.navitsa.hrm.entity.DepartmentMaster;
+import com.navitsa.hrm.entity.Employee;
 import com.navitsa.hrm.service.ApplyLeave_Service;
 import com.navitsa.hrm.service.DepartmentService;
+import com.navitsa.hrm.service.EmployeeService;
 import com.navitsa.hrm.service.LeaveReportService;
 
 import com.navitsa.hrm.utils.ReportViewe;
@@ -36,6 +38,9 @@ public class LeaveReportController {
 	@Autowired
 	private DepartmentService departmentService;
 	
+	@Autowired
+	private EmployeeService empService;
+	
 	
 	@GetMapping("/leaveSummaryReport")
 	public String leaveReport() {
@@ -48,14 +53,22 @@ public class LeaveReportController {
 		return departmentService.getAllDep();
 	}
 	
+	@ModelAttribute("EmpAll")
+	public List<Employee> findAllEmp(){
+		return empService.getAllEmp();
+	}
+	
 
 	@GetMapping("/leaveReport")
-	 public ModelAndView getTestCertificate(@RequestParam String dep_id,
+	 public ModelAndView getLeaveSummaryReport(@RequestParam String dep_id,
+			 @RequestParam String employee_id,
 			 HttpSession session,HttpServletResponse response)
 	 {
 		ModelAndView mav = new ModelAndView("hrm/leaveReport");
 		
-		List<ApplyLeave_Entity> appliedLeaves = applyLeaveService.getappliedLeaves(dep_id);
+		System.out.println("Employee id "+employee_id);
+		
+		List<ApplyLeave_Entity> appliedLeaves = applyLeaveService.getappliedLeaves(dep_id,employee_id);
 		for(ApplyLeave_Entity x : appliedLeaves) {
 			System.out.println(x.getDesc());
 		}

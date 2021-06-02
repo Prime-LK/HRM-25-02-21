@@ -1,5 +1,7 @@
 package com.navitsa.hrm.entity;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -22,14 +24,21 @@ public class ApplyLeave_Entity {
 	@Column(name = "Days")
 	private int days;
 	
-	@Column(name = "Time")
-	private String time;
+	@Column(name = "Dates")
+	private String dates;
 	
 	@Column(name = "Description")
 	private String desc;
 	
 	@Column(name = "Approved")
 	private Boolean approved;
+	
+	@Column(name = "create_time")
+	private Date createTime;
+	
+	@ManyToOne(optional=false, fetch = FetchType.EAGER)
+	@JoinColumn(name="CompanyID", referencedColumnName="Company_ID")
+	private CompanyMaster company;
 	
 	@ManyToOne(optional = false, fetch = FetchType.EAGER)
 	@JoinColumn(name = "Department_ID", referencedColumnName = "Department_ID")
@@ -43,10 +52,6 @@ public class ApplyLeave_Entity {
 	@JoinColumn(name = "leaveCode", referencedColumnName = "leaveCode")
 	private leaveClass leaveType;
 	
-	@ManyToOne(optional=false, fetch = FetchType.EAGER)
-	@JoinColumn(name="CompanyID", referencedColumnName="Company_ID")
-	private CompanyMaster company;
-
 	public String getLeaveID() {
 		return leaveID;
 	}
@@ -69,14 +74,6 @@ public class ApplyLeave_Entity {
 
 	public void setDays(int days) {
 		this.days = days;
-	}
-
-	public String getTime() {
-		return time;
-	}
-
-	public void setTime(String time) {
-		this.time = time;
 	}
 
 	public String getDesc() {
@@ -127,19 +124,38 @@ public class ApplyLeave_Entity {
 		this.approved = approved;
 	}
 
-	public ApplyLeave_Entity(String leaveID, String type, int days, String time, String desc, Boolean approved,
-			DepartmentMaster department, Employee employee, leaveClass leaveType, CompanyMaster company) {
+	public Date getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
+
+	public String getDates() {
+		return dates;
+	}
+
+	public void setDates(String dates) {
+		this.dates = dates;
+	}
+
+
+	public ApplyLeave_Entity(String leaveID, String type, int days, String dates, String desc, Boolean approved,
+			Date createTime, CompanyMaster company, DepartmentMaster department, Employee employee,
+			leaveClass leaveType) {
 		super();
 		this.leaveID = leaveID;
 		this.type = type;
 		this.days = days;
-		this.time = time;
+		this.dates = dates;
 		this.desc = desc;
 		this.approved = approved;
+		this.createTime = createTime;
+		this.company = company;
 		this.department = department;
 		this.employee = employee;
 		this.leaveType = leaveType;
-		this.company = company;
 	}
 
 	public ApplyLeave_Entity() {

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="leave_report" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="7731ef15-db55-4067-b2a7-f5e45ebd5852">
-	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<style name="Crosstab Data Text" hAlign="Center"/>
@@ -20,45 +20,58 @@
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="26" splitType="Stretch">
+		<band height="81" splitType="Stretch">
 			<staticText>
-				<reportElement x="10" y="0" width="244" height="26" uuid="28f139e9-debb-4a27-b26e-8bc906a2060d"/>
-				<textElement>
-					<font size="18" isBold="true"/>
+				<reportElement x="0" y="0" width="555" height="21" uuid="28f139e9-debb-4a27-b26e-8bc906a2060d"/>
+				<textElement textAlignment="Center">
+					<font size="16" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Leave Report]]></text>
 			</staticText>
-		</band>
-	</title>
-	<pageHeader>
-		<band height="100">
 			<textField>
-				<reportElement x="10" y="12" width="244" height="20" uuid="63d4ff9c-3535-41cd-8cfd-d6bb6c4d6dda"/>
-				<textElement>
-					<font size="12" isBold="true"/>
+				<reportElement x="0" y="21" width="555" height="20" uuid="63d4ff9c-3535-41cd-8cfd-d6bb6c4d6dda"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{companyName}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="10" y="42" width="244" height="20" uuid="8e74cc49-1b35-4b0e-a871-4747f8a2bba0"/>
+				<reportElement x="0" y="41" width="555" height="20" uuid="8e74cc49-1b35-4b0e-a871-4747f8a2bba0"/>
+				<textElement textAlignment="Center">
+					<font size="12"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$P{companyAddress}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="10" y="73" width="244" height="20" uuid="4a4d832a-4b7b-45f0-9b8a-adc6a786a0fa"/>
+				<reportElement x="0" y="61" width="555" height="20" uuid="4a4d832a-4b7b-45f0-9b8a-adc6a786a0fa"/>
+				<textElement textAlignment="Center">
+					<font size="12"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$P{companyContactNo}]]></textFieldExpression>
 			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="50">
 			<textField>
-				<reportElement x="376" y="32" width="179" height="20" uuid="564e12ec-3b3e-48cb-a0ab-3b9e66b11b5a"/>
+				<reportElement x="100" y="1" width="179" height="15" uuid="564e12ec-3b3e-48cb-a0ab-3b9e66b11b5a"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$P{departmentName}]]></textFieldExpression>
 			</textField>
 			<line>
-				<reportElement x="10" y="93" width="545" height="1" uuid="005d282f-17f3-4264-af88-d17725978252"/>
+				<reportElement x="0" y="0" width="555" height="1" uuid="005d282f-17f3-4264-af88-d17725978252"/>
 			</line>
 			<textField pattern="dd/MM/yyyy h.mm a">
-				<reportElement x="376" y="69" width="180" height="20" uuid="f627b425-7473-475a-b650-5eb550b7dd3f"/>
+				<reportElement x="375" y="28" width="180" height="20" uuid="f627b425-7473-475a-b650-5eb550b7dd3f"/>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
+			<line>
+				<reportElement x="0" y="48" width="555" height="1" uuid="22f182b1-b0f4-414b-9ad3-0575e6f4d75a"/>
+			</line>
+			<staticText>
+				<reportElement x="0" y="1" width="100" height="15" uuid="19602d36-2196-4406-acfa-47d92fe7e115"/>
+				<text><![CDATA[Department	:]]></text>
+			</staticText>
 		</band>
 	</pageHeader>
 	<summary>

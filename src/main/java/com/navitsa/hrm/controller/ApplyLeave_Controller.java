@@ -1,5 +1,6 @@
 package com.navitsa.hrm.controller;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -7,6 +8,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -85,19 +87,30 @@ public class ApplyLeave_Controller {
 	}
 	
 	@RequestMapping(value = "/applyLeave", method = RequestMethod.POST)
-	public String applyLeave(@ModelAttribute("applyleave") ApplyLeave_Entity applyleave,
-			RedirectAttributes redirectAttributes) {
-		try {
-			applyleave.setLeaveID("00000".substring(ALService.getMaxID().length()) + ALService.getMaxID());
-			applyleave.setApproved(false);
+	public String applyLeave(@ModelAttribute("applyleave") ApplyLeave_Entity applyleave, 
+			RedirectAttributes ra) {
+		
+		String[] dates;
+		dates = applyleave.getDates().split(",");
+		
+		if(dates.length>0) {
+
+			try {
+				applyleave.setLeaveID("00000".substring(ALService.getMaxID().length()) + ALService.getMaxID());
+				applyleave.setApproved(false);
+				applyleave.setDays(dates.length);
+				applyleave.setCreateTime(new Date());
+				
+				ALService.applyLeave(applyleave);
+				
+				ra.addFlashAttribute("success", 1);
+				return "redirect:/applyLeaves";	
+			} catch (Exception e) {
+				System.out.println(e); 
+			}
 			
-			ALService.applyLeave(applyleave);
-			
-			redirectAttributes.addFlashAttribute("success", 1);
-			return "redirect:/applyLeaves";	
-		} catch (Exception e) {
-			System.out.println(e); 
 		}
+		
 		return "hrm/applyLeaves";
 
 	}
@@ -140,11 +153,77 @@ public class ApplyLeave_Controller {
 				}
 				
 			} catch (Exception e) {
+				System.out.println(e);
 				msg = "TOTAL "+empCat+" "+leaveTypeID+" : "+noOfDays+"\n"+"Balance Leaves : "+noOfDays;
 			}
 		
 		}
 		return msg;
+		
+	}
+	
+	
+	@GetMapping("/leaveApplied")
+	public String leaveApplied() {
+		
+		return "hrm/applyLeaveConfirmation";
+	}
+	
+	@RequestMapping(value = "/updateApprovedStatus", method = RequestMethod.POST)
+	public String updateApprovedStatus(@RequestParam String applyLeaveID,
+			@RequestParam Boolean approved,
+			RedirectAttributes ra) {
+		try {
+			
+			if(approved==true)
+				ALService.updateApprovedStatus(applyLeaveID);
+			
+			ra.addFlashAttribute("success", 1);
+			return "redirect:/leaveApplied";	
+		} catch (Exception e) {
+			System.out.println(e); 
+		}
+		return "hrm/applyLeaveConfirmation";
+
+	}
+	
+	@RequestMapping(value="/getEmployeeByDepartmentID", method=RequestMethod.GET)
+	public @ResponseBody void getEmployeeByDepartmentID(
+			@RequestParam String departmentID) {
+		
+		System.out.println(departmentID);
+		
+		//List<Employee> ls = empService.
+		//return ls;
+		
+	}
+	
+	@RequestMapping(value="/getBalanceLeaveSum", method=RequestMethod.GET)
+	public @ResponseBody double getBalanceLeaveSum(@RequestParam String employeeID,
+			@RequestParam String leaveTypeID) {
+
+		Employee employee =  empService.getEmp(employeeID);
+		String empCat = employee.getEmployeeCategory();
+		
+		double balanceLeaves = 0;
+		
+		String noOfDays = empEntitlementService.findByIDs(leaveTypeID,empCat);
+			
+			try {
+				
+				int sumOfApprovedLeavesFull =  ALService.getSumOfApprovedLeaves(employeeID,leaveTypeID);
+				int sumOfApprovedLeavesHalf =  ALService.getSumOfApprovedLeavesHalf(employeeID,leaveTypeID);
+				double sumOfAllLeaves = sumOfApprovedLeavesFull + sumOfApprovedLeavesHalf/2.0;
+				
+				balanceLeaves = Integer.valueOf(noOfDays)  - sumOfAllLeaves;
+				
+				
+			} catch (Exception e) {
+				System.out.println(e);
+			}
+		
+		System.out.println("Balance Leave Sum "+balanceLeaves);
+		return balanceLeaves;
 		
 	}
 	

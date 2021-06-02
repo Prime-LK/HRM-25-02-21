@@ -131,7 +131,8 @@
 							<li><a href="calanderOpen"> <span class="sub-item">Calendar</span></a></li>
 							<li><a href="leaveTypes"> <span class="sub-item">Leave Types</span></a></li>
 							<li><a href="employeeEntitlements"> <span class="sub-item">Employee Entitlements</span></a></li>
-							<li><a href="applyLeaves"> <span class="sub-item">Leave Apply</span></a></li>
+							<li><a href="applyLeaves"> <span class="sub-item">Apply for Leave</span></a></li>
+							<li><a href="leaveApplied"> <span class="sub-item">Approval of Leave</span></a></li>
 						</ul>
 					</div></li>
 					

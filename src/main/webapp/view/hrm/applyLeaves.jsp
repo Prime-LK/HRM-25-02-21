@@ -34,7 +34,7 @@
 					<div class="page-inner py-3">
 						<div class="d-flex align-items-left align-items-md-center flex-column flex-md-row">
 							<div class="col-xl col-lg">
-								 <h2 class="text-white pb-2 fw-bold">Leave Apply</h2>
+								 <h2 class="text-white pb-2 fw-bold">Apply for Leave</h2>
 							</div>
 
 						</div>
@@ -48,7 +48,7 @@
 			                <div class="card-body">
 			                
 								<div class="row">
-									<div class="col-xl col-md-6 mb-4">
+									<div class="col-xl mb-4">
 
 					                	<c:if test = "${success ==1}">
 											<div class="alert alert-success alert-dismissible">
@@ -63,14 +63,14 @@
 										  </div>
 										</c:if>
 										
-										<form:form action="applyLeave" method="post" onSubmit="return validateForm()" modelAttribute="applyleave">
+										<form:form action="applyLeave" method="post" modelAttribute="applyleave" id="form1">
 										
 											<form:input type="hidden" path="leaveID"/>
 											<form:input type="hidden" path="company.comID"/>
 											
 											
 					                		<div class="form-group row">
-												<div class="col-lg-8">
+												<div class="col-lg">
 													<label>Department</label>
 													<form:select class="form-control form-control-sm" id="department"
 														path="department.depID" required="">
@@ -84,10 +84,10 @@
 
 											</div>
 											<div class="form-group row">
-												<div class="col-lg-8">
+												<div class="col-lg">
 													<label>Employee</label>
 													<form:select class="form-control form-control-sm" id="employee"
-														path="employee.empID" required="" onchange="getAppliedLeaves(this.value)">
+														path="employee.empID" required="" onchange="getAppliedLeave(this.value);getBalanceLeaveMsg();getBalanceLeaveSum()">
 														<form:option value="">--Select--</form:option>
 														<c:forEach items="${EmpAll}" var="emp">
 															<form:option value="${emp.empID}">${emp.name} ${emp.lastname}</form:option>
@@ -96,67 +96,75 @@
 												</div>
 											</div>
 											<div class="form-group row">
-												<div class="col-lg-8">
+												<div class="col-lg">
 													<label>Leave Type</label>
 													<form:select class="form-control form-control-sm" id="leaveType"
-														path="leaveType.leaveCode" required="" onchange="getBalanceLeaves(this.value)">
+														path="leaveType.leaveCode" required="" onchange="getBalanceLeaveMsg();getBalanceLeaveSum()">
 														<form:option value="" selected="true">--Select--</form:option>
 														<c:forEach items="${leaveAll}" var="l">
 															<form:option value="${l.leaveCode}">${l.leaveType}</form:option>
 														</c:forEach>
 													</form:select>
+													
+													<div class="alert alert-warning alert-dismissible" id="validateMsgBox" style="display:none">
+													  <strong>Info!</strong> <div id="validateMsg"><span></span></div>
+													</div>
+							
 												</div>
-											</div>
+											</div>						
 
-											<div class="form-group row">
-												<div class="col-lg-8">
-													<label>Full / Half</label>
-													<form:select class="form-control form-control-sm" id="type"
-														path="type" required="">
-														<form:option value="" selected="true">--Select--</form:option>
-														<form:option value="Full">Full</form:option>
-														<form:option value="Half">Half</form:option>
-													</form:select>
-												</div>
-											</div>
-											<div class="form-group row">
-												<div class="col-lg-8">
-													<label>From</label>
-													<input type="date" class="form-control form-control-sm" id="from"  required/>
-												</div>
-											</div>
-											<div class="form-group row">
-												<div class="col-lg-8">
-													<label>To</label>
-													<input type="date" class="form-control form-control-sm"  id="to" onchange="getDayCount()" required/>
-												</div>
-											</div>
-											<form:input type="hidden" path="days" id="days"/>
-											<div class="form-group row">
-												<div class="col-lg-8">
-													<label>Description</label>
-													<form:textarea class="form-control" id="dec" path="desc" placeholder="" required="" />
-												</div>
-											</div>
-											<div class="form-group row">
-												<div class="col-lg-8">
-													<input type="submit" class="btn btn-success btn-sm" value="Apply Leave">
-													<input type="reset" class="btn btn-warning btn-sm" value="Clear">
-												</div>
-											</div>
-										</form:form>
-					                
+										</form:form>			                
 
 									</div>
-									<div class="col-xl col-md-6 mb-4">
+									<div class="col-xl mb-4">
 									
+											<div class="form-group row">
+												<div class="col-lg-4">
+													<label>Full / Half</label>
+													<select class="form-control form-control-sm" id="type"
+														name="type" onchange="getBalanceLeaveSum()" form="form1" required>
+														<option value="Full" selected>Full</option>
+														<option value="Half">Half</option>
+													</select>
+												</div>
+											</div>
+											
+											<div class="form-group row">
+												<div class="col-lg">
+													
+													<div id="dateTimePicker"></div>
+													<input type="hidden" name="dates" id="my_hidden_input" form="form1">
+													
+												</div>
+											</div>
+																			
+									</div>
+									<div class="col-xl mb-4">
+											<div class="form-group row">
+												<div class="col-lg">
+													<label>Remarks</label>
+													<textarea class="form-control" id="dec" name="desc" form="form1"></textarea>
+												</div>
+											</div>
+											<div class="form-group row">
+												<div class="col-lg">
+													<input type="submit" class="btn btn-success btn-sm" value="Apply Leave" form="form1">
+													<input type="reset" class="btn btn-warning btn-sm" value="Clear" form="form1">
+												</div>
+											</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-xl">
 										<div class="table-responsive">
-											<table class="table table-striped">
-												<thead>
+											<table class="table" id="table1">
+												<thead class="thead-light">
 													<tr>
+														<td></td>
 														<th>Leave Type</th>													
 														<th>Full / Half</th>
-														<th>Days</th>
+														<th>Day(s)</th>
+														<th>Date(s)</th>
 														<th>Approved</th>
 													</tr>
 												</thead>
@@ -165,8 +173,6 @@
 												</tbody>
 											</table>
 										</div>
-
-																			
 									</div>
 								</div>
 
@@ -183,23 +189,11 @@
 <%@include file="../../WEB-INF/jsp/commJs.jsp"%>
 
 <script>
-function getDayCount() {
-	
-	var s = document.getElementById("from").value;
-	var start = new Date(s);
-	var e = document.getElementById("to").value;
-	var end = new Date(e);
 
-	var res = Math.abs(start - end) / 1000;
-	var days = Math.floor(res / 86400);
-	
-	document.getElementById("days").value = days;
-}
-
-function getAppliedLeaves(str)
+function getAppliedLeave(str)
 {
 	if (str=="") {
-       	$("table tbody").empty();
+       	$("#table1 tbody").empty();
        	return;
        	
 	}else{
@@ -209,16 +203,16 @@ function getAppliedLeaves(str)
 		    data: {"employeeID" : str},
 		    success: function(data){
 
-		    	$("table tbody").empty();
+		    	$("#table1 tbody").empty();
 				for(var i=0; i<data.length; i++){
 					
 					if(data[i].approved == true)
-						var markup = "<tr><td>"+data[i].leaveType.leaveType+"</td><td>"+data[i].type+"</td><td>" + data[i].days + "</td><td style='background-color:#00FF00'>Yes</td></tr>";
+						var markup = "<tr class='table-success'><td>"+data[i].createTime+"</td><td>"+data[i].leaveType.leaveType+"</td><td>"+data[i].type+"</td><td>" + data[i].days + "</td><td>"+data[i].dates+"</td><td>Yes</td></tr>";
 					else
-						var markup = "<tr><td>"+data[i].leaveType.leaveType+"</td><td>"+data[i].type+"</td><td>" + data[i].days + "</td><td>Pending</td></tr>";
+						var markup = "<tr class='table-warning'><td>"+data[i].createTime+"</td><td>"+data[i].leaveType.leaveType+"</td><td>"+data[i].type+"</td><td>" + data[i].days + "</td><td>"+data[i].dates+"</td><td>Pending</td></tr>";
 		       		 
 					
-					$("table tbody").append(markup);
+					$("#table1 tbody").append(markup);
 		       	 }
 
 		    },
@@ -237,10 +231,12 @@ $(document).ready(function(){
    
 });
 
-function getBalanceLeaves(str) {
+function getBalanceLeaveMsg() {
 	
 	var employeeID = document.getElementById("employee").value;
-	if (str=="" || employeeID=="") {
+	var leaveTypeID = document.getElementById("leaveType").value;
+	
+	if (leaveTypeID=="" || employeeID=="") {
        	//$("table tbody").empty();
        	return;
        	
@@ -248,22 +244,12 @@ function getBalanceLeaves(str) {
 			$.ajax({
 		    type: 'GET',
 		    url: "getBalanceLeaves",
-		    data: {"employeeID":employeeID, "leaveTypeID":str},
+		    data: {"employeeID":employeeID, "leaveTypeID":leaveTypeID},
 		    success: function(data){
-
-/* 		    	$("table tbody").empty();
-				for(var i=0; i<data.length; i++){
-					
-					if(data[i].approved == true)
-						var markup = "<tr><td>"+data[i].leaveType.leaveType+"</td><td>"+data[i].type+"</td><td>" + data[i].days + "</td><td style='background-color:#00FF00'>Yes</td></tr>";
-					else
-						var markup = "<tr><td>"+data[i].leaveType.leaveType+"</td><td>"+data[i].type+"</td><td>" + data[i].days + "</td><td>Pending</td></tr>";
-		       		 
-					
-					$("table tbody").append(markup);
-		       	 } */
 		       	 
-		       	 alert(data);
+				$('#validateMsg span').text(data);
+				document.getElementById("validateMsg").style.fontSize = "small";
+				document.getElementById("validateMsgBox").style.display = "block";
 
 		    },
 		    error:function(){
@@ -274,9 +260,69 @@ function getBalanceLeaves(str) {
 	}
 }
 
+
+function getBalanceLeaveSum() {
+	
+	var employeeID = document.getElementById("employee").value;
+	var leaveTypeID = document.getElementById("leaveType").value;
+	var type = document.getElementById("type").value;
+	
+	
+	if (leaveTypeID=="" || employeeID=="" || type=="") {	
+       	return;  	
+	}else{
+			$.ajax({
+		    type: 'GET',
+		    url: "getBalanceLeaveSum",
+		    data: {"employeeID":employeeID, "leaveTypeID":leaveTypeID},
+		    success: function(data){
+		    	if(type=="Half"){
+		    		data = data*2;
+		    	}
+		    	  var new_options = {
+		    			    format: "dd/mm/yyyy",
+		    			    todayBtn: "linked",
+		    			    multidate: data,
+		    			    multidateSeparator: ",",
+		    			    daysOfWeekDisabled: "0,6",
+		    			    daysOfWeekHighlighted: "0,6",
+		    			    todayHighlight: true
+		    			  }
+    			  // Destroy previous datepicker
+    			  $('#dateTimePicker').datepicker('destroy');
+    			  // Re-int with new options
+    			  $('#dateTimePicker').datepicker(new_options);
+
+		    },
+		    error:function(){
+		        alert("error");
+		    }
+		
+		});
+	}
+}
+
+
+$('#dateTimePicker').datepicker({
+    format: "dd/mm/yyyy",
+    todayBtn: "linked",
+    multidate: true,
+    multidateSeparator: ",",
+    daysOfWeekDisabled: "0,6",
+    daysOfWeekHighlighted: "0,6",
+    todayHighlight: true
+});
+
+
+
+$('#dateTimePicker').on('changeDate', function() {
+    $('#my_hidden_input').val(
+        $('#dateTimePicker').datepicker('getFormattedDate')
+    );
+})
+
 </script>
 
-<script src="<c:url value='/resources/hrm/js/select2/select2.min.js'/>"></script>
 
 
 </body>

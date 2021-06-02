@@ -65,6 +65,19 @@
 		
 										</div>
 									</div>
+									<div class="form-group row">
+										<div class="col-lg">
+											<label>Employee</label>
+											<select class="form-control form-control-sm" id="employee"
+												name="employee_id">
+												<option value="" selected>--Select--</option>
+												<c:forEach items="${EmpAll}" var="emp">
+													<option value="${emp.empID}">${emp.name} ${emp.lastname}</option>
+												</c:forEach>
+											</select>
+										</div>
+									</div>
+											
 			                		<div class="form-group row">
 										<div class="col-lg">
 											<button type="submit" class="btn  btn-block btn-danger btn-rounded" >
