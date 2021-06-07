@@ -36,4 +36,8 @@ public class CalanderService {
 	public CalanderEntity setCalenderDetails(String date) {
 		return calanderRepo.setCalanderDetails(date);
 	}
+
+	public List<CalanderEntity> saveEmpMoDe(List<CalanderEntity> list) {
+		return (List<CalanderEntity>) calanderRepo.saveAll(list);
+	}
 }

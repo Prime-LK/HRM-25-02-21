@@ -1,6 +1,8 @@
 package com.navitsa.hrm.controller;
 
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,9 +56,34 @@ public class CalanderController {
 	 */
 	
 	@RequestMapping(value = "/saveCalander", method = RequestMethod.POST)
-	public String savecalander(@ModelAttribute("calander") CalanderEntity calander) {
-		calanderService.savecalander(calander);
-		return "redirect:/hrm/calanderOpen";
+	public String savecalander(@ModelAttribute("calander") CalanderEntity calander,
+			/* @RequestParam("ID") Integer ID, */
+			@RequestParam("date") ArrayList<String> date, @RequestParam("calander_ID") ArrayList<String> calander_ID,
+			@RequestParam("description") ArrayList<String> description, @RequestParam("types") ArrayList<String> types,
+			@RequestParam(value = "company_ID", required = false) String company_ID,
+			@RequestParam(value = "status", required = false) String status) {
+
+		List<CalanderEntity> list = new ArrayList<CalanderEntity>();
+
+		for (int dat = 1, cID = 0, dec = 0, type = 0; dat < date.size() && cID < calander_ID.size()
+				&& dec < description.size() && type < types.size(); dat++, cID++, dec++, type++) {
+				
+				CalanderEntity d = new CalanderEntity();
+				
+				d.setDate(date.get(dat));
+				d.setCalander_ID(calander_ID.get(cID));
+				d.setDescription(description.get(dec));
+				d.setTypes(types.get(type));
+				d.setStatus("");
+				d.setCompany_ID("");
+
+			  list.add(d);
+			 
+		}
+
+		calanderService.saveEmpMoDe(list);
+		
+		return "redirect:/calanderOpen";
 	}
 
 	@RequestMapping(value = "/UpdateCalander", method = RequestMethod.GET)
