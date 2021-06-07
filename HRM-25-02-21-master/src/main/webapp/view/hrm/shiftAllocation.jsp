@@ -153,7 +153,7 @@
 														<div class="col-sm-3">
 															<label>Shift</label> <select id="shiftId" name="shiftId"
 																class="form-control text-capitalize" required
-																onchange="loadShiftById(); ">
+																onchange="loadShiftById(); loadShiftsByDateRange();">
 																<option value="" disabled selected>Select Shift</option>
 																<c:forEach items="${shiftList}" var="s">
 																	<option value="${s.shiftId}">${s.description}</option>
@@ -245,7 +245,8 @@
 											<div class="card-body">
 												<div class="table-responsive" style="max-height: 500px">
 													<table class="table table-sm table-hover table-bordered"
-														id="dataTable" width="100%" height="500px" cellspacing="0">
+														id="dataTable" style="width:100%" cellspacing="0">
+
 														<thead>
 															<tr>
 																<th>Date</th>

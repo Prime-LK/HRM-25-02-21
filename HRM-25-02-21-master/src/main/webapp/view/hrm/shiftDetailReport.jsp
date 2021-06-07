@@ -207,7 +207,7 @@
 											<div class="card-body">
 												<div class="table-responsive" style="max-height: 500px">
 													<table class="table table-sm table-hover table-bordered"
-														id="dataTable" width="100%" height="500px" cellspacing="0">
+														id="dataTable" style="width:100%;">
 														<thead>
 															<tr>
 																<th>Date</th>

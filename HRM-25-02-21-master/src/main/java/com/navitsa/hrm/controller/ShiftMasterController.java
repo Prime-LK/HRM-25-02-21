@@ -44,7 +44,7 @@ public class ShiftMasterController {
 		} else {
 			try {
 				shiftMasterService.saveShift(shift);
-				return "redirect:/hrm/ShiftMaster";
+				return "redirect:/ShiftMaster";
 			} catch (Exception e) {
 				System.out.println("Details Not Saved");
 			}
@@ -61,7 +61,7 @@ public class ShiftMasterController {
 	// update shift master
 	@GetMapping("/updateShiftMaster")
 	public ModelAndView updateShiftMaster(@RequestParam String id, HttpSession session) {
-		ModelAndView mav = new ModelAndView("shiftMaster");// jsp
+		ModelAndView mav = new ModelAndView("hrm/shiftMaster");// jsp
 		String companyId = session.getAttribute("company.comID").toString();
 		ShiftMaster shiftMaster = shiftMasterService.findShiftById2(id, companyId);
 		mav.addObject("ShiftMaster", shiftMaster);// model attribute name and object

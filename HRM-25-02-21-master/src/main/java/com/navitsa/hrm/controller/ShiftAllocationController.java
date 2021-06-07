@@ -1,14 +1,13 @@
 package com.navitsa.hrm.controller;
 
-import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.sql.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -22,7 +21,6 @@ import com.navitsa.hrm.entity.EmployeeDetails;
 import com.navitsa.hrm.entity.ShiftAllocation;
 import com.navitsa.hrm.entity.ShiftAllocationPK;
 import com.navitsa.hrm.entity.ShiftMaster;
-import com.navitsa.hrm.report.AttendanceSubReportBean;
 import com.navitsa.hrm.report.ShiftAllocationBean;
 import com.navitsa.hrm.service.DepartmentService;
 import com.navitsa.hrm.service.EmployeeService;
@@ -102,92 +100,93 @@ public class ShiftAllocationController {
 			shiftAllocation.setDepartment(result[i][9]);
 			list.add(shiftAllocation);
 		}
+		System.out.println(list.size());
 		return list;
 	}
 
-//	@Async
-//	@PostMapping("/assignShift")
-//	public String assignShift(@RequestParam("startDate") String startDate, @RequestParam("endDate") String endDate,
-//			@RequestParam("shiftId") String shiftId, @RequestParam("shiftName") String shiftName,
-//			@RequestParam("startTime") String startTime, @RequestParam("endTime") String endTime,
-//			@RequestParam("departmentId") String departmentId, @RequestParam("departmentName") String departmentName,
-//			@RequestParam(value = "employeeId", required = false) String employeeId,
-//			@RequestParam(value = "allEmployees", required = false) int allEmployees,
-//			@RequestParam(value = "companyId", required = false) String companyId) {
-//
-//		String empId;
-//		String employeeName;
-//		List<ShiftAllocation> list = new ArrayList<>();
-//
-//		Date d1;
-//		Date d2;
-//
-//		d1 = Date.valueOf(startDate);
-//		d2 = Date.valueOf(endDate);
-//
-//		try {
-//
-//			if (allEmployees == 1) {
-//
-//				//List<EmployeeDetails> department = employeeService.filterRelatedData(departmentId);
-//				List<EmployeeDetails> department = employeeService.filterEmployeesByDepartmentAndCompany(departmentId,
-//						companyId);
-//
-//				for (int i = 0; i < department.size(); i++) {
-//					empId = department.get(i).getDetailsPK().getEmpID().getEmpID().toString();
-//					employeeName = department.get(i).getDetailsPK().getEmpID().getName().toString() + " "
-//							+ department.get(i).getDetailsPK().getEmpID().getLastname();
-//					System.out.println(empId);
-//					for (LocalDate date = d1.toLocalDate(); date
-//							.isBefore(d2.toLocalDate().plusDays(1)); date = date.plusDays(1)) {
-//						ShiftAllocationPK shiftAllocationPK = new ShiftAllocationPK();
-//						ShiftAllocation allocation = new ShiftAllocation();
-//						Date shiftDate = Date.valueOf(date);
-//						shiftAllocationPK.setDate(shiftDate);
-//						shiftAllocationPK.setShiftId(shiftId);
-//						shiftAllocationPK.setEmployeeId(empId);
-//						allocation.setShiftAllocationPK(shiftAllocationPK);
-//						allocation.setShiftName(shiftName);
-//						allocation.setStartTime(startTime);
-//						allocation.setEndTime(endTime);
-//						allocation.setEmployeeName(employeeName);
-//						allocation.setDepartmentId(departmentId);
-//						allocation.setDepartmentName(departmentName);
-//						allocation.setCompanyId(companyId);
-//						list.add(allocation);
-//					}
-//				}
-//				shiftAllocationService.saveShiftAllocations(list);
-//			} else if (allEmployees == 0) {
-//
-//				Employee employee = employeeService.getEmployeeByCompany(employeeId, companyId);
-//				employeeName = employee.getName() + " " + employee.getLastname();
-//
-//				for (LocalDate date = d1.toLocalDate(); date
-//						.isBefore(d2.toLocalDate().plusDays(1)); date = date.plusDays(1)) {
-//					ShiftAllocationPK shiftAllocationPK = new ShiftAllocationPK();
-//					ShiftAllocation allocation = new ShiftAllocation();
-//					Date shiftDate = Date.valueOf(date);
-//					shiftAllocationPK.setDate(shiftDate);
-//					shiftAllocationPK.setShiftId(shiftId);
-//					shiftAllocationPK.setEmployeeId(employeeId);
-//					allocation.setShiftAllocationPK(shiftAllocationPK);
-//					allocation.setShiftName(shiftName);
-//					allocation.setStartTime(startTime);
-//					allocation.setEndTime(endTime);
-//					allocation.setEmployeeName(employeeName);
-//					allocation.setDepartmentId(departmentId);
-//					allocation.setDepartmentName(departmentName);
-//					allocation.setCompanyId(companyId);
-//					list.add(allocation);
-//				}
-//				shiftAllocationService.saveShiftAllocations(list);
-//			}
-//			return "redirect:/ShiftAllocation";
-//
-//		} catch (Exception e) {
-//			System.out.println("Error");
-//		}
-//		return "ShiftAllocation";
-//	}
+	@PostMapping("/assignShift")
+	public String assignShift(@RequestParam("startDate") String startDate, @RequestParam("endDate") String endDate,
+			@RequestParam("shiftId") String shiftId, @RequestParam("shiftName") String shiftName,
+			@RequestParam("startTime") String startTime, @RequestParam("endTime") String endTime,
+			@RequestParam("departmentId") String departmentId, @RequestParam("departmentName") String departmentName,
+			@RequestParam(value = "employeeId", required = false) String employeeId,
+			@RequestParam(value = "allEmployees", required = false) int allEmployees,
+			@RequestParam(value = "companyId", required = false) String companyId) {
+
+		String empId;
+		String employeeName;
+		List<ShiftAllocation> list = new ArrayList<>();
+
+		Date d1;
+		Date d2;
+
+		d1 = Date.valueOf(startDate);
+		d2 = Date.valueOf(endDate);
+
+		try {
+
+			if (allEmployees == 1) {
+
+				// List<EmployeeDetails> department =
+				// employeeService.filterRelatedData(departmentId);
+				List<EmployeeDetails> department = employeeService.filterEmployeesByDepartmentAndCompany(departmentId,
+						companyId);
+
+				for (int i = 0; i < department.size(); i++) {
+					empId = department.get(i).getDetailsPK().getEmpID().getEmpID().toString();
+					employeeName = department.get(i).getDetailsPK().getEmpID().getName().toString() + " "
+							+ department.get(i).getDetailsPK().getEmpID().getLastname();
+					System.out.println(empId);
+					for (LocalDate date = d1.toLocalDate(); date
+							.isBefore(d2.toLocalDate().plusDays(1)); date = date.plusDays(1)) {
+						ShiftAllocationPK shiftAllocationPK = new ShiftAllocationPK();
+						ShiftAllocation allocation = new ShiftAllocation();
+						Date shiftDate = Date.valueOf(date);
+						shiftAllocationPK.setDate(shiftDate);
+						shiftAllocationPK.setShiftId(shiftId);
+						shiftAllocationPK.setEmployeeId(empId);
+						allocation.setShiftAllocationPK(shiftAllocationPK);
+						allocation.setShiftName(shiftName);
+						allocation.setStartTime(startTime);
+						allocation.setEndTime(endTime);
+						allocation.setEmployeeName(employeeName);
+						allocation.setDepartmentId(departmentId);
+						allocation.setDepartmentName(departmentName);
+						allocation.setCompanyId(companyId);
+						list.add(allocation);
+					}
+				}
+				shiftAllocationService.saveShiftAllocations(list);
+			} else if (allEmployees == 0) {
+
+				Employee employee = employeeService.getEmployeeByCompany(employeeId, companyId);
+				employeeName = employee.getName() + " " + employee.getLastname();
+
+				for (LocalDate date = d1.toLocalDate(); date
+						.isBefore(d2.toLocalDate().plusDays(1)); date = date.plusDays(1)) {
+					ShiftAllocationPK shiftAllocationPK = new ShiftAllocationPK();
+					ShiftAllocation allocation = new ShiftAllocation();
+					Date shiftDate = Date.valueOf(date);
+					shiftAllocationPK.setDate(shiftDate);
+					shiftAllocationPK.setShiftId(shiftId);
+					shiftAllocationPK.setEmployeeId(employeeId);
+					allocation.setShiftAllocationPK(shiftAllocationPK);
+					allocation.setShiftName(shiftName);
+					allocation.setStartTime(startTime);
+					allocation.setEndTime(endTime);
+					allocation.setEmployeeName(employeeName);
+					allocation.setDepartmentId(departmentId);
+					allocation.setDepartmentName(departmentName);
+					allocation.setCompanyId(companyId);
+					list.add(allocation);
+				}
+				shiftAllocationService.saveShiftAllocations(list);
+			}
+			return "redirect:/ShiftAllocation";
+
+		} catch (Exception e) {
+			System.out.println("Error");
+		}
+		return "ShiftAllocation";
+	}
 }

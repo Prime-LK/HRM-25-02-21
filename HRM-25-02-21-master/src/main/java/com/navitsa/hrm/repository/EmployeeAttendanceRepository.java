@@ -22,19 +22,19 @@ public interface EmployeeAttendanceRepository extends CrudRepository<EmployeeAtt
 			@Param("companyId") String companyId);
 
 	@Query(value = "SELECT employee_attendance.attendance_id, employee_attendance.employee_id, shift_allocation.employee_name, shift_allocation.department_id, shift_allocation.department_name,employee_attendance.shift_id, shift_allocation.shift_name,\r\n"
-			+ "DATE_FORMAT(employee_attendance.date, \"%d-%m-%Y\") as date, TIME_FORMAT(shift_allocation.start_time, \"%H:%i\") as start_time, TIME_FORMAT(shift_allocation.end_time, \"%H:%i\") as end_time, employee_attendance.on_time, employee_attendance.off_time,\r\n"
+			+ "DATE_FORMAT(employee_attendance.date, \"%Y-%m-%d\") as date, TIME_FORMAT(shift_allocation.start_time, \"%H:%i\") as start_time, TIME_FORMAT(shift_allocation.end_time, \"%H:%i\") as end_time, employee_attendance.on_time, employee_attendance.off_time,\r\n"
 			+ "employee_attendance.approved\r\n" + "FROM employee_attendance \r\n"
 			+ "INNER JOIN shift_allocation ON employee_attendance.date = shift_allocation.date AND employee_attendance.employee_id = shift_allocation.employee_id AND employee_attendance.shift_id = shift_allocation.shift_id AND employee_attendance.company_id = shift_allocation.company_id WHERE employee_attendance.company_id = :companyId", nativeQuery = true)
 	public List<String> loadAttendances(@Param("companyId") String companyId);
 
-	@Query(value = "SELECT employee_attendance.attendance_id, DATE_FORMAT(employee_attendance.date, \"%d-%m-%Y\"), employee_attendance.employee_id, shift_allocation.employee_name, shift_allocation.department_name, employee_attendance.shift_id, shift_allocation.shift_name, employee_attendance.on_time, employee_attendance.off_time, employee_attendance.approved, employee_attendance.company_id \r\n"
+	@Query(value = "SELECT employee_attendance.attendance_id, DATE_FORMAT(employee_attendance.date, \"%Y-%m-%d\"), employee_attendance.employee_id, shift_allocation.employee_name, shift_allocation.department_name, employee_attendance.shift_id, shift_allocation.shift_name, employee_attendance.on_time, employee_attendance.off_time, employee_attendance.approved, employee_attendance.company_id \r\n"
 			+ "FROM employee_attendance\r\n"
 			+ "INNER JOIN shift_allocation ON employee_attendance.employee_id = shift_allocation.employee_id AND employee_attendance.date = shift_allocation.date AND employee_attendance.shift_id = shift_allocation.shift_id AND employee_attendance.company_id = shift_allocation.company_id\r\n"
 			+ "WHERE employee_attendance.date BETWEEN :startDate AND :endDate AND employee_attendance.company_id = :companyId", nativeQuery = true)
 	public List<String> loadAttendancesByDate(@Param("startDate") String startDate, @Param("endDate") String endDate,
 			@Param("companyId") String companyId);
 
-	@Query(value = "SELECT employee_attendance.attendance_id, DATE_FORMAT(employee_attendance.date, \"%d-%m-%Y\"), employee_attendance.employee_id, shift_allocation.employee_name, shift_allocation.department_name, employee_attendance.shift_id, shift_allocation.shift_name, employee_attendance.on_time, employee_attendance.off_time, employee_attendance.approved, employee_attendance.company_id \r\n"
+	@Query(value = "SELECT employee_attendance.attendance_id, DATE_FORMAT(employee_attendance.date, \"%Y-%m-%d\"), employee_attendance.employee_id, shift_allocation.employee_name, shift_allocation.department_name, employee_attendance.shift_id, shift_allocation.shift_name, employee_attendance.on_time, employee_attendance.off_time, employee_attendance.approved, employee_attendance.company_id \r\n"
 			+ "FROM employee_attendance\r\n"
 			+ "INNER JOIN shift_allocation ON employee_attendance.employee_id = shift_allocation.employee_id AND employee_attendance.date = shift_allocation.date AND employee_attendance.shift_id = shift_allocation.shift_id AND employee_attendance.company_id = shift_allocation.company_id\r\n"
 			+ "WHERE employee_attendance.date BETWEEN :startDate AND :endDate AND shift_allocation.department_id = :departmentId AND employee_attendance.company_id = :companyId", nativeQuery = true)
@@ -42,7 +42,7 @@ public interface EmployeeAttendanceRepository extends CrudRepository<EmployeeAtt
 			@Param("endDate") String endDate, @Param("departmentId") String departmentId,
 			@Param("companyId") String companyId);
 
-	@Query(value = "SELECT employee_attendance.attendance_id, DATE_FORMAT(employee_attendance.date, \"%d-%m-%Y\"), employee_attendance.employee_id, shift_allocation.employee_name, shift_allocation.department_name, employee_attendance.shift_id, shift_allocation.shift_name, employee_attendance.on_time, employee_attendance.off_time, employee_attendance.approved, employee_attendance.company_id \r\n"
+	@Query(value = "SELECT employee_attendance.attendance_id, DATE_FORMAT(employee_attendance.date, \"%Y-%m-%d\"), employee_attendance.employee_id, shift_allocation.employee_name, shift_allocation.department_name, employee_attendance.shift_id, shift_allocation.shift_name, employee_attendance.on_time, employee_attendance.off_time, employee_attendance.approved, employee_attendance.company_id \r\n"
 			+ "FROM employee_attendance\r\n"
 			+ "INNER JOIN shift_allocation ON employee_attendance.employee_id = shift_allocation.employee_id AND employee_attendance.date = shift_allocation.date AND employee_attendance.shift_id = shift_allocation.shift_id AND employee_attendance.company_id = shift_allocation.company_id\r\n"
 			+ "WHERE employee_attendance.date BETWEEN :startDate AND :endDate AND shift_allocation.department_id = :departmentId AND employee_attendance.shift_id = :shiftId AND employee_attendance.approved = :approvalStatus AND employee_attendance.company_id = :companyId", nativeQuery = true)
@@ -51,7 +51,7 @@ public interface EmployeeAttendanceRepository extends CrudRepository<EmployeeAtt
 			@Param("shiftId") String shiftId, @Param("approvalStatus") int approvalStatus,
 			@Param("companyId") String companyId);
 
-	@Query(value = "SELECT employee_attendance.attendance_id, DATE_FORMAT(employee_attendance.date, \"%d-%m-%Y\"), employee_attendance.employee_id, shift_allocation.employee_name, shift_allocation.department_name, employee_attendance.shift_id, shift_allocation.shift_name, employee_attendance.on_time, employee_attendance.off_time, employee_attendance.approved, employee_attendance.company_id \r\n"
+	@Query(value = "SELECT employee_attendance.attendance_id, DATE_FORMAT(employee_attendance.date, \"%Y-%m-%d\"), employee_attendance.employee_id, shift_allocation.employee_name, shift_allocation.department_name, employee_attendance.shift_id, shift_allocation.shift_name, employee_attendance.on_time, employee_attendance.off_time, employee_attendance.approved, employee_attendance.company_id \r\n"
 			+ "FROM employee_attendance\r\n"
 			+ "INNER JOIN shift_allocation ON employee_attendance.employee_id = shift_allocation.employee_id AND employee_attendance.date = shift_allocation.date AND employee_attendance.shift_id = shift_allocation.shift_id AND employee_attendance.company_id = shift_allocation.company_id\r\n"
 			+ "WHERE employee_attendance.date BETWEEN :startDate AND :endDate AND shift_allocation.department_id = :departmentId AND employee_attendance.shift_id = :shiftId AND employee_attendance.company_id = :companyId", nativeQuery = true)
@@ -59,7 +59,7 @@ public interface EmployeeAttendanceRepository extends CrudRepository<EmployeeAtt
 			@Param("endDate") String endDate, @Param("departmentId") String departmentId,
 			@Param("shiftId") String shiftId, @Param("companyId") String companyId);
 
-	@Query(value = "SELECT employee_attendance.attendance_id, DATE_FORMAT(employee_attendance.date, \"%d-%m-%Y\"), employee_attendance.employee_id, shift_allocation.employee_name, shift_allocation.department_name, employee_attendance.shift_id, shift_allocation.shift_name, employee_attendance.on_time, employee_attendance.off_time, employee_attendance.approved, employee_attendance.company_id \r\n"
+	@Query(value = "SELECT employee_attendance.attendance_id, DATE_FORMAT(employee_attendance.date, \"%Y-%m-%d\"), employee_attendance.employee_id, shift_allocation.employee_name, shift_allocation.department_name, employee_attendance.shift_id, shift_allocation.shift_name, employee_attendance.on_time, employee_attendance.off_time, employee_attendance.approved, employee_attendance.company_id \r\n"
 			+ "FROM employee_attendance\r\n"
 			+ "INNER JOIN shift_allocation ON employee_attendance.employee_id = shift_allocation.employee_id AND employee_attendance.date = shift_allocation.date AND employee_attendance.shift_id = shift_allocation.shift_id AND employee_attendance.company_id = shift_allocation.company_id\r\n"
 			+ "WHERE employee_attendance.date BETWEEN :startDate AND :endDate AND shift_allocation.department_id = :departmentId AND employee_attendance.approved = :approvalStatus AND employee_attendance.company_id = :companyId", nativeQuery = true)
@@ -67,7 +67,7 @@ public interface EmployeeAttendanceRepository extends CrudRepository<EmployeeAtt
 			@Param("endDate") String endDate, @Param("departmentId") String departmentId,
 			@Param("approvalStatus") int approvalStatus, @Param("companyId") String companyId);
 
-	@Query(value = "SELECT employee_attendance.attendance_id, DATE_FORMAT(employee_attendance.date, \"%d-%m-%Y\"), employee_attendance.employee_id, shift_allocation.employee_name, shift_allocation.department_name, employee_attendance.shift_id, shift_allocation.shift_name, employee_attendance.on_time, employee_attendance.off_time, employee_attendance.approved, employee_attendance.company_id \r\n"
+	@Query(value = "SELECT employee_attendance.attendance_id, DATE_FORMAT(employee_attendance.date, \"%Y-%m-%d\"), employee_attendance.employee_id, shift_allocation.employee_name, shift_allocation.department_name, employee_attendance.shift_id, shift_allocation.shift_name, employee_attendance.on_time, employee_attendance.off_time, employee_attendance.approved, employee_attendance.company_id \r\n"
 			+ "FROM employee_attendance\r\n"
 			+ "INNER JOIN shift_allocation ON employee_attendance.employee_id = shift_allocation.employee_id AND employee_attendance.date = shift_allocation.date AND employee_attendance.shift_id = shift_allocation.shift_id AND employee_attendance.company_id = shift_allocation.company_id\r\n"
 			+ "WHERE employee_attendance.date BETWEEN :startDate AND :endDate AND shift_allocation.department_id = :departmentId AND employee_attendance.employee_id = :employeeId AND employee_attendance.company_id = :companyId", nativeQuery = true)
@@ -75,7 +75,7 @@ public interface EmployeeAttendanceRepository extends CrudRepository<EmployeeAtt
 			@Param("endDate") String endDate, @Param("departmentId") String departmentId,
 			@Param("employeeId") String employeeId, @Param("companyId") String companyId);
 
-	@Query(value = "SELECT employee_attendance.attendance_id, DATE_FORMAT(employee_attendance.date, \"%d-%m-%Y\"), employee_attendance.employee_id, shift_allocation.employee_name, shift_allocation.department_name, employee_attendance.shift_id, shift_allocation.shift_name, employee_attendance.on_time, employee_attendance.off_time, employee_attendance.approved, employee_attendance.company_id \r\n"
+	@Query(value = "SELECT employee_attendance.attendance_id, DATE_FORMAT(employee_attendance.date, \"%Y-%m-%d\"), employee_attendance.employee_id, shift_allocation.employee_name, shift_allocation.department_name, employee_attendance.shift_id, shift_allocation.shift_name, employee_attendance.on_time, employee_attendance.off_time, employee_attendance.approved, employee_attendance.company_id \r\n"
 			+ "FROM employee_attendance\r\n"
 			+ "INNER JOIN shift_allocation ON employee_attendance.employee_id = shift_allocation.employee_id AND employee_attendance.date = shift_allocation.date AND employee_attendance.shift_id = shift_allocation.shift_id AND employee_attendance.company_id = shift_allocation.company_id\r\n"
 			+ "WHERE employee_attendance.date BETWEEN :startDate AND :endDate AND shift_allocation.department_id = :departmentId AND employee_attendance.employee_id = :employeeId AND employee_attendance.shift_id = :shiftId AND employee_attendance.company_id = :companyId", nativeQuery = true)
@@ -84,7 +84,7 @@ public interface EmployeeAttendanceRepository extends CrudRepository<EmployeeAtt
 			@Param("employeeId") String employeeId, @Param("shiftId") String shiftId,
 			@Param("companyId") String companyId);
 
-	@Query(value = "SELECT employee_attendance.attendance_id, DATE_FORMAT(employee_attendance.date, \"%d-%m-%Y\"), employee_attendance.employee_id, shift_allocation.employee_name, shift_allocation.department_name, employee_attendance.shift_id, shift_allocation.shift_name, employee_attendance.on_time, employee_attendance.off_time, employee_attendance.approved, employee_attendance.company_id \r\n"
+	@Query(value = "SELECT employee_attendance.attendance_id, DATE_FORMAT(employee_attendance.date, \"%Y-%m-%d\"), employee_attendance.employee_id, shift_allocation.employee_name, shift_allocation.department_name, employee_attendance.shift_id, shift_allocation.shift_name, employee_attendance.on_time, employee_attendance.off_time, employee_attendance.approved, employee_attendance.company_id \r\n"
 			+ "FROM employee_attendance\r\n"
 			+ "INNER JOIN shift_allocation ON employee_attendance.employee_id = shift_allocation.employee_id AND employee_attendance.date = shift_allocation.date AND employee_attendance.shift_id = shift_allocation.shift_id AND employee_attendance.company_id = shift_allocation.company_id\r\n"
 			+ "WHERE employee_attendance.date BETWEEN :startDate AND :endDate AND shift_allocation.department_id = :departmentId AND employee_attendance.employee_id = :employeeId AND employee_attendance.approved = :approvalStatus AND employee_attendance.company_id = :companyId", nativeQuery = true)
@@ -93,14 +93,14 @@ public interface EmployeeAttendanceRepository extends CrudRepository<EmployeeAtt
 			@Param("employeeId") String employeeId, @Param("approvalStatus") int approvalStatus,
 			@Param("companyId") String companyId);
 
-	@Query(value = "SELECT employee_attendance.attendance_id, DATE_FORMAT(employee_attendance.date, \"%d-%m-%Y\"), employee_attendance.employee_id, shift_allocation.employee_name, shift_allocation.department_name, employee_attendance.shift_id, shift_allocation.shift_name, employee_attendance.on_time, employee_attendance.off_time, employee_attendance.approved, employee_attendance.company_id \r\n"
+	@Query(value = "SELECT employee_attendance.attendance_id, DATE_FORMAT(employee_attendance.date, \"%Y-%m-%d\"), employee_attendance.employee_id, shift_allocation.employee_name, shift_allocation.department_name, employee_attendance.shift_id, shift_allocation.shift_name, employee_attendance.on_time, employee_attendance.off_time, employee_attendance.approved, employee_attendance.company_id \r\n"
 			+ "FROM employee_attendance\r\n"
 			+ "INNER JOIN shift_allocation ON employee_attendance.employee_id = shift_allocation.employee_id AND employee_attendance.date = shift_allocation.date AND employee_attendance.shift_id = shift_allocation.shift_id AND employee_attendance.company_id = shift_allocation.company_id\r\n"
 			+ "WHERE employee_attendance.date BETWEEN :startDate AND :endDate AND employee_attendance.shift_id = :shiftId AND employee_attendance.company_id = :companyId", nativeQuery = true)
 	public List<String> loadAttendancesByShift(@Param("startDate") String startDate, @Param("endDate") String endDate,
 			@Param("shiftId") String shiftId, @Param("companyId") String companyId);
 
-	@Query(value = "SELECT employee_attendance.attendance_id, DATE_FORMAT(employee_attendance.date, \"%d-%m-%Y\"), employee_attendance.employee_id, shift_allocation.employee_name, shift_allocation.department_name, employee_attendance.shift_id, shift_allocation.shift_name, employee_attendance.on_time, employee_attendance.off_time, employee_attendance.approved, employee_attendance.company_id \r\n"
+	@Query(value = "SELECT employee_attendance.attendance_id, DATE_FORMAT(employee_attendance.date, \"%Y-%m-%d\"), employee_attendance.employee_id, shift_allocation.employee_name, shift_allocation.department_name, employee_attendance.shift_id, shift_allocation.shift_name, employee_attendance.on_time, employee_attendance.off_time, employee_attendance.approved, employee_attendance.company_id \r\n"
 			+ "FROM employee_attendance\r\n"
 			+ "INNER JOIN shift_allocation ON employee_attendance.employee_id = shift_allocation.employee_id AND employee_attendance.date = shift_allocation.date AND employee_attendance.shift_id = shift_allocation.shift_id AND employee_attendance.company_id = shift_allocation.company_id\r\n"
 			+ "WHERE employee_attendance.date BETWEEN :startDate AND :endDate AND employee_attendance.approved = :approvalStatus AND employee_attendance.company_id = :companyId", nativeQuery = true)
@@ -108,7 +108,7 @@ public interface EmployeeAttendanceRepository extends CrudRepository<EmployeeAtt
 			@Param("endDate") String endDate, @Param("approvalStatus") int approvalStatus,
 			@Param("companyId") String companyId);
 
-	@Query(value = "SELECT employee_attendance.attendance_id, DATE_FORMAT(employee_attendance.date, \"%d-%m-%Y\"), employee_attendance.employee_id, shift_allocation.employee_name, shift_allocation.department_name, employee_attendance.shift_id, shift_allocation.shift_name, employee_attendance.on_time, employee_attendance.off_time, employee_attendance.approved, employee_attendance.company_id \r\n"
+	@Query(value = "SELECT employee_attendance.attendance_id, DATE_FORMAT(employee_attendance.date, \"%Y-%m-%d\"), employee_attendance.employee_id, shift_allocation.employee_name, shift_allocation.department_name, employee_attendance.shift_id, shift_allocation.shift_name, employee_attendance.on_time, employee_attendance.off_time, employee_attendance.approved, employee_attendance.company_id \r\n"
 			+ "FROM employee_attendance\r\n"
 			+ "INNER JOIN shift_allocation ON employee_attendance.employee_id = shift_allocation.employee_id AND employee_attendance.date = shift_allocation.date AND employee_attendance.shift_id = shift_allocation.shift_id AND employee_attendance.company_id = shift_allocation.company_id\r\n"
 			+ "WHERE employee_attendance.date BETWEEN :startDate AND :endDate AND employee_attendance.shift_id = :shiftId AND employee_attendance.approved = :approvalStatus AND employee_attendance.company_id = :companyId", nativeQuery = true)
@@ -116,7 +116,7 @@ public interface EmployeeAttendanceRepository extends CrudRepository<EmployeeAtt
 			@Param("endDate") String endDate, @Param("shiftId") String shiftId,
 			@Param("approvalStatus") int approvalStatus, @Param("companyId") String companyId);
 
-	@Query(value = "SELECT employee_attendance.attendance_id, DATE_FORMAT(employee_attendance.date, \"%d-%m-%Y\"), employee_attendance.employee_id, shift_allocation.employee_name, shift_allocation.department_name, employee_attendance.shift_id, shift_allocation.shift_name, employee_attendance.on_time, employee_attendance.off_time, employee_attendance.approved, employee_attendance.company_id \r\n"
+	@Query(value = "SELECT employee_attendance.attendance_id, DATE_FORMAT(employee_attendance.date, \"%Y-%m-%d\"), employee_attendance.employee_id, shift_allocation.employee_name, shift_allocation.department_name, employee_attendance.shift_id, shift_allocation.shift_name, employee_attendance.on_time, employee_attendance.off_time, employee_attendance.approved, employee_attendance.company_id \r\n"
 			+ "FROM employee_attendance\r\n"
 			+ "INNER JOIN shift_allocation ON employee_attendance.employee_id = shift_allocation.employee_id AND employee_attendance.date = shift_allocation.date AND employee_attendance.shift_id = shift_allocation.shift_id AND employee_attendance.company_id = shift_allocation.company_id\r\n"
 			+ "WHERE employee_attendance.date BETWEEN :startDate AND :endDate AND shift_allocation.department_id = :departmentId AND employee_attendance.employee_id = :employeeId AND employee_attendance.shift_id = :shiftId AND employee_attendance.approved = :approvalStatus AND employee_attendance.company_id = :companyId", nativeQuery = true)
@@ -142,14 +142,14 @@ public interface EmployeeAttendanceRepository extends CrudRepository<EmployeeAtt
 			@Param("shiftId") String shiftId, @Param("employeeId") String employeeId,
 			@Param("companyId") String companyId);
 
-	@Query(value = "SELECT employee_attendance.attendance_id, DATE_FORMAT(employee_attendance.date, \"%d-%m-%Y\") AS date, employee_attendance.shift_id, shift_allocation.shift_name, shift_allocation.department_id, shift_allocation.department_name, employee_attendance.employee_id, shift_allocation.employee_name, \r\n"
+	@Query(value = "SELECT employee_attendance.attendance_id, DATE_FORMAT(employee_attendance.date, \"%Y-%m-%d\") AS date, employee_attendance.shift_id, shift_allocation.shift_name, shift_allocation.department_id, shift_allocation.department_name, employee_attendance.employee_id, shift_allocation.employee_name, \r\n"
 			+ "TIME_FORMAT(shift_allocation.start_time, \"%H:%i\") AS start_time, TIME_FORMAT(shift_allocation.end_time, \"%H:%i\") AS end_time, employee_attendance.on_time, employee_attendance.off_time, CASE WHEN employee_attendance.approved = 1 THEN 'Yes' WHEN employee_attendance.approved = 0 THEN 'No' ELSE null END AS approval_status\r\n"
 			+ "FROM employee_attendance \r\n"
 			+ "INNER JOIN shift_allocation ON employee_attendance.date = shift_allocation.date AND employee_attendance.employee_id = shift_allocation.employee_id AND employee_attendance.shift_id = shift_allocation.shift_id AND employee_attendance.company_id = shift_allocation.company_id\r\n"
 			+ "WHERE employee_attendance.date = :date AND employee_attendance.company_id = :companyId", nativeQuery = true)
 	public String[][] loadAttendanceRecordsByDate(@Param("date") String date, @Param("companyId") String companyId);
 
-	@Query(value = "SELECT employee_attendance.attendance_id, DATE_FORMAT(employee_attendance.date, \"%d-%m-%Y\") AS date, employee_attendance.shift_id, shift_allocation.shift_name, shift_allocation.department_id, shift_allocation.department_name, employee_attendance.employee_id, shift_allocation.employee_name, \r\n"
+	@Query(value = "SELECT employee_attendance.attendance_id, DATE_FORMAT(employee_attendance.date, \"%Y-%m-%d\") AS date, employee_attendance.shift_id, shift_allocation.shift_name, shift_allocation.department_id, shift_allocation.department_name, employee_attendance.employee_id, shift_allocation.employee_name, \r\n"
 			+ "TIME_FORMAT(shift_allocation.start_time, \"%H:%i\") AS start_time, TIME_FORMAT(shift_allocation.end_time, \"%H:%i\") AS end_time, employee_attendance.on_time, employee_attendance.off_time, CASE WHEN employee_attendance.approved = 1 THEN 'Yes' WHEN employee_attendance.approved = 0 THEN 'No' ELSE null END AS approval_status\r\n"
 			+ "FROM employee_attendance \r\n"
 			+ "INNER JOIN shift_allocation ON employee_attendance.date = shift_allocation.date AND employee_attendance.employee_id = shift_allocation.employee_id AND employee_attendance.shift_id = shift_allocation.shift_id AND employee_attendance.company_id = shift_allocation.company_id\r\n"
@@ -157,7 +157,7 @@ public interface EmployeeAttendanceRepository extends CrudRepository<EmployeeAtt
 	public String[][] loadAttendanceRecordsByDepartment(@Param("date") String date,
 			@Param("departmentId") String departmentId, @Param("companyId") String companyId);
 
-	@Query(value = "SELECT employee_attendance.attendance_id, DATE_FORMAT(employee_attendance.date, \"%d-%m-%Y\") AS date, employee_attendance.shift_id, shift_allocation.shift_name, shift_allocation.department_id, shift_allocation.department_name, employee_attendance.employee_id, shift_allocation.employee_name, \r\n"
+	@Query(value = "SELECT employee_attendance.attendance_id, DATE_FORMAT(employee_attendance.date, \"%Y-%m-%d\") AS date, employee_attendance.shift_id, shift_allocation.shift_name, shift_allocation.department_id, shift_allocation.department_name, employee_attendance.employee_id, shift_allocation.employee_name, \r\n"
 			+ "TIME_FORMAT(shift_allocation.start_time, \"%H:%i\") AS start_time, TIME_FORMAT(shift_allocation.end_time, \"%H:%i\") AS end_time, employee_attendance.on_time, employee_attendance.off_time, CASE WHEN employee_attendance.approved = 1 THEN 'Yes' WHEN employee_attendance.approved = 0 THEN 'No' ELSE null END AS approval_status\r\n"
 			+ "FROM employee_attendance \r\n"
 			+ "INNER JOIN shift_allocation ON employee_attendance.date = shift_allocation.date AND employee_attendance.employee_id = shift_allocation.employee_id AND employee_attendance.shift_id = shift_allocation.shift_id AND employee_attendance.company_id = shift_allocation.company_id\r\n"
@@ -165,7 +165,7 @@ public interface EmployeeAttendanceRepository extends CrudRepository<EmployeeAtt
 	public String[][] loadAttendanceRecordsByShift(@Param("date") String date, @Param("shiftId") String shiftId,
 			@Param("companyId") String companyId);
 
-	@Query(value = "SELECT employee_attendance.attendance_id, DATE_FORMAT(employee_attendance.date, \"%d-%m-%Y\") AS date, employee_attendance.shift_id, shift_allocation.shift_name, shift_allocation.department_id, shift_allocation.department_name, employee_attendance.employee_id, shift_allocation.employee_name, \r\n"
+	@Query(value = "SELECT employee_attendance.attendance_id, DATE_FORMAT(employee_attendance.date, \"%Y-%m-%d\") AS date, employee_attendance.shift_id, shift_allocation.shift_name, shift_allocation.department_id, shift_allocation.department_name, employee_attendance.employee_id, shift_allocation.employee_name, \r\n"
 			+ "TIME_FORMAT(shift_allocation.start_time, \"%H:%i\") AS start_time, TIME_FORMAT(shift_allocation.end_time, \"%H:%i\") AS end_time, employee_attendance.on_time, employee_attendance.off_time, CASE WHEN employee_attendance.approved = 1 THEN 'Yes' WHEN employee_attendance.approved = 0 THEN 'No' ELSE null END AS approval_status\r\n"
 			+ "FROM employee_attendance \r\n"
 			+ "INNER JOIN shift_allocation ON employee_attendance.date = shift_allocation.date AND employee_attendance.employee_id = shift_allocation.employee_id AND employee_attendance.shift_id = shift_allocation.shift_id AND employee_attendance.company_id = shift_allocation.company_id\r\n"
@@ -174,7 +174,7 @@ public interface EmployeeAttendanceRepository extends CrudRepository<EmployeeAtt
 			@Param("departmentId") String departmentId, @Param("shiftId") String shiftId,
 			@Param("companyId") String companyId);
 
-	@Query(value = "SELECT employee_attendance.attendance_id, DATE_FORMAT(employee_attendance.date, \"%d-%m-%Y\") AS date, employee_attendance.shift_id, shift_allocation.shift_name, shift_allocation.department_id, shift_allocation.department_name, employee_attendance.employee_id, shift_allocation.employee_name, \r\n"
+	@Query(value = "SELECT employee_attendance.attendance_id, DATE_FORMAT(employee_attendance.date, \"%Y-%m-%d\") AS date, employee_attendance.shift_id, shift_allocation.shift_name, shift_allocation.department_id, shift_allocation.department_name, employee_attendance.employee_id, shift_allocation.employee_name, \r\n"
 			+ "TIME_FORMAT(shift_allocation.start_time, \"%H:%i\") AS start_time, TIME_FORMAT(shift_allocation.end_time, \"%H:%i\") AS end_time, employee_attendance.on_time, employee_attendance.off_time, CASE WHEN employee_attendance.approved = 1 THEN 'Yes' WHEN employee_attendance.approved = 0 THEN 'No' ELSE null END AS approval_status\r\n"
 			+ "FROM employee_attendance \r\n"
 			+ "INNER JOIN shift_allocation ON employee_attendance.date = shift_allocation.date AND employee_attendance.employee_id = shift_allocation.employee_id AND employee_attendance.shift_id = shift_allocation.shift_id AND employee_attendance.company_id = shift_allocation.company_id\r\n"
@@ -183,7 +183,7 @@ public interface EmployeeAttendanceRepository extends CrudRepository<EmployeeAtt
 			@Param("departmentId") String departmentId, @Param("employeeId") String employeeId,
 			@Param("companyId") String companyId);
 
-	@Query(value = "SELECT employee_attendance.attendance_id, DATE_FORMAT(employee_attendance.date, \"%d-%m-%Y\") AS date, employee_attendance.shift_id, shift_allocation.shift_name, shift_allocation.department_id, shift_allocation.department_name, employee_attendance.employee_id, shift_allocation.employee_name, \r\n"
+	@Query(value = "SELECT employee_attendance.attendance_id, DATE_FORMAT(employee_attendance.date, \"%Y-%m-%d\") AS date, employee_attendance.shift_id, shift_allocation.shift_name, shift_allocation.department_id, shift_allocation.department_name, employee_attendance.employee_id, shift_allocation.employee_name, \r\n"
 			+ "TIME_FORMAT(shift_allocation.start_time, \"%H:%i\") AS start_time, TIME_FORMAT(shift_allocation.end_time, \"%H:%i\") AS end_time, employee_attendance.on_time, employee_attendance.off_time, CASE WHEN employee_attendance.approved = 1 THEN 'Yes' WHEN employee_attendance.approved = 0 THEN 'No' ELSE null END AS approval_status\r\n"
 			+ "FROM employee_attendance \r\n"
 			+ "INNER JOIN shift_allocation ON employee_attendance.date = shift_allocation.date AND employee_attendance.employee_id = shift_allocation.employee_id AND employee_attendance.shift_id = shift_allocation.shift_id AND employee_attendance.company_id = shift_allocation.company_id\r\n"
@@ -240,7 +240,7 @@ public interface EmployeeAttendanceRepository extends CrudRepository<EmployeeAtt
 			@Param("endDate") String endDate, @Param("employeeId") String employeeId,
 			@Param("companyId") String companyId);
 	
-	@Query(value = "SELECT DATE_FORMAT(shift_allocation.date, \"%d-%m-%Y\") as date, DATE_FORMAT(shift_allocation.date, \"%W\") as weekday, calander.Description as day_type, shift_allocation.shift_name as shift, TIME_FORMAT(shift_allocation.start_time, \"%H:%i\") as start_time, TIME_FORMAT(shift_allocation.end_time, \"%H:%i\") as end_time, employee_attendance.on_time, employee_attendance.off_time,\n" + 
+	@Query(value = "SELECT DATE_FORMAT(shift_allocation.date, \"%Y-%m-%d\") as date, DATE_FORMAT(shift_allocation.date, \"%W\") as weekday, calander.Description as day_type, shift_allocation.shift_name as shift, TIME_FORMAT(shift_allocation.start_time, \"%H:%i\") as start_time, TIME_FORMAT(shift_allocation.end_time, \"%H:%i\") as end_time, employee_attendance.on_time, employee_attendance.off_time,\n" + 
 			"TIME_FORMAT(TIMEDIFF(employee_attendance.off_time, employee_attendance.on_time), \"%H:%i\") AS worked_time,\n" + 
 			"CASE WHEN shift_allocation.start_time > employee_attendance.on_time && employee_attendance.off_time > shift_allocation.end_time THEN TIME_FORMAT(CONVERT(ADDTIME(TIMEDIFF(shift_allocation.start_time, employee_attendance.on_time), TIMEDIFF(employee_attendance.off_time, shift_allocation.end_time)), TIME), \"%H:%i\") WHEN shift_allocation.start_time > employee_attendance.on_time THEN TIME_FORMAT(CONVERT(TIMEDIFF(shift_allocation.start_time, employee_attendance.on_time), TIME), \"%H:%i\") WHEN employee_attendance.off_time > shift_allocation.end_time THEN TIME_FORMAT(CONVERT(TIMEDIFF(employee_attendance.off_time, shift_allocation.end_time), TIME), \"%H:%i\") ELSE null END AS over_time,\n" + 
 			"CASE WHEN employee_attendance.on_time > shift_allocation.start_time && shift_allocation.end_time > employee_attendance.off_time THEN TIME_FORMAT(CONVERT(ADDTIME(TIMEDIFF(employee_attendance.on_time, shift_allocation.start_time), TIMEDIFF(shift_allocation.end_time, employee_attendance.off_time)), TIME), \"%H:%i\") WHEN employee_attendance.on_time > shift_allocation.start_time THEN TIME_FORMAT(CONVERT(TIMEDIFF(employee_attendance.on_time, shift_allocation.start_time), TIME), \"%H:%i\") WHEN shift_allocation.end_time > employee_attendance.off_time THEN TIME_FORMAT(CONVERT(TIMEDIFF(shift_allocation.end_time, employee_attendance.off_time), TIME), \"%H:%i\") ELSE null END AS short_time,\n" + 
