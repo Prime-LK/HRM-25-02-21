@@ -40,7 +40,7 @@ public class QualificationController {
 	// qualification
 	// master-----------------------------------------------------------
 
-	@RequestMapping(value = "/qualificationMaster", method = RequestMethod.GET)
+	@RequestMapping(value = "/Qualification", method = RequestMethod.GET)
 	public String getQauPage(Map<String, Object> map) {
 		map.put("saveQualification", new QualificationMaster());
 		QualificationMaster qm = new QualificationMaster();
@@ -61,7 +61,7 @@ public class QualificationController {
 		} else {
 			try {
 				qmService.saveQm(qm);
-				return "redirect:/hrm/qualificationMaster";
+				return "redirect:/Qualification";
 			} catch (Exception e) {
 				System.out.println("Details not saved");
 			}
@@ -69,8 +69,8 @@ public class QualificationController {
 		return "hrm/qualificationMaster";
 	}
 
-	@RequestMapping(value = "/updateQm", method = RequestMethod.GET)
-	public ModelAndView updateQm(@RequestParam String qid) {
+	@RequestMapping(value = "/UpdateQualification", method = RequestMethod.GET)
+	public ModelAndView updateQualification(@RequestParam String qid) {
 		ModelAndView mav = new ModelAndView("hrm/qualificationMaster");
 		QualificationMaster qm = qmService.getQa(qid);
 		mav.addObject("saveQualification", qm);

@@ -128,8 +128,8 @@
 					<div class="container-fluid">
 						<div class="card">
 							<div class="card-body">
-								<form:form action="jobPmasterAct" method="post"
-									modelAttribute="jobProfileMaster" onsubmit="formValidation()"
+								<form:form action="saveJobProfile" method="post"
+									modelAttribute="jobProfileForm" onsubmit="formValidation()"
 									id="formProfile">
 
 									<div class="form-group row">
@@ -175,7 +175,7 @@
 											<tbody>
 												<c:forEach items="${jobList}" var="jl">
 													<tr>
-														<td><a href="editJOBmaster?profileID=${jl.profileID}"><i
+														<td><a href="UpdateJobProfile?id=${jl.profileID}"><i
 																class="far fa-edit"></i></a></td>
 														<td id="tPro">${jl.profile}</td>
 

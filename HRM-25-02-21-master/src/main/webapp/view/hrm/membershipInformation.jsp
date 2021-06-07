@@ -110,7 +110,7 @@
 						<div
 							class="d-flex align-items-left align-items-md-center flex-column flex-md-row">
 							<div class="col-xl-2 col-lg-2">
-								<h2 class="text-white pb-2 fw-bold">Membership Details</h2>
+								<h2 class="text-white pb-2 fw-bold">Membership Type</h2>
 							</div>
 							<div class="col-xl-2 col-lg-2"></div>
 							<div class="ml-md-auto py-2 py-md-4"></div>
@@ -124,8 +124,8 @@
 					<div class="container-fluid">
 						<div class="card">
 							<div class="card-body">
-								<form:form action="saveMInfo" method="post"
-									modelAttribute="memInforForm" onsubmit="formValidation()"
+								<form:form action="saveMembershipType" method="post"
+									modelAttribute="membershipTypeForm" onsubmit="formValidation()"
 									id="formMShip">
 									<div class="form-group row">
 										<div class="col-sm-4">
@@ -173,7 +173,7 @@
 											<tbody>
 												<c:forEach items="${allMi}" var="mi">
 													<tr>
-														<td><a href="updateMi?id=${mi.memID}"> <i
+														<td><a href="UpdateMembershipType?id=${mi.memID}"> <i
 																class="far fa-edit"></i></a></td>
 														<td id="tMe">${mi.memType}</td>
 													</tr>

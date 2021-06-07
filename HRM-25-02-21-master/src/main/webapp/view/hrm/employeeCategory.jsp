@@ -142,8 +142,8 @@
 					<div class="container-fluid">
 						<div class="card">
 							<div class="card-body">
-								<form:form action="saveCat" method="post"
-									modelAttribute="categoryForm" onsubmit="formValidation()"
+								<form:form action="saveEmployeeCategory" method="post"
+									modelAttribute="employeeCategoryForm" onsubmit="formValidation()"
 									id="formType">
 
 									<div class="form-group row">
@@ -192,8 +192,9 @@
 											<tbody>
 												<c:forEach items="${allCat}" var="cat">
 													<tr>
-														<td><a href="updateCat?id=${cat.catgoryID}"> <i
-																class="far fa-edit"></i></a></td>
+														<td><a href="UpdateEmployeeCategory?id=${cat.catgoryID}">
+																<i class="far fa-edit"></i>
+														</a></td>
 														<td>${cat.category}</td>
 
 													</tr>

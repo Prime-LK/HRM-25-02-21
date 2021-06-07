@@ -98,7 +98,7 @@
 }
 
 #dipIDDiv {
-	display:none
+	display: none
 }
 
 .scrollable {
@@ -142,8 +142,8 @@
 					<div class="container-fluid">
 						<div class="card">
 							<div class="card-body">
-								<form:form action="saveDTypeMaster" method="post"
-									modelAttribute="saveDTypeMaster" onsubmit="formValidation()"
+								<form:form action="saveDependentType" method="post"
+									modelAttribute="saveDependentType" onsubmit="formValidation()"
 									id="formCType">
 
 									<div class="form-group row">
@@ -191,7 +191,7 @@
 											<tbody>
 												<c:forEach items="${deTypes}" var="de">
 													<tr>
-														<td><a href="updateDType?dTypeID=${de.dTypeID}">
+														<td><a href="UpdateDependentType?id=${de.dTypeID}">
 																<i class="far fa-edit"></i>
 														</a></td>
 														<td id="tDType">${de.dType}</td>

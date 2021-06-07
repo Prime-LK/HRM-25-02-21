@@ -178,8 +178,9 @@
 											<tbody>
 												<c:forEach items="${listOfCompanyDetails}" var="na">
 													<tr>
-														<td><a href="updateComDetails?comID=${na.comID}">
-														 <i class="far fa-edit"></i> </a></td>
+														<td><a href="UpdateCompany?id=${na.comID}"> <i
+																class="far fa-edit"></i>
+														</a></td>
 														<td id="tNa">${na.comName}</td>
 														<td id="tNa">${na.address}</td>
 														<td id="tNa">${na.conNo}</td>

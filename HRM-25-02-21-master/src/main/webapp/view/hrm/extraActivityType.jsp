@@ -128,9 +128,9 @@
 					<div class="container-fluid">
 						<div class="card">
 							<div class="card-body">
-								<form:form action="saveAType" method="post"
-									modelAttribute="saveAType" onsubmit="formValidation()"
-									id="formAType">
+								<form:form action="saveExtraActivityType" method="post"
+									modelAttribute="saveExtraActivityType"
+									onsubmit="formValidation()" id="formAType">
 
 									<div class="form-group row">
 										<div class="col-sm-4">
@@ -178,7 +178,8 @@
 											<tbody>
 												<c:forEach items="${aTypes}" var="at">
 													<tr>
-														<td><a href="updateAt?id=${at.actTypeID}"><i
+														<td><a
+															href="UpdateExtraActivityType?id=${at.actTypeID}"><i
 																class="far fa-edit"></i></a></td>
 														<td>${at.type}</td>
 													</tr>

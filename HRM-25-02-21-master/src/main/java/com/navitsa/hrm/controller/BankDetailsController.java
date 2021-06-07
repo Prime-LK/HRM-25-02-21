@@ -83,10 +83,10 @@ public class BankDetailsController {
 		return bd;
 	}
 
-	//Bank page---------------------------------------------------
-	
+	// Bank page---------------------------------------------------
+
 	// load bank jsp
-	@RequestMapping(value = "/bankInfor", method = RequestMethod.GET)
+	@RequestMapping(value = "/BankBranch", method = RequestMethod.GET)
 	public String loadBankPage(Map<String, Object> map) {
 		map.put("bank", new Bank());
 		Bank bank = new Bank();
@@ -97,14 +97,14 @@ public class BankDetailsController {
 	}
 
 	// save bank jsp data
-	@RequestMapping(value = "/saveBank", method = RequestMethod.POST)
-	public String saveBank(@Valid @ModelAttribute("bank") Bank bank, BindingResult br) {
+	@RequestMapping(value = "/saveBankBranch", method = RequestMethod.POST)
+	public String saveBankBranch(@Valid @ModelAttribute("bank") Bank bank, BindingResult br) {
 		if (br.hasErrors()) {
 			return "hrm/bank";
 		} else {
 			try {
 				baService.saveBank(bank);
-				return "redirect:/bankInfor";
+				return "redirect:/BankBranch";
 			} catch (Exception e) {
 				System.out.println("Details Not Saved");
 			}
@@ -119,16 +119,16 @@ public class BankDetailsController {
 	}
 
 	// edit saved bank data
-	@RequestMapping(value = "/updateBank", method = RequestMethod.GET)
-	public ModelAndView updateBankDetails(@RequestParam("branchID") String branchID) {
+	@RequestMapping(value = "/UpdateBankBranch", method = RequestMethod.GET)
+	public ModelAndView updateBankBranch(@RequestParam("id") String id) {
 		ModelAndView mav = new ModelAndView("hrm/bank");
-		Bank bdetails = baService.updateDetails(branchID);
+		Bank bdetails = baService.updateDetails(id);
 		mav.addObject("bank", bdetails);
 		return mav;
 	}
 
 	// load bank master details
-	@RequestMapping(value = "/bank", method = RequestMethod.GET)
+	@RequestMapping(value = "/Bank", method = RequestMethod.GET)
 	public String loadBank(Map<String, Object> map) {
 		map.put("bankmaster", new BankMaster());
 		BankMaster bm = new BankMaster();
@@ -139,13 +139,13 @@ public class BankDetailsController {
 	}
 
 	// save bank master data
-	@RequestMapping(value = "/saveBankInfor", method = RequestMethod.POST)
-	public String saveBankdata(@Valid @ModelAttribute("bankmaster") BankMaster bank, BindingResult br) {
+	@RequestMapping(value = "/saveBank", method = RequestMethod.POST)
+	public String saveBank(@Valid @ModelAttribute("bankmaster") BankMaster bank, BindingResult br) {
 		if (br.hasErrors()) {
 			return "hrm/bankmaster";
 		} else {
 			baService.saveBankMAster(bank);
-			return "redirect:/hrm/bank";
+			return "redirect:/Bank";
 		}
 	}
 
@@ -156,10 +156,10 @@ public class BankDetailsController {
 	}
 
 	// update bank master data
-	@RequestMapping(value = "/updateBankmaster", method = RequestMethod.GET)
-	public ModelAndView updateBankMAsterDetails(@RequestParam("bankid") String bankid) {
+	@RequestMapping(value = "/UpdateBank", method = RequestMethod.GET)
+	public ModelAndView updateBank(@RequestParam("id") String id) {
 		ModelAndView mav = new ModelAndView("hrm/bankmaster");
-		BankMaster bmaster = baService.getDetailsofBank(bankid);
+		BankMaster bmaster = baService.getDetailsofBank(id);
 		mav.addObject("bankmaster", bmaster);
 		return mav;
 	}

@@ -2,7 +2,10 @@ package com.navitsa.hrm.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
@@ -17,6 +20,10 @@ public class SkillMaster {
 	@NotEmpty(message="required")
 	@Column(name="Skill")
 	private String skill;
+	
+	@ManyToOne(optional=false, fetch = FetchType.EAGER)
+	@JoinColumn(name="Company_ID", referencedColumnName="Company_ID")
+	private CompanyMaster company;
 
 	public String getSid() {
 		return sid;
@@ -33,10 +40,19 @@ public class SkillMaster {
 	public void setSkill(String skill) {
 		this.skill = skill;
 	}
+	
+	public CompanyMaster getCompany() {
+		return company;
+	}
 
-	public SkillMaster(String sid, String skill) {
+	public void setCompany(CompanyMaster company) {
+		this.company = company;
+	}
+
+	public SkillMaster(String sid, String skill, CompanyMaster company) {
 		this.sid = sid;
 		this.skill = skill;
+		this.company = company;
 	}
 
 	public SkillMaster() {

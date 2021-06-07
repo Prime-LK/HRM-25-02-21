@@ -23,74 +23,75 @@ public class EmployeeLevelController {
 
 	@Autowired
 	private EmployeeLevelService elService;
-	
-	//employee type---------------------------------------------------
-	
-	@RequestMapping(value="/employeeType", method = RequestMethod.GET)
-	public String loadPage(Map<String,Object> map) {
-		map.put("typeForm", new EmployeeType());
+
+	// employee type---------------------------------------------------
+
+	@RequestMapping(value = "/EmployeeType", method = RequestMethod.GET)
+	public String loadPage(Map<String, Object> map) {
+		map.put("employeeTypeForm", new EmployeeType());
 		EmployeeType type = new EmployeeType();
 		type.setTid("00000".substring(elService.maxTypeID().length()) + elService.maxTypeID());
-		map.put("typeForm", type);
+		map.put("employeeTypeForm", type);
 		return "hrm/employeeType";
 	}
-	
+
 	@ModelAttribute("allType")
 	public List<EmployeeType> getAllType() {
 		return elService.getAllTy();
 	}
-	
-	@RequestMapping(value = "/saveType", method = RequestMethod.POST)
-	public String saveType(@Valid @ModelAttribute("typeForm")EmployeeType type, BindingResult br) {
-		if(br.hasErrors()) {
+
+	@RequestMapping(value = "/saveEmployeeType", method = RequestMethod.POST)
+	public String saveEmployeeType(@Valid @ModelAttribute("employeeTypeForm") EmployeeType type, BindingResult br) {
+		if (br.hasErrors()) {
 			return "hrm/employeeType";
-		}else {
+		} else {
 			elService.saveType(type);
-			return "redirect:/hrm/employeeType";
+			return "redirect:/EmployeeType";
 		}
-		
+
 	}
-	
-	@RequestMapping(value = "/updateType", method = RequestMethod.GET)
-	public ModelAndView updateType(@RequestParam String id) {
-		ModelAndView mav = new ModelAndView("employeeType");
+
+	@RequestMapping(value = "/UpdateEmployeeType", method = RequestMethod.GET)
+	public ModelAndView updateEmployeeType(@RequestParam String id) {
+		ModelAndView mav = new ModelAndView("hrm/employeeType");
 		EmployeeType ty = elService.getType(id);
-		mav.addObject("typeForm", ty);
+		mav.addObject("employeeTypeForm", ty);
 		return mav;
 	}
-	
-	//employee category-------------------------------------------------------
-	
-	@RequestMapping(value="/employeeCategory", method = RequestMethod.GET)
-	public String loadCatPage(Map<String,Object> map) {
-		map.put("categoryForm", new EmployeeCategory());
+
+	// employee category-------------------------------------------------------
+
+	@RequestMapping(value = "/EmployeeCategory", method = RequestMethod.GET)
+	public String loadCatPage(Map<String, Object> map) {
+		map.put("employeeCategoryForm", new EmployeeCategory());
 		EmployeeCategory cat = new EmployeeCategory();
 		cat.setCatgoryID("00000".substring(elService.maxEcID().length()) + elService.maxEcID());
-		map.put("categoryForm", cat);
+		map.put("employeeCategoryForm", cat);
 		return "hrm/employeeCategory";
 	}
-	
+
 	@ModelAttribute("allCat")
 	public List<EmployeeCategory> getAllCat() {
 		return elService.getAllCat();
 	}
-	
-	@RequestMapping(value = "/saveCat", method = RequestMethod.POST)
-	public String saveCat(@Valid @ModelAttribute("categoryForm")EmployeeCategory cat, BindingResult br) {
-		if(br.hasErrors()) {
+
+	@RequestMapping(value = "/saveEmployeeCategory", method = RequestMethod.POST)
+	public String saveEmployeeCategory(@Valid @ModelAttribute("employeeCategoryForm") EmployeeCategory cat,
+			BindingResult br) {
+		if (br.hasErrors()) {
 			return "hrm/employeeCategory";
-		}else {
+		} else {
 			elService.saveCat(cat);
-			return "redirect:/hrm/employeeCategory";
+			return "redirect:/EmployeeCategory";
 		}
-		
+
 	}
-	
-	@RequestMapping(value = "/updateCat", method = RequestMethod.GET)
-	public ModelAndView updateCat(@RequestParam String id) {
+
+	@RequestMapping(value = "/UpdateEmployeeCategory", method = RequestMethod.GET)
+	public ModelAndView updateEmployeeCategory(@RequestParam String id) {
 		ModelAndView mav = new ModelAndView("hrm/employeeCategory");
 		EmployeeCategory cat = elService.getCat(id);
-		mav.addObject("categoryForm", cat);
+		mav.addObject("employeeCategoryForm", cat);
 		return mav;
 	}
 }

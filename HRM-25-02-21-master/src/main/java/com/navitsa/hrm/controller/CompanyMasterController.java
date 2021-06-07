@@ -20,9 +20,9 @@ public class CompanyMasterController {
 
 	@Autowired
 	private CompanyService comService;
-	
-	@GetMapping("/companyMasterPage")
-	public String getCompanyPage(Map<String,Object>map) {
+
+	@GetMapping("/Company")
+	public String getCompanyPage(Map<String, Object> map) {
 		map.put("companyMasterObject", new CompanyMaster());
 		CompanyMaster cm = new CompanyMaster();
 		cm.setComID("00000".substring(comService.getComMaxID().length()) + comService.getComMaxID());
@@ -30,34 +30,31 @@ public class CompanyMasterController {
 		map.put("companyMasterObject", cm);
 		return "hrm/companyMaster";
 	}
-	
+
 	@ModelAttribute("listOfCompanyDetails")
 	public List<CompanyMaster> getAllComDetails() {
 		return comService.getAllComDetails();
 	}
-	
+
 	@PostMapping("/saveCompanyMasterData")
-	public String saveComDetails(@ModelAttribute("companyMasterObject")CompanyMaster data,RedirectAttributes ra) {
+	public String saveComDetails(@ModelAttribute("companyMasterObject") CompanyMaster data, RedirectAttributes ra) {
 		try {
 			ra.addAttribute("success", 1);
 			comService.saveCompanyData(data);
-			return "redirect:/hrm/companyMasterPage";
-		
-		}catch(Exception e) {
+			return "redirect:/Company";
+
+		} catch (Exception e) {
 			ra.addAttribute("success", 0);
 			System.out.println(e);
 		}
 		return "hrm/companyMaster";
 	}
-	
-	@GetMapping("/updateComDetails")
-	public ModelAndView updateDepDetails(@RequestParam("comID") String comID) {
+
+	@GetMapping("/UpdateCompany")
+	public ModelAndView updateCompany(@RequestParam("id") String id) {
 		ModelAndView mav = new ModelAndView("hrm/companyMaster");
-		CompanyMaster dm = comService.findbyCompanyid(comID);
+		CompanyMaster dm = comService.findbyCompanyid(id);
 		mav.addObject("companyMasterObject", dm);
 		return mav;
 	}
-	
-
-	
 }

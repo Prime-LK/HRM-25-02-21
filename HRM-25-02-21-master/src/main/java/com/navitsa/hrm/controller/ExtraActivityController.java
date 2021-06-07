@@ -34,12 +34,12 @@ public class ExtraActivityController {
 	// extra activity
 	// type-------------------------------------------------------------
 
-	@RequestMapping(value = "/extraActivityType", method = RequestMethod.GET)
+	@RequestMapping(value = "/ExtraActivityType", method = RequestMethod.GET)
 	public String getATPage(Map<String, Object> map) {
-		map.put("saveAType", new ExtraActivityType());
+		map.put("saveExtraActivityType", new ExtraActivityType());
 		ExtraActivityType at = new ExtraActivityType();
 		at.setActTypeID("00000".substring(aTypeService.maxAtID().length()) + aTypeService.maxAtID());
-		map.put("saveAType", at);
+		map.put("saveExtraActivityType", at);
 		return "hrm/extraActivityType";
 	}
 
@@ -48,14 +48,14 @@ public class ExtraActivityController {
 		return aTypeService.getAllAt();
 	}
 
-	@RequestMapping(value = "/saveAType", method = RequestMethod.POST)
-	public String saveAt(@Valid @ModelAttribute("saveAType") ExtraActivityType at, BindingResult br) {
+	@RequestMapping(value = "/saveExtraActivityType", method = RequestMethod.POST)
+	public String saveAt(@Valid @ModelAttribute("saveExtraActivityType") ExtraActivityType at, BindingResult br) {
 		if (br.hasErrors()) {
 			return "hrm/extraActivityType";
 		} else {
 			try {
 				aTypeService.saveAType(at);
-				return "redirect:/hrm/extraActivityType";
+				return "redirect:/ExtraActivityType";
 			} catch (Exception e) {
 				System.out.println("Details not Saved");
 			}
@@ -63,11 +63,11 @@ public class ExtraActivityController {
 		return "hrm/extraActivityType";
 	}
 
-	@RequestMapping(value = "/updateAt", method = RequestMethod.GET)
-	public ModelAndView updateAt(@RequestParam String id) {
+	@RequestMapping(value = "/UpdateExtraActivityType", method = RequestMethod.GET)
+	public ModelAndView updateExtraActivityType(@RequestParam String id) {
 		ModelAndView mav = new ModelAndView("hrm/extraActivityType");
 		ExtraActivityType at = aTypeService.getAType(id);
-		mav.addObject("saveAType", at);
+		mav.addObject("saveExtraActivityType", at);
 		return mav;
 	}
 
@@ -94,17 +94,17 @@ public class ExtraActivityController {
 
 	@RequestMapping(value = "/saveEet", method = RequestMethod.POST)
 	public String saveEet(@Valid @ModelAttribute("saveEmpActivity") EmployeeExtraActivity eet, BindingResult br) {
-		if(br.hasErrors()) {
+		if (br.hasErrors()) {
 			return "hrm/employeeSkill";
-		}else {
+		} else {
 			aTypeService.saveEet(eet);
 			return "redirect:/hrm/employeeSkill";
 		}
-		
+
 	}
 
 	@RequestMapping(value = "/updateEet", method = RequestMethod.GET)
-	public ModelAndView updateEet(@RequestParam("empID") String empID , @RequestParam("actTypeID") String actTypeID) {
+	public ModelAndView updateEet(@RequestParam("empID") String empID, @RequestParam("actTypeID") String actTypeID) {
 		ModelAndView mav = new ModelAndView("hrm/employeeExtraActivityEdit");
 		EmployeeExtraActivity eet = aTypeService.getEmployeeExtraActivity(empID, actTypeID);
 		mav.addObject("saveEmpActivity", eet);
@@ -120,11 +120,11 @@ public class ExtraActivityController {
 
 		return "hrm/employeeExtraActivity";
 	}
-	
-	//LOAD SAVED EMPLOYEE EXTRA ACTIVITY  DETAILS TO GRID ACCORDING TO EMPLOYEE ID
-			@RequestMapping(value="/getActivityDtails", method=RequestMethod.GET)
-			public   @ResponseBody List<EmployeeExtraActivity> comboTable(@RequestParam String empID ) {
-			List<EmployeeExtraActivity> listEmployeeExtraActivity = aTypeService.searchEmployeeExtraActivity(empID);
-			return listEmployeeExtraActivity;
-			}	
+
+	// LOAD SAVED EMPLOYEE EXTRA ACTIVITY DETAILS TO GRID ACCORDING TO EMPLOYEE ID
+	@RequestMapping(value = "/getActivityDtails", method = RequestMethod.GET)
+	public @ResponseBody List<EmployeeExtraActivity> comboTable(@RequestParam String empID) {
+		List<EmployeeExtraActivity> listEmployeeExtraActivity = aTypeService.searchEmployeeExtraActivity(empID);
+		return listEmployeeExtraActivity;
+	}
 }

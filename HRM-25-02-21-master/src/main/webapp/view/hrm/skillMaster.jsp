@@ -128,8 +128,8 @@
 					<div class="container-fluid">
 						<div class="card">
 							<div class="card-body">
-								<form:form action="saveSkills" method="post"
-									modelAttribute="saveSkills" onsubmit="formValidation()"
+								<form:form action="saveSkill" method="post"
+									modelAttribute="saveSkill" onsubmit="formValidation()"
 									enctype="multipart/form-data" id="formSkillMaster">
 
 									<div class="form-group row">
@@ -177,7 +177,7 @@
 											<tbody>
 												<c:forEach items="${skills}" var="s">
 													<tr>
-														<td><a href="updateSkill?sid=${s.sid}"><i
+														<td><a href="UpdateSkill?id=${s.sid}"><i
 																class="far fa-edit"></i></a></td>
 														<td id="tSkill">${s.skill}</td>
 

@@ -23,7 +23,7 @@ public class DepartmentController {
 	@Autowired
 	private DepartmentService depService;
 
-	@GetMapping("/departmentMaster")
+	@GetMapping("/Department")
 	public String loadDepPage(Map<String, Object> map) {
 		map.put("departmentMaster", new DepartmentMaster());
 		DepartmentMaster dep = new DepartmentMaster();
@@ -45,7 +45,7 @@ public class DepartmentController {
 		} else {
 			try {
 				depService.saveDepData(depMaster);
-				return "redirect:/hrm/departmentMaster";
+				return "redirect:/Department";
 			} catch (Exception e) {
 				System.out.println("Details Not Saved");
 			}
@@ -53,10 +53,10 @@ public class DepartmentController {
 		return "hrm/departmentMaster";
 	}
 
-	@GetMapping("/updateDepDetails")
-	public ModelAndView updateDepDetails(@RequestParam("depID") String depID) {
+	@GetMapping("/UpdateDepartment")
+	public ModelAndView updateDepartment(@RequestParam("id") String id) {
 		ModelAndView mav = new ModelAndView("hrm/departmentMaster");
-		DepartmentMaster dm = depService.getID(depID);
+		DepartmentMaster dm = depService.getID(id);
 		mav.addObject("departmentMaster", dm);
 		return mav;
 	}

@@ -29,94 +29,95 @@ public class MembershipController {
 
 	@Autowired
 	private MembershipService miService;
-	
+
 	@Autowired
 	private EmployeeService emService;
-	
-	//membership info----------------------------------------------------------------------------------
-	
-	@RequestMapping(value="/membershipInformation", method = RequestMethod.GET)
-	public String loadPage(Map<String,Object> map) {
-		map.put("memInforForm", new MembershipInformation());
+
+	// membership
+	// info----------------------------------------------------------------------------------
+
+	@RequestMapping(value = "/MembershipType", method = RequestMethod.GET)
+	public String loadPage(Map<String, Object> map) {
+		map.put("membershipTypeForm", new MembershipInformation());
 		MembershipInformation mi = new MembershipInformation();
 		mi.setMemID("00000".substring(miService.maxMiID().length()) + miService.maxMiID());
-		map.put("memInforForm", mi);
+		map.put("membershipTypeForm", mi);
 		return "hrm/membershipInformation";
 	}
-	
+
 	@ModelAttribute("allMi")
 	public List<MembershipInformation> getAllMInfo() {
 		return miService.getAllMi();
 	}
-	
+
 	@ModelAttribute("emp")
 	public List<Employee> getAllEm() {
 		return emService.getAllEmp();
 	}
-	
-	@RequestMapping(value = "/saveMInfo", method = RequestMethod.POST)
-	public String saveMInfo(@Valid @ModelAttribute("memInforForm")MembershipInformation mi,BindingResult br) {
-		if(br.hasErrors()) {
+
+	@RequestMapping(value = "/saveMembershipType", method = RequestMethod.POST)
+	public String saveMembershipType(@Valid @ModelAttribute("membershipTypeForm") MembershipInformation mi,
+			BindingResult br) {
+		if (br.hasErrors()) {
 			return "hrm/membershipInformation";
-		}else {
+		} else {
 			miService.saveMinfo(mi);
-			return "redirect:/hrm/membershipInformation";
+			return "redirect:/MembershipType";
 		}
-		
+
 	}
-	
-	@RequestMapping(value = "/updateMi", method = RequestMethod.GET)
-	public ModelAndView updateMiInfor(@RequestParam String id) {
+
+	@RequestMapping(value = "/UpdateMembershipType", method = RequestMethod.GET)
+	public ModelAndView updateMembershipType(@RequestParam String id) {
 		ModelAndView mav = new ModelAndView("hrm/membershipInformation");
 		MembershipInformation mi = miService.getMInfo(id);
-		mav.addObject("memInforForm", mi);
+		mav.addObject("membershipTypeForm", mi);
 		return mav;
 	}
-	
+
 //	emp memberhsip-----------------------------------------------------------------------------------
-	
-	@RequestMapping(value="/employeeMembership", method = RequestMethod.GET)
-	public String loadempPagewithid(Map<String,Object> map) {
+
+	@RequestMapping(value = "/employeeMembership", method = RequestMethod.GET)
+	public String loadempPagewithid(Map<String, Object> map) {
 		map.put("empMem", new EmployeeMembership());
 //		map.put("eid",eid);
 		return "hrm/employeeMembership";
 	}
-	
-	//save employee memebership data
+
+	// save employee memebership data
 	@RequestMapping(value = "/empMembershipACT", method = RequestMethod.POST)
-	public String saveempMembership(@Valid @ModelAttribute("empMem") EmployeeMembership empM ,
-			BindingResult br) {
-		if(br.hasErrors()) {
+	public String saveempMembership(@Valid @ModelAttribute("empMem") EmployeeMembership empM, BindingResult br) {
+		if (br.hasErrors()) {
 			return "hrm/employeeQualification";
-		}else {
+		} else {
 			miService.saveEmpMembership(empM);
 			return "redirect:/hrm/employeeQualification";
 		}
-		
+
 	}
-	
-	//load saved data as a list
+
+	// load saved data as a list
 	@ModelAttribute("MembershipList")
 	public List<EmployeeMembership> getAllMembershipInfo() {
 		return miService.getAllMembership();
 	}
-	
-	//edit membership data
+
+	// edit membership data
 	@RequestMapping(value = "/updateMembership", method = RequestMethod.GET)
-	public ModelAndView editDATaofm(@RequestParam("eid") String eid,@RequestParam("memID") String memID) {
+	public ModelAndView editDATaofm(@RequestParam("eid") String eid, @RequestParam("memID") String memID) {
 		ModelAndView mav = new ModelAndView("hrm/employeeMembershipEdit");
 		try {
-		EmployeeMembership mID = miService.getMemIDDataByID(eid, memID);
-		mav.addObject("empMem", mID);
+			EmployeeMembership mID = miService.getMemIDDataByID(eid, memID);
+			mav.addObject("empMem", mID);
 		} catch (Exception e) {
 			System.out.println(e);
 		}
 		return mav;
- }
+	}
 
-	@RequestMapping(value="/getMDtails", method=RequestMethod.GET)
-	public   @ResponseBody List<EmployeeMembership> comboTable(@RequestParam String empID ) {
-	List<EmployeeMembership> listEmployeeMembership = miService.searchEmployeeMembership(empID);
-	return listEmployeeMembership;
-	}	
+	@RequestMapping(value = "/getMDtails", method = RequestMethod.GET)
+	public @ResponseBody List<EmployeeMembership> comboTable(@RequestParam String empID) {
+		List<EmployeeMembership> listEmployeeMembership = miService.searchEmployeeMembership(empID);
+		return listEmployeeMembership;
+	}
 }

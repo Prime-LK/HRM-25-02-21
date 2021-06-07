@@ -178,7 +178,7 @@
 											<tbody>
 												<c:forEach items="${lMaster}" var="lm">
 													<tr>
-														<td><a href="updateLanguage?lid=${lm.lid}"> <i
+														<td><a href="UpdateLanguage?lid=${lm.lid}"> <i
 																class="far fa-edit"></i></a></td>
 														<td id="tLa">${lm.language}</td>
 

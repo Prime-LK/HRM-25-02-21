@@ -124,8 +124,8 @@
 					<div class="container-fluid">
 						<div class="card">
 							<div class="card-body">
-								<form:form action="saveNaMaster" method="post"
-									modelAttribute="saveNaMaster" onsubmit="formValidation()"
+								<form:form action="saveNationality" method="post"
+									modelAttribute="saveNationality" onsubmit="formValidation()"
 									id="formNationality">
 
 									<div class="form-group row">
@@ -176,7 +176,8 @@
 											<tbody>
 												<c:forEach items="${NaMaster}" var="na">
 													<tr>
-														<td><a href="updateNa?id=${na.nId}"><i class="far fa-edit"></i></a></td>
+														<td><a href="UpdateNationality?id=${na.nId}"><i
+																class="far fa-edit"></i></a></td>
 														<td id="tNa">${na.nationality}</td>
 													</tr>
 												</c:forEach>

@@ -179,7 +179,7 @@
 											<tbody>
 												<c:forEach items="${qMaster}" var="qm">
 													<tr>
-														<td><a href="updateQm?qid=${qm.qid}"><i
+														<td><a href="UpdateQualification?qid=${qm.qid}"><i
 																class="far fa-edit"></i></a></td>
 														<td id="tQua">${qm.qualification}</td>
 													</tr>
