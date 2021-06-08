@@ -36,12 +36,14 @@ import com.navitsa.hrm.entity.NationalityMaster;
 import com.navitsa.hrm.entity.ReligionMaster;
 import com.navitsa.hrm.entity.SalaryGrade;
 import com.navitsa.hrm.entity.SalaryRange;
+import com.navitsa.hrm.entity.ShiftMaster;
 import com.navitsa.hrm.service.BankDetailsService;
 import com.navitsa.hrm.service.CompanyService;
 import com.navitsa.hrm.service.DepartmentService;
 import com.navitsa.hrm.service.EmployeeService;
 import com.navitsa.hrm.service.JobService;
 import com.navitsa.hrm.service.LocationService;
+import com.navitsa.hrm.service.ShiftMasterService;
 
 @Controller
 public class EmployeeController {
@@ -64,6 +66,8 @@ public class EmployeeController {
 	@Autowired
 	private CompanyService comService;
 
+	@Autowired
+	private ShiftMasterService shiftMasterService;
 
 
 	// get register page
@@ -299,5 +303,10 @@ public class EmployeeController {
 		return listbranch;
 
 	}
+	
+	@ModelAttribute("shiftList")
+	public List<ShiftMaster> getAllShifts(HttpSession session) {
+		String companyId = session.getAttribute("company.comID").toString();
+		return shiftMasterService.loadAllShifts(companyId);
 
 }

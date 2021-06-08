@@ -11,62 +11,66 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "employee_details")
 public class EmployeeDetails {
-	
+
 	@EmbeddedId
 	private EmployeeDetailsPK detailsPK;
-	
+
 	@ManyToOne(optional = false, fetch = FetchType.EAGER)
-	@JoinColumn(name="Emp_Category_ID", referencedColumnName="Emp_Category_ID")
+	@JoinColumn(name = "Emp_Category_ID", referencedColumnName = "Emp_Category_ID")
 	private EmployeeCategory category;
-	
-	@ManyToOne(optional=false, fetch = FetchType.EAGER)
-	@JoinColumn(name="Emp_Type_ID", referencedColumnName ="Emp_Type_ID")
+
+	@ManyToOne(optional = false, fetch = FetchType.EAGER)
+	@JoinColumn(name = "Emp_Type_ID", referencedColumnName = "Emp_Type_ID")
 	private EmployeeType empType;
-	
-	@ManyToOne(optional=false, fetch = FetchType.EAGER)
-	@JoinColumn(name="Salary_Range_ID", referencedColumnName ="Salary_Range_ID")
+
+	@ManyToOne(optional = false, fetch = FetchType.EAGER)
+	@JoinColumn(name = "Salary_Range_ID", referencedColumnName = "Salary_Range_ID")
 	private SalaryRange salaryRange;
-	
-	@ManyToOne(optional=false, fetch = FetchType.EAGER)
-	@JoinColumn(name="Salary_Grade_ID", referencedColumnName ="Salary_Grade_ID")
+
+	@ManyToOne(optional = false, fetch = FetchType.EAGER)
+	@JoinColumn(name = "Salary_Grade_ID", referencedColumnName = "Salary_Grade_ID")
 	private SalaryGrade salaryGrade;
-	
-	@ManyToOne(optional=false, fetch = FetchType.EAGER)
-	@JoinColumn(name="Designation_ID", referencedColumnName ="Designation_ID")
+
+	@ManyToOne(optional = false, fetch = FetchType.EAGER)
+	@JoinColumn(name = "Designation_ID", referencedColumnName = "Designation_ID")
 	private DesignationMaster designation;
-	
-	@ManyToOne(optional=false, fetch = FetchType.EAGER)
-	@JoinColumn(name="Job_Profile_ID", referencedColumnName ="Job_Profile_ID")
+
+	@ManyToOne(optional = false, fetch = FetchType.EAGER)
+	@JoinColumn(name = "Job_Profile_ID", referencedColumnName = "Job_Profile_ID")
 	private JobProfileMaster jobProfile;
-	
-	@ManyToOne(optional=false, fetch = FetchType.EAGER)
-	@JoinColumn(name="Department_ID", referencedColumnName="Department_ID")
+
+	@ManyToOne(optional = false, fetch = FetchType.EAGER)
+	@JoinColumn(name = "Department_ID", referencedColumnName = "Department_ID")
 	private DepartmentMaster department;
-	
-	@Column(name="Joined_Date")
+
+	@Column(name = "Joined_Date")
 	private String joinedDate;
-	
-	@ManyToOne(optional=false, fetch = FetchType.EAGER)
-	@JoinColumn(name="Location", referencedColumnName="Location_ID")
+
+	@ManyToOne(optional = false, fetch = FetchType.EAGER)
+	@JoinColumn(name = "Location", referencedColumnName = "Location_ID")
 	private LocationMaster location;
-	
-	@Column(name="Resign_Date")
+
+	@Column(name = "Resign_Date")
 	private String resignDate;
-	
-	@Column(name="Status")
+
+	@Column(name = "Status")
 	private String status;
-	
-	@Column(name="Direct_Reporting")
+
+	@Column(name = "Direct_Reporting")
 	private String reporting;
-	
-	@Column(name="basicSalary")
+
+	@Column(name = "basicSalary")
 	private int basicSalary;
-	
-	@Column(name="EPF_No")
+
+	@Column(name = "EPF_No")
 	private String epfNo;
-	
-	@ManyToOne(optional=false, fetch = FetchType.EAGER)
-	@JoinColumn(name="Company_ID", referencedColumnName="Company_ID")
+
+	@ManyToOne(optional = false, fetch = FetchType.EAGER)
+	@JoinColumn(name = "shift_id", referencedColumnName = "shift_id")
+	private ShiftMaster shiftmaster;
+
+	@ManyToOne(optional = false, fetch = FetchType.EAGER)
+	@JoinColumn(name = "Company_ID", referencedColumnName = "Company_ID")
 	private CompanyMaster company;
 
 	public EmployeeDetailsPK getDetailsPK() {
@@ -164,7 +168,7 @@ public class EmployeeDetails {
 	public void setReporting(String reporting) {
 		this.reporting = reporting;
 	}
-	
+
 	public String getResignDate() {
 		return resignDate;
 	}
@@ -180,7 +184,7 @@ public class EmployeeDetails {
 	public void setBasicSalary(int basicSalary) {
 		this.basicSalary = basicSalary;
 	}
-	
+
 	public String getEpfNo() {
 		return epfNo;
 	}
@@ -197,11 +201,20 @@ public class EmployeeDetails {
 		this.company = company;
 	}
 
+	public ShiftMaster getShiftmaster() {
+		return shiftmaster;
+	}
+
+	public void setShiftmaster(ShiftMaster shiftmaster) {
+		this.shiftmaster = shiftmaster;
+	}
+
 	public EmployeeDetails(EmployeeDetailsPK detailsPK, EmployeeCategory category, EmployeeType empType,
 			SalaryRange salaryRange, SalaryGrade salaryGrade, DesignationMaster designation,
-			JobProfileMaster jobProfile, String joinedDate, String resignDate, LocationMaster location, DepartmentMaster department, String status,
-			String reporting,int basicSalary, String epfNo, CompanyMaster company) {
-		
+			JobProfileMaster jobProfile, String joinedDate, String resignDate, LocationMaster location,
+			DepartmentMaster department, String status, String reporting, int basicSalary, String epfNo,
+			ShiftMaster shiftmaster, CompanyMaster company) {
+
 		this.detailsPK = detailsPK;
 		this.category = category;
 		this.empType = empType;
@@ -217,13 +230,11 @@ public class EmployeeDetails {
 		this.reporting = reporting;
 		this.basicSalary = basicSalary;
 		this.epfNo = epfNo;
+		this.shiftmaster = shiftmaster;
 		this.company = company;
 	}
 
 	public EmployeeDetails() {
-	
+
 	}
-	
-	
-	
 }

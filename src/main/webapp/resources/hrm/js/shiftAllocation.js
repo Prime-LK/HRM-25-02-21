@@ -1,5 +1,5 @@
-function validateForm() {  
-	
+function validateForm() {
+
 	let sDate = document.getElementById('startDate').value;
 	let eDate = document.getElementById('endDate').value;
 	let sId = document.getElementById('shiftId').value;
@@ -11,56 +11,133 @@ function validateForm() {
 
 	if (document.getElementById('allEmployees').checked) {
 
-		console.log("Checked");
-
-		if(sDate == ""){
-			alert("Please set a start date!")
+		if (sDate == "") {
+			swal("Please select a start date!", "", {
+				icon : "warning",
+				buttons : {
+					confirm : {
+						className : 'btn btn-danger'
+					}
+				},
+			});
 			document.getElementById('startDate').required = true;
 			return false;
-		} else if (eDate == ""){
-			alert("Please set an end date!")
+		} else if (eDate == "") {
+			swal("Please select an end date!", "", {
+				icon : "warning",
+				buttons : {
+					confirm : {
+						className : 'btn btn-danger'
+					}
+				},
+			});
 			document.getElementById('endDate').required = true;
 			return false;
-		} else if (sId == ""){
-			alert("Please select a shift!")
+		} else if (sId == "") {
+			swal("Please select a shift!", "", {
+				icon : "warning",
+				buttons : {
+					confirm : {
+						className : 'btn btn-danger'
+					}
+				},
+			});
 			document.getElementById('shiftId').required = true;
 			return false;
 		} else if (dId == "") {
-			alert("Please select a department!")
+			swal("Please select a department!", "", {
+				icon : "warning",
+				buttons : {
+					confirm : {
+						className : 'btn btn-danger'
+					}
+				},
+			});
 			document.getElementById('selectDepartment').required = true;
 			return false;
 		} else if (sd > ed) {
-			alert("Invalid Date Range! Start Date must be lesser or equal to the End Date.");
+			swal(
+					"Invalid Date Range! Start Date must be lesser or equal to the End Date!",
+					"", {
+						icon : "warning",
+						buttons : {
+							confirm : {
+								className : 'btn btn-danger'
+							}
+						},
+					});
 			return false;
 		} else {
 			return true;
 		}
 	} else {
 
-		console.log("Not Checked");
-
-		if(sDate == ""){
-			alert("Please set a start date!")
+		if (sDate == "") {
+			swal("Please select a start date!", "", {
+				icon : "warning",
+				buttons : {
+					confirm : {
+						className : 'btn btn-danger'
+					}
+				},
+			});
 			document.getElementById('startDate').required = true;
 			return false;
-		} else if (eDate == ""){
-			alert("Please set an end date!")
+		} else if (eDate == "") {
+			swal("Please select an end date!", "", {
+				icon : "warning",
+				buttons : {
+					confirm : {
+						className : 'btn btn-danger'
+					}
+				},
+			});
 			document.getElementById('endDate').required = true;
 			return false;
-		} else if (sId == ""){
-			alert("Please select a shift!")
+		} else if (sId == "") {
+			swal("Please select a shift!", "", {
+				icon : "warning",
+				buttons : {
+					confirm : {
+						className : 'btn btn-danger'
+					}
+				},
+			});
 			document.getElementById('shiftId').required = true;
 			return false;
 		} else if (dId == "") {
-			alert("Please select a department!")
+			swal("Please select a department!", "", {
+				icon : "warning",
+				buttons : {
+					confirm : {
+						className : 'btn btn-danger'
+					}
+				},
+			});
 			document.getElementById('selectDepartment').required = true;
 			return false;
 		} else if (eId == "") {
-			alert("Please select an employee!")
+			swal("Please select an employee!", "", {
+				icon : "warning",
+				buttons : {
+					confirm : {
+						className : 'btn btn-danger'
+					}
+				},
+			});
 			document.getElementById('selectEmployeeId').required = true;
 			return false;
 		} else if (sd > ed) {
-			alert("Invalid Date Range! Start Date must be lesser or equal to the End Date.");
+			swal(
+					"Invalid Date Range! Start Date must be lesser or equal to the End Date!",
+					"", {
+						icon : "warning",
+						buttons : {
+							confirm : {
+								className : 'btn btn-danger'
+							}
+						},
+					});
 			return false;
 		} else {
 			return true;

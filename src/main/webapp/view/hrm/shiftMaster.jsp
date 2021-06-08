@@ -159,7 +159,8 @@
 														</div>
 														<div class="col-sm-2">
 															<label for="check">Continuing</label> <br>
-															<form:checkbox path="recurring" value="True" />
+															<form:checkbox id="recurring" path="recurring"
+																value="True" />
 															<span id="div2"></span>
 														</div>
 														<div class="col-sm-1">
@@ -242,6 +243,8 @@
 
 	<!-- Datatable -->
 	<script src="<c:url value='/resources/hrm/ajax/datatable.js'/>"></script>
+
+	<script src="<c:url value='resources/hrm/js/shiftMaster.js'/>"></script>
 
 
 </body>

@@ -14,7 +14,7 @@
 <link href="<c:url value='/resources/hrm/css/employeeDetails.css'/>"
 	rel="stylesheet">
 <link href="<c:url value='/resources/hrm/css/userCommonDetails.css'/>"
-	rel="stylesheet"> 
+	rel="stylesheet">
 <head>
 <%@include file="../../WEB-INF/jsp/head.jsp"%>
 
@@ -450,8 +450,22 @@
 														id="resignDate" />
 												</div>
 											</div>
-											<div class="col-4 ml-5 mt-4">
-												<div class="form-group row mt-1">
+											<div class="col-3 ml-5">
+												<div class="form-group row">
+													<label>Shift</label>
+													<form:select class="form-control form-control-user"
+														path="shiftmaster.shiftId">
+														<form:option value="" selected="true">--SELECT--</form:option>
+														<c:forEach items="${shiftList}" var="s">
+															<form:option value="${s.shiftId}">${s.description}</form:option>
+														</c:forEach>
+													</form:select>
+												</div>
+											</div>
+										</div>
+										<div class="row ml-1">
+											<div class="col-3">
+												<div class="form-group row">
 													<label></label>
 													<button type="submit" id="submitBtn"
 														class="btn btn-success">

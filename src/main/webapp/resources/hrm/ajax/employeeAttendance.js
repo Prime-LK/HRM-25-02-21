@@ -7,31 +7,50 @@ function loadEmployeesByDepartment() {
 		return;
 	} else {
 
-		$.ajax({
-			type : 'GET',
-			url : "loadEmployeesByDepartment",
-			data : {
-				"depID" : selectDepartment
-			},
-			success : function(data) {
-				var selectEmployee = $("#selectEmployeeId"), option = "";
-				selectEmployee.empty();
-				selected_option = "<option value='All' selected>- Select Employee -</option>";
-				selectEmployee.append(selected_option);
+		$
+				.ajax({
+					type : 'GET',
+					url : "loadEmployeesByDepartment",
+					data : {
+						"depID" : selectDepartment
+					},
+					success : function(data) {
+						if (data.length == 0) {
+							swal("No data is available for the selected parameters!", "", {
+								icon : "info",
+								buttons : {
+									confirm : {
+										className : 'btn btn-primary'
+									}
+								},
+							});
+						}
+						var selectEmployee = $("#selectEmployeeId"), option = "";
+						selectEmployee.empty();
+						selected_option = "<option value='All' selected>- Select Employee -</option>";
+						selectEmployee.append(selected_option);
 
-				for (var i = 0; i < data.length; i++) {
-					option = option + "<option value='"
-							+ data[i].detailsPK.empID.empID + "'>"
-							+ data[i].detailsPK.empID.name + " "
-							+ data[i].detailsPK.empID.lastname + "</option>";
-				}
-				selectEmployee.append(option);
-			},
-			error : function() {
-				alert("No return Model data for this Department");
-			}
+						for (var i = 0; i < data.length; i++) {
+							option = option + "<option value='"
+									+ data[i].detailsPK.empID.empID + "'>"
+									+ data[i].detailsPK.empID.name + " "
+									+ data[i].detailsPK.empID.lastname
+									+ "</option>";
+						}
+						selectEmployee.append(option);
+					},
+					error : function() {
+						swal("Error!", "", {
+							icon : "error",
+							buttons : {
+								confirm : {
+									className : 'btn btn-danger'
+								}
+							},
+						});
+					}
 
-		});
+				});
 
 	}
 
@@ -53,35 +72,50 @@ function loadEmployeeShiftDetails() {
 		return;
 	} else {
 
-		$
-				.ajax({
-					type : 'GET',
-					url : "loadEmployeeShiftDetails",
-					data : {
-						"date" : olddate,
-						"shiftId" : selectShift,
-						"employeeId" : selectEmployee
+		$.ajax({
+			type : 'GET',
+			url : "loadEmployeeShiftDetails",
+			data : {
+				"date" : olddate,
+				"shiftId" : selectShift,
+				"employeeId" : selectEmployee
+			},
+			success : function(data) {
+				if (data.length == 0) {
+					swal("No data is available for the selected parameters!", "", {
+						icon : "info",
+						buttons : {
+							confirm : {
+								className : 'btn btn-primary'
+							}
+						},
+					});
+				}
+				var startTime = $("#startTime");
+				var endTime = $("#endTime");
+				startTime.empty();
+				endTime.empty();
+				document.getElementById("startTime").value = data.startTime;
+				document.getElementById("endTime").value = data.endTime;
+			},
+			error : function() {
+				swal("Error!", "", {
+					icon : "error",
+					buttons : {
+						confirm : {
+							className : 'btn btn-danger'
+						}
 					},
-					success : function(data) {
-						var startTime = $("#startTime");
-						var endTime = $("#endTime");
-						startTime.empty();
-						endTime.empty();
-						document.getElementById("startTime").value = data.startTime;
-						document.getElementById("endTime").value = data.endTime;
-					},
-					error : function() {
-						alert("No shift detais for this employee on the selected date!");
-					}
-
 				});
+			}
+
+		});
 
 	}
 }
 
 function updateEmployeeAttendance(id, name, depId, department, sftId, sftName,
 		dte, sT, eT) {
-	alert("Working");
 	$.ajax({
 		type : 'GET',
 		url : "updateEmployeeAttendance",
@@ -90,11 +124,19 @@ function updateEmployeeAttendance(id, name, depId, department, sftId, sftName,
 		},
 		success : function(data) {
 
+			if (data.length == 0) {
+				swal("No data is available for the selected parameters!", "", {
+					icon : "info",
+					buttons : {
+						confirm : {
+							className : 'btn btn-primary'
+						}
+					},
+				});
+			}
+
 			var d = formatDate(dte);
-			console.log("Date: " + d)
-			
 			var d2 = formatDate2(data.date);
-			console.log("Date: " + d2)
 
 			var aId = $("#attendanceId");
 			var dId = $("#selectDepartment");
@@ -132,7 +174,14 @@ function updateEmployeeAttendance(id, name, depId, department, sftId, sftName,
 			eId.append(option);
 		},
 		error : function() {
-			alert("Error!");
+			swal("Error!", "", {
+				icon : "error",
+				buttons : {
+					confirm : {
+						className : 'btn btn-danger'
+					}
+				},
+			});
 		}
 
 	});
@@ -147,7 +196,7 @@ function formatDate(date) {
 	if (day.length < 2)
 		day = '0' + day;
 
-	return [ year, day , month ].join('-');
+	return [ year, day, month ].join('-');
 }
 
 function formatDate2(date) {
@@ -161,4 +210,3 @@ function formatDate2(date) {
 
 	return [ year, month, day ].join('-');
 }
-

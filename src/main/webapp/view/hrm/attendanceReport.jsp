@@ -250,12 +250,11 @@
 
 	<!-- Page level custom scripts -->
 
-	<script
-		src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/jquery-ui.min.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/jquery-ui.min.js"></script>
 	<script src="<c:url value='/resources/hrm/js/employeeAttendance.js'/>"></script>
-	<script
-		src="<c:url value='/resources/hrm/ajax/employeeAttendance.js'/>"></script>
+	<script src="<c:url value='/resources/hrm/ajax/employeeAttendance.js'/>"></script>
 	<script src="<c:url value='/resources/hrm/ajax/attendanceReport.js'/>"></script>
+	<script src="<c:url value='/resources/hrm/js/attendanceReport.js'/>"></script>
 
 </body>
 </html>

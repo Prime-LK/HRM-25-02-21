@@ -36,12 +36,14 @@ import com.navitsa.hrm.entity.NationalityMaster;
 import com.navitsa.hrm.entity.ReligionMaster;
 import com.navitsa.hrm.entity.SalaryGrade;
 import com.navitsa.hrm.entity.SalaryRange;
+import com.navitsa.hrm.entity.ShiftMaster;
 import com.navitsa.hrm.service.BankDetailsService;
 import com.navitsa.hrm.service.CompanyService;
 import com.navitsa.hrm.service.DepartmentService;
 import com.navitsa.hrm.service.EmployeeService;
 import com.navitsa.hrm.service.JobService;
 import com.navitsa.hrm.service.LocationService;
+import com.navitsa.hrm.service.ShiftMasterService;
 
 @Controller
 public class EmployeeController {
@@ -64,7 +66,8 @@ public class EmployeeController {
 	@Autowired
 	private CompanyService comService;
 
-
+	@Autowired
+	private ShiftMasterService shiftMasterService;
 
 	// get register page
 	@RequestMapping(value = "/register", method = RequestMethod.GET)
@@ -211,7 +214,7 @@ public class EmployeeController {
 		}
 		return mav;
 	}
-	
+
 	// get loging user image according to userID to loging jsp
 	@RequestMapping(value = "/logingimage", method = RequestMethod.GET)
 	public @ResponseBody String searchUserImage(@RequestParam String name) {
@@ -264,7 +267,7 @@ public class EmployeeController {
 		EmployeeDetails data = empService.updateDetails(empID);
 		return data;
 	}
-	
+
 	@GetMapping("/updateDetails")
 	public ModelAndView updateDetails(@RequestParam("empID") String empID) {
 		ModelAndView mav = new ModelAndView("employeeDetails");
@@ -278,14 +281,14 @@ public class EmployeeController {
 		return mav;
 	}
 
-	//search
+	// search
 	@GetMapping("/getSearchData")
 	@ResponseBody
 	public List<Employee> getSearchDetails() {
 		List<Employee> sDetails = empService.getSearchDetails();
 		return sDetails;
 	}
-	
+
 	@ModelAttribute("dAll")
 	public List<DepartmentMaster> getAllDeps() {
 		return depService.getAllDep();
@@ -300,4 +303,9 @@ public class EmployeeController {
 
 	}
 
+	@ModelAttribute("shiftList")
+	public List<ShiftMaster> getAllShifts(HttpSession session) {
+		String companyId = session.getAttribute("company.comID").toString();
+		return shiftMasterService.loadAllShifts(companyId);
+	}
 }

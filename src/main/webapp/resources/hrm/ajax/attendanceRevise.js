@@ -4,9 +4,6 @@ function loadEmployeeAttendanceDetails() {
 	var date = selectDate.value;
 	var selectEmployee = document.getElementById("selectEmployeeId").value;
 	var selectShift = document.getElementById("shiftId").value;
-	console.log(date);
-	console.log(selectShift);
-	console.log(selectEmployee);
 	if (date == "" || selectShift == "" || selectEmployee == "") {
 		var onTime = $("#onTime");
 		var offTime = $("#offTime");
@@ -25,6 +22,16 @@ function loadEmployeeAttendanceDetails() {
 						"employeeId" : selectEmployee
 					},
 					success : function(data) {
+						if (data.length == 0) {
+							swal("No data is available for the selected parameters!", "", {
+								icon : "info",
+								buttons : {
+									confirm : {
+										className : 'btn btn-primary'
+									}
+								},
+							});
+						}
 						var attendanceId = $("#attendanceId");
 						var onTime = $("#onTime");
 						var offTime = $("#offTime");
@@ -32,14 +39,22 @@ function loadEmployeeAttendanceDetails() {
 						attendanceId.empty();
 						onTime.empty();
 						offTime.empty();
-						if (data.onTime == undefined && data.offTime == undefined){
-							alert("No attendance detais for this employee on the selected date!");
+						if (data.onTime == undefined
+								&& data.offTime == undefined) {
+							swal("No data is available for the selected parameters!", "", {
+								icon : "info",
+								buttons : {
+									confirm : {
+										className : 'btn btn-primary'
+									}
+								},
+							});
 							document.getElementById("onTime").value = blank;
 							document.getElementById("offTime").value = blank;
-						} else if(data.onTime == undefined){
+						} else if (data.onTime == undefined) {
 							document.getElementById("onTime").value = blank;
 							document.getElementById("offTime").value = data.offTime;
-						} else if(data.offTime == undefined){
+						} else if (data.offTime == undefined) {
 							document.getElementById("onTime").value = data.onTime;
 							document.getElementById("offTime").value = blank;
 						}
@@ -48,7 +63,14 @@ function loadEmployeeAttendanceDetails() {
 						document.getElementById("offTime").value = data.offTime;
 					},
 					error : function() {
-						alert("No attendance detais for this employee on the selected date!");
+						swal("Error!", "", {
+							icon : "error",
+							buttons : {
+								confirm : {
+									className : 'btn btn-danger'
+								}
+							},
+						});
 					}
 
 				});

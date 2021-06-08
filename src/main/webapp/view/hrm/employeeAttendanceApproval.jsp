@@ -331,8 +331,7 @@
 
 	<!-- Page level custom scripts -->
 	<script src="<c:url value='/resources/hrm/js/employeeAttendance.js'/>"></script>
-	<script
-		src="<c:url value='/resources/hrm/ajax/employeeAttendance.js'/>"></script>
+	<script	src="<c:url value='/resources/hrm/ajax/employeeAttendance.js'/>"></script>
 
 </body>
 </html>

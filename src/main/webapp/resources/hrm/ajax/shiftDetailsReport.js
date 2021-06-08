@@ -5,18 +5,14 @@ function loadShiftDetails() {
 	var departmentId = document.getElementById("selectDepartment").value;
 	var employeeId = document.getElementById("selectEmployeeId").value;
 	var shiftId = document.getElementById("shiftId").value;
-	
+
 	if (startDate == "" || endDate == "") {
 		return;
 	} else {
-		
+
 		if (departmentId == "" && employeeId == "" && shiftId == "") {
-			
-			console.log(startDate);
-			console.log(endDate);
-			
-			$
-			.ajax({
+
+			$.ajax({
 				type : 'GET',
 				url : "loadShiftDetails",
 				data : {
@@ -24,39 +20,49 @@ function loadShiftDetails() {
 					"endDate" : endDate
 				},
 				success : function(data) {
+					if (data.length == 0) {
+						swal("No data is available for the selected parameters!", "", {
+							icon : "info",
+							buttons : {
+								confirm : {
+									className : 'btn btn-primary'
+								}
+							},
+						});
+					}
 					$("#dataTable tbody").empty();
 					for (var i = 0; i < data.length; i++) {
-						var result = "<tr><td>" 
-							  		 + data[i].date + "</td><td>" 
-							  		 + data[i].weekday + "</td><td>"
-							  		 + data[i].day_type + "</td><td>"
-							  		 + data[i].shift + "</td><td>"
-							  		 + data[i].department + "</td><td>"
-							  		 + data[i].employee_name + "</td><td>"
-							  		 + data[i].start_time + "</td><td>"
-							  		 + data[i].end_time + "</td><td>" 
-							  		 + data[i].on_time + "</td><td>" 
-							  		 + data[i].off_time + 
-							  		 "</td></tr>";
-					
+						var result = "<tr><td>" + data[i].date + "</td><td>"
+								+ data[i].weekday + "</td><td>"
+								+ data[i].day_type + "</td><td>"
+								+ data[i].shift + "</td><td>"
+								+ data[i].department + "</td><td>"
+								+ data[i].employee_name + "</td><td>"
+								+ data[i].start_time + "</td><td>"
+								+ data[i].end_time + "</td><td>"
+								+ data[i].on_time + "</td><td>"
+								+ data[i].off_time + "</td></tr>";
+
 						$("#dataTable tbody").append(result);
-					
+
 					}
 				},
 				error : function() {
-					alert("No attendance detais for this employee on the selected date!");
+					swal("Error!", "", {
+						icon : "error",
+						buttons : {
+							confirm : {
+								className : 'btn btn-danger'
+							}
+						},
+					});
 				}
 
 			});
-			
+
 		} else if (employeeId == "" && shiftId == "") {
-			
-			console.log(startDate);
-			console.log(endDate);
-			console.log(departmentId);
-			
-			$
-			.ajax({
+
+			$.ajax({
 				type : 'GET',
 				url : "loadShiftDetails",
 				data : {
@@ -65,40 +71,50 @@ function loadShiftDetails() {
 					"departmentId" : departmentId
 				},
 				success : function(data) {
+					if (data.length == 0) {
+						swal("No data is available for the selected parameters!", "", {
+							icon : "info",
+							buttons : {
+								confirm : {
+									className : 'btn btn-primary'
+								}
+							},
+						});
+					}
 					$("#dataTable tbody").empty();
 
 					for (var i = 0; i < data.length; i++) {
-						var result = "<tr><td>" 
-							  		 + data[i].date + "</td><td>" 
-							  		 + data[i].weekday + "</td><td>"
-							  		 + data[i].day_type + "</td><td>"
-							  		 + data[i].shift + "</td><td>"
-							  		 + data[i].department + "</td><td>"
-							  		 + data[i].employee_name + "</td><td>"
-							  		 + data[i].start_time + "</td><td>"
-							  		 + data[i].end_time + "</td><td>" 
-							  		 + data[i].on_time + "</td><td>" 
-							  		 + data[i].off_time + 
-							  		 "</td></tr>";
-					
+						var result = "<tr><td>" + data[i].date + "</td><td>"
+								+ data[i].weekday + "</td><td>"
+								+ data[i].day_type + "</td><td>"
+								+ data[i].shift + "</td><td>"
+								+ data[i].department + "</td><td>"
+								+ data[i].employee_name + "</td><td>"
+								+ data[i].start_time + "</td><td>"
+								+ data[i].end_time + "</td><td>"
+								+ data[i].on_time + "</td><td>"
+								+ data[i].off_time + "</td></tr>";
+
 						$("#dataTable tbody").append(result);
-						
+
 					}
 				},
 				error : function() {
-					alert("No attendance detais for this employee on the selected date!");
+					swal("Error!", "", {
+						icon : "error",
+						buttons : {
+							confirm : {
+								className : 'btn btn-danger'
+							}
+						},
+					});
 				}
 
 			});
-			
+
 		} else if (departmentId == "" && employeeId == "") {
-			
-			console.log(startDate);
-			console.log(endDate);
-			console.log(shiftId);
-			
-			$
-			.ajax({
+
+			$.ajax({
 				type : 'GET',
 				url : "loadShiftDetails",
 				data : {
@@ -107,40 +123,49 @@ function loadShiftDetails() {
 					"shiftId" : shiftId
 				},
 				success : function(data) {
+					if (data.length == 0) {
+						swal("No data is available for the selected parameters!", "", {
+							icon : "info",
+							buttons : {
+								confirm : {
+									className : 'btn btn-primary'
+								}
+							},
+						});
+					}
 					$("#dataTable tbody").empty();
 					for (var i = 0; i < data.length; i++) {
-						var result = "<tr><td>" 
-							  		 + data[i].date + "</td><td>" 
-							  		 + data[i].weekday + "</td><td>"
-							  		 + data[i].day_type + "</td><td>"
-							  		 + data[i].shift + "</td><td>"
-							  		 + data[i].department + "</td><td>"
-							  		 + data[i].employee_name + "</td><td>"
-							  		 + data[i].start_time + "</td><td>"
-							  		 + data[i].end_time + "</td><td>" 
-							  		 + data[i].on_time + "</td><td>" 
-							  		 + data[i].off_time + 
-							  		 "</td></tr>";
-					
+						var result = "<tr><td>" + data[i].date + "</td><td>"
+								+ data[i].weekday + "</td><td>"
+								+ data[i].day_type + "</td><td>"
+								+ data[i].shift + "</td><td>"
+								+ data[i].department + "</td><td>"
+								+ data[i].employee_name + "</td><td>"
+								+ data[i].start_time + "</td><td>"
+								+ data[i].end_time + "</td><td>"
+								+ data[i].on_time + "</td><td>"
+								+ data[i].off_time + "</td></tr>";
+
 						$("#dataTable tbody").append(result);
-						
+
 					}
 				},
 				error : function() {
-					alert("No attendance detais for this employee on the selected date!");
+					swal("Error!", "", {
+						icon : "error",
+						buttons : {
+							confirm : {
+								className : 'btn btn-danger'
+							}
+						},
+					});
 				}
 
 			});
-			
+
 		} else if (employeeId == "") {
-			
-			console.log(startDate);
-			console.log(endDate);
-			console.log(departmentId);
-			console.log(shiftId);
-			
-			$
-			.ajax({
+
+			$.ajax({
 				type : 'GET',
 				url : "loadShiftDetails",
 				data : {
@@ -150,40 +175,49 @@ function loadShiftDetails() {
 					"shiftId" : shiftId
 				},
 				success : function(data) {
+					if (data.length == 0) {
+						swal("No data is available for the selected parameters!", "", {
+							icon : "info",
+							buttons : {
+								confirm : {
+									className : 'btn btn-primary'
+								}
+							},
+						});
+					}
 					$("#dataTable tbody").empty();
 					for (var i = 0; i < data.length; i++) {
-						var result = "<tr><td>" 
-							  		 + data[i].date + "</td><td>" 
-							  		 + data[i].weekday + "</td><td>"
-							  		 + data[i].day_type + "</td><td>"
-							  		 + data[i].shift + "</td><td>"
-							  		 + data[i].department + "</td><td>"
-							  		 + data[i].employee_name + "</td><td>"
-							  		 + data[i].start_time + "</td><td>"
-							  		 + data[i].end_time + "</td><td>" 
-							  		 + data[i].on_time + "</td><td>" 
-							  		 + data[i].off_time + 
-							  		 "</td></tr>";
-					
+						var result = "<tr><td>" + data[i].date + "</td><td>"
+								+ data[i].weekday + "</td><td>"
+								+ data[i].day_type + "</td><td>"
+								+ data[i].shift + "</td><td>"
+								+ data[i].department + "</td><td>"
+								+ data[i].employee_name + "</td><td>"
+								+ data[i].start_time + "</td><td>"
+								+ data[i].end_time + "</td><td>"
+								+ data[i].on_time + "</td><td>"
+								+ data[i].off_time + "</td></tr>";
+
 						$("#dataTable tbody").append(result);
-						
+
 					}
 				},
 				error : function() {
-					alert("No attendance detais for this employee on the selected date!");
+					swal("Error!", "", {
+						icon : "error",
+						buttons : {
+							confirm : {
+								className : 'btn btn-danger'
+							}
+						},
+					});
 				}
 
 			});
-			
+
 		} else if (shiftId == "") {
-			
-			console.log(startDate);
-			console.log(endDate);
-			console.log(departmentId);
-			console.log(employeeId);
-			
-			$
-			.ajax({
+
+			$.ajax({
 				type : 'GET',
 				url : "loadShiftDetails",
 				data : {
@@ -193,41 +227,49 @@ function loadShiftDetails() {
 					"employeeId" : employeeId
 				},
 				success : function(data) {
+					if (data.length == 0) {
+						swal("No data is available for the selected parameters!", "", {
+							icon : "info",
+							buttons : {
+								confirm : {
+									className : 'btn btn-primary'
+								}
+							},
+						});
+					}
 					$("#dataTable tbody").empty();
 					for (var i = 0; i < data.length; i++) {
-						var result = "<tr><td>" 
-							  		 + data[i].date + "</td><td>" 
-							  		 + data[i].weekday + "</td><td>"
-							  		 + data[i].day_type + "</td><td>"
-							  		 + data[i].shift + "</td><td>"
-							  		 + data[i].department + "</td><td>"
-							  		 + data[i].employee_name + "</td><td>"
-							  		 + data[i].start_time + "</td><td>"
-							  		 + data[i].end_time + "</td><td>" 
-							  		 + data[i].on_time + "</td><td>" 
-							  		 + data[i].off_time + 
-							  		 "</td></tr>";
-					
+						var result = "<tr><td>" + data[i].date + "</td><td>"
+								+ data[i].weekday + "</td><td>"
+								+ data[i].day_type + "</td><td>"
+								+ data[i].shift + "</td><td>"
+								+ data[i].department + "</td><td>"
+								+ data[i].employee_name + "</td><td>"
+								+ data[i].start_time + "</td><td>"
+								+ data[i].end_time + "</td><td>"
+								+ data[i].on_time + "</td><td>"
+								+ data[i].off_time + "</td></tr>";
+
 						$("#dataTable tbody").append(result);
-						
+
 					}
 				},
 				error : function() {
-					alert("No attendance detais for this employee on the selected date!");
+					swal("Error!", "", {
+						icon : "error",
+						buttons : {
+							confirm : {
+								className : 'btn btn-danger'
+							}
+						},
+					});
 				}
 
 			});
-			
+
 		} else {
-			
-			console.log(startDate);
-			console.log(endDate);
-			console.log(departmentId);
-			console.log(employeeId);
-			console.log(shiftId);
-			
-			$
-			.ajax({
+
+			$.ajax({
 				type : 'GET',
 				url : "loadShiftDetails",
 				data : {
@@ -238,32 +280,47 @@ function loadShiftDetails() {
 					"shiftId" : shiftId
 				},
 				success : function(data) {
+					if (data.length == 0) {
+						swal("No data is available for the selected parameters!", "", {
+							icon : "info",
+							buttons : {
+								confirm : {
+									className : 'btn btn-primary'
+								}
+							},
+						});
+					}
 					$("#dataTable tbody").empty();
 					for (var i = 0; i < data.length; i++) {
-						var result = "<tr><td>" 
-							  		 + data[i].date + "</td><td>" 
-							  		 + data[i].weekday + "</td><td>"
-							  		 + data[i].day_type + "</td><td>"
-							  		 + data[i].shift + "</td><td>"
-							  		 + data[i].department + "</td><td>"
-							  		 + data[i].employee_name + "</td><td>"
-							  		 + data[i].start_time + "</td><td>"
-							  		 + data[i].end_time + "</td><td>" 
-							  		 + data[i].on_time + "</td><td>" 
-							  		 + data[i].off_time + 
-							  		 "</td></tr>";
-					
+						var result = "<tr><td>" + data[i].date + "</td><td>"
+								+ data[i].weekday + "</td><td>"
+								+ data[i].day_type + "</td><td>"
+								+ data[i].shift + "</td><td>"
+								+ data[i].department + "</td><td>"
+								+ data[i].employee_name + "</td><td>"
+								+ data[i].start_time + "</td><td>"
+								+ data[i].end_time + "</td><td>"
+								+ data[i].on_time + "</td><td>"
+								+ data[i].off_time + "</td></tr>";
+
 						$("#dataTable tbody").append(result);
-						
+
 					}
 				},
 				error : function() {
-					alert("No attendance detais for this employee on the selected date!");
+					swal("Error!", "", {
+						icon : "error",
+						buttons : {
+							confirm : {
+								className : 'btn btn-danger'
+							}
+						},
+					});
 				}
 
 			});
-			
+
 		}
-		
+
 	}
 }
