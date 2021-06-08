@@ -179,8 +179,8 @@
 											<tbody>
 												<c:forEach items="${allDeps}" var="d">
 													<tr>
-														<td><a href="updateDepDetails?depID=${d.depID}">
-														<i class="far fa-edit"></i></a></td>
+														<td><a href="UpdateDepartment?id=${d.depID}"> <i
+																class="far fa-edit"></i></a></td>
 														<td id="tDep">${d.department}</td>
 
 													</tr>

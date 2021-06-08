@@ -124,8 +124,8 @@
 					<div class="container-fluid">
 						<div class="card">
 							<div class="card-body">
-								<form:form action="saveReMaster" method="post"
-									modelAttribute="saveReMaster" onsubmit="formValidation()"
+								<form:form action="saveReligion" method="post"
+									modelAttribute="saveReligion" onsubmit="formValidation()"
 									id="formReligion">
 
 									<div class="form-group row">
@@ -171,7 +171,7 @@
 											<tbody>
 												<c:forEach items="${RmMaster}" var="rm">
 													<tr>
-														<td><a href="updateRm?id=${rm.rid}"> <i
+														<td><a href="UpdateReligion?id=${rm.rid}"> <i
 																class="far fa-edit"></i></a></td>
 														<td id="tRe">${rm.religion}</td>
 													</tr>

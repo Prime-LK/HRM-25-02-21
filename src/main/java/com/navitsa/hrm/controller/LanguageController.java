@@ -30,7 +30,7 @@ public class LanguageController {
 
 	// language master----------------------------------------------------
 
-	@RequestMapping(value = "/languageMaster", method = RequestMethod.GET)
+	@RequestMapping(value = "/Language", method = RequestMethod.GET)
 	public String getLanPage(Map<String, Object> map) {
 		map.put("saveLanguage", new LanguageMaster());
 		LanguageMaster lm = new LanguageMaster();
@@ -47,7 +47,7 @@ public class LanguageController {
 		} else {
 			try {
 				lmService.saveLMaster(lm);
-				return "redirect:/hrm/languageMaster";
+				return "redirect:/Language";
 			} catch (Exception e) {
 				System.out.println("Details Not Saved");
 			}
@@ -55,9 +55,9 @@ public class LanguageController {
 		return "hrm/languageMaster";
 	}
 
-	@RequestMapping(value = "/updateLanguage", method = RequestMethod.GET)
+	@RequestMapping(value = "/UpdateLanguage", method = RequestMethod.GET)
 	public ModelAndView updateLanguage(@RequestParam String lid) {
-		ModelAndView mav = new ModelAndView("languageMaster");
+		ModelAndView mav = new ModelAndView("hrm/languageMaster");
 		LanguageMaster lm = lmService.getLanguage(lid);
 		mav.addObject("saveLanguage", lm);
 		return mav;
@@ -70,21 +70,12 @@ public class LanguageController {
 
 	// employee language----------------------------------------------------
 
-//	@RequestMapping(value="/employeeLanguagewithid", method= RequestMethod.GET)
-//	public String getEmpLaPagewithid(Map<String,Object>map, @RequestParam("eid") String eid) {
-//		map.put("saveEmpLa", new EmployeeLanguage());
-//		EmployeeLanguage el = new EmployeeLanguage();
-//		map.put("saveEmpLa", el);
-//		map.put("eid", eid);
-//		return "employeeLanguage";
-//	}
-//	
 	@RequestMapping(value = "/saveEmpLa", method = RequestMethod.POST)
 	public String saveEmpLa(@Valid @ModelAttribute("saveEmpLan") EmployeeLanguage el, BindingResult br) {
 		if (br.hasErrors()) {
 			try {
-			return "hrm/employeeSkill";
-			} catch(Exception e) {
+				return "hrm/employeeSkill";
+			} catch (Exception e) {
 				System.out.println("Jsp Not Fuund");
 			}
 		} else {
@@ -103,9 +94,9 @@ public class LanguageController {
 			@RequestParam("languageId") String languageId) {
 		ModelAndView mav = new ModelAndView("hrm/employeeLanguageEdit");
 		try {
-		EmployeeLanguage el = lmService.getdata(empID, languageId);
-		mav.addObject("saveEmpLan", el);
-		}  catch(Exception e) {
+			EmployeeLanguage el = lmService.getdata(empID, languageId);
+			mav.addObject("saveEmpLan", el);
+		} catch (Exception e) {
 //			System.out.println(e);
 		}
 		return mav;

@@ -28,12 +28,12 @@ public class DependentController {
 
 	// depndent type master-----------------------
 
-	@RequestMapping(value = "/dependentTypeMaster", method = RequestMethod.GET)
+	@RequestMapping(value = "/DependentType", method = RequestMethod.GET)
 	public String loadPage(Map<String, Object> map) {
-		map.put("saveDTypeMaster", new DependentTypeMaster());
+		map.put("saveDependentType", new DependentTypeMaster());
 		DependentTypeMaster dtm = new DependentTypeMaster();
 		dtm.setdTypeID("00000".substring(deService.dTypeID().length()) + deService.dTypeID());
-		map.put("saveDTypeMaster", dtm);
+		map.put("saveDependentType", dtm);
 		return "hrm/dependentTypeMaster";
 	}
 
@@ -42,22 +42,22 @@ public class DependentController {
 		return deService.getAllDType();
 	}
 
-	@RequestMapping(value = "/saveDTypeMaster", method = RequestMethod.POST)
-	public String saveDType(@Valid @ModelAttribute("saveDTypeMaster") DependentTypeMaster dType, BindingResult br) {
+	@RequestMapping(value = "/saveDependentType", method = RequestMethod.POST)
+	public String saveDType(@Valid @ModelAttribute("saveDependentType") DependentTypeMaster dType, BindingResult br) {
 		if (br.hasErrors()) {
 			return "hrm/dependentTypeMaster";
 		} else {
 			deService.saveDType(dType);
-			return "redirect:/hrm/dependentTypeMaster";
+			return "redirect:/DependentType";
 		}
 
 	}
 
-	@RequestMapping(value = "/updateDType", method = RequestMethod.GET)
-	public ModelAndView updateDType(@RequestParam String dTypeID) {
+	@RequestMapping(value = "/UpdateDependentType", method = RequestMethod.GET)
+	public ModelAndView updateDependentType(@RequestParam String id) {
 		ModelAndView mav = new ModelAndView("hrm/dependentTypeMaster");
-		DependentTypeMaster dtm = deService.getdType(dTypeID);
-		mav.addObject("saveDTypeMaster", dtm);
+		DependentTypeMaster dtm = deService.getdType(id);
+		mav.addObject("saveDependentType", dtm);
 		return mav;
 	}
 

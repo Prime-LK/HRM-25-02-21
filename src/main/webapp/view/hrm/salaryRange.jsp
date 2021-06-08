@@ -128,8 +128,8 @@
 					<div class="container-fluid">
 						<div class="card">
 							<div class="card-body">
-								<form:form action="salaryRangeAct" method="post"
-									modelAttribute="salaryRange" id="formSRange">
+								<form:form action="saveSalaryRange" method="post"
+									modelAttribute="salaryRangeForm" id="formSRange">
 
 									<div class="form-group row">
 										<div class="col-sm-5">
@@ -208,9 +208,8 @@
 											cellspacing="0" width="100%">
 											<c:forEach items="${salaryRList}" var="salary">
 												<tr>
-													<td><a
-														href="editSalaryRange?salaryRangeID=${salary.salaryRangeID}"><i
-																class="far fa-edit"></i></a></td>
+													<td><a href="UpdateSalaryRange?id=${salary.salaryRangeID}"><i
+															class="far fa-edit"></i></a></td>
 													<td id="tSGrade"><div>${salary.salaryGrade.grade}</div></td>
 													<td id="tRange"><div>${salary.range}</div></td>
 													<td id="tMin"><div>${salary.minSalary}</div></td>

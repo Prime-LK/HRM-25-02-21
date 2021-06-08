@@ -30,13 +30,13 @@ public class JobProfileController {
 	// job profile
 	// master------------------------------------------------------------------------------
 
-	@RequestMapping(value = "/jobPmaster", method = RequestMethod.GET)
+	@RequestMapping(value = "/JobProfile", method = RequestMethod.GET)
 	public String load(Map<String, Object> map) {
-		map.put("jobProfileMaster", new JobProfileMaster());
+		map.put("jobProfileForm", new JobProfileMaster());
 		JobProfileMaster jpmaster = new JobProfileMaster();
 		jpmaster.setProfileID(
 				"00000".substring(jobService.maxprfileMasterID().length()) + jobService.maxprfileMasterID());
-		map.put("jobProfileMaster", jpmaster);
+		map.put("jobProfileForm", jpmaster);
 		return "hrm/jobProfileMaster";
 	}
 
@@ -48,8 +48,8 @@ public class JobProfileController {
 	}
 
 	// save jobmaster data
-	@RequestMapping(value = "/jobPmasterAct", method = RequestMethod.POST)
-	public String savePmaster(@Valid @ModelAttribute("jobProfileMaster") JobProfileMaster ProfileMaster,
+	@RequestMapping(value = "/saveJobProfile", method = RequestMethod.POST)
+	public String saveJobProfile(@Valid @ModelAttribute("jobProfileForm") JobProfileMaster ProfileMaster,
 			BindingResult br) {
 		if (br.hasErrors()) {
 			return "hrm/jobProfileMaster";
@@ -57,7 +57,7 @@ public class JobProfileController {
 			try {
 				jobService.saveJobPMaster(ProfileMaster);
 				System.out.println("hello " + ProfileMaster.getProfileID());
-				return "redirect:/hrm/jobPmaster";
+				return "redirect:/JobProfile";
 			} catch (Exception e) {
 				System.out.println("Details Not Saved");
 			}
@@ -66,33 +66,33 @@ public class JobProfileController {
 	}
 
 	// edit job master data
-	@RequestMapping("/editJOBmaster")
-	public ModelAndView editjobMaster(@RequestParam String profileID) {
+	@RequestMapping("/UpdateJobProfile")
+	public ModelAndView updateJobProfile(@RequestParam String id) {
 		ModelAndView mav = new ModelAndView("hrm/jobProfileMaster");
-		JobProfileMaster ps = jobService.jobMasterGetByID(profileID);
-		mav.addObject("jobProfileMaster", ps);
+		JobProfileMaster ps = jobService.jobMasterGetByID(id);
+		mav.addObject("jobProfileForm", ps);
 		return mav;
 	}
 
 	// load salary grade jsp
-	@RequestMapping(value = "/salaryGrades", method = RequestMethod.GET)
+	@RequestMapping(value = "/SalaryGrade", method = RequestMethod.GET)
 	public String SalaryGradeload(Map<String, Object> map) {
-		map.put("salaryGrades", new SalaryGrade());
+		map.put("salaryGradeForm", new SalaryGrade());
 		SalaryGrade salary = new SalaryGrade();
 		salary.setGradeID("00000".substring(jobService.maxSgid().length()) + jobService.maxSgid());
-		map.put("salaryGrades", salary);
+		map.put("salaryGradeForm", salary);
 		return "hrm/salaryGrades";
 	}
 
 	// save salary grade data
-	@RequestMapping(value = "/salaryGradeAct", method = RequestMethod.POST)
-	public String saveSalaryGrade(@Valid @ModelAttribute("salaryGrades") SalaryGrade salarygrade, BindingResult br) {
+	@RequestMapping(value = "/saveSalaryGrade", method = RequestMethod.POST)
+	public String saveSalaryGrade(@Valid @ModelAttribute("salaryGradeForm") SalaryGrade salarygrade, BindingResult br) {
 		if (br.hasErrors()) {
 			return "hrm/salaryGrades";
 		} else {
 			try {
 				jobService.saveSalaryGrade(salarygrade);
-				return "redirect:/hrm/salaryGrades";
+				return "redirect:/SalaryGrade";
 			} catch (Exception e) {
 				System.out.println("Details Not Saved");
 			}
@@ -109,35 +109,35 @@ public class JobProfileController {
 	}
 
 	// edit saved salary grade data
-	@RequestMapping("/editSalaryGrade")
-	public ModelAndView editSalaryGradeDAta(@RequestParam String gradeID) {
+	@RequestMapping("/UpdateSalaryGrade")
+	public ModelAndView updateSalaryGrade(@RequestParam String id) {
 		ModelAndView mav = new ModelAndView("hrm/salaryGrades");
-		SalaryGrade salaryGrade = jobService.SalaryGradeGetByID(gradeID);
-		mav.addObject("salaryGrades", salaryGrade);
+		SalaryGrade salaryGrade = jobService.SalaryGradeGetByID(id);
+		mav.addObject("salaryGradeForm", salaryGrade);
 		return mav;
 	}
 
 	// load salary range
 
-	@RequestMapping(value = "/salaryRange", method = RequestMethod.GET)
+	@RequestMapping(value = "/SalaryRange", method = RequestMethod.GET)
 	public String salaryrangeload(Map<String, Object> map) {
-		map.put("salaryRange", new SalaryRange());
+		map.put("salaryRangeForm", new SalaryRange());
 		SalaryRange salary = new SalaryRange();
 		salary.setSalaryRangeID("00000".substring(jobService.maxSRid().length()) + jobService.maxSRid());
 		map.put("maxSRid", salary);
-		map.put("salaryRange", salary);
+		map.put("salaryRangeForm", salary);
 		return "hrm/salaryRange";
 	}
 
 	// saved salary range
-	@RequestMapping(value = "/salaryRangeAct", method = RequestMethod.POST)
-	public String saveSalaryRange(@Valid @ModelAttribute("salaryRange") SalaryRange salaryR, BindingResult br) {
+	@RequestMapping(value = "/saveSalaryRange", method = RequestMethod.POST)
+	public String saveSalaryRange(@Valid @ModelAttribute("salaryRangeForm") SalaryRange salaryR, BindingResult br) {
 		if (br.hasErrors()) {
 			return "hrm/salaryRange";
 		} else {
 			try {
 				jobService.saveSalaryRange(salaryR);
-				return "redirect:/hrm/salaryRange";
+				return "redirect:/SalaryRange";
 			} catch (Exception e) {
 				System.out.println("Details Not Saved");
 			}
@@ -154,11 +154,11 @@ public class JobProfileController {
 	}
 
 	// edit saved range data
-	@RequestMapping("/editSalaryRange")
-	public ModelAndView editsalaryrangeDAta(@RequestParam String salaryRangeID) {
+	@RequestMapping("/UpdateSalaryRange")
+	public ModelAndView updateSalaryRange(@RequestParam String id) {
 		ModelAndView mav = new ModelAndView("hrm/salaryRange");
-		SalaryRange salaryrange = jobService.SalaryRangeGetByID(salaryRangeID);
-		mav.addObject("salaryRange", salaryrange);
+		SalaryRange salaryrange = jobService.SalaryRangeGetByID(id);
+		mav.addObject("salaryRangeForm", salaryrange);
 		return mav;
 	}
 
@@ -171,9 +171,9 @@ public class JobProfileController {
 
 	// load JOB PROFILE MASTER DETAILS
 
-	@RequestMapping(value = "/jobDetails", method = RequestMethod.GET)
+	@RequestMapping(value = "/JobProfileDetails", method = RequestMethod.GET)
 	public String jobDetailsload(Map<String, Object> map) {
-		map.put("jobProfileDetails", new JobProfileDetails());
+		map.put("jobProfileDetailsForm", new JobProfileDetails());
 		JobProfileDetails JobProfile = new JobProfileDetails();
 		JobProfile.setJobProfileID(
 				"00000".substring(jobService.maxJobDetailsID().length()) + jobService.maxJobDetailsID());
@@ -196,23 +196,23 @@ public class JobProfileController {
 		return jobProfileDetailsList;
 	}
 
-	@RequestMapping("/editjobProfile")
-	public ModelAndView editjobProfileDAta(@RequestParam String jobProfileID) {
+	@RequestMapping("/UpdateJobProfileDetails")
+	public ModelAndView updateJobProfileDetailsDAta(@RequestParam String id) {
 		ModelAndView mav = new ModelAndView("hrm/jobProfileDetails");
-		JobProfileDetails jobProfileDetailt = jobService.jobProfileGetByID(jobProfileID);
-		mav.addObject("jobProfileDetails", jobProfileDetailt);
+		JobProfileDetails jobProfileDetailt = jobService.jobProfileGetByID(id);
+		mav.addObject("jobProfileDetailsForm", jobProfileDetailt);
 		return mav;
 	}
 
-	@RequestMapping(value = "/jobProfileDetailsAct", method = RequestMethod.POST)
-	public String saveProfileDetailse(@Valid @ModelAttribute("jobProfileDetails") JobProfileDetails jobProfileDetails,
-			BindingResult br) {
+	@RequestMapping(value = "/saveJobProfileDetails", method = RequestMethod.POST)
+	public String saveJobProfileDetails(
+			@Valid @ModelAttribute("jobProfileDetailsForm") JobProfileDetails jobProfileDetails, BindingResult br) {
 		if (br.hasErrors()) {
 			return "hrm/jobProfileDetails";
 		} else {
 			try {
 				jobService.savejobProfile(jobProfileDetails);
-				return "redirect:/hrm/jobDetails";
+				return "redirect:/JobProfileDetails";
 			} catch (Exception e) {
 				System.out.println("Details Not Saved");
 			}
@@ -221,9 +221,9 @@ public class JobProfileController {
 	}
 
 	// load designation master jsp
-	@RequestMapping(value = "/designationmaster", method = RequestMethod.GET)
+	@RequestMapping(value = "/Designation", method = RequestMethod.GET)
 	public String designationmasterload(Map<String, Object> map) {
-		map.put("DesignationMaster", new DesignationMaster());
+		map.put("designationForm", new DesignationMaster());
 		DesignationMaster dm = new DesignationMaster();
 		dm.setDid("00000".substring(jobService.maxDesignationID().length()) + jobService.maxDesignationID());
 		map.put("maxDesignationID", dm);
@@ -232,15 +232,15 @@ public class JobProfileController {
 	}
 
 	// save designation data
-	@RequestMapping(value = "/designationMasterAct", method = RequestMethod.POST)
-	public String savedesignationmaster(@Valid @ModelAttribute("DesignationMaster") DesignationMaster dmster,
+	@RequestMapping(value = "/saveDesignation", method = RequestMethod.POST)
+	public String saveDesignation(@Valid @ModelAttribute("designationForm") DesignationMaster dmster,
 			BindingResult br) {
 		if (br.hasErrors()) {
 			return "hrm/DesignationMaster";
 		} else {
 			try {
 				jobService.saveDesignation(dmster);
-				return "redirect:/designationmaster";
+				return "redirect:/Designation";
 			} catch (Exception e) {
 				System.out.println("Details Not Saved");
 			}
@@ -257,11 +257,11 @@ public class JobProfileController {
 	}
 
 	// edit data
-	@RequestMapping("/editDesignation")
-	public ModelAndView editDesignationDAta(@RequestParam String did) {
+	@RequestMapping("/UpdateDesignation")
+	public ModelAndView updateDesignation(@RequestParam String id) {
 		ModelAndView mav = new ModelAndView("hrm/DesignationMaster");
-		DesignationMaster dm = jobService.MasterGetByID(did);
-		mav.addObject("DesignationMaster", dm);
+		DesignationMaster dm = jobService.MasterGetByID(id);
+		mav.addObject("designationForm", dm);
 		return mav;
 	}
 }

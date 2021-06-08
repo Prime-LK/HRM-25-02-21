@@ -129,9 +129,9 @@
 					<div class="container-fluid">
 						<div class="card">
 							<div class="card-body">
-								<form:form action="saveEd" method="post"
-									modelAttribute="empDocforForm" onsubmit="formValidation()"
-									id="formMShip">
+								<form:form action="saveEmployeeDocument" method="post"
+									modelAttribute="employeeDocumentForm"
+									onsubmit="formValidation()" id="formMShip">
 
 									<div class="form-group row">
 										<div class="col-sm-5">
@@ -180,7 +180,7 @@
 											<tbody>
 												<c:forEach items="${allEd}" var="ed">
 													<tr>
-														<td><a href="updateEd?id=${ed.docTypeId}"> <i
+														<td><a href="UpdateEmployeeDocument?id=${ed.docTypeId}"> <i
 																class="far fa-edit"></i></a></td>
 														<td id="tDoc">${ed.docType}</td>
 

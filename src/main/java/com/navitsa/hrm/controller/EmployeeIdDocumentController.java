@@ -33,12 +33,12 @@ public class EmployeeIdDocumentController {
 	@Autowired
 	private EmployeeService empService;
 
-	@RequestMapping(value = "/employeeIdDocument", method = RequestMethod.GET)
+	@RequestMapping(value = "/EmployeeDocument", method = RequestMethod.GET)
 	public String loadPage(Map<String, Object> map) {
-		map.put("empDocforForm", new EmployeeIdDocument());
+		map.put("employeeDocumentForm", new EmployeeIdDocument());
 		EmployeeIdDocument ed = new EmployeeIdDocument();
 		ed.setDocTypeId("00000".substring(edService.maxEdID().length()) + edService.maxEdID());
-		map.put("empDocforForm", ed);
+		map.put("employeeDocumentForm", ed);
 		return "hrm/employeeIdDocument";
 	}
 
@@ -47,40 +47,25 @@ public class EmployeeIdDocumentController {
 		return edService.getAllEd();
 	}
 
-	@RequestMapping(value = "/saveEd", method = RequestMethod.POST)
-	public String saveEmpDoc(@Valid @ModelAttribute("empDocforForm") EmployeeIdDocument ed, BindingResult br) {
+	@RequestMapping(value = "/saveEmployeeDocument", method = RequestMethod.POST)
+	public String saveEmpDoc(@Valid @ModelAttribute("employeeDocumentForm") EmployeeIdDocument ed, BindingResult br) {
 
 		if (br.hasErrors()) {
 			return "hrm/employeeIdDocument";
 		} else {
 			edService.saveEmpDoc(ed);
-			return "redirect:/hrm/employeeIdDocument";
+			return "redirect:/EmployeeDocument";
 		}
 
 	}
 
-	@RequestMapping(value = "/updateEd", method = RequestMethod.GET)
-	public ModelAndView updateEmpDoc(@RequestParam String id) {
+	@RequestMapping(value = "/UpdateEmployeeDocument", method = RequestMethod.GET)
+	public ModelAndView updateEmployeeDocument(@RequestParam String id) {
 		ModelAndView mav = new ModelAndView("hrm/employeeIdDocument");
 		EmployeeIdDocument ed = edService.getEmpDoc(id);
-		mav.addObject("empDocforForm", ed);
+		mav.addObject("employeeDocumentForm", ed);
 		return mav;
 	}
-
-	// employeeID jsp load
-//	
-//		@RequestMapping(value = "/employeeIDwithid", method = RequestMethod.GET)
-//		public String loademployeeIDwithid(Map<String, Object> map,@RequestParam("eid") String eid) {
-//			map.put("employeeID", new EmployeeID());
-//			
-//			map.put("eid", eid);
-//		
-//			EmployeeIDPK employeeIDPK = new EmployeeIDPK();
-//			employeeIDPK.setDocid("0000000000".substring(edService.maxEmployeeDocMAXID().length()) + edService.maxEmployeeDocMAXID());
-//			map.put("emaxid", employeeIDPK);
-//		
-//			return "employeeID";
-//		}
 
 	// load doc_type_ID
 	@ModelAttribute("docList")
@@ -99,13 +84,13 @@ public class EmployeeIdDocumentController {
 	// save employeeID Doc
 	@RequestMapping(value = "/empIDACT", method = RequestMethod.POST)
 	public String savePmaster(@ModelAttribute("employeeID") EmployeeID eid) {
-			try {
+		try {
 			edService.saveEmpIDDoc(eid);
-		
-			}catch(Exception e) {
-				System.out.println(e);
-			}
-			return "redirect:/hrm/employeeID";
+
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		return "redirect:/hrm/employeeID";
 	}
 
 	// load Employee id data combo box
@@ -158,7 +143,7 @@ public class EmployeeIdDocumentController {
 			mav.addObject("employeeAttachments", employeeAttachments);
 		} catch (Exception e) {
 			System.out.println(e);
-		} 
+		}
 		return mav;
 	}
 
@@ -193,8 +178,6 @@ public class EmployeeIdDocumentController {
 		List<EmployeeAttachments> ea = edService.getEmps(empID);
 		return ea;
 	}
-	
-
 
 	// load empoyeeID jsp
 	@RequestMapping(value = "/employeeID", method = RequestMethod.GET)
@@ -231,13 +214,13 @@ public class EmployeeIdDocumentController {
 			mav.addObject("employeeID", employeeID);
 		} catch (Exception e) {
 			System.out.println(e);
-		}  
+		}
 		return mav;
 	}
-	 
-	 @RequestMapping(value="/geteidDtails", method=RequestMethod.GET)
-		public   @ResponseBody List<EmployeeID> comboTable(@RequestParam("empID") String empID ) {
+
+	@RequestMapping(value = "/geteidDtails", method = RequestMethod.GET)
+	public @ResponseBody List<EmployeeID> comboTable(@RequestParam("empID") String empID) {
 		List<EmployeeID> listEmployeeID = edService.searchEmployeeIDEtails(empID);
 		return listEmployeeID;
-		}
+	}
 }

@@ -128,8 +128,8 @@
 					<div class="container-fluid">
 						<div class="card">
 							<div class="card-body">
-								<form:form action="jobProfileDetailsAct" method="post"
-									modelAttribute="jobProfileDetails" id="formProDetails">
+								<form:form action="saveJobProfileDetails" method="post"
+									modelAttribute="jobProfileDetailsForm" id="formProDetails">
 
 									<div class="form-group row">
 										<div class="col-sm-4">
@@ -188,8 +188,8 @@
 											<c:forEach items="${detaillist}" var="list">
 												<tr>
 													<td><a
-														href="editjobProfile?jobProfileID=${list.jobProfileID}"><i
-																class="far fa-edit"></i></a></td>
+														href="UpdateJobProfileDetails?id=${list.jobProfileID}"><i
+															class="far fa-edit"></i></a></td>
 													<td id="tPro"><div>${list.jobprofilemaster.profile}</div></td>
 													<td id="tItem"><div>${list.profileItem}</div></td>
 

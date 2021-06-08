@@ -142,8 +142,8 @@
 					<div class="container-fluid">
 						<div class="card">
 							<div class="card-body">
-								<form:form action="saveType" method="post"
-									modelAttribute="typeForm" onsubmit="formValidation()"
+								<form:form action="saveEmployeeType" method="post"
+									modelAttribute="employeeTypeForm" onsubmit="formValidation()"
 									id="formType">
 
 									<div class="form-group row">
@@ -190,7 +190,7 @@
 											<tbody>
 												<c:forEach items="${allType}" var="type">
 													<tr>
-														<td><a href="updateType?id=${type.tid}"> <i
+														<td><a href="UpdateEmployeeType?id=${type.tid}"> <i
 																class="far fa-edit"></i></a></td>
 														<td id="taType">${type.type}</td>
 													</tr>

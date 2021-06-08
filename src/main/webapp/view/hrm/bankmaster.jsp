@@ -128,7 +128,7 @@
 					<div class="container-fluid">
 						<div class="card">
 							<div class="card-body">
-								<form:form action="saveBankInfor" method="post"
+								<form:form action="saveBank" method="post"
 									modelAttribute="bankmaster"
 									onsubmit="return validateBankMaster()">
 
@@ -179,8 +179,8 @@
 												<c:forEach items="${bankmastertable}" var="na">
 													<tr>
 
-														<td><a href="updateBankmaster?bankid=${na.bankid}">
-																<i class="far fa-edit"></i>
+														<td><a href="UpdateBank?id=${na.bankid}"> <i
+																class="far fa-edit"></i>
 														</a></td>
 														<td id="tNid">${na.bankid}</td>
 														<td id="tNa">${na.bankName}</td>

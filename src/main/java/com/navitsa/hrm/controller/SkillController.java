@@ -31,32 +31,32 @@ public class SkillController {
 
 	@Autowired
 	private SkillService smService;
-	
+
 	@Autowired
 	private LanguageService laService;
 
 	@Autowired
 	private ExtraActivityService aTypeService;
-	
+
 	// skill master--------------------------------------------------------
 
-	@RequestMapping(value = "/skillMaster", method = RequestMethod.GET)
+	@RequestMapping(value = "/Skill", method = RequestMethod.GET)
 	public String getSkillPage(Map<String, Object> map) {
-		map.put("saveSkills", new SkillMaster());
+		map.put("saveSkill", new SkillMaster());
 		SkillMaster sm = new SkillMaster();
 		sm.setSid("00000".substring(smService.maxSkillID().length()) + smService.maxSkillID());
-		map.put("saveSkills", sm);
+		map.put("saveSkill", sm);
 		return "hrm/skillMaster";
 	}
 
-	@RequestMapping(value = "/saveSkills", method = RequestMethod.POST)
-	public String saveSkill(@Valid @ModelAttribute("saveSkills") SkillMaster sm, BindingResult br) {
+	@RequestMapping(value = "/saveSkill", method = RequestMethod.POST)
+	public String saveSkill(@Valid @ModelAttribute("saveSkill") SkillMaster sm, BindingResult br) {
 		if (br.hasErrors()) {
 			return "hrm/skillMaster";
 		} else {
 			try {
 				smService.saveSkill(sm);
-				return "redirect:/hrm/skillMaster";
+				return "redirect:/Skill";
 			} catch (Exception e) {
 				System.out.println("Details not saved");
 			}
@@ -64,11 +64,11 @@ public class SkillController {
 		return "hrm/skillMaster";
 	}
 
-	@RequestMapping(value = "/updateSkill", method = RequestMethod.GET)
-	public ModelAndView updateSkill(@RequestParam String sid) {
+	@RequestMapping(value = "/UpdateSkill", method = RequestMethod.GET)
+	public ModelAndView updateSkill(@RequestParam String id) {
 		ModelAndView mav = new ModelAndView("hrm/skillMaster");
-		SkillMaster sm = smService.getSkill(sid);
-		mav.addObject("saveSkills", sm);
+		SkillMaster sm = smService.getSkill(id);
+		mav.addObject("saveSkill", sm);
 		return mav;
 	}
 
@@ -81,7 +81,7 @@ public class SkillController {
 	public List<ExtraActivityType> getAllEATypes() {
 		return aTypeService.getAllAt();
 	}
-	
+
 	// employee skill---------------------------------------------------------
 
 	@RequestMapping(value = "/employeeSkill", method = RequestMethod.GET)
@@ -101,22 +101,22 @@ public class SkillController {
 	public List<Employee> getAllEmps() {
 		return smService.getAllEmps();
 	}
-	
+
 	@ModelAttribute("aTypes")
 	public List<ExtraActivityType> getAllATypes() {
 		return aTypeService.getAllAt();
 	}
-	
+
 	@ModelAttribute("lMaster")
 	public List<LanguageMaster> getAllLm() {
 		return laService.getAllLm();
 	}
 
-	@RequestMapping(value = "/saveEmpSkill", method = RequestMethod.POST)                     
+	@RequestMapping(value = "/saveEmpSkill", method = RequestMethod.POST)
 	public String saveEmpSkill(@ModelAttribute("saveEmpSkill") EmployeeSkill empSkill) {
-			smService.saveEmpSkill(empSkill);
-			return "redirect:/hrm/employeeSkill";
-		
+		smService.saveEmpSkill(empSkill);
+		return "redirect:/hrm/employeeSkill";
+
 	}
 
 	@RequestMapping(value = "/updateEmpSkill", method = RequestMethod.GET)
@@ -136,12 +136,12 @@ public class SkillController {
 //
 //		return "employeeSkill";
 //	}
-	
-	//LOAD SAVED EMPLOYEE SKILL  DETAILS TO GRID ACCORDING TO EMPLOYEE ID
-		@RequestMapping(value="/getSkillDtails", method=RequestMethod.GET)
-		public   @ResponseBody List<EmployeeSkill> comboTable(@RequestParam String empID ) {
+
+	// LOAD SAVED EMPLOYEE SKILL DETAILS TO GRID ACCORDING TO EMPLOYEE ID
+	@RequestMapping(value = "/getSkillDtails", method = RequestMethod.GET)
+	public @ResponseBody List<EmployeeSkill> comboTable(@RequestParam String empID) {
 		List<EmployeeSkill> listEmployeeSkill = smService.searchEmployeeSkill(empID);
 		return listEmployeeSkill;
-		}	
+	}
 
 }

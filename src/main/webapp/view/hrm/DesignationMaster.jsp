@@ -84,7 +84,7 @@
 }
 
 #deiIDDiv {
-	display:none;
+	display: none;
 }
 
 .scrollable {
@@ -127,64 +127,64 @@
 				<div class="page-inner mt--5">
 					<div class="container-fluid">
 						<div class="card">
-								<div class="card-body">
-									<form:form action="designationMasterAct" method="post"
-										modelAttribute="DesignationMaster" id="classForm">
+							<div class="card-body">
+								<form:form action="saveDesignation" method="post"
+									modelAttribute="designationForm" id="classForm">
 
-										<div class="form-group row">
-											<div class="col-sm-4">
-												<div class="col-sm-60 mb-1 mb-sm-3">
-													<label>Designation</label>
-													<form:input path="designation" class="form-control"
-														placeholder="Enter Designation" />
-													<form:errors path="designation"
-														cssClass="error1 text-danger" />
+									<div class="form-group row">
+										<div class="col-sm-4">
+											<div class="col-sm-60 mb-1 mb-sm-3">
+												<label>Designation</label>
+												<form:input path="designation" class="form-control"
+													placeholder="Enter Designation" />
+												<form:errors path="designation"
+													cssClass="error1 text-danger" />
 
-												</div>
-											</div>
-
-											<div class="col-sm-3">
-												<div class="mt-4" id="deiIDDiv">
-													<!-- <label class="invisible">Designation ID</label> -->
-													<form:input path="did" value="${maxDesignationID.did}"
-														class="border-0" id="deID" />
-
-												</div>
-											</div>
-
-											<div class="col-sm-3">
-												<div class="mt-4">
-													<!-- <label>Company ID</label> -->
-													<input type="hidden" name="company.comID"
-														class="form-control" id="comID"
-														value="<%=session.getAttribute("company.comID")%>"
-														placeholder="Company ID" />
-												</div>
 											</div>
 										</div>
-										<div class="col-3 mb-4">
-											<input type="submit" class="btn btn-success btn-sm"
-												value="Add Designation"> <input type="reset"
-												class="btn btn-danger btn-sm" value="Reset">
+
+										<div class="col-sm-3">
+											<div class="mt-4" id="deiIDDiv">
+												<!-- <label class="invisible">Designation ID</label> -->
+												<form:input path="did" value="${maxDesignationID.did}"
+													class="border-0" id="deID" />
+
+											</div>
 										</div>
-									</form:form>
-									<br>
-									<div class="col-5">
-										<div class="scrollable">
-											<table id="tableDesignation" class="table table-hover"
-												cellspacing="0" width="100%">
-												<c:forEach items="${listmaster}" var="listMaster">
-													<tr>
-														<td><a href="editDesignation?did=${listMaster.did}"><i
-																class="far fa-edit"></i></a></td>
-														<td id="tDes"><div>${listMaster.designation}</div></td>
-													</tr>
-												</c:forEach>
-											</table>
+
+										<div class="col-sm-3">
+											<div class="mt-4">
+												<!-- <label>Company ID</label> -->
+												<input type="hidden" name="company.comID"
+													class="form-control" id="comID"
+													value="<%=session.getAttribute("company.comID")%>"
+													placeholder="Company ID" />
+											</div>
 										</div>
+									</div>
+									<div class="col-3 mb-4">
+										<input type="submit" class="btn btn-success btn-sm"
+											value="Add Designation"> <input type="reset"
+											class="btn btn-danger btn-sm" value="Reset">
+									</div>
+								</form:form>
+								<br>
+								<div class="col-5">
+									<div class="scrollable">
+										<table id="tableDesignation" class="table table-hover"
+											cellspacing="0" width="100%">
+											<c:forEach items="${listmaster}" var="listMaster">
+												<tr>
+													<td><a href="UpdateDesignation?id=${listMaster.did}"><i
+															class="far fa-edit"></i></a></td>
+													<td id="tDes"><div>${listMaster.designation}</div></td>
+												</tr>
+											</c:forEach>
+										</table>
 									</div>
 								</div>
 							</div>
+						</div>
 					</div>
 				</div>
 

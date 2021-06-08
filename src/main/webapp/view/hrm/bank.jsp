@@ -128,7 +128,7 @@
 					<div class="container-fluid">
 						<div class="card">
 							<div class="card-body">
-								<form:form action="saveBank" method="post" modelAttribute="bank">
+								<form:form action="saveBankBranch" method="post" modelAttribute="bank">
 									<div class="form-group row">
 										<div class="col-sm-5">
 											<div class="col-sm-60 mb-1 mb-sm-3">
@@ -232,7 +232,7 @@
 											<tbody>
 												<c:forEach items="${bankLists}" var="bank1">
 													<tr>
-														<td><a href="updateBank?branchID=${bank1.branchID}"><i
+														<td><a href="UpdateBankBranch?id=${bank1.branchID}"><i
 																class="far fa-edit"></i></a></td>
 														<td id="tNid">${bank1.bankid.bankName}</td>
 														<td id="tNa">${bank1.branch}</td>
