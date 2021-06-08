@@ -180,13 +180,13 @@ public class EmployeeAttendanceApprovalController {
 
 	@PostMapping("/approveAttendance")
 	public String approveAttendance(@ModelAttribute("approveForm") EmployeeAttendanceApproveForm approveForm) {
-
+		System.out.println("Called");
 		List<EmployeeAttendance> attendances = approveForm.getAttendances();
 
 		if (null != attendances && attendances.size() > 0) {
 			EmployeeAttendanceApprovalController.attendances = attendances;
 			employeeAttendanceService.saveEmployeeAttendance(attendances);
 		}
-		return "redirect:/hrm/EmployeeAttendanceApproval";
+		return "redirect:/EmployeeAttendanceApproval";
 	}
 }

@@ -98,6 +98,6 @@ public class AttendanceReviseApprovalController {
 			employeeAttendanceService.saveEmployeeAttendance(unApprovedRevises);
 
 		}
-		return "redirect:/hrm/AttendanceReviseApproval";
+		return "redirect:/AttendanceReviseApproval";
 	}
 }

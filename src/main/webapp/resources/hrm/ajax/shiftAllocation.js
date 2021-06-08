@@ -142,9 +142,7 @@ function loadShiftsByDateRange() {
 	var selectStartDate = document.getElementById("startDate").value;
 	var selectEndDate = document.getElementById("endDate").value;
 	var selectShift = document.getElementById("shiftId").value;
-	console.log(selectStartDate);
-	console.log(selectEndDate);
-	console.log(selectShift);
+	
 	if (selectStartDate == "" || selectEndDate == "" || selectShift == "") {
 		return;
 	} else {
@@ -177,6 +175,7 @@ function loadShiftsByDateRange() {
 						}
 					},
 					error : function() {
+						
 						alert("No shift detais for this selected date range!");
 					}
 

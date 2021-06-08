@@ -111,7 +111,7 @@ public class AttendanceReviseController {
 			revise.setCompanyId(companyId);
 			attendanceReviseService.saveAttendanceRevise(revise);
 
-			return "redirect:/hrm/AttendanceRevise";
+			return "redirect:/AttendanceRevise";
 
 		} catch (Exception e) {
 			System.out.println("Error");

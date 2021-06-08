@@ -37,7 +37,7 @@
 				</a>
 					<div class="collapse" id="base">
 						<ul class="nav nav-collapse">
-							<li><a href="companyMasterPage"> <span class="sub-item">Company</span>
+							<li><a href="Company"> <span class="sub-item">Company</span>
 							</a></li>
 						</ul>
 					</div></li>
@@ -48,25 +48,25 @@
 				</a>
 					<div class="collapse" id="base1">
 						<ul class="nav nav-collapse">
-							<li><a href="nationalityMaster"> <span class="sub-item">Nationality</span></a></li>
-							<li><a href="religionMaster"> <span class="sub-item">Religion</span></a></li>
-							<li><a href="employeeIdDocument"> <span class="sub-item">Employee Document</span></a></li>
-							<li><a href="dependentTypeMaster"> <span class="sub-item">Dependent Type</span></a></li>
-							<li><a href="membershipInformation"> <span class="sub-item">Membership Type</span></a></li>
-							<li><a href="employeeType"> <span class="sub-item">Employee Type</span></a></li>
-							<li><a href="employeeCategory"> <span class="sub-item">Employee Category</span></a></li>
-							<li><a href="languageMaster"> <span class="sub-item">Language</span></a></li>
-							<li><a href="qualificationMaster"> <span class="sub-item">Qualification Type</span></a></li>
-							<li><a href="skillMaster"> <span class="sub-item">Skill Type</span></a></li>
-							<li><a href="extraActivityType"> <span class="sub-item">Extra Activity Type</span></a></li>
-							<li><a href="jobPmaster"> <span class="sub-item">Job Profile</span></a></li>
-							<li><a href="jobDetails"> <span class="sub-item">Job Profile Details</span></a></li>
-							<li><a href="designationmaster"> <span class="sub-item">Designation</span></a></li>
-							<li><a href="salaryGrades"> <span class="sub-item">Salary Grade</span></a></li>
-							<li><a href="salaryRange"> <span class="sub-item">Salary Range</span></a></li>
-							<li><a href="departmentMaster"> <span class="sub-item">Department</span></a></li>
-							<li><a href="bank"> <span class="sub-item">Bank</span></a></li>
-							<li><a href="bankInfor"> <span class="sub-item">Bank Branch</span></a></li>
+							<li><a href="Nationality"> <span class="sub-item">Nationality</span></a></li>
+							<li><a href="Religion"> <span class="sub-item">Religion</span></a></li>
+							<li><a href="EmployeeDocument"> <span class="sub-item">Employee Document</span></a></li>
+							<li><a href="DependentType"> <span class="sub-item">Dependent Type</span></a></li>
+							<li><a href="MembershipType"> <span class="sub-item">Membership Type</span></a></li>
+							<li><a href="EmployeeType"> <span class="sub-item">Employee Type</span></a></li>
+							<li><a href="EmployeeCategory"> <span class="sub-item">Employee Category</span></a></li>
+							<li><a href="Language"> <span class="sub-item">Language</span></a></li>
+							<li><a href="Qualification"> <span class="sub-item">Qualification Type</span></a></li>
+							<li><a href="Skill"> <span class="sub-item">Skill Type</span></a></li>
+							<li><a href="ExtraActivityType"> <span class="sub-item">Extra Activity Type</span></a></li>
+							<li><a href="JobProfile"> <span class="sub-item">Job Profile</span></a></li>
+							<li><a href="JobProfileDetails"> <span class="sub-item">Job Profile Details</span></a></li>
+							<li><a href="Designation"> <span class="sub-item">Designation</span></a></li>
+							<li><a href="SalaryGrade"> <span class="sub-item">Salary Grade</span></a></li>
+							<li><a href="SalaryRange"> <span class="sub-item">Salary Range</span></a></li>
+							<li><a href="Department"> <span class="sub-item">Department</span></a></li>
+							<li><a href="Bank"> <span class="sub-item">Bank</span></a></li>
+							<li><a href="BankBranch"> <span class="sub-item">Bank Branch</span></a></li>
 						</ul>
 					</div></li>
 
@@ -108,7 +108,7 @@
 				</a>
 					<div class="collapse" id="base4">
 						<ul class="nav nav-collapse">
-							<li><a href="ShiftMaster"> <span class="sub-item">Shifts</span></a></li>
+							<li><a href="Shift"> <span class="sub-item">Shifts</span></a></li>
 							<li><a href="ShiftAllocation"> <span class="sub-item">Shift Allocation</span></a></li>
 							<li><a href="AllocatedShifts"> <span class="sub-item">Allocated Shifts</span></a></li>
 							<li><a href="EmployeeAttendance"> <span class="sub-item">Manual Employee Attendance</span></a></li>

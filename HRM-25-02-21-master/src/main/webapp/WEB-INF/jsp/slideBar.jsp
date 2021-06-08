@@ -108,7 +108,7 @@
 				</a>
 					<div class="collapse" id="base4">
 						<ul class="nav nav-collapse">
-							<li><a href="ShiftMaster"> <span class="sub-item">Shifts</span></a></li>
+							<li><a href="Shift"> <span class="sub-item">Shifts</span></a></li>
 							<li><a href="ShiftAllocation"> <span class="sub-item">Shift Allocation</span></a></li>
 							<li><a href="AllocatedShifts"> <span class="sub-item">Allocated Shifts</span></a></li>
 							<li><a href="EmployeeAttendance"> <span class="sub-item">Manual Employee Attendance</span></a></li>

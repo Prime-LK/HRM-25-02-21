@@ -126,7 +126,7 @@ public class EmployeeAttendanceController {
 			attendance.setCompanyId(companyId);
 			employeeAttendanceService.saveEmployeeAttendance(attendance);
 
-			return "redirect:/hrm/EmployeeAttendance";
+			return "redirect:/EmployeeAttendance";
 
 		} catch (Exception e) {
 			System.out.println("Error");
