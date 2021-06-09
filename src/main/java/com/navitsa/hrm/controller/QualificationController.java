@@ -3,6 +3,7 @@ package com.navitsa.hrm.controller;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,8 +51,9 @@ public class QualificationController {
 	}
 
 	@ModelAttribute("qMaster")
-	public List<QualificationMaster> getAllQm() {
-		return qmService.getAllQm();
+	public List<QualificationMaster> getAllQualificationByCompany(HttpSession session) {
+		String companyId = session.getAttribute("company.comID").toString();
+		return qmService.getAllQualificationByCompany(companyId);
 	}
 
 	@RequestMapping(value = "/saveQualification", method = RequestMethod.POST)
@@ -95,8 +97,9 @@ public class QualificationController {
 	}
 
 	@ModelAttribute("allMi")
-	public List<MembershipInformation> getAllMem() {
-		return membershipService.getAllMi();
+	public List<MembershipInformation> getAllMInfo(HttpSession session) {
+		String companyId = session.getAttribute("company.comID").toString();
+		return membershipService.getAllMembershipInformationByCompany(companyId);
 	}
 
 	@ModelAttribute("MembershipList")

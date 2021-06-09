@@ -15,51 +15,58 @@ public class EthnicService {
 
 	@Autowired
 	private NationalityMasterRepository naRepo;
-	
+
 	@Autowired
 	private ReligionMasterRepository reRepo;
-	
-	//religion master--------------------------------------------
+
+	// religion master--------------------------------------------
 	public String maxRmId() {
-		if(reRepo.maxRmID() == null) {
+		if (reRepo.maxRmID() == null) {
 			return "1";
 		} else {
-			 return reRepo.maxRmID();
+			return reRepo.maxRmID();
 		}
 	}
 
 	public List<ReligionMaster> getAllRm() {
 		return (List<ReligionMaster>) reRepo.findAll();
 	}
-	
+
 	public void saveRm(ReligionMaster rm) {
 		reRepo.save(rm);
 	}
-	
+
 	public ReligionMaster getRm(String rid) {
 		return reRepo.findById(rid).get();
-	} 
-	
-	//nationality master------------------------------------
-	
+	}
+
+	// nationality master------------------------------------
+
 	public String maxNaId() {
-		if(naRepo.maxNmID() == null) {
+		if (naRepo.maxNmID() == null) {
 			return "1";
 		} else {
-			 return naRepo.maxNmID();
+			return naRepo.maxNmID();
 		}
 	}
 
 	public List<NationalityMaster> getAllNa() {
 		return (List<NationalityMaster>) naRepo.findAll();
 	}
-	
+
 	public void saveNa(NationalityMaster na) {
 		naRepo.save(na);
 	}
-	
+
 	public NationalityMaster getNa(String nId) {
 		return naRepo.findById(nId).get();
 	}
-	
+
+	public List<NationalityMaster> getAllNationalityByCompany(String companyId) {
+		return (List<NationalityMaster>) naRepo.getAllNationalityByCompany(companyId);
+	}
+
+	public List<ReligionMaster> getAllReligionByCompany(String companyId) {
+		return (List<ReligionMaster>) reRepo.getAllReligionBycompanyID(companyId);
+	}
 }

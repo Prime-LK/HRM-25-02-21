@@ -65,10 +65,10 @@ public class QualificationService {
 	public List<EmployeeQualification> searchEmployeeQualification(String empID) {
 
 		return eqRepo.getEmpQualificationData(empID);
-	}	
+	}
 
 	// get data for jasper employee qualification report
-	public String[][] getEmpqualificationReportData(String  qid) {
+	public String[][] getEmpqualificationReportData(String qid) {
 		return eqRepo.getempQualificationSummaryReportData(qid);
 
 	}
@@ -78,4 +78,7 @@ public class QualificationService {
 		return (List<EmployeeQualification>) eqRepo.getfindAll();
 	}
 
+	public List<QualificationMaster> getAllQualificationByCompany(String companyId) {
+		return (List<QualificationMaster>) qmRepo.getAllQualificationByCompany(companyId);
+	}
 }

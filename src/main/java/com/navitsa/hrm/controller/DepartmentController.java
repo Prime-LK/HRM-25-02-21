@@ -3,6 +3,7 @@ package com.navitsa.hrm.controller;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,8 +34,9 @@ public class DepartmentController {
 	}
 
 	@ModelAttribute("allDeps")
-	public List<DepartmentMaster> getAllDeps() {
-		return depService.getAllDep();
+	public List<DepartmentMaster> getAllDepartmentByCompany(HttpSession session) {
+		String companyId = session.getAttribute("company.comID").toString();
+		return depService.getAllDepartmentByCompany(companyId);
 	}
 
 	@PostMapping("/saveDepartment")

@@ -12,9 +12,7 @@ public interface ReligionMasterRepository extends CrudRepository<ReligionMaster,
 
 	@Query(value = "SELECT (max(rm.rid)+1) FROM ReligionMaster rm")
 	public String maxRmID();
-	
-	
-	@Query(value = "SELECT rm FROM ReligionMaster rm where rm.company.comID=:companyId")
-	public List<ReligionMaster> getAllReligionBycompanyID(@Param("companyId")String companyId);
 
+	@Query(value = "SELECT rm FROM ReligionMaster rm where rm.company.comID=:companyId")
+	public List<ReligionMaster> getAllReligionBycompanyID(@Param("companyId") String companyId);
 }

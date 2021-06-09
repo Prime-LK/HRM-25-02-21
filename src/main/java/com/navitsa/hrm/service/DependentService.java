@@ -19,39 +19,39 @@ public class DependentService {
 
 	@Autowired
 	private DependentTypeMasterRepository dTypeRepo;
-	
+
 	@Autowired
 	private EmployeeRepository empRepo;
-	
+
 	@Autowired
 	private EmployeeDependentRepository emDRepo;
-	
+
 	@Autowired
 	private EmployeeDetailsRepository empDeRepo;
 
-	//dependent type master----------------------------------------
+	// dependent type master----------------------------------------
 	public List<DependentTypeMaster> getAllDType() {
 		return (List<DependentTypeMaster>) dTypeRepo.findAll();
 	}
-	
+
 	public String dTypeID() {
-		if(dTypeRepo.maxDTypeID() == null) {
+		if (dTypeRepo.maxDTypeID() == null) {
 			return "1";
 		} else {
 			return dTypeRepo.maxDTypeID();
 		}
 	}
-	
+
 	public void saveDType(DependentTypeMaster dt) {
 		dTypeRepo.save(dt);
 	}
-	
+
 	public DependentTypeMaster getdType(String dTypeID) {
 		return dTypeRepo.findById(dTypeID).get();
 	}
-	
-	//emp dependents--------------------------------------
-	
+
+	// emp dependents--------------------------------------
+
 	public List<Employee> getAllEmp() {
 		return (List<Employee>) empRepo.findAll();
 	}
@@ -59,35 +59,39 @@ public class DependentService {
 //	public EmployeeDependent getEmpDep(String id) {
 //		return emDRepo.findById(id).get();
 //	}
-	
+
 	public List<EmployeeDependent> getAllEmpDep() {
 		return (List<EmployeeDependent>) emDRepo.findAll();
 	}
-	
+
 	public void saveEmpDep(EmployeeDependent ed) {
 		emDRepo.save(ed);
 	}
-	
-	//edit data
-	public EmployeeDependent getEdDataByID(String empID,String dTypeID) {
+
+	// edit data
+	public EmployeeDependent getEdDataByID(String empID, String dTypeID) {
 		return emDRepo.setEmployeeDependentDetails(empID, dTypeID);
 	}
-	//getEmps
+
+	// getEmps
 	public List<EmployeeDependent> getEmps(String empID) {
 		return emDRepo.getEmps(empID);
 	}
-	
-	//dependent Report----------------------------------------------------	
+
+	// dependent Report----------------------------------------------------
 	public String[][] getDepReportData() {
 		return emDRepo.getDepReportData();
 	}
+
 	public String[][] filterEmpDependents(String Department_ID) {
 		return empDeRepo.filterEmpDependents(Department_ID);
 	}
-	
+
 	public List<EmployeeDetails> loadFilteringData(String Department_ID) {
 		return empDeRepo.loadFilteringData(Department_ID);
 	}
-	
-	
+
+	public List<DependentTypeMaster> getAllDependentTypeByCompany(String companyId) {
+		return (List<DependentTypeMaster>) dTypeRepo.getAllDependentTypeByCompany(companyId);
+	}
 }

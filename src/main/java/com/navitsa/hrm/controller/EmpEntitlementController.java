@@ -4,6 +4,7 @@ import java.io.Console;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 //import org.omg.CORBA.PUBLIC_MEMBER;
@@ -43,15 +44,15 @@ public class EmpEntitlementController {
 	public String openEmployeeEntitlements(Map<String, Object> model) {
 		model.put("entitlement", new EmpEntitlementsClass());
 		model.put("entitlementAll", empEntService.getAll());
-		
+
 		return "hrm/EmployeeEntil";
 	}
-	
+
 	@RequestMapping(value = "/EmpLeave", method = RequestMethod.GET)
-	public String empLeave(Map<String, Object>model) {
+	public String empLeave(Map<String, Object> model) {
 		model.put("entitlement", new EmpEntitlementsClass());
 		model.put("entitlementAll", empEntService.getAll());
-		
+
 		return "hrm/EmpLeaves";
 	}
 
@@ -62,8 +63,9 @@ public class EmpEntitlementController {
 	}
 
 	@ModelAttribute("allCat")
-	public List<EmployeeCategory> showEmpCat() {
-		return employeeLevelService.getAllCat();
+	public List<EmployeeCategory> getAllEmployeeCategoryByCompany(HttpSession session) {
+		String companyId = session.getAttribute("company.comID").toString();
+		return employeeLevelService.getAllEmployeeCategoryByCompany(companyId);
 
 	}
 
@@ -75,7 +77,7 @@ public class EmpEntitlementController {
 	@RequestMapping(value = "/saveentitlement", method = RequestMethod.POST)
 	public String saveentitlement(@ModelAttribute("entitlement") EmpEntitlementsClass entitlement,
 			RedirectAttributes redirectAttributes) {
-		
+
 		try {
 			empEntService.saveentitlement(entitlement);
 			redirectAttributes.addFlashAttribute("success", 1);

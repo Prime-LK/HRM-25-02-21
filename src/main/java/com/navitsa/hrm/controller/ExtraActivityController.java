@@ -3,6 +3,7 @@ package com.navitsa.hrm.controller;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.navitsa.hrm.entity.Employee;
 import com.navitsa.hrm.entity.EmployeeExtraActivity;
-import com.navitsa.hrm.entity.EmployeeSkill;
 import com.navitsa.hrm.entity.ExtraActivityType;
 import com.navitsa.hrm.service.EmployeeService;
 import com.navitsa.hrm.service.ExtraActivityService;
@@ -44,8 +44,9 @@ public class ExtraActivityController {
 	}
 
 	@ModelAttribute("aTypes")
-	public List<ExtraActivityType> getAllATypes() {
-		return aTypeService.getAllAt();
+	public List<ExtraActivityType> getAllExtraActivityTypeByCompany(HttpSession session) {
+		String companyId = session.getAttribute("company.comID").toString();
+		return aTypeService.getAllExtraActivityTypeByCompany(companyId);
 	}
 
 	@RequestMapping(value = "/saveExtraActivityType", method = RequestMethod.POST)

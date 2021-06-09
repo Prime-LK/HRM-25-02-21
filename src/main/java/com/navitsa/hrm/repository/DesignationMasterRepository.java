@@ -13,9 +13,7 @@ public interface DesignationMasterRepository extends CrudRepository<DesignationM
 
 	@Query(value = "SELECT (max(d.did)+1) FROM DesignationMaster d ")
 	public String maxDesignationID();
-	
-	@Query(value="SELECT dm FROM DesignationMaster dm WHERE dm.company.comID = :companyId")
+
+	@Query(value = "SELECT dm FROM DesignationMaster dm WHERE dm.company.comID = :companyId")
 	public List<DesignationMaster> getAllDesignationsByCompany(@Param("companyId") String companyId);
-	
-	
 }

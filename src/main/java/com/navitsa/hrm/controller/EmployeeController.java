@@ -148,8 +148,9 @@ public class EmployeeController {
 
 	// load bank
 	@ModelAttribute("bankmastertable")
-	public List<BankMaster> showBankmaster() {
-		return bankDetailsService.getAllBankdata();
+	public List<BankMaster> getAllBankByCompany(HttpSession session) {
+		String companyId = session.getAttribute("company.comID").toString();
+		return bankDetailsService.getAllBankByCompany(companyId);
 	}
 
 	// load bank branch

@@ -1,5 +1,8 @@
 package com.navitsa.hrm.repository;
 
+import java.util.List;
+
+import org.springframework.data.repository.query.Param;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
@@ -9,4 +12,7 @@ public interface NationalityMasterRepository extends CrudRepository<NationalityM
 
 	@Query(value = "SELECT (max(nm.nId)+1) FROM NationalityMaster nm")
 	public String maxNmID();
+
+	@Query(value = "SELECT nm FROM NationalityMaster nm WHERE nm.company.comID = :companyId")
+	public List<NationalityMaster> getAllNationalityByCompany(@Param("companyId") String companyId);
 }

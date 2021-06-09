@@ -62,4 +62,8 @@ public class MembershipService {
 
 		return employeeMembershipRepo.searchEmployeeMembershipDetails(empID);
 	}
+
+	public List<MembershipInformation> getAllMembershipInformationByCompany(String companyId) {
+		return (List<MembershipInformation>) memRepo.getAllMembershipInformationByCompany(companyId);
+	}
 }

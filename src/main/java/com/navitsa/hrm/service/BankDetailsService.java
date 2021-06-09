@@ -107,9 +107,16 @@ public class BankDetailsService {
 		return bankMRepo.findById(bankid).get();
 	}
 
-	//load branch according to bank
+	// load branch according to bank
 	public List<Bank> getbranchBybank(String bank_Code) {
 		return bankRepo.findbranch(bank_Code);
 	}
 
+	public List<BankMaster> getAllBankByCompany(String companyId) {
+		return (List<BankMaster>) bankMRepo.getAllBankByCompany(companyId);
+	}
+
+	public List<Bank> getAllBankBranchByCompany(String companyId) {
+		return (List<Bank>) bankRepo.getAllBankBranchByCompany(companyId);
+	}
 }

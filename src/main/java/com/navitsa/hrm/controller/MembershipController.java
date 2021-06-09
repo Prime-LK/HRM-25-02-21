@@ -3,6 +3,7 @@ package com.navitsa.hrm.controller;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,8 +47,9 @@ public class MembershipController {
 	}
 
 	@ModelAttribute("allMi")
-	public List<MembershipInformation> getAllMInfo() {
-		return miService.getAllMi();
+	public List<MembershipInformation> getAllMInfo(HttpSession session) {
+		String companyId = session.getAttribute("company.comID").toString();
+		return miService.getAllMembershipInformationByCompany(companyId);
 	}
 
 	@ModelAttribute("emp")

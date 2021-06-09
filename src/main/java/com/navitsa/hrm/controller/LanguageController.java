@@ -3,6 +3,7 @@ package com.navitsa.hrm.controller;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,8 +65,9 @@ public class LanguageController {
 	}
 
 	@ModelAttribute("lMaster")
-	public List<LanguageMaster> getAllLm() {
-		return lmService.getAllLm();
+	public List<LanguageMaster> getAllLanguageByCompany(HttpSession session) {
+		String companyId = session.getAttribute("company.comID").toString();
+		return lmService.getAllLanguageByCompany(companyId);
 	}
 
 	// employee language----------------------------------------------------

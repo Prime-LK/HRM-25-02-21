@@ -3,6 +3,7 @@ package com.navitsa.hrm.controller;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,9 +43,9 @@ public class JobProfileController {
 
 	// load saved data to table
 	@ModelAttribute("jobList")
-	public List<JobProfileMaster> getjobList() {
-		List<JobProfileMaster> joblist = jobService.JobProfileMasterlist();
-		return joblist;
+	public List<JobProfileMaster> getAllJobProfileByCompany(HttpSession session) {
+		String companyId = session.getAttribute("company.comID").toString();
+		return jobService.getAllJobProfileByCompany(companyId);
 	}
 
 	// save jobmaster data
@@ -102,10 +103,9 @@ public class JobProfileController {
 
 	// load saved salary grade data
 	@ModelAttribute("salaryGradeList")
-	public List<SalaryGrade> getSalaryGradeList() {
-
-		List<SalaryGrade> salaryGradeList = jobService.getlistOfSalaryGrade();
-		return salaryGradeList;
+	public List<SalaryGrade> getAllSalaryGradeByCompany(HttpSession session) {
+		String companyId = session.getAttribute("company.comID").toString();
+		return jobService.getAllSalaryGradeByCompany(companyId);
 	}
 
 	// edit saved salary grade data
@@ -147,10 +147,9 @@ public class JobProfileController {
 
 	// load sAVED SALARY RANGE DATA
 	@ModelAttribute("salaryRList")
-	public List<SalaryRange> getSalaryRangeList() {
-
-		List<SalaryRange> salaryRangeList = jobService.getlistOfSalaryRange();
-		return salaryRangeList;
+	public List<SalaryRange> getAllSalaryRangeByCompany(HttpSession session) {
+		String companyId = session.getAttribute("company.comID").toString();
+		return jobService.getAllSalaryRangeByCompany(companyId);
 	}
 
 	// edit saved range data
@@ -190,10 +189,9 @@ public class JobProfileController {
 	}
 
 	@ModelAttribute("detaillist")
-	public List<JobProfileDetails> getJobProfileDetailsList() {
-
-		List<JobProfileDetails> jobProfileDetailsList = jobService.getlistOfjobProfile();
-		return jobProfileDetailsList;
+	public List<JobProfileDetails> getAllJobProfileDetailsByCompany(HttpSession session) {
+		String companyId = session.getAttribute("company.comID").toString();
+		return jobService.getAllJobProfileDetailsByCompany(companyId);
 	}
 
 	@RequestMapping("/UpdateJobProfileDetails")
@@ -250,10 +248,9 @@ public class JobProfileController {
 
 	// load data
 	@ModelAttribute("listmaster")
-	public List<DesignationMaster> getJDetailsList() {
-
-		List<DesignationMaster> DetailsList = jobService.getlistOfDesignationMaster();
-		return DetailsList;
+	public List<DesignationMaster> getAllDesignationMasterByCompany(HttpSession session) {
+		String companyId = session.getAttribute("company.comID").toString();
+		return jobService.getAllDesignationMasterByCompany(companyId);
 	}
 
 	// edit data

@@ -3,6 +3,7 @@ package com.navitsa.hrm.controller;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -114,8 +115,9 @@ public class BankDetailsController {
 
 	// show all saved bank data
 	@ModelAttribute("bankLists")
-	public List<Bank> showBank() {
-		return baService.getAllSavedBank();
+	public List<Bank> getAllBankBranchByCompany(HttpSession session) {
+		String companyId = session.getAttribute("company.comID").toString();
+		return baService.getAllBankBranchByCompany(companyId);
 	}
 
 	// edit saved bank data
@@ -151,8 +153,9 @@ public class BankDetailsController {
 
 	// load saved bank master data
 	@ModelAttribute("bankmastertable")
-	public List<BankMaster> showBankmaster() {
-		return baService.getAllBankdata();
+	public List<BankMaster> getAllBankByCompany(HttpSession session) {
+		String companyId = session.getAttribute("company.comID").toString();
+		return baService.getAllBankByCompany(companyId);
 	}
 
 	// update bank master data

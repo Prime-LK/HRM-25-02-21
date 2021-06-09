@@ -13,9 +13,7 @@ public interface EmployeeTypeRepository extends CrudRepository<EmployeeType, Str
 
 	@Query(value = "SELECT (max(et.tid)+1) FROM EmployeeType et")
 	public String maxTypeID();
-	
-	@Query(value="SELECT et FROM  EmployeeType et WHERE et.company.comID=:companyId")
-	public List<EmployeeType> getAllTypesByCompanny(@Param("companyId")String companyId);
-	
-	
+
+	@Query(value = "SELECT et FROM  EmployeeType et WHERE et.company.comID=:companyId")
+	public List<EmployeeType> getAllTypesByCompanny(@Param("companyId") String companyId);
 }

@@ -3,6 +3,7 @@ package com.navitsa.hrm.controller;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,8 +44,9 @@ public class EmployeeIdDocumentController {
 	}
 
 	@ModelAttribute("allEd")
-	public List<EmployeeIdDocument> getAllEd() {
-		return edService.getAllEd();
+	public List<EmployeeIdDocument> getAllEmployeeIdDocumentByCompany(HttpSession session) {
+		String companyId = session.getAttribute("company.comID").toString();
+		return edService.getAllEmployeeIdDocumentByCompany(companyId);
 	}
 
 	@RequestMapping(value = "/saveEmployeeDocument", method = RequestMethod.POST)

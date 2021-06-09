@@ -14,27 +14,27 @@ import com.navitsa.hrm.repository.EmployeeRepository;
 import com.navitsa.hrm.repository.LanguageMasterRepository;
 
 @Service
-public class LanguageService{
+public class LanguageService {
 
 	@Autowired
 	private LanguageMasterRepository lmRepo;
-	
+
 	@Autowired
 	private EmployeeLanguageRepository elRepo;
-	
+
 	@Autowired
 	private EmployeeRepository eRepo;
-	
-	//employee master-------------------------------------
-	
+
+	// employee master-------------------------------------
+
 	public String maxLmID() {
-		if(lmRepo.maxLmID() == null) {
+		if (lmRepo.maxLmID() == null) {
 			return "1";
 		} else {
-		return lmRepo.maxLmID();
+			return lmRepo.maxLmID();
 		}
 	}
-	
+
 	public void saveLMaster(LanguageMaster lm) {
 		lmRepo.save(lm);
 	}
@@ -42,14 +42,13 @@ public class LanguageService{
 	public List<LanguageMaster> getAllLm() {
 		return (List<LanguageMaster>) lmRepo.findAll();
 	}
-	
+
 	public LanguageMaster getLanguage(String lid) {
 		return lmRepo.findById(lid).get();
 	}
 
-	
-	//employee language-------------------------------------
-	
+	// employee language-------------------------------------
+
 	public void saveEmpLa(EmployeeLanguage el) {
 		elRepo.save(el);
 	}
@@ -57,25 +56,29 @@ public class LanguageService{
 	public List<EmployeeLanguage> getAllEl() {
 		return (List<EmployeeLanguage>) elRepo.findAll();
 	}
-	
+
 	public List<LanguageMaster> getAlllm() {
 		return (List<LanguageMaster>) lmRepo.findAll();
 	}
-	
+
 	public List<Employee> getAllEmp() {
 		return (List<Employee>) eRepo.findAll();
 	}
-	
+
 //	public EmployeeLanguage getEmpLa(String id) {
 //		return elRepo.findById(id).get();
 //	}
-	
-	public EmployeeLanguage getdata(String empID,String languageId) {
+
+	public EmployeeLanguage getdata(String empID, String languageId) {
 		return elRepo.setEmployeeLanguageDetails(empID, languageId);
 	}
-	
+
 	public List<EmployeeLanguage> searchEmployeeLanguage(String empID) {
-		
+
 		return elRepo.searchEmployeeLanguageDetails(empID);
+	}
+
+	public List<LanguageMaster> getAllLanguageByCompany(String companyId) {
+		return (List<LanguageMaster>) lmRepo.getAllLanguageByCompany(companyId);
 	}
 }

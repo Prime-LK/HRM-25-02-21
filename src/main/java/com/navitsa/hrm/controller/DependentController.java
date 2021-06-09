@@ -3,6 +3,7 @@ package com.navitsa.hrm.controller;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,8 +39,9 @@ public class DependentController {
 	}
 
 	@ModelAttribute("deTypes")
-	public List<DependentTypeMaster> getAllDTypes() {
-		return deService.getAllDType();
+	public List<DependentTypeMaster> getAllDependentTypeByCompany(HttpSession session) {
+		String companyId = session.getAttribute("company.comID").toString();
+		return deService.getAllDependentTypeByCompany(companyId);
 	}
 
 	@RequestMapping(value = "/saveDependentType", method = RequestMethod.POST)

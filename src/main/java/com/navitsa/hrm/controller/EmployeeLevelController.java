@@ -3,6 +3,7 @@ package com.navitsa.hrm.controller;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,8 +37,9 @@ public class EmployeeLevelController {
 	}
 
 	@ModelAttribute("allType")
-	public List<EmployeeType> getAllType() {
-		return elService.getAllTy();
+	public List<EmployeeType> getAllEmployeeTypeByCompany(HttpSession session) {
+		String companyId = session.getAttribute("company.comID").toString();
+		return elService.getAllEmployeeTypeByCompany(companyId);
 	}
 
 	@RequestMapping(value = "/saveEmployeeType", method = RequestMethod.POST)
@@ -71,8 +73,10 @@ public class EmployeeLevelController {
 	}
 
 	@ModelAttribute("allCat")
-	public List<EmployeeCategory> getAllCat() {
-		return elService.getAllCat();
+	public List<EmployeeCategory> getAllEmployeeCategoryByCompany(HttpSession session) {
+		String companyId = session.getAttribute("company.comID").toString();
+		return elService.getAllEmployeeCategoryByCompany(companyId);
+
 	}
 
 	@RequestMapping(value = "/saveEmployeeCategory", method = RequestMethod.POST)

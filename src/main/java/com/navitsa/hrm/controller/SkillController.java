@@ -3,6 +3,7 @@ package com.navitsa.hrm.controller;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,13 +74,15 @@ public class SkillController {
 	}
 
 	@ModelAttribute("skills")
-	public List<SkillMaster> getAllSkills() {
-		return smService.getAllSkills();
+	public List<SkillMaster> getAllSkillByCompany(HttpSession session) {
+		String companyId = session.getAttribute("company.comID").toString();
+		return smService.getAllSkillByCompany(companyId);
 	}
 
 	@ModelAttribute("aTypes")
-	public List<ExtraActivityType> getAllEATypes() {
-		return aTypeService.getAllAt();
+	public List<ExtraActivityType> getAllExtraActivityTypeByCompany(HttpSession session) {
+		String companyId = session.getAttribute("company.comID").toString();
+		return aTypeService.getAllExtraActivityTypeByCompany(companyId);
 	}
 
 	// employee skill---------------------------------------------------------
@@ -102,14 +105,15 @@ public class SkillController {
 		return smService.getAllEmps();
 	}
 
-	@ModelAttribute("aTypes")
-	public List<ExtraActivityType> getAllATypes() {
-		return aTypeService.getAllAt();
-	}
+	/*
+	 * @ModelAttribute("aTypes") public List<ExtraActivityType> getAllATypes() {
+	 * return aTypeService.getAllAt(); }
+	 */
 
 	@ModelAttribute("lMaster")
-	public List<LanguageMaster> getAllLm() {
-		return laService.getAllLm();
+	public List<LanguageMaster> getAllLanguageByCompany(HttpSession session) {
+		String companyId = session.getAttribute("company.comID").toString();
+		return laService.getAllLanguageByCompany(companyId);
 	}
 
 	@RequestMapping(value = "/saveEmpSkill", method = RequestMethod.POST)

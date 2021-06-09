@@ -3,6 +3,7 @@ package com.navitsa.hrm.controller;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,8 +38,9 @@ public class EthnicController {
 	}
 
 	@ModelAttribute("NaMaster")
-	public List<NationalityMaster> getAllNa() {
-		return ethService.getAllNa();
+	public List<NationalityMaster> getAllNationalityByCompany(HttpSession session) {
+		String companyId = session.getAttribute("company.comID").toString();
+		return ethService.getAllNationalityByCompany(companyId);
 	}
 
 	@RequestMapping(value = "/saveNationality", method = RequestMethod.POST)
@@ -72,8 +74,9 @@ public class EthnicController {
 	}
 
 	@ModelAttribute("RmMaster")
-	public List<ReligionMaster> getAllRm() {
-		return ethService.getAllRm();
+	public List<ReligionMaster> getAllReligionByCompany(HttpSession session) {
+		String companyId = session.getAttribute("company.comID").toString();
+		return ethService.getAllReligionByCompany(companyId);
 	}
 
 	@RequestMapping(value = "/saveReligion", method = RequestMethod.POST)
