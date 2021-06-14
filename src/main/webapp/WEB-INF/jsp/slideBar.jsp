@@ -108,16 +108,16 @@
 				</a>
 					<div class="collapse" id="base4">
 						<ul class="nav nav-collapse">
-							<li><a href="Shift"> <span class="sub-item">Shifts</span></a></li>
+							<li><a href="Shift"> <span class="sub-item">Create Shift</span></a></li>
 							<li><a href="ShiftAllocation"> <span class="sub-item">Shift Allocation</span></a></li>
-							<li><a href="AllocatedShifts"> <span class="sub-item">Allocated Shifts</span></a></li>
+							<li><a href="AllocatedShifts"> <span class="sub-item">View Allocated Shifts</span></a></li>
 							<li><a href="EmployeeAttendance"> <span class="sub-item">Manual Employee Attendance</span></a></li>
-							<li><a href="AttendanceLog"> <span class="sub-item">Attendance Log</span></a></li>
-							<li><a href="EmployeeAttendanceApproval"> <span class="sub-item">Attendance Approval</span></a></li>
-							<li><a href="AttendanceReport"> <span class="sub-item">Attendance Report</span></a></li>
-							<li><a href="AttendanceSheet"> <span class="sub-item">Attendance Sheet</span></a></li>
-							<li><a href="AttendanceRevise"> <span class="sub-item">Attendance Revise</span></a></li>
-							<li><a href="AttendanceReviseApproval"> <span class="sub-item">Revise Approval</span></a></li>
+							<li><a href="AttendanceLog"> <span class="sub-item">Manual Attendance Log</span></a></li>
+							<li><a href="EmployeeAttendanceApproval"> <span class="sub-item">Manual Attendance Approval</span></a></li>
+							<li><a href="AttendanceReport"> <span class="sub-item">Manual Attendance Report</span></a></li>
+							<li><a href="AttendanceSheet"> <span class="sub-item">Manual Attendance Sheet</span></a></li>
+							<li><a href="AttendanceRevise"> <span class="sub-item">Manual Attendance Revise</span></a></li>
+							<li><a href="AttendanceReviseApproval"> <span class="sub-item">Manual Attendance Revise Approval</span></a></li>
 							<li><a href="ShiftDetailReport"> <span class="sub-item">Shift Detail Report</span></a></li>
 						</ul>
 					</div></li>

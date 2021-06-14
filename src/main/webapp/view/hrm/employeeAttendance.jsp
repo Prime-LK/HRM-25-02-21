@@ -129,24 +129,6 @@
 												<div class="col-9">
 													<div class="form-group row">
 														<div class="col-sm-3">
-															<label>Date</label> <input id="date" name="date"
-																placeholder="dd-mm-yyyy" type="date"
-																class="form-control" value=""
-																onchange="loadEmployeeShiftDetails(); loadAttendanceRecords()"
-																required="true" />
-														</div>
-														<div class="col-sm-3">
-															<label>Shift</label> <select id="shiftId" name="shiftId"
-																class="form-control text-capitalize" required
-																onchange="loadEmployeeShiftDetails(); loadAttendanceRecords()">
-																<option value="" disabled selected>- Select
-																	Shift -</option>
-																<c:forEach items="${shiftList}" var="s">
-																	<option value="${s.shiftId}">${s.description}</option>
-																</c:forEach>
-															</select>
-														</div>
-														<div class="col-sm-3">
 															<label>Department</label> <select id="selectDepartment"
 																name="departmentId" class="form-control text-capitalize"
 																required
@@ -162,9 +144,27 @@
 															<label>Employee Name</label> <select
 																id="selectEmployeeId" name="employeeId"
 																class="form-control text-capitalize" required="true"
-																onchange="loadEmployeeShiftDetails(); loadAttendanceRecords()">
+																onchange="loadAttendanceRecords()">
 																<option value="" disabled selected>- Select
 																	Employee -</option>
+															</select>
+														</div>
+														<div class="col-sm-3">
+															<label>Date</label> <input id="date" name="date"
+																placeholder="dd-mm-yyyy" type="date"
+																class="form-control" value=""
+																onchange="loadAttendanceRecords()"
+																required="true" />
+														</div>
+														<div class="col-sm-3">
+															<label>Shift</label> <select id="shiftId" name="shiftId"
+																class="form-control text-capitalize" required
+																onchange="loadAttendanceRecords()">
+																<option value="" disabled selected>- Select
+																	Shift -</option>
+																<c:forEach items="${shiftList}" var="s">
+																	<option value="${s.shiftId}">${s.description}</option>
+																</c:forEach>
 															</select>
 														</div>
 													</div>
@@ -174,16 +174,6 @@
 												<div class="col-9">
 													<div class="form-group row">
 														<div class="col-sm-3">
-															<label>Start Time</label> <input id="startTime"
-																name="startTime" type="time" class="form-control"
-																value="" readonly /> <span id="div1"></span>
-														</div>
-														<div class="col-sm-3">
-															<label>End Time</label> <input id="endTime"
-																name="endTime" type="time" class="form-control" value=""
-																readonly /> <span id="div2"></span>
-														</div>
-														<div class="col-sm-3">
 															<label>On Time</label> <input id="onTime" name="onTime"
 																type="time" class="form-control" value="" /> <span
 																id="div1"></span>
@@ -192,6 +182,16 @@
 															<label>Off Time</label> <input id="offTime"
 																name="offTime" type="time" class="form-control" value="" />
 															<span id="div2"></span>
+														</div>
+														<div class="col-sm-3">
+															<label>Start Time</label> <input id="startTime"
+																name="startTime" type="time" class="form-control"
+																value="" readonly /> <span id="div1"></span>
+														</div>
+														<div class="col-sm-3">
+															<label>End Time</label> <input id="endTime"
+																name="endTime" type="time" class="form-control" value=""
+																readonly /> <span id="div2"></span>
 														</div>
 													</div>
 												</div>

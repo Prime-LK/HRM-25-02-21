@@ -150,37 +150,6 @@
 											<div class=" row">
 												<div class="col-9">
 													<div class="form-group row">
-														<div class="col-sm-3">
-															<label>Shift</label> <select id="shiftId" name="shiftId"
-																class="form-control text-capitalize" required
-																onchange="loadShiftById(); loadShiftsByDateRange();">
-																<option value="" disabled selected>Select Shift</option>
-																<c:forEach items="${shiftList}" var="s">
-																	<option value="${s.shiftId}">${s.description}</option>
-																</c:forEach>
-															</select>
-														</div>
-														<div class="col-sm-3">
-															<label>Start Time</label> <input id="startTime"
-																name="startTime" type="time" class="form-control"
-																value="" readonly /> <span id="div1"></span>
-														</div>
-														<div class="col-sm-3">
-															<label>End Time</label> <input id="endTime"
-																name="endTime" type="time" class="form-control" value=""
-																readonly /> <span id="div2"></span>
-														</div>
-														<div class="col-sm-3">
-															<label>Duration</label> <input id="duration"
-																name="duration" type="text" class="form-control"
-																value="" readonly /> <span id="div1"></span>
-														</div>
-													</div>
-												</div>
-											</div>
-											<div class=" row">
-												<div class="col-9">
-													<div class="form-group row">
 														<div class="col-sm-4">
 															<label>Department</label> <select id="selectDepartment"
 																name="departmentId"
@@ -214,6 +183,37 @@
 															<input id="depName" name="departmentName" type="hidden"
 																class="form-control" value="" readonly /> <span
 																id="div2"></span>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class=" row">
+												<div class="col-9">
+													<div class="form-group row">
+														<div class="col-sm-3">
+															<label>Shift</label> <select id="shiftId" name="shiftId"
+																class="form-control text-capitalize" required
+																onchange="loadShiftById(); loadShiftsByDateRange();">
+																<option value="" disabled selected>Select Shift</option>
+																<c:forEach items="${shiftList}" var="s">
+																	<option value="${s.shiftId}">${s.description}</option>
+																</c:forEach>
+															</select>
+														</div>
+														<div class="col-sm-3">
+															<label>Start Time</label> <input id="startTime"
+																name="startTime" type="time" class="form-control"
+																value="" readonly /> <span id="div1"></span>
+														</div>
+														<div class="col-sm-3">
+															<label>End Time</label> <input id="endTime"
+																name="endTime" type="time" class="form-control" value=""
+																readonly /> <span id="div2"></span>
+														</div>
+														<div class="col-sm-3">
+															<label>Duration</label> <input id="duration"
+																name="duration" type="text" class="form-control"
+																value="" readonly /> <span id="div1"></span>
 														</div>
 													</div>
 												</div>
