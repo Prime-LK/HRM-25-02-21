@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 
 import com.navitsa.hrm.entity.ShiftAllocation;
 import com.navitsa.hrm.entity.ShiftAllocationPK;
+import com.navitsa.hrm.report.ShiftAllocationBean;
 
 public interface ShiftAllocationRepository extends CrudRepository<ShiftAllocation, ShiftAllocationPK> {
 
@@ -84,6 +85,7 @@ public interface ShiftAllocationRepository extends CrudRepository<ShiftAllocatio
 			@Param("employeeId") String employeeId, @Param("shiftId") String shiftId,
 			@Param("companyId") String companyId);
 
+	/*
 	@Query(value = "SELECT DATE_FORMAT(shift_allocation.date, \"%Y-%m-%d\") as date, calander.Types, \n"
 			+ "shift_allocation.shift_id, shift_allocation.shift_name,\n"
 			+ "TIME_FORMAT(shift_allocation.start_time, \"%H:%i\") as start_time, TIME_FORMAT(shift_allocation.end_time, \"%H:%i\") as end_time,\n"
@@ -93,5 +95,9 @@ public interface ShiftAllocationRepository extends CrudRepository<ShiftAllocatio
 			+ "WHERE shift_allocation.date BETWEEN :startDate AND :endDate AND shift_allocation.shift_id = :shiftId AND shift_allocation.company_id = :companyId", nativeQuery = true)
 	public String[][] loadShiftsByDateRange(@Param("startDate") String startDate, @Param("endDate") String endDate,
 			@Param("shiftId") String shiftId, @Param("companyId") String companyId);
-
+	*/
+	
+	@Query(value = "SELECT sa FROM ShiftAllocation sa WHERE sa.shiftAllocationPK.calander.calanderEntityPK.date BETWEEN :startDate AND :endDate AND sa.shiftAllocationPK.calander.calanderEntityPK.company.comID = :companyId AND sa.shiftAllocationPK.shiftmaster.shiftId = :shiftId")
+	public List<ShiftAllocation> loadShiftsByDateRange(@Param("startDate") String startDate, @Param("endDate") String endDate,
+			@Param("shiftId") String shiftId, @Param("companyId") String companyId);
 }

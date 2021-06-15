@@ -73,7 +73,13 @@ public class ShiftAllocationService {
 				employeeId, shiftId, companyId);
 	}
 
+	/*
 	public String[][] loadShiftsByDateRange(String startDate, String endDate, String shiftId, String companyId) {
+		return shiftAllocationRepository.loadShiftsByDateRange(startDate, endDate, shiftId, companyId);
+	}
+	*/
+	
+	public List<ShiftAllocation> loadShiftsByDateRange(String startDate, String endDate, String shiftId, String companyId) {
 		return shiftAllocationRepository.loadShiftsByDateRange(startDate, endDate, shiftId, companyId);
 	}
 }

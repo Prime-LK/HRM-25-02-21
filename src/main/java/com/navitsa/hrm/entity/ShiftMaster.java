@@ -2,7 +2,10 @@ package com.navitsa.hrm.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -22,25 +25,26 @@ public class ShiftMaster {
 	@Column(name = "end_time")
 	private String endTime;
 
-	@Column(name = "recurring")
-	private boolean recurring;
+	@Column(name = "continuing")
+	private boolean continuing;
 
-	@Column(name = "company_id")
-	private String companyId;
+	@ManyToOne(optional = false, fetch = FetchType.EAGER)
+	@JoinColumn(name = "company_id", referencedColumnName = "Company_ID")
+	private CompanyMaster company;
 
 	public ShiftMaster() {
 
 	}
 
-	public ShiftMaster(String shiftId, String description, String startTime, String endTime, boolean recurring,
-			String companyId) {
+	public ShiftMaster(String shiftId, String description, String startTime, String endTime, boolean continuing,
+			CompanyMaster company) {
 		super();
 		this.shiftId = shiftId;
 		this.description = description;
 		this.startTime = startTime;
 		this.endTime = endTime;
-		this.recurring = recurring;
-		this.companyId = companyId;
+		this.continuing = continuing;
+		this.company = company;
 	}
 
 	public String getShiftId() {
@@ -75,26 +79,25 @@ public class ShiftMaster {
 		this.endTime = endTime;
 	}
 
-	public boolean getRecurring() {
-		return recurring;
+	public boolean isContinuing() {
+		return continuing;
 	}
 
-	public void setRecurring(boolean recurring) {
-		this.recurring = recurring;
+	public void setContinuing(boolean continuing) {
+		this.continuing = continuing;
 	}
 
-	public String getCompanyId() {
-		return companyId;
+	public CompanyMaster getCompany() {
+		return company;
 	}
 
-	public void setCompanyId(String companyId) {
-		this.companyId = companyId;
+	public void setCompany(CompanyMaster company) {
+		this.company = company;
 	}
 
 	@Override
 	public String toString() {
 		return "ShiftMaster [shiftId=" + shiftId + ", description=" + description + ", startTime=" + startTime
-				+ ", endTime=" + endTime + ", recurring=" + recurring + ", companyId=" + companyId + "]";
+				+ ", endTime=" + endTime + ", continuing=" + continuing + ", company=" + company + "]";
 	}
-
 }

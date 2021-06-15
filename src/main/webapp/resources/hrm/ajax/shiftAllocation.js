@@ -16,14 +16,16 @@ function loadEmployeeIdByDepartmentId() {
 					},
 					success : function(data) {
 						if (data.length == 0) {
-							swal("No data is available for the selected parameters!", "", {
-								icon : "info",
-								buttons : {
-									confirm : {
-										className : 'btn btn-primary'
-									}
-								},
-							});
+							swal(
+									"No data is available for the selected parameters!",
+									"", {
+										icon : "info",
+										buttons : {
+											confirm : {
+												className : 'btn btn-primary'
+											}
+										},
+									});
 						}
 						var selectEmployee = $("#selectEmployeeId"), option = "";
 						selectEmployee.empty();
@@ -73,14 +75,15 @@ function loadDepartmentName() {
 			},
 			success : function(data) {
 				if (data.length == 0) {
-					swal("No data is available for the selected parameters!", "", {
-						icon : "info",
-						buttons : {
-							confirm : {
-								className : 'btn btn-primary'
-							}
-						},
-					});
+					swal("No data is available for the selected parameters!",
+							"", {
+								icon : "info",
+								buttons : {
+									confirm : {
+										className : 'btn btn-primary'
+									}
+								},
+							});
 				}
 				var departmentName = $("#depName");
 				departmentName.empty();
@@ -107,8 +110,6 @@ function loadShiftById() {
 
 	var selectShift = document.getElementById("shiftId").value;
 	if (selectShift == "") {
-		var selectShiftName = $("#shiftName");
-		selectShiftName.empty();
 		var selectStartTime = $("#startTime");
 		selectStartTime.empty();
 		var selectEndTime = $("#endTime");
@@ -124,23 +125,21 @@ function loadShiftById() {
 			},
 			success : function(data) {
 				if (data.length == 0) {
-					swal("No data is available for the selected parameters!", "", {
-						icon : "info",
-						buttons : {
-							confirm : {
-								className : 'btn btn-primary'
-							}
-						},
-					});
+					swal("No data is available for the selected parameters!",
+							"", {
+								icon : "info",
+								buttons : {
+									confirm : {
+										className : 'btn btn-primary'
+									}
+								},
+							});
 				}
-				var selectShiftName = $("#shiftName");
-				selectShiftName.empty();
+
 				var selectStartTime = $("#startTime");
 				selectStartTime.empty();
 				var selectEndTime = $("#endTime");
 				selectEndTime.empty();
-
-				document.getElementById("shiftName").value = data.description;
 				document.getElementById("startTime").value = data.startTime;
 				document.getElementById("endTime").value = data.endTime;
 				document.getElementById("duration").value = calculateDuration(
@@ -208,14 +207,15 @@ function loadShiftsByDateRange() {
 			},
 			success : function(data) {
 				if (data.length == 0) {
-					swal("No data is available for the selected parameters!", "", {
-						icon : "info",
-						buttons : {
-							confirm : {
-								className : 'btn btn-primary'
-							}
-						},
-					});
+					swal("No data is available for the selected parameters!",
+							"", {
+								icon : "info",
+								buttons : {
+									confirm : {
+										className : 'btn btn-primary'
+									}
+								},
+							});
 				}
 				$("#dataTable tbody").empty();
 				for (var i = 0; i < data.length; i++) {

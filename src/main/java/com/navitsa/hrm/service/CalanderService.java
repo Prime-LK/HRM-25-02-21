@@ -13,27 +13,41 @@ public class CalanderService {
 
 	@Autowired
 	private CalanderRepository calanderRepo;
-	
-	public List<CalanderEntity>getAll(){
-		return(List<CalanderEntity>)calanderRepo.findAll();
+
+	public List<CalanderEntity> getAll() {
+		return (List<CalanderEntity>) calanderRepo.findAll();
 	}
 
 	public void savecalander(CalanderEntity calander) {
-		
 		calanderRepo.save(calander);
-		
 	}
-	
-	public CalanderEntity  getRm(String id) {
-		
+
+	public CalanderEntity getRm(String id) {
 		return calanderRepo.findById(id).get();
 	}
 
-	public CalanderEntity getCalenderDetails(String date) {
-		return calanderRepo.getCalanderDetails(date);
+	public CalanderEntity getCalenderDetails(String date, String companyId) {
+		return calanderRepo.getCalanderDetails(date, companyId);
 	}
 
-	public CalanderEntity setCalenderDetails(String date) {
-		return calanderRepo.setCalanderDetails(date);
+	public CalanderEntity setCalenderDetails(String date, String companyId) {
+		return calanderRepo.getCalanderDetails(date, companyId);
+	}
+
+	public List<CalanderEntity> saveEmpMoDe(List<CalanderEntity> list) {
+		return (List<CalanderEntity>) calanderRepo.saveAll(list);
+	}
+
+	public CalanderEntity update(String date) {
+
+		return calanderRepo.findById(date).get();
+	}
+
+	public List<CalanderEntity> saveAll(List<CalanderEntity> date) {
+		return (List<CalanderEntity>) calanderRepo.saveAll(date);
+	}
+
+	public CalanderEntity getCalenderByCompany(String date, String companyId) {
+		return calanderRepo.getCalenderByCompany(date, companyId);
 	}
 }

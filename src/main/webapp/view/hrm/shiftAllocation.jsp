@@ -139,11 +139,6 @@
 																required onchange="loadShiftsByDateRange()" /> <span
 																id="div2"></span>
 														</div>
-														<div class="col-sm-3">
-															<input id="shiftName" name="shiftName" type="hidden"
-																class="form-control text-capitalize" value=""
-																placeholder="Shift Name" readonly />
-														</div>
 													</div>
 												</div>
 											</div>
@@ -155,7 +150,7 @@
 																name="departmentId"
 																class="form-control form-control-user col-12 foo text-capitalize"
 																required
-																onchange="loadEmployeeIdByDepartmentId(); loadDepartmentName()">
+																onchange="loadEmployeeIdByDepartmentId();">
 																<option value="" disabled selected>Select
 																	Department</option>
 																<c:forEach items="${depList}" var="d">
@@ -177,12 +172,6 @@
 																id="allEmployeesHidden" name="allEmployees" value="0" />
 															<input type="hidden" id="companyId" name="companyId"
 																value="<%=session.getAttribute("company.comID")%>" />
-														</div>
-														<div class="col-sm-1">
-															<!-- <label>Department Name</label> -->
-															<input id="depName" name="departmentName" type="hidden"
-																class="form-control" value="" readonly /> <span
-																id="div2"></span>
 														</div>
 													</div>
 												</div>

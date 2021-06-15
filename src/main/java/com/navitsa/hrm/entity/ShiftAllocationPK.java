@@ -1,59 +1,66 @@
 package com.navitsa.hrm.entity;
 
 import java.io.Serializable;
-import java.sql.Date;
 
-import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
+import javax.persistence.ManyToOne;
 
 @Embeddable
 public class ShiftAllocationPK implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private Date date;
-	@Column(name = "employee_id")
-	private String employeeId;
-	@Column(name = "shift_id")
-	private String shiftId;
+	@ManyToOne(optional = false, fetch = FetchType.EAGER)
+	@JoinColumns({ @JoinColumn(name = "date", referencedColumnName = "date"),
+			@JoinColumn(name = "company_id", referencedColumnName = "company_id") })
+	private CalanderEntity calander;
+	@ManyToOne(optional = false, fetch = FetchType.EAGER)
+	@JoinColumn(name = "employee_id", referencedColumnName = "Employee_ID")
+	private Employee employee;
+	@ManyToOne(optional = false, fetch = FetchType.EAGER)
+	@JoinColumn(name = "shift_id", referencedColumnName = "shift_id")
+	private ShiftMaster shiftmaster;
 
 	public ShiftAllocationPK() {
 
 	}
 
-	public ShiftAllocationPK(Date date, String employeeId, String shiftId) {
-		this.date = date;
-		this.employeeId = employeeId;
-		this.shiftId = shiftId;
+	public ShiftAllocationPK(CalanderEntity calander, Employee employee, ShiftMaster shiftmaster) {
+		this.calander = calander;
+		this.employee = employee;
+		this.shiftmaster = shiftmaster;
 	}
 
-	public Date getDate() {
-		return date;
+	public CalanderEntity getCalander() {
+		return calander;
 	}
 
-	public void setDate(Date date) {
-		this.date = date;
+	public void setCalander(CalanderEntity calander) {
+		this.calander = calander;
 	}
 
-	public String getEmployeeId() {
-		return employeeId;
+	public Employee getEmployee() {
+		return employee;
 	}
 
-	public void setEmployeeId(String employeeId) {
-		this.employeeId = employeeId;
+	public void setEmployee(Employee employee) {
+		this.employee = employee;
 	}
 
-	public String getShiftId() {
-		return shiftId;
+	public ShiftMaster getShiftmaster() {
+		return shiftmaster;
 	}
 
-	public void setShiftId(String shiftId) {
-		this.shiftId = shiftId;
+	public void setShiftmaster(ShiftMaster shiftmaster) {
+		this.shiftmaster = shiftmaster;
 	}
 
 	@Override
 	public String toString() {
-		return "ShiftAllocationPK [date=" + date + ", employeeId=" + employeeId + ", shiftId=" + shiftId + "]";
+		return "ShiftAllocationPK [calander=" + calander + ", employee=" + employee + ", shiftmaster=" + shiftmaster
+				+ "]";
 	}
-
 }

@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.navitsa.hrm.entity.CompanyMaster;
 import com.navitsa.hrm.entity.ShiftMaster;
+import com.navitsa.hrm.service.CompanyService;
 import com.navitsa.hrm.service.ShiftMasterService;
 
 @Controller
@@ -25,6 +27,9 @@ public class ShiftMasterController {
 	@Autowired
 	private ShiftMasterService shiftMasterService;
 
+	@Autowired
+	private CompanyService companyService;
+	
 	@GetMapping("/Shift")
 	public String loadAsPage(Map<String, Object> map, HttpSession session) {
 		map.put("ShiftMaster", new ShiftMaster());
@@ -37,8 +42,9 @@ public class ShiftMasterController {
 	}
 
 	@PostMapping("/saveShiftMaster")
-	public String saveShiftMaster(@Valid @ModelAttribute("ShiftMaster") ShiftMaster shift, BindingResult br) {
-
+	public String saveShiftMaster(@Valid @ModelAttribute("ShiftMaster") ShiftMaster shift, BindingResult br, @RequestParam("companyId") String companyId) {
+		CompanyMaster company = companyService.findbyCompanyid(companyId);
+		shift.setCompany(company);
 		if (br.hasErrors()) {
 			return "hrm/ShiftMaster";
 		} else {

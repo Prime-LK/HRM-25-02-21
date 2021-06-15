@@ -1,47 +1,50 @@
 package com.navitsa.hrm.entity;
 
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="calander")
+@Table(name = "calander")
 public class CalanderEntity {
-	
-	@Id
-	@Column(name="Date")
-	private String date;
 
-	@Column(name="CalanderID")
-	private String calander_ID;
-		
-	@Column(name="Description")
+	@EmbeddedId
+	private CalanderEntityPK calanderEntityPK;
+
+	@Column(name = "description")
 	private String description;
-	
-	@Column(name="Types")
-	private String types;
-	
-	@Column(name="Status")
+
+	@Column(name = "type")
+	private String type;
+
+	@Column(name = "status")
 	private String status;
-	
-	@Column(name="CompanyID")
-	private String company_ID;
 
-	public String getDate() {
-		return date;
+	public CalanderEntity() {
+
 	}
 
-	public void setDate(String date) {
-		this.date = date;
+	public CalanderEntity(CalanderEntityPK calanderEntityPK, String description, String type, String status) {
+		this.calanderEntityPK = calanderEntityPK;
+		this.description = description;
+		this.type = type;
+		this.status = status;
 	}
 
-	public String getCalander_ID() {
-		return calander_ID;
+	public CalanderEntity(String date, CompanyMaster company, String description, String type, String status) {
+		this.calanderEntityPK = new CalanderEntityPK(date, company);
+		this.description = description;
+		this.type = type;
+		this.status = status;
 	}
 
-	public void setCalander_ID(String calander_ID) {
-		this.calander_ID = calander_ID;
+	public CalanderEntityPK getCalanderEntityPK() {
+		return calanderEntityPK;
+	}
+
+	public void setCalanderEntityPK(CalanderEntityPK calanderEntityPK) {
+		this.calanderEntityPK = calanderEntityPK;
 	}
 
 	public String getDescription() {
@@ -52,12 +55,12 @@ public class CalanderEntity {
 		this.description = description;
 	}
 
-	public String getTypes() {
-		return types;
+	public String getType() {
+		return type;
 	}
 
-	public void setTypes(String types) {
-		this.types = types;
+	public void setType(String type) {
+		this.type = type;
 	}
 
 	public String getStatus() {
@@ -68,12 +71,9 @@ public class CalanderEntity {
 		this.status = status;
 	}
 
-	public String getCompany_ID() {
-		return company_ID;
+	@Override
+	public String toString() {
+		return "CalanderEntity [calanderEntityPK=" + calanderEntityPK + ", description=" + description + ", type="
+				+ type + ", status=" + status + "]";
 	}
-
-	public void setCompany_ID(String company_ID) {
-		this.company_ID = company_ID;
-	}
-	
 }

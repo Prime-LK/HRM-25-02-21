@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.navitsa.hrm.entity.CalanderEntity;
 import com.navitsa.hrm.entity.DepartmentMaster;
 import com.navitsa.hrm.entity.Employee;
 import com.navitsa.hrm.entity.EmployeeDetails;
@@ -22,6 +23,7 @@ import com.navitsa.hrm.entity.ShiftAllocation;
 import com.navitsa.hrm.entity.ShiftAllocationPK;
 import com.navitsa.hrm.entity.ShiftMaster;
 import com.navitsa.hrm.report.ShiftAllocationBean;
+import com.navitsa.hrm.service.CalanderService;
 import com.navitsa.hrm.service.DepartmentService;
 import com.navitsa.hrm.service.EmployeeService;
 import com.navitsa.hrm.service.ShiftAllocationService;
@@ -41,6 +43,9 @@ public class ShiftAllocationController {
 
 	@Autowired
 	private EmployeeService employeeService;
+
+	@Autowired
+	private CalanderService calanderService;
 
 	@GetMapping("/ShiftAllocation")
 	public String shiftAllocationPage() {
@@ -83,6 +88,7 @@ public class ShiftAllocationController {
 		return shift;
 	}
 
+	/*
 	@GetMapping("/loadShiftsByDateRange")
 	public @ResponseBody List<ShiftAllocationBean> loadShiftsByDateRange(@RequestParam("startDate") String startDate,
 			@RequestParam("endDate") String endDate, @RequestParam("shiftId") String shiftId, HttpSession session) {
@@ -103,18 +109,37 @@ public class ShiftAllocationController {
 		System.out.println(list.size());
 		return list;
 	}
+	*/
+	
+	@GetMapping("/loadShiftsByDateRange")
+	public @ResponseBody List<ShiftAllocationBean> loadShiftsByDateRange(@RequestParam("startDate") String startDate,
+			@RequestParam("endDate") String endDate, @RequestParam("shiftId") String shiftId, HttpSession session) {
+		String companyId = session.getAttribute("company.comID").toString();
+		List<ShiftAllocationBean> list = new ArrayList<>();
+		List<ShiftAllocation> result = shiftAllocationService.loadShiftsByDateRange(startDate, endDate, shiftId, companyId);
+		for (int i = 0; i < result.size(); i++) {
+			ShiftAllocationBean shiftAllocation = new ShiftAllocationBean();
+			shiftAllocation.setDate(result.get(i).getShiftAllocationPK().getCalander().getCalanderEntityPK().getDate());
+			shiftAllocation.setDay_type(result.get(i).getShiftAllocationPK().getCalander().getType());
+			shiftAllocation.setShift(result.get(i).getShiftAllocationPK().getShiftmaster().getDescription());
+			shiftAllocation.setStartTime(result.get(i).getShiftAllocationPK().getShiftmaster().getStartTime());
+			shiftAllocation.setEndTime(result.get(i).getShiftAllocationPK().getShiftmaster().getEndTime());
+			shiftAllocation.setEmployee(result.get(i).getShiftAllocationPK().getEmployee().getName() + " " + result.get(i).getShiftAllocationPK().getEmployee().getLastname());
+			//shiftAllocation.setDepartment();
+			list.add(shiftAllocation);
+		}
+		System.out.println(list.size());
+		return list;
+	}
 
 	@PostMapping("/assignShift")
 	public String assignShift(@RequestParam("startDate") String startDate, @RequestParam("endDate") String endDate,
-			@RequestParam("shiftId") String shiftId, @RequestParam("shiftName") String shiftName,
-			@RequestParam("startTime") String startTime, @RequestParam("endTime") String endTime,
-			@RequestParam("departmentId") String departmentId, @RequestParam("departmentName") String departmentName,
+			@RequestParam("shiftId") String shiftId, @RequestParam("departmentId") String departmentId,
 			@RequestParam(value = "employeeId", required = false) String employeeId,
 			@RequestParam(value = "allEmployees", required = false) int allEmployees,
 			@RequestParam(value = "companyId", required = false) String companyId) {
 
-		String empId;
-		String employeeName;
+		ShiftMaster shift = shiftMasterService.findShiftById2(shiftId, companyId);
 		List<ShiftAllocation> list = new ArrayList<>();
 
 		Date d1;
@@ -127,32 +152,21 @@ public class ShiftAllocationController {
 
 			if (allEmployees == 1) {
 
-				// List<EmployeeDetails> department =
-				// employeeService.filterRelatedData(departmentId);
 				List<EmployeeDetails> department = employeeService.filterEmployeesByDepartmentAndCompany(departmentId,
 						companyId);
 
 				for (int i = 0; i < department.size(); i++) {
-					empId = department.get(i).getDetailsPK().getEmpID().getEmpID().toString();
-					employeeName = department.get(i).getDetailsPK().getEmpID().getName().toString() + " "
-							+ department.get(i).getDetailsPK().getEmpID().getLastname();
-					System.out.println(empId);
+					Employee employee = employeeService.getEmployeeByCompany(
+							department.get(i).getDetailsPK().getEmpID().getEmpID().toString(), companyId);
 					for (LocalDate date = d1.toLocalDate(); date
 							.isBefore(d2.toLocalDate().plusDays(1)); date = date.plusDays(1)) {
 						ShiftAllocationPK shiftAllocationPK = new ShiftAllocationPK();
 						ShiftAllocation allocation = new ShiftAllocation();
-						Date shiftDate = Date.valueOf(date);
-						shiftAllocationPK.setDate(shiftDate);
-						shiftAllocationPK.setShiftId(shiftId);
-						shiftAllocationPK.setEmployeeId(empId);
+						CalanderEntity calander = calanderService.getCalenderByCompany(date.toString(), companyId);
+						shiftAllocationPK.setCalander(calander);
+						shiftAllocationPK.setShiftmaster(shift);
+						shiftAllocationPK.setEmployee(employee);
 						allocation.setShiftAllocationPK(shiftAllocationPK);
-						allocation.setShiftName(shiftName);
-						allocation.setStartTime(startTime);
-						allocation.setEndTime(endTime);
-						allocation.setEmployeeName(employeeName);
-						allocation.setDepartmentId(departmentId);
-						allocation.setDepartmentName(departmentName);
-						allocation.setCompanyId(companyId);
 						list.add(allocation);
 					}
 				}
@@ -160,24 +174,16 @@ public class ShiftAllocationController {
 			} else if (allEmployees == 0) {
 
 				Employee employee = employeeService.getEmployeeByCompany(employeeId, companyId);
-				employeeName = employee.getName() + " " + employee.getLastname();
 
 				for (LocalDate date = d1.toLocalDate(); date
 						.isBefore(d2.toLocalDate().plusDays(1)); date = date.plusDays(1)) {
 					ShiftAllocationPK shiftAllocationPK = new ShiftAllocationPK();
 					ShiftAllocation allocation = new ShiftAllocation();
-					Date shiftDate = Date.valueOf(date);
-					shiftAllocationPK.setDate(shiftDate);
-					shiftAllocationPK.setShiftId(shiftId);
-					shiftAllocationPK.setEmployeeId(employeeId);
+					CalanderEntity calander = calanderService.getCalenderByCompany(date.toString(), companyId);
+					shiftAllocationPK.setCalander(calander);
+					shiftAllocationPK.setShiftmaster(shift);
+					shiftAllocationPK.setEmployee(employee);
 					allocation.setShiftAllocationPK(shiftAllocationPK);
-					allocation.setShiftName(shiftName);
-					allocation.setStartTime(startTime);
-					allocation.setEndTime(endTime);
-					allocation.setEmployeeName(employeeName);
-					allocation.setDepartmentId(departmentId);
-					allocation.setDepartmentName(departmentName);
-					allocation.setCompanyId(companyId);
 					list.add(allocation);
 				}
 				shiftAllocationService.saveShiftAllocations(list);

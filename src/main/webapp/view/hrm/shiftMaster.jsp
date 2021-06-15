@@ -159,7 +159,7 @@
 														</div>
 														<div class="col-sm-2">
 															<label for="check">Continuing</label> <br>
-															<form:checkbox id="recurring" path="recurring"
+															<form:checkbox id="continuing" path="continuing"
 																value="True" />
 															<span id="div2"></span>
 														</div>
@@ -207,13 +207,12 @@
 
 														<c:forEach items="${shiftList}" var="shifts">
 															<tr>
-																<td id="shiftcode" style="display: none">${shifts.shiftId}</td>
-																<td id="description" width="300rem">${shifts.description}</td>
-																<td id="starttime">${shifts.startTime}</td>
-																<td id="endtime">${shifts.endTime}</td>
-																<td id="recurring"><c:if
-																		test="${shifts.recurring == 'true'}">Yes</c:if> <c:if
-																		test="${shifts.recurring == 'false'}">No</c:if></td>
+																<td style="display: none">${shifts.shiftId}</td>
+																<td width="300rem">${shifts.description}</td>
+																<td>${shifts.startTime}</td>
+																<td>${shifts.endTime}</td>
+																<td><c:if test="${shifts.continuing == 'true'}">Yes</c:if>
+																	<c:if test="${shifts.continuing == 'false'}">No</c:if></td>
 																<td width="25rem"><a
 																	href="updateShiftMaster?id=${shifts.shiftId}"> <i
 																		class="far fa-edit"></i>
@@ -230,7 +229,6 @@
 								</div>
 							</div>
 						</div>
-
 
 					</div>
 				</div>

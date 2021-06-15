@@ -2,9 +2,9 @@ function validateForm() {
 	var description = document.getElementById('description').value;
 	var startTime = document.getElementById('startTime').value;
 	var endTime = document.getElementById('endTime').value;
-	var recurring = document.getElementById('recurring');
+	var continuing = document.getElementById('continuing');
 
-	if (recurring.checked) {
+	if (continuing.checked) {
 		
 		if(description == "") {
 			swal("Description is empty!", "", {
@@ -38,7 +38,8 @@ function validateForm() {
 			return false;
 		}
 		
-	} else if (!(recurring.checked)) {
+
+		} else if (!(continuing.checked)) {
 		
 		if(description == "") {
 			swal("Description is empty!", "", {
