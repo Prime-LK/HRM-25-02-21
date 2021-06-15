@@ -316,6 +316,9 @@ public class EmployeeService {
 		return empDeRepo.getEmployeeListrptPrivewbyreligion(dep,dis,emptyp,empid,empcat,religion,civista,companyid);
 	}
 	
+	public EmployeeDetails getEmployeeDetailsByEmployeeID(String employeeID) {
+		return empDeRepo.getEmployeeDetailsByEmployeeID(employeeID);
+	}
 	
 }
 

@@ -1,5 +1,6 @@
 package com.navitsa.hrm.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,5 +50,10 @@ public class CalanderService {
 
 	public CalanderEntity getCalenderByCompany(String date, String companyId) {
 		return calanderRepo.getCalenderByCompany(date, companyId);
+	}
+
+	public List<Date> getHolidays(String startDate, String endDate, String year) {
+		
+		return calanderRepo.getHolidays(startDate,endDate,year);
 	}
 }

@@ -320,9 +320,10 @@ public interface EmployeeDetailsRepository extends CrudRepository<EmployeeDetail
 			+ ",COALESCE(ed.detailsPK.empID.id_Number,' '),COALESCE(ed.basicSalary,'0'),COALESCE(ed.detailsPK.empID.dob,' '),COALESCE(ed.joinedDate,' ')  FROM EmployeeDetails ed "
 			+ "WHERE  ed.category.catgoryID like :empcat AND ed.detailsPK.empID.religion.rid like :religion AND ed.detailsPK.empID.mStatus like :civista and ed.department.depID like :dep and ed.empType.tid like :emptyp and ed.designation.did like :dis AND ed.detailsPK.empID.empID like :empid and ed.detailsPK.empID.company.comID=:comID and ed.status='ACTIVE' order by ed.department.depID,ed.empType.tid,ed.designation.did")
 	public String[][] getEmployeeListrptPrivewbyreligion(@Param("dep")String dep,@Param("dis")String dis,@Param("emptyp")String emptyp,@Param("empid") String empid,@Param("empcat") String empcat,@Param("religion")  String religion,@Param("civista")  String civista,@Param("comID") String companyId);
+
 	
-	
-	
+	@Query(value="SELECT * FROM employee_details WHERE Employee_ID=:employeeID",nativeQuery = true)
+	public EmployeeDetails getEmployeeDetailsByEmployeeID(@Param("employeeID") String employeeID);
 	
 	
 }
