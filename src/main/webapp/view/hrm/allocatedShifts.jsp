@@ -129,7 +129,7 @@
 												<thead>
 													<tr>
 														<th>Date</th>
-														<th>Day Type</th>
+														<!-- <th>Day Type</th> -->
 														<th>Employee Name</th>
 														<th>Department</th>
 														<th>Shift Name</th>
@@ -140,7 +140,7 @@
 												<tfoot>
 													<tr>
 														<th>Date</th>
-														<th>Day Type</th>
+														<!-- <th>Day Type</th> -->
 														<th>Employee Name</th>
 														<th>Department</th>
 														<th>Shift Name</th>
@@ -153,7 +153,7 @@
 													<c:forEach items="${shiftAllocationList}" var="shifts">
 														<tr>
 															<td>${shifts.date}</td>
-															<td>${shifts.day_type}</td>
+															<%-- <td>${shifts.day_type}</td> --%>
 															<td>${shifts.employee}</td>
 															<td>${shifts.department}</td>
 															<td>${shifts.shift}</td>

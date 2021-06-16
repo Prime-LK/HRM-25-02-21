@@ -42,11 +42,9 @@ public class AllocatedShiftsController {
 		DateTimeFormatter formattertime = DateTimeFormatter.ofPattern("HH:mm");
 		for (int i = 0; i < result.size(); i++) {
 			ShiftAllocationBean shiftAllocation = new ShiftAllocationBean();
-			//String employeeId = result.get(i).getShiftAllocationPK().getEmployee().getEmpID();
-			//System.out.println("Employee ID : " + employeeId);
 			EmployeeDetails details = employeeService.findEmployeeDetailsByEmployeeIdAndCompany(result.get(i).getShiftAllocationPK().getEmployee().getEmpID(), companyId);
-			shiftAllocation.setDate(result.get(i).getShiftAllocationPK().getCalander().getCalanderEntityPK().getDate());
-			shiftAllocation.setDay_type(result.get(i).getShiftAllocationPK().getCalander().getType());
+			shiftAllocation.setDate(result.get(i).getShiftAllocationPK().getDate());
+			//shiftAllocation.setDay_type(result.get(i).getShiftAllocationPK().getCalander().getType());
 			shiftAllocation.setShift(result.get(i).getShiftAllocationPK().getShiftmaster().getDescription());
 			shiftAllocation.setStartTime(LocalTime.parse(result.get(i).getShiftAllocationPK().getShiftmaster().getStartTime()).format(formattertime));
 			shiftAllocation.setEndTime(LocalTime.parse(result.get(i).getShiftAllocationPK().getShiftmaster().getEndTime()).format(formattertime));

@@ -220,7 +220,7 @@ function loadShiftsByDateRange() {
 				$("#dataTable tbody").empty();
 				for (var i = 0; i < data.length; i++) {
 					var result = "<tr><td>" + data[i].date + "</td><td>"
-							+ data[i].day_type + "</td><td>" + data[i].shift
+							"</td><td>" + data[i].shift
 							+ "</td><td>" + data[i].startTime + "</td><td>"
 							+ data[i].endTime + "</td><td>"
 							+ data[i].employee + "</td><td>" + data[i].department

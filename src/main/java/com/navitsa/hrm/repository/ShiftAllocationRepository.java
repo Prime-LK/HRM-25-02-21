@@ -19,17 +19,6 @@ public interface ShiftAllocationRepository extends CrudRepository<ShiftAllocatio
 			+ "shift_allocation.department_id, shift_allocation.department_name\n" + "FROM shift_allocation\n"
 			+ "INNER JOIN calander ON shift_allocation.date = calander.Date", nativeQuery = true)
 	public List<String> loadShiftAllocation();
-
-	/*
-	@Query(value = "SELECT DATE_FORMAT(shift_allocation.date, \"%Y-%m-%d\") as date, calander.Types,\n"
-			+ "shift_allocation.shift_id, shift_allocation.shift_name,\n"
-			+ "TIME_FORMAT(shift_allocation.start_time, \"%H:%i\") as start_time, TIME_FORMAT(shift_allocation.end_time, \"%H:%i\") as end_time,\n"
-			+ "shift_allocation.employee_id, shift_allocation.employee_name,\n"
-			+ "shift_allocation.department_id, shift_allocation.department_name\n" + "FROM shift_allocation\n"
-			+ "INNER JOIN calander ON shift_allocation.date = calander.Date AND shift_allocation.company_id = calander.CompanyID\n"
-			+ "WHERE shift_allocation.company_id = :companyId", nativeQuery = true)
-	public List<String> loadShiftAllocationsByCompany(@Param("companyId") String companyId);
-	*/
 	
 	@Query(value = "SELECT * FROM shift_allocation WHERE shift_allocation.date=:date AND shift_allocation.shift_id=:shiftId AND shift_allocation.employee_id=:employeeId", nativeQuery = true)
 	public ShiftAllocation findShiftAllocationByDetails(@Param("date") String date, @Param("shiftId") String shiftId,
@@ -86,23 +75,11 @@ public interface ShiftAllocationRepository extends CrudRepository<ShiftAllocatio
 			@Param("endDate") String endDate, @Param("departmentId") String departmentId,
 			@Param("employeeId") String employeeId, @Param("shiftId") String shiftId,
 			@Param("companyId") String companyId);
-
-	/*
-	@Query(value = "SELECT DATE_FORMAT(shift_allocation.date, \"%Y-%m-%d\") as date, calander.Types, \n"
-			+ "shift_allocation.shift_id, shift_allocation.shift_name,\n"
-			+ "TIME_FORMAT(shift_allocation.start_time, \"%H:%i\") as start_time, TIME_FORMAT(shift_allocation.end_time, \"%H:%i\") as end_time,\n"
-			+ "shift_allocation.employee_id, shift_allocation.employee_name, \n"
-			+ "shift_allocation.department_id, shift_allocation.department_name FROM\n" + "shift_allocation \n"
-			+ "INNER JOIN calander ON shift_allocation.date = calander.Date AND shift_allocation.company_id = calander.CompanyID\n"
-			+ "WHERE shift_allocation.date BETWEEN :startDate AND :endDate AND shift_allocation.shift_id = :shiftId AND shift_allocation.company_id = :companyId", nativeQuery = true)
-	public String[][] loadShiftsByDateRange(@Param("startDate") String startDate, @Param("endDate") String endDate,
-			@Param("shiftId") String shiftId, @Param("companyId") String companyId);
-	*/
 	
-	@Query(value = "SELECT sa FROM ShiftAllocation sa WHERE sa.shiftAllocationPK.calander.calanderEntityPK.date BETWEEN :startDate AND :endDate AND sa.shiftAllocationPK.calander.calanderEntityPK.company.comID = :companyId AND sa.shiftAllocationPK.shiftmaster.shiftId = :shiftId")
+	@Query(value = "SELECT sa FROM ShiftAllocation sa WHERE sa.shiftAllocationPK.date BETWEEN :startDate AND :endDate AND sa.company.comID = :companyId AND sa.shiftAllocationPK.shiftmaster.shiftId = :shiftId")
 	public List<ShiftAllocation> loadShiftsByDateRange(@Param("startDate") String startDate, @Param("endDate") String endDate,
 			@Param("shiftId") String shiftId, @Param("companyId") String companyId);
 	
-	@Query(value = "SELECT sa FROM ShiftAllocation sa WHERE sa.shiftAllocationPK.calander.calanderEntityPK.company.comID = :companyId")
+	@Query(value = "SELECT sa FROM ShiftAllocation sa WHERE sa.company.comID = :companyId")
 	public List<ShiftAllocation> loadShiftAllocationsByCompany(@Param("companyId") String companyId);
 }

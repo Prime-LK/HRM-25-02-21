@@ -2,6 +2,7 @@ package com.navitsa.hrm.entity;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -13,10 +14,8 @@ public class ShiftAllocationPK implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	@ManyToOne(optional = false, fetch = FetchType.EAGER)
-	@JoinColumns({ @JoinColumn(name = "date", referencedColumnName = "date"),
-			@JoinColumn(name = "company_id", referencedColumnName = "company_id") })
-	private CalanderEntity calander;
+	@Column(name = "date")
+	private String date;
 	@ManyToOne(optional = false, fetch = FetchType.EAGER)
 	@JoinColumn(name = "employee_id", referencedColumnName = "Employee_ID")
 	private Employee employee;
@@ -28,18 +27,18 @@ public class ShiftAllocationPK implements Serializable {
 
 	}
 
-	public ShiftAllocationPK(CalanderEntity calander, Employee employee, ShiftMaster shiftmaster) {
-		this.calander = calander;
+	public ShiftAllocationPK(String date, Employee employee, ShiftMaster shiftmaster) {
+		this.date = date;
 		this.employee = employee;
 		this.shiftmaster = shiftmaster;
 	}
 
-	public CalanderEntity getCalander() {
-		return calander;
+	public String getDate() {
+		return date;
 	}
 
-	public void setCalander(CalanderEntity calander) {
-		this.calander = calander;
+	public void setDate(String date) {
+		this.date = date;
 	}
 
 	public Employee getEmployee() {
@@ -60,7 +59,6 @@ public class ShiftAllocationPK implements Serializable {
 
 	@Override
 	public String toString() {
-		return "ShiftAllocationPK [calander=" + calander + ", employee=" + employee + ", shiftmaster=" + shiftmaster
-				+ "]";
+		return "ShiftAllocationPK [date=" + date + ", employee=" + employee + ", shiftmaster=" + shiftmaster + "]";
 	}
 }

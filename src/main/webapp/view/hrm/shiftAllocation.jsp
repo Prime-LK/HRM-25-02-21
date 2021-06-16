@@ -239,7 +239,7 @@
 														<thead>
 															<tr>
 																<th>Date</th>
-																<th>Day Type</th>
+																<!-- <th>Day Type</th> -->
 																<th>Shift Name</th>
 																<th>Start Time</th>
 																<th>End Time</th>
@@ -250,7 +250,7 @@
 														<tfoot>
 															<tr>
 																<th>Date</th>
-																<th>Day Type</th>
+																<!-- <th>Day Type</th> -->
 																<th>Shift Name</th>
 																<th>Start Time</th>
 																<th>End Time</th>
