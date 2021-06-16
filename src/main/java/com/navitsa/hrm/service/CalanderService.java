@@ -52,8 +52,8 @@ public class CalanderService {
 		return calanderRepo.getCalenderByCompany(date, companyId);
 	}
 
-	public List<Date> getHolidays(String startDate, String endDate, String year) {
+	public List<Date> getHolidays(String startDate, String endDate) {
 		
-		return calanderRepo.getHolidays(startDate,endDate,year);
+		return calanderRepo.getHolidays(startDate,endDate);
 	}
 }

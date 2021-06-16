@@ -41,4 +41,9 @@ public class AttendanceTxtFileReadingService {
 		repo1.saveAll(ls);
 	}
 
+	public List<AttendanceTxtFileDetail> getAttendanceRecords(String startDate, String endDate, String employeeID) {
+		return repo1.getAttendanceRecords(startDate,endDate,employeeID);
+		
+	}
+
 }
