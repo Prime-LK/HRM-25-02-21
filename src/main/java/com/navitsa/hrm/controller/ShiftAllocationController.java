@@ -1,8 +1,11 @@
 package com.navitsa.hrm.controller;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -117,15 +120,20 @@ public class ShiftAllocationController {
 		String companyId = session.getAttribute("company.comID").toString();
 		List<ShiftAllocationBean> list = new ArrayList<>();
 		List<ShiftAllocation> result = shiftAllocationService.loadShiftsByDateRange(startDate, endDate, shiftId, companyId);
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		DateTimeFormatter formattertime = DateTimeFormatter.ofPattern("HH:mm");
 		for (int i = 0; i < result.size(); i++) {
 			ShiftAllocationBean shiftAllocation = new ShiftAllocationBean();
+			//String employeeId = result.get(i).getShiftAllocationPK().getEmployee().getEmpID();
+			//System.out.println("Employee ID : " + employeeId);
+			EmployeeDetails details = employeeService.findEmployeeDetailsByEmployeeIdAndCompany(result.get(i).getShiftAllocationPK().getEmployee().getEmpID(), companyId);
 			shiftAllocation.setDate(result.get(i).getShiftAllocationPK().getCalander().getCalanderEntityPK().getDate());
 			shiftAllocation.setDay_type(result.get(i).getShiftAllocationPK().getCalander().getType());
 			shiftAllocation.setShift(result.get(i).getShiftAllocationPK().getShiftmaster().getDescription());
-			shiftAllocation.setStartTime(result.get(i).getShiftAllocationPK().getShiftmaster().getStartTime());
-			shiftAllocation.setEndTime(result.get(i).getShiftAllocationPK().getShiftmaster().getEndTime());
+			shiftAllocation.setStartTime(LocalTime.parse(result.get(i).getShiftAllocationPK().getShiftmaster().getStartTime()).format(formattertime));
+			shiftAllocation.setEndTime(LocalTime.parse(result.get(i).getShiftAllocationPK().getShiftmaster().getEndTime()).format(formattertime));
 			shiftAllocation.setEmployee(result.get(i).getShiftAllocationPK().getEmployee().getName() + " " + result.get(i).getShiftAllocationPK().getEmployee().getLastname());
-			//shiftAllocation.setDepartment();
+			shiftAllocation.setDepartment(details.getDepartment().getDepartment());
 			list.add(shiftAllocation);
 		}
 		System.out.println(list.size());

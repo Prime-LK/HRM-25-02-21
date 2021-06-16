@@ -130,12 +130,9 @@
 													<tr>
 														<th>Date</th>
 														<th>Day Type</th>
-														<th style="display: none">Shift ID</th>
-														<th>Shift Name</th>
-														<th style="display: none">Department ID</th>
-														<th>Department</th>
-														<th style="display: none">Employee ID</th>
 														<th>Employee Name</th>
+														<th>Department</th>
+														<th>Shift Name</th>
 														<th>Start Time</th>
 														<th>End Time</th>
 													</tr>
@@ -144,12 +141,9 @@
 													<tr>
 														<th>Date</th>
 														<th>Day Type</th>
-														<th style="display: none">Shift ID</th>
-														<th>Shift Name</th>
-														<th style="display: none">Department ID</th>
-														<th>Department</th>
-														<th style="display: none">Employee ID</th>
 														<th>Employee Name</th>
+														<th>Department</th>
+														<th>Shift Name</th>
 														<th>Start Time</th>
 														<th>End Time</th>
 													</tr>
@@ -158,16 +152,13 @@
 
 													<c:forEach items="${shiftAllocationList}" var="shifts">
 														<tr>
-															<td>${shifts[0]}</td>
-															<td>${shifts[1]}</td>
-															<td style="display: none">${shifts[2]}</td>
-															<td>${shifts[3]}</td>
-															<td style="display: none">${shifts[8]}</td>
-															<td>${shifts[9]}</td>
-															<td style="display: none">${shifts[6]}</td>
-															<td>${shifts[7]}</td>
-															<td>${shifts[4]}</td>
-															<td>${shifts[5]}</td>
+															<td>${shifts.date}</td>
+															<td>${shifts.day_type}</td>
+															<td>${shifts.employee}</td>
+															<td>${shifts.department}</td>
+															<td>${shifts.shift}</td>
+															<td>${shifts.startTime}</td>
+															<td>${shifts.endTime}</td>
 														</tr>
 													</c:forEach>
 

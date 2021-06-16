@@ -320,5 +320,8 @@ public class EmployeeService {
 		return empDeRepo.getEmployeeDetailsByEmployeeID(employeeID);
 	}
 	
+	public EmployeeDetails findEmployeeDetailsByEmployeeIdAndCompany(String employeeId, String companyId) {
+		return empDeRepo.findEmployeeDetailsByEmployeeIdAndCompany(employeeId, companyId);
+	}
 }
 

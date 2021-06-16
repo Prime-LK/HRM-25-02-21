@@ -25,10 +25,11 @@ public class ShiftAllocationService {
 		return shiftAllocationRepository.loadShiftAllocation();
 	}
 
+	/*
 	public List<String> loadShiftAllocationsByCompany(String companyId) {
 		return shiftAllocationRepository.loadShiftAllocationsByCompany(companyId);
 	}
-
+	*/
 	public List<ShiftAllocation> saveShiftAllocations(List<ShiftAllocation> shiftAllocation) {
 		return (List<ShiftAllocation>) shiftAllocationRepository.saveAll(shiftAllocation);
 	}
@@ -81,5 +82,9 @@ public class ShiftAllocationService {
 	
 	public List<ShiftAllocation> loadShiftsByDateRange(String startDate, String endDate, String shiftId, String companyId) {
 		return shiftAllocationRepository.loadShiftsByDateRange(startDate, endDate, shiftId, companyId);
+	}
+	
+	public List<ShiftAllocation> loadShiftAllocationsByCompany(String companyId) {
+		return shiftAllocationRepository.loadShiftAllocationsByCompany(companyId);
 	}
 }
