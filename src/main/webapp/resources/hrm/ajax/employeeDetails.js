@@ -38,3 +38,59 @@ function getDetails() {
 		}
 	});
 }
+
+function loadSalaryRangesByGradeAndCompany() {
+
+	var gradeId = document.getElementById("gradeId").value;
+	if (gradeId == "") {
+		var selectSalaryRange = $("#rangeId"), option = "";
+		selectSalaryRange.empty();
+		return;
+	} else {
+
+		$
+				.ajax({
+					type : 'GET',
+					url : "getAllSalaryRangeByGradeAndCompany",
+					data : {
+						"gradeId" : gradeId
+					},
+					success : function(data) {
+						if (data.length == 0) {
+							swal("No data is available for the selected parameters!", "", {
+								icon : "info",
+								buttons : {
+									confirm : {
+										className : 'btn btn-primary'
+									}
+								},
+							});
+						}
+						var selectSalaryRange = $("#rangeId"), option = "";
+						selectSalaryRange.empty();
+						selected_option = "<option value='' selected>--SELECT--</option>";
+						selectSalaryRange.append(selected_option);
+
+						for (var i = 0; i < data.length; i++) {
+							option = option + "<option value='"
+									+ data[i].salaryRangeID + "'>"
+									+ data[i].range
+									+ "</option>";
+						}
+						selectSalaryRange.append(option);
+					},
+					error : function() {
+						swal("Error!", "", {
+							icon : "error",
+							buttons : {
+								confirm : {
+									className : 'btn btn-danger'
+								}
+							},
+						});
+					}
+
+				});
+	}
+
+}

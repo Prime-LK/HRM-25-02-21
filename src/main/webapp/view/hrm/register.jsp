@@ -202,19 +202,19 @@
 										<div class="collapse navbar-collapse" id="navbarMenu">
 											<ul class="navbar-nav mr-auto">
 												<li class="nav-item active" id=""><a class="nav-link"
-													href="register">Employee</a></li>
+													href="Register">Employee</a></li>
 												<li class="nav-item"><a class="nav-link"
-													href="employeeDetails">Employment</a></li>
+													href="EmployeeDetails">Employment</a></li>
 												<li class="nav-item"><a class="nav-link"
-													href="employeeQualification">Qualification & Membership</a></li>
+													href="EmployeeQualification">Qualification & Membership</a></li>
 												<li class="nav-item"><a class="nav-link"
-													href="workExperience"> Work Experience</a></li>
+													href="WorkExperience"> Work Experience</a></li>
 												<li class="nav-item"><a class="nav-link"
-													href="employeeSkill">Skills,Language & Activity</a></li>
+													href="EmployeeSkill">Skills,Language & Activity</a></li>
 												<li class="nav-item"><a class="nav-link"
-													href="employeeDependent">Dependent</a></li>
+													href="EmployeeDependent">Dependent</a></li>
 												<li class="nav-item"><a class="nav-link"
-													href="employeeID">Documents</a></li>
+													href="EmployeeDocument">Documents</a></li>
 												<!-- 			<li class="nav-item dropdown"><a
 				class="nav-link dropdown-toggle" href="#" id="empDropdown"
 				role="button" data-toggle="dropdown" aria-haspopup="true"
@@ -360,7 +360,7 @@
 											<div class="form-group row">
 												<label class="col-4">Bank</label>
 												<form:select class="form-control col-8"
-													onfocusout="getbranchData();" id="bank_Code"
+													onchange="loadBankBranchesByBankAndCompany();" id="bank_Code"
 													path="bank_Code">
 													<form:option value="" selected="true">--SELECT--</form:option>
 													<c:forEach items="${bankmastertable}" var="b">

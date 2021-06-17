@@ -99,7 +99,7 @@ public class ExtraActivityController {
 			return "hrm/employeeSkill";
 		} else {
 			aTypeService.saveEet(eet);
-			return "redirect:/hrm/employeeSkill";
+			return "redirect:/EmployeeSkill";
 		}
 
 	}

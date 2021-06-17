@@ -65,7 +65,7 @@ public class DependentController {
 
 	// emp dependents-----------------------------------------------------
 
-	@RequestMapping(value = "/employeeDependent", method = RequestMethod.GET)
+	@RequestMapping(value = "/EmployeeDependent", method = RequestMethod.GET)
 	public String loadEDPage(Map<String, Object> map) {
 		map.put("saveDependent", new DependentTypeMaster());
 		EmployeeDependent ed = new EmployeeDependent();
@@ -104,7 +104,7 @@ public class DependentController {
 		} else {
 			try {
 				deService.saveEmpDep(ed);
-				return "redirect:/hrm/employeeDependent";
+				return "redirect:/EmployeeDependent";
 			} catch (Exception e) {
 				System.out.println("Details Not Saved");
 			}

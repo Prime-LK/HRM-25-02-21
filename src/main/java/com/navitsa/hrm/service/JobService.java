@@ -188,4 +188,8 @@ public class JobService {
 	public List<SalaryRange> getAllSalaryRangeByCompany(String companyId) {
 		return (List<SalaryRange>) salaryRangeRepo.getAllSalaryRangeByCompany(companyId);
 	}
+	
+	public List<SalaryRange> getAllSalaryRangeByGradeAndCompany(String gradeId, String companyId) {
+		return (List<SalaryRange>) salaryRangeRepo.getAllSalaryRangeByGradeAndCompany(gradeId, companyId);
+	}
 }

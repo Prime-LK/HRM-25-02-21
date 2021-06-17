@@ -26,7 +26,7 @@ public class WorkExperienceController {
 	@Autowired
 	private WorkExperienceService expService;
 
-	@RequestMapping(value = "/workExperience", method = RequestMethod.GET)
+	@RequestMapping(value = "/WorkExperience", method = RequestMethod.GET)
 	public String getWePage(Map<String, Object> map) {
 		map.put("saveWexp", new EmployeeWorkExperience());
 		EmployeeWorkExperience we = new EmployeeWorkExperience();
@@ -44,7 +44,7 @@ public class WorkExperienceController {
 		} else {
 			try {
 				expService.saveEmpExp(we);
-				return "redirect:/hrm/workExperience";
+				return "redirect:/WorkExperience";
 			} catch (Exception e) {
 				System.out.println("Details Not Saved");
 			}
@@ -54,7 +54,7 @@ public class WorkExperienceController {
 
 	@RequestMapping(value = "/updateWexp", method = RequestMethod.GET)
 	public ModelAndView updateWexp(@RequestParam("empID") String empID, @RequestParam("expID") String expID) {
-		ModelAndView mav = new ModelAndView("workExperience");
+		ModelAndView mav = new ModelAndView("hrm/workExperience");
 		EmployeeWorkExperience ew = expService.getEmployeeWorkExperienceDataByID(empID, expID);
 		mav.addObject("saveWexp", ew);
 		return mav;

@@ -87,7 +87,7 @@ public class SkillController {
 
 	// employee skill---------------------------------------------------------
 
-	@RequestMapping(value = "/employeeSkill", method = RequestMethod.GET)
+	@RequestMapping(value = "/EmployeeSkill", method = RequestMethod.GET)
 	public String loadEmpSkillPage(Map<String, Object> map) {
 		map.put("saveEmpSkill", new EmployeeSkill());
 		map.put("saveEmpLan", new EmployeeLanguage());
@@ -119,7 +119,7 @@ public class SkillController {
 	@RequestMapping(value = "/saveEmpSkill", method = RequestMethod.POST)
 	public String saveEmpSkill(@ModelAttribute("saveEmpSkill") EmployeeSkill empSkill) {
 		smService.saveEmpSkill(empSkill);
-		return "redirect:/hrm/employeeSkill";
+		return "redirect:/EmployeeSkill";
 
 	}
 

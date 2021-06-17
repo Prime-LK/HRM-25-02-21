@@ -34,7 +34,7 @@ public class EmployeeIdDocumentController {
 	@Autowired
 	private EmployeeService empService;
 
-	@RequestMapping(value = "/EmployeeDocument", method = RequestMethod.GET)
+	@RequestMapping(value = "/EmployeeDocuments", method = RequestMethod.GET)
 	public String loadPage(Map<String, Object> map) {
 		map.put("employeeDocumentForm", new EmployeeIdDocument());
 		EmployeeIdDocument ed = new EmployeeIdDocument();
@@ -56,7 +56,7 @@ public class EmployeeIdDocumentController {
 			return "hrm/employeeIdDocument";
 		} else {
 			edService.saveEmpDoc(ed);
-			return "redirect:/EmployeeDocument";
+			return "redirect:/EmployeeDocuments";
 		}
 
 	}
@@ -71,9 +71,9 @@ public class EmployeeIdDocumentController {
 
 	// load doc_type_ID
 	@ModelAttribute("docList")
-	public List<EmployeeIdDocument> getEmployeeIdDocumentList() {
-		List<EmployeeIdDocument> eList = edService.getAllEd();
-		return eList;
+	public List<EmployeeIdDocument> getAllEmployeeIdDocumentByCompany2(HttpSession session) {
+		String companyId = session.getAttribute("company.comID").toString();
+		return edService.getAllEmployeeIdDocumentByCompany(companyId);
 	}
 
 	// load doc_type_ID
@@ -92,7 +92,7 @@ public class EmployeeIdDocumentController {
 		} catch (Exception e) {
 			System.out.println(e);
 		}
-		return "redirect:/hrm/employeeID";
+		return "redirect:/EmployeeDocument";
 	}
 
 	// load Employee id data combo box
@@ -182,7 +182,7 @@ public class EmployeeIdDocumentController {
 	}
 
 	// load empoyeeID jsp
-	@RequestMapping(value = "/employeeID", method = RequestMethod.GET)
+	@RequestMapping(value = "/EmployeeDocument", method = RequestMethod.GET)
 	public String loademployeeID(Map<String, Object> map) {
 		map.put("employeeID", new EmployeeID());
 

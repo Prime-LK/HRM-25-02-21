@@ -3,6 +3,7 @@ package com.navitsa.hrm.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -322,6 +323,10 @@ public class EmployeeService {
 	
 	public EmployeeDetails findEmployeeDetailsByEmployeeIdAndCompany(String employeeId, String companyId) {
 		return empDeRepo.findEmployeeDetailsByEmployeeIdAndCompany(employeeId, companyId);
+	}
+	
+	public List<Employee> getEmployeesByCompany(String companyId){
+		return empRepo.getEmployeesByCompany(companyId);
 	}
 }
 

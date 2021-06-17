@@ -122,6 +122,18 @@
 
 										<!-- Page Heading -->
 										<h1 class="h3 mb-4 text-gray-800"></h1>
+										<c:if test = "${success ==1}">
+											<div class="alert alert-success alert-dismissible">
+											  <button type="button" class="close" data-dismiss="alert">&times;</button>
+											  <strong>Success!</strong> Data Successfully Saved.
+											</div>
+										</c:if>
+										<c:if test = "${success ==0}">
+										  <div class="alert alert-danger alert-dismissible">
+										    <button type="button" class="close" data-dismiss="alert">&times;</button>
+										    <strong>Warning!</strong>Something went wrong ! Please try again!
+										  </div>
+										</c:if>
 										<form:form id="shiftMaster" onsubmit="return validateForm()"
 											action="saveShiftMaster" modelAttribute="ShiftMaster"
 											method="post">

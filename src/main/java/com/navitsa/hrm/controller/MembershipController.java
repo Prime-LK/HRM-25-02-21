@@ -93,7 +93,7 @@ public class MembershipController {
 			return "hrm/employeeQualification";
 		} else {
 			miService.saveEmpMembership(empM);
-			return "redirect:/hrm/employeeQualification";
+			return "redirect:/EmployeeQualification";
 		}
 
 	}

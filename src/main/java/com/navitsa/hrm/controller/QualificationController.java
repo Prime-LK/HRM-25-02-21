@@ -83,7 +83,7 @@ public class QualificationController {
 	// qualification----------------------------------------------------------
 
 	// load page with employee id using save button
-	@RequestMapping(value = "/employeeQualification", method = RequestMethod.GET)
+	@RequestMapping(value = "/EmployeeQualification", method = RequestMethod.GET)
 	public String getEqPagewithid(Map<String, Object> map) {
 //		map.put("eid", eid);
 		map.put("empMem", new EmployeeMembership());
@@ -117,14 +117,14 @@ public class QualificationController {
 			} catch (Exception e) {
 				System.out.println(e);
 			}
-			return "redirect:/hrm/employeeQualification";
+			return "redirect:/EmployeeQualification";
 		}
 
 	}
 
 	@RequestMapping(value = "/updateEq", method = RequestMethod.GET)
 	public ModelAndView updateEq(@RequestParam("empID") String empID, @RequestParam("qid") String qid) {
-		ModelAndView mav = new ModelAndView("employeeQualification");
+		ModelAndView mav = new ModelAndView("hrm/employeeQualification");
 		try {
 			EmployeeQualification emp = qmService.setqdata(empID, qid);
 			mav.addObject("empQua", emp);

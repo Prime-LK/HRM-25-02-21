@@ -16,4 +16,7 @@ public interface SalaryRangeRepository extends CrudRepository<SalaryRange, Strin
 
 	@Query(value = "SELECT sr FROM SalaryRange sr WHERE sr.company.comID = :companyId")
 	public List<SalaryRange> getAllSalaryRangeByCompany(@Param("companyId") String companyId);
+
+	@Query(value = "SELECT sr FROM SalaryRange sr WHERE sr.salaryGrade.gradeID = :gradeId AND sr.company.comID = :companyId")
+	public List<SalaryRange> getAllSalaryRangeByGradeAndCompany(@Param("gradeId") String gradeId, @Param("companyId") String companyId);
 }

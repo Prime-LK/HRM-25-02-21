@@ -88,7 +88,7 @@ public class LanguageController {
 				System.out.println(e);
 			}
 		}
-		return "redirect:/hrm/employeeSkill";
+		return "redirect:/EmployeeSkill";
 	}
 
 	@RequestMapping(value = "/updateEmpLa", method = RequestMethod.GET)

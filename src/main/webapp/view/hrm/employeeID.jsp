@@ -211,19 +211,19 @@
 									<div class="collapse navbar-collapse" id="navbarMenu">
 										<ul class="navbar-nav mr-auto">
 											<li class="nav-item" id=""><a class="nav-link"
-												href="register">Employee</a></li>
+												href="Register">Employee</a></li>
 											<li class="nav-item"><a class="nav-link"
-												href="employeeDetails">Employment</a></li>
+												href="EmployeeDetails">Employment</a></li>
 											<li class="nav-item"><a class="nav-link"
-												href="employeeQualification">Qualification & Membership</a></li>
+												href="EmployeeQualification">Qualification & Membership</a></li>
 											<li class="nav-item"><a class="nav-link"
-												href="workExperience"> Work Experience</a></li>
+												href="WorkExperience"> Work Experience</a></li>
 											<li class="nav-item"><a class="nav-link"
-												href="employeeSkill">Skills,Language & Activity</a></li>
+												href="EmployeeSkill">Skills,Language & Activity</a></li>
 											<li class="nav-item"><a class="nav-link"
-												href="employeeDependent">Dependent</a></li>
+												href="EmployeeDependent">Dependent</a></li>
 											<li class="nav-item active"><a class="nav-link"
-												href="employeeID">Documents</a></li>
+												href="EmployeeDocument">Documents</a></li>
 										</ul>
 									</div>
 									</nav>

@@ -25,20 +25,24 @@ public class ShiftMasterService {
 	public List<ShiftMaster> loadAllShifts(String companyId) {
 		return (List<ShiftMaster>) shiftMasterRepository.loadAllShifts(companyId);
 	}
+	
+	public List<ShiftMaster> findAllShiftsByCompany(String companyId) {
+		return (List<ShiftMaster>) shiftMasterRepository.findAllShiftsByCompany(companyId);
+	}
 
 	public ShiftMaster findShiftById(String shiftId) {
 		return shiftMasterRepository.findById(shiftId).get();
 	}
 
-	public ShiftMaster findShiftById2(String shiftId, String companyId) {
-		return shiftMasterRepository.findShiftById(shiftId, companyId);
+	public ShiftMaster findShiftByIdAndCompany(String shiftId, String companyId) {
+		return shiftMasterRepository.findShiftByIdAndCompany(shiftId, companyId);
 	}
 
-	public String getMaxShiftId(String companyId) {
-		if (shiftMasterRepository.maxShiftId(companyId) == null) {
+	public String getMaxShiftId() {
+		if (shiftMasterRepository.maxShiftId() == null) {
 			return "1";
 		} else {
-			return shiftMasterRepository.maxShiftId(companyId);
+			return shiftMasterRepository.maxShiftId();
 		}
 	}
 }

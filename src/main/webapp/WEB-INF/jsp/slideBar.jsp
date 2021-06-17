@@ -50,7 +50,7 @@
 						<ul class="nav nav-collapse">
 							<li><a href="Nationality"> <span class="sub-item">Nationality</span></a></li>
 							<li><a href="Religion"> <span class="sub-item">Religion</span></a></li>
-							<li><a href="EmployeeDocument"> <span class="sub-item">Employee Document</span></a></li>
+							<li><a href="EmployeeDocuments"> <span class="sub-item">Employee Document</span></a></li>
 							<li><a href="DependentType"> <span class="sub-item">Dependent Type</span></a></li>
 							<li><a href="MembershipType"> <span class="sub-item">Membership Type</span></a></li>
 							<li><a href="EmployeeType"> <span class="sub-item">Employee Type</span></a></li>
@@ -76,7 +76,7 @@
 				</a>
 					<div class="collapse" id="base2">
 						<ul class="nav nav-collapse">
-							<li><a href="register"> <span class="sub-item">Register</span></a></li>
+							<li><a href="Register"> <span class="sub-item">Register</span></a></li>
 						</ul>
 					</div></li>
 

@@ -1,5 +1,8 @@
 package com.navitsa.hrm.controller;
 
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -14,9 +17,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.navitsa.hrm.entity.CompanyMaster;
+import com.navitsa.hrm.entity.EmployeeDetails;
+import com.navitsa.hrm.entity.ShiftAllocation;
 import com.navitsa.hrm.entity.ShiftMaster;
 import com.navitsa.hrm.service.CompanyService;
 import com.navitsa.hrm.service.ShiftMasterService;
@@ -31,18 +38,18 @@ public class ShiftMasterController {
 	private CompanyService companyService;
 	
 	@GetMapping("/Shift")
-	public String loadAsPage(Map<String, Object> map, HttpSession session) {
+	public String loadAsPage(Map<String, Object> map) {
 		map.put("ShiftMaster", new ShiftMaster());
 		ShiftMaster shift = new ShiftMaster();
-		String companyId = session.getAttribute("company.comID").toString();
-		shift.setShiftId("00000".substring(shiftMasterService.getMaxShiftId(companyId).length())
-				+ shiftMasterService.getMaxShiftId(companyId));
+		shift.setShiftId("00000".substring(shiftMasterService.getMaxShiftId().length())
+				+ shiftMasterService.getMaxShiftId());
 		map.put("ShiftMaster", shift);
 		return "hrm/shiftMaster";
 	}
 
 	@PostMapping("/saveShiftMaster")
-	public String saveShiftMaster(@Valid @ModelAttribute("ShiftMaster") ShiftMaster shift, BindingResult br, @RequestParam("companyId") String companyId) {
+	public String saveShiftMaster(@Valid @ModelAttribute("ShiftMaster") ShiftMaster shift, BindingResult br, @RequestParam("companyId") String companyId,
+			RedirectAttributes redirectAttributes) {
 		CompanyMaster company = companyService.findbyCompanyid(companyId);
 		shift.setCompany(company);
 		if (br.hasErrors()) {
@@ -50,18 +57,33 @@ public class ShiftMasterController {
 		} else {
 			try {
 				shiftMasterService.saveShift(shift);
+				redirectAttributes.addFlashAttribute("success", 1);
 				return "redirect:/Shift";
 			} catch (Exception e) {
-				System.out.println("Details Not Saved");
+				redirectAttributes.addFlashAttribute("success", 0);
+				System.out.println(e);
 			}
 		}
 		return "hrm/ShiftMaster";
 	}
 
 	@ModelAttribute("shiftList")
-	public List<ShiftMaster> getAllShifts(HttpSession session) {
+	public List<ShiftMaster> findAllShiftsByCompany(HttpSession session) {
 		String companyId = session.getAttribute("company.comID").toString();
-		return shiftMasterService.loadAllShifts(companyId);
+		List<ShiftMaster> list = shiftMasterService.findAllShiftsByCompany(companyId);
+		List<ShiftMaster> shiftList  = new ArrayList<>();
+		DateTimeFormatter formattertime = DateTimeFormatter.ofPattern("HH:mm");
+		for(int i = 0; i < list.size(); i++) {
+			ShiftMaster shift = new ShiftMaster();
+			shift.setShiftId(list.get(i).getShiftId());
+			shift.setDescription(list.get(i).getDescription());
+			shift.setStartTime(LocalTime.parse(list.get(i).getStartTime()).format(formattertime));
+			shift.setEndTime(LocalTime.parse(list.get(i).getEndTime()).format(formattertime));
+			shift.setContinuing(list.get(i).isContinuing());
+			shift.setCompany(list.get(i).getCompany());
+			shiftList.add(shift);
+		}
+		return shiftList;
 	}
 
 	// update shift master
@@ -69,8 +91,15 @@ public class ShiftMasterController {
 	public ModelAndView updateShiftMaster(@RequestParam String id, HttpSession session) {
 		ModelAndView mav = new ModelAndView("hrm/shiftMaster");// jsp
 		String companyId = session.getAttribute("company.comID").toString();
-		ShiftMaster shiftMaster = shiftMasterService.findShiftById2(id, companyId);
+		ShiftMaster shiftMaster = shiftMasterService.findShiftByIdAndCompany(id, companyId);
 		mav.addObject("ShiftMaster", shiftMaster);// model attribute name and object
 		return mav;
+	}
+	
+	@GetMapping("/findShiftByIdAndCompany")
+	public @ResponseBody ShiftMaster findShiftByIdAndCompany(@RequestParam("shiftId") String shiftId, HttpSession session) {
+		String companyId = session.getAttribute("company.comID").toString();
+		ShiftMaster shiftMaster = shiftMasterService.findShiftByIdAndCompany(shiftId, companyId);
+		return shiftMaster;
 	}
 }

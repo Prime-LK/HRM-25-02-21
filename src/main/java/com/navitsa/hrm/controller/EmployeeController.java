@@ -40,7 +40,9 @@ import com.navitsa.hrm.entity.ShiftMaster;
 import com.navitsa.hrm.service.BankDetailsService;
 import com.navitsa.hrm.service.CompanyService;
 import com.navitsa.hrm.service.DepartmentService;
+import com.navitsa.hrm.service.EmployeeLevelService;
 import com.navitsa.hrm.service.EmployeeService;
+import com.navitsa.hrm.service.EthnicService;
 import com.navitsa.hrm.service.JobService;
 import com.navitsa.hrm.service.LocationService;
 import com.navitsa.hrm.service.ShiftMasterService;
@@ -68,9 +70,15 @@ public class EmployeeController {
 
 	@Autowired
 	private ShiftMasterService shiftMasterService;
+	
+	@Autowired
+	private EthnicService ethService; 
+	
+	@Autowired
+	private EmployeeLevelService employeeLevelService;
 
 	// get register page
-	@RequestMapping(value = "/register", method = RequestMethod.GET)
+	@RequestMapping(value = "/Register", method = RequestMethod.GET)
 	public String createrNewUser(Map<String, Object> model) {
 		model.put("saveRegister", new Employee());
 		Employee emp = new Employee();
@@ -84,66 +92,88 @@ public class EmployeeController {
 		if (br.hasErrors()) {
 			return "hrm/register";
 		} else {
-			empService.saveEmp(e);
-			session = request.getSession();
-			session.setAttribute("eid", e.getEmpID());
-			session.setAttribute("ename", e.getName());
-			session.setAttribute("eImg", e.getProfileImgView());
-			session.setAttribute("lastName", e.getLastname());
-			session.setAttribute("addLine01", e.getAddress());
-			session.setAttribute("addLine02", e.getCity());
-			return "redirect:/hrm/register";
+			try {
+				empService.saveEmp(e);
+				session = request.getSession();
+				session.setAttribute("eid", e.getEmpID());
+				session.setAttribute("ename", e.getName());
+				session.setAttribute("eImg", e.getProfileImgView());
+				session.setAttribute("lastName", e.getLastname());
+				session.setAttribute("addLine01", e.getAddress());
+				session.setAttribute("addLine02", e.getCity());
+				return "redirect:/Register";
+			} catch (Exception er) {
+				System.out.println(er);
+			}
 		}
+		return "hrm/ShiftMaster";
 	}
 
 	@ModelAttribute("allComMas")
-	public List<CompanyMaster> gettAllDetails() {
+	public List<CompanyMaster> gettAllDetails(HttpSession session) {
 		return comService.getAllComDetails();
 	}
 
 	@ModelAttribute("salaryGrade")
-	public List<SalaryGrade> getAllSGrade() {
-		return jobService.getlistOfSalaryGrade();
+	public List<SalaryGrade> getAllSalaryGradeByCompany(HttpSession session) {
+		String companyId = session.getAttribute("company.comID").toString();
+		return jobService.getAllSalaryGradeByCompany(companyId);
 	}
 
 	@ModelAttribute("empCategories")
-	public List<EmployeeCategory> getAllCategories() {
-		return empService.getAllCategories();
+	public List<EmployeeCategory> getAllEmployeeCategoryByCompany(HttpSession session) {
+		String companyId = session.getAttribute("company.comID").toString();
+		return employeeLevelService.getAllEmployeeCategoryByCompany(companyId);
+
 	}
 
 	@ModelAttribute("salaryRange")
-	public List<SalaryRange> getAllSalaryRange() {
-		return empService.getAllRanges();
+	public List<SalaryRange> getAllSalaryRangeByCompany(HttpSession session) {
+		String companyId = session.getAttribute("company.comID").toString();
+		return jobService.getAllSalaryRangeByCompany(companyId);
+	}
+	
+	@GetMapping("/getAllSalaryRangeByGradeAndCompany")
+	@ResponseBody
+	public List<SalaryRange> getAllSalaryRangeByGradeAndCompany(@RequestParam("gradeId") String gradeId, HttpSession session) {
+		String companyId = session.getAttribute("company.comID").toString();
+		return jobService.getAllSalaryRangeByGradeAndCompany(gradeId,companyId);
 	}
 
 	@ModelAttribute("nationalities")
-	public List<NationalityMaster> getAllNationalities() {
-		return empService.getAllNationalities();
+	public List<NationalityMaster> getAllNationalities(HttpSession session) {
+		String companyId = session.getAttribute("company.comID").toString();
+		return ethService.getAllNationalityByCompany(companyId);
 	}
 
 	@ModelAttribute("religion")
-	public List<ReligionMaster> getAllReligions() {
-		return empService.getAllRiligions();
+	public List<ReligionMaster> getAllReligions(HttpSession session) {
+		String companyId = session.getAttribute("company.comID").toString();
+		return empService.getAllReligionBycompanyID(companyId);
 	}
 
 	@ModelAttribute("designations")
-	public List<DesignationMaster> getAllDesignations() {
-		return empService.getAllDesignations();
+	public List<DesignationMaster> getAllDesignationMasterByCompany(HttpSession session) {
+		String companyId = session.getAttribute("company.comID").toString();
+		return jobService.getAllDesignationMasterByCompany(companyId);
 	}
 
 	@ModelAttribute("jobProfile")
-	public List<JobProfileMaster> getAllProfiles() {
-		return empService.getAllProfiles();
+	public List<JobProfileMaster> getAllJobProfileByCompany(HttpSession session) {
+		String companyId = session.getAttribute("company.comID").toString();
+		return jobService.getAllJobProfileByCompany(companyId);
 	}
 
 	@ModelAttribute("emps")
-	public List<Employee> getAllEmps() {
-		return empService.getAllEmp();
+	public List<Employee> getAllEmps(HttpSession session) {
+		String companyId = session.getAttribute("company.comID").toString();
+		return empService.getEmployeesByCompany(companyId);
 	}
 
 	@ModelAttribute("allEmpTypes")
-	public List<EmployeeType> getAllTypes() {
-		return empService.getAllTypes();
+	public List<EmployeeType> getAllEmployeeTypeByCompany(HttpSession session) {
+		String companyId = session.getAttribute("company.comID").toString();
+		return employeeLevelService.getAllEmployeeTypeByCompany(companyId);
 	}
 
 	// load bank
@@ -155,10 +185,18 @@ public class EmployeeController {
 
 	// load bank branch
 	@ModelAttribute("bankBranch")
-	public List<Bank> showBankBrsnch() {
-		return bankDetailsService.getAllSavedBank();
+	public List<Bank> showBankBrsnch(HttpSession session) {
+		String companyId = session.getAttribute("company.comID").toString();
+		return bankDetailsService.getAllBankBranchByCompany(companyId);
 	}
 
+	@GetMapping("/getAllBankBranchByBankAndCompany")
+	@ResponseBody
+	public List<Bank> getAllBankBranchByBankAndCompany(@RequestParam("bankId") String bankId, HttpSession session) {
+		String companyId = session.getAttribute("company.comID").toString();
+		return bankDetailsService.getAllBankBranchByBankAndCompany(bankId,companyId);
+	}
+	
 	@ModelAttribute("locations")
 	public List<LocationMaster> getAlllocs() {
 		return locService.getAllLocations();
@@ -240,7 +278,7 @@ public class EmployeeController {
 	// operation----------------------------------------------------
 
 	// get
-	@RequestMapping(value = "/employeeDetails", method = RequestMethod.GET)
+	@RequestMapping(value = "/EmployeeDetails", method = RequestMethod.GET)
 	public String getEmpDetailsPage(Map<String, Object> map) {
 		map.put("EmpDetails", new EmployeeDetails());
 		EmployeeDetailsPK empDe = new EmployeeDetailsPK();
@@ -255,7 +293,7 @@ public class EmployeeController {
 		try {
 			empService.saveEmplDetails(empDe);
 			System.out.println("Details Saved Successfully");
-			return "redirect:/hrm/employeeDetails";
+			return "redirect:/EmployeeDetails";
 		} catch (Exception e) {
 			System.out.println(e);
 		}
@@ -271,7 +309,7 @@ public class EmployeeController {
 
 	@GetMapping("/updateDetails")
 	public ModelAndView updateDetails(@RequestParam("empID") String empID) {
-		ModelAndView mav = new ModelAndView("employeeDetails");
+		ModelAndView mav = new ModelAndView("hrm/employeeDetails");
 		EmployeeDetails detail = null;
 		try {
 			detail = empService.updateDetails(empID);
@@ -291,8 +329,9 @@ public class EmployeeController {
 	}
 
 	@ModelAttribute("dAll")
-	public List<DepartmentMaster> getAllDeps() {
-		return depService.getAllDep();
+	public List<DepartmentMaster> getAllDepartmentByCompany(HttpSession session) {
+		String companyId = session.getAttribute("company.comID").toString();
+		return depService.getAllDepartmentByCompany(companyId);
 	}
 
 	// get branch according to bank
@@ -307,6 +346,6 @@ public class EmployeeController {
 	@ModelAttribute("shiftList")
 	public List<ShiftMaster> getAllShifts(HttpSession session) {
 		String companyId = session.getAttribute("company.comID").toString();
-		return shiftMasterService.loadAllShifts(companyId);
+		return shiftMasterService.findAllShiftsByCompany(companyId);
 	}
 }
