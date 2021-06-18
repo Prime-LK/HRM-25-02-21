@@ -22,6 +22,7 @@ import com.navitsa.hrm.service.EmployeeAttendanceService;
 @Controller
 public class AttendanceSheetController {
 
+	/*
 	@Autowired
 	private DepartmentService departmentService;
 
@@ -48,4 +49,5 @@ public class AttendanceSheetController {
 		model.put("attendanceSheet", sheet);
 		return "hrm/attendanceSheet";
 	}
+	*/
 }

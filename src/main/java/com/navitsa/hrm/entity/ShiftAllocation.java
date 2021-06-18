@@ -1,5 +1,6 @@
 package com.navitsa.hrm.entity;
 
+import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,6 +14,9 @@ public class ShiftAllocation {
 
 	@EmbeddedId
 	private ShiftAllocationPK shiftAllocationPK;
+	
+	@Column(name = "department_id")
+	private String departmentId;
 
 	@ManyToOne(optional = false, fetch = FetchType.EAGER)
 	@JoinColumn(name = "company_id", referencedColumnName = "Company_ID")
@@ -22,8 +26,9 @@ public class ShiftAllocation {
 
 	}
 
-	public ShiftAllocation(ShiftAllocationPK shiftAllocationPK, CompanyMaster company) {
+	public ShiftAllocation(ShiftAllocationPK shiftAllocationPK, String departmentId, CompanyMaster company) {
 		this.shiftAllocationPK = shiftAllocationPK;
+		this.departmentId = departmentId;
 		this.company = company;
 	}
 
@@ -35,6 +40,14 @@ public class ShiftAllocation {
 		this.shiftAllocationPK = shiftAllocationPK;
 	}
 
+	public String getDepartmentId() {
+		return departmentId;
+	}
+
+	public void setDepartmentId(String departmentId) {
+		this.departmentId = departmentId;
+	}
+	
 	public CompanyMaster getCompany() {
 		return company;
 	}
@@ -45,6 +58,7 @@ public class ShiftAllocation {
 
 	@Override
 	public String toString() {
-		return "ShiftAllocation [shiftAllocationPK=" + shiftAllocationPK + ", company=" + company + "]";
+		return "ShiftAllocation [shiftAllocationPK=" + shiftAllocationPK + ", departmentId=" + departmentId
+				+ ", company=" + company + "]";
 	}
 }

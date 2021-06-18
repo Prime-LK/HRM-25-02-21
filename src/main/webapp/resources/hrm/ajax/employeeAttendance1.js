@@ -611,3 +611,157 @@ function loadAttendanceRecords() {
 
 	}
 }
+
+function checkEmployeeShiftAllocation() {
+	
+	var employeeId = document.getElementById('selectEmployeeId').value;
+	var date = document.getElementById('date').value;
+	var shiftId = document.getElementById('shiftId').value;
+	
+	if(employeeId == "All" || employeeId == "" || shiftId == "" || date == "") {
+		return;
+	}
+	else {
+	 
+		$
+			.ajax({
+				type : 'GET',
+				url : "checkEmployeeShiftAllocation",
+				data : {
+					"date" : date,
+					"employeeId" : employeeId,
+					"shiftId" : shiftId
+				},
+				success : function(data) {
+					console.log(data)
+					if (data == true){
+						return true;
+					} else if (data == false){
+						swal({
+							  title: "This employee doesn't have a fixed shift or a shift allocated to selected date ",
+							  text: "Continue if you want to add as an OT or cancel if you don't want to add!",
+							  icon: "warning",
+							  buttons: true,
+							  dangerMode: true,
+							})
+							.then((willAdd) => {
+							  if (willAdd) {
+							    swal("This record will be added as an OT", {
+							      icon: "success",
+							    });
+							  } else {
+							    swal("Record won't be added!");
+							  }
+							});
+					}
+				},
+				error : function() {
+					swal("Error!", "", {
+						icon : "error",
+						buttons : {
+							confirm : {
+								className : 'btn btn-danger'
+							}
+						},
+					});
+				}
+
+			});	
+	}
+	
+	function setOverTimeAndLateTime() {
+		
+		var oT = document.getElementById('onTime').value;
+		var offT = document.getElementById('lateTime').value;
+		var shiftId = document.getElementById('shiftId').value;
+		
+		if(shiftId == "" || onTime == "" || offTime == "") {
+			var overTime = $("#overTime");
+			var lateTime = $("#lateTime");
+			overTime.empty();
+			lateTime.empty();
+			return;
+		}
+		else {
+		 
+			$
+				.ajax({
+					type : 'GET',
+					url : "findShiftByIdAndCompany",
+					data : {
+						"shiftId" : shiftId
+					},
+					success : function(data) {
+						var startTime = new Date("01/01/2007 " + data.startTime).getTime();
+						var endTime = new Date("01/01/2007 " + data.endTime).getTime();
+						var onTime = new Date("01/01/2007 " + oT).getTime();
+						var offTime = new Date("01/01/2007 " + offT).getTime();
+						var totalOverTime;
+						var totalLateTime;
+						if(onTime > startTime){
+							totalLateTime = totalLateTime +  (onTime - startTime);
+						} else if(onTime < startTime){
+							totalOverTime = totalOverTime +  (startTime - onTime);
+						}
+						if(offTime > endTime){
+							totalOverTime = totalOverTime +  (offTime - endTime);
+						} else if(offTime < endTime){
+							totalLateTime = totalLateTime +  (endTime - offTime);
+						}
+						
+						console.log("Total Overtime : " + totalOverTime);
+						console.log("Total Late Time : " + totalLateTime);
+						
+						var otH = new Date("01/01/2007 " + totalOverTime).getHours();
+						var otM = new Date("01/01/2007 " + totalOverTime).getMinutes();
+						
+						var offtH = new Date("01/01/2007 " + totalLateTime).getHours();
+						var offtM = new Date("01/01/2007 " + totalLateTime).getMinutes();
+						
+						var overTime = $("#overTime");
+						var lateTime = $("#lateTime");
+						overTime.empty();
+						lateTime.empty();
+					
+						document.getElementById("overTime").value = otH + " hrs : " + otM + " minutes";
+						document.getElementById("lateTime").value = offtH + " hrs : " + offtM + " minutes";
+					},
+					error : function() {
+						swal("Error!", "", {
+							icon : "error",
+							buttons : {
+								confirm : {
+									className : 'btn btn-danger'
+								}
+							},
+						});
+					}
+
+				});	
+		}
+	}
+	
+	function calculateDuration(valuestart, valuestop) {
+
+		// create date format
+		var timeStart = new Date("01/01/2007 " + valuestart).getHours();
+		var timeEnd = new Date("01/01/2007 " + valuestop).getHours();
+
+		var hourDiff = timeEnd - timeStart;
+		if (hourDiff < 0) {
+			hourDiff = 24 + hourDiff;
+		}
+
+		var timeStart = new Date("01/01/1970 " + valuestart).getMinutes();
+		var timeEnd = new Date("01/01/1970 " + valuestop).getMinutes();
+
+		var minuteDiff = timeEnd - timeStart;
+		if (minuteDiff < 0) {
+			minuteDiff = 60 + minuteDiff;
+			hourDiff = hourDiff - 1;
+		}
+
+		return hourDiff + " hrs : " + minuteDiff + " minutes";
+
+	}
+}

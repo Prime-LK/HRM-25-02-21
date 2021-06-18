@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.navitsa.hrm.entity.CalanderEntity;
 import com.navitsa.hrm.entity.CompanyMaster;
@@ -48,9 +49,6 @@ public class ShiftAllocationController {
 
 	@Autowired
 	private EmployeeService employeeService;
-
-	@Autowired
-	private CalanderService calanderService;
 
 	@Autowired
 	private CompanyService companyService;
@@ -92,7 +90,7 @@ public class ShiftAllocationController {
 	@GetMapping("/loadShiftById")
 	public @ResponseBody ShiftMaster loadShiftById(@RequestParam("shiftId") String shiftId, HttpSession session) {
 		String companyId = session.getAttribute("company.comID").toString();
-		ShiftMaster shift = shiftMasterService.findShiftById2(shiftId, companyId);
+		ShiftMaster shift = shiftMasterService.findShiftByIdAndCompany(shiftId, companyId);
 		return shift;
 	}
 
@@ -103,7 +101,6 @@ public class ShiftAllocationController {
 		List<ShiftAllocationBean> list = new ArrayList<>();
 		List<ShiftAllocation> result = shiftAllocationService.loadShiftsByDateRange(startDate, endDate, shiftId,
 				companyId);
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		DateTimeFormatter formattertime = DateTimeFormatter.ofPattern("HH:mm");
 		for (int i = 0; i < result.size(); i++) {
 			ShiftAllocationBean shiftAllocation = new ShiftAllocationBean();
@@ -130,12 +127,11 @@ public class ShiftAllocationController {
 			@RequestParam("shiftId") String shiftId, @RequestParam("departmentId") String departmentId,
 			@RequestParam(value = "employeeId", required = false) String employeeId,
 			@RequestParam(value = "allEmployees", required = false) int allEmployees,
-			@RequestParam(value = "companyId", required = false) String companyId, HttpSession session) {
+			@RequestParam(value = "companyId", required = false) String companyId, RedirectAttributes redirectAttributes) {
 
 		CompanyMaster company = companyService.findbyCompanyid(companyId);
-		ShiftMaster shift = shiftMasterService.findShiftById2(shiftId, companyId);
+		ShiftMaster shift = shiftMasterService.findShiftByIdAndCompany(shiftId, companyId);
 		List<ShiftAllocation> list = new ArrayList<>();
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
 		Date d1;
 		Date d2;
@@ -155,12 +151,14 @@ public class ShiftAllocationController {
 							department.get(i).getDetailsPK().getEmpID().getEmpID().toString(), companyId);
 					for (LocalDate date = d1.toLocalDate(); date
 							.isBefore(d2.toLocalDate().plusDays(1)); date = date.plusDays(1)) {
+						Date shiftDate = Date.valueOf(date);
 						ShiftAllocationPK shiftAllocationPK = new ShiftAllocationPK();
 						ShiftAllocation allocation = new ShiftAllocation();
-						shiftAllocationPK.setDate(formatter.format(date));
+						shiftAllocationPK.setDate(shiftDate.toString());
 						shiftAllocationPK.setShiftmaster(shift);
 						shiftAllocationPK.setEmployee(employee);
 						allocation.setShiftAllocationPK(shiftAllocationPK);
+						allocation.setDepartmentId(departmentId);
 						allocation.setCompany(company);
 						list.add(allocation);
 					}
@@ -172,22 +170,26 @@ public class ShiftAllocationController {
 
 				for (LocalDate date = d1.toLocalDate(); date
 						.isBefore(d2.toLocalDate().plusDays(1)); date = date.plusDays(1)) {
+					Date shiftDate = Date.valueOf(date);
 					ShiftAllocationPK shiftAllocationPK = new ShiftAllocationPK();
 					ShiftAllocation allocation = new ShiftAllocation();
-					shiftAllocationPK.setDate(formatter.format(date));
+					shiftAllocationPK.setDate(shiftDate.toString());
 					shiftAllocationPK.setShiftmaster(shift);
 					shiftAllocationPK.setEmployee(employee);
 					allocation.setShiftAllocationPK(shiftAllocationPK);
+					allocation.setDepartmentId(departmentId);
 					allocation.setCompany(company);
 					list.add(allocation);
 				}
 				shiftAllocationService.saveShiftAllocations(list);
 			}
+			redirectAttributes.addFlashAttribute("success", 1);
 			return "redirect:/ShiftAllocation";
 
 		} catch (Exception e) {
-			System.out.println("Error");
+			redirectAttributes.addFlashAttribute("success", 0);
+			System.out.println(e);
 		}
-		return "ShiftAllocation";
+		return "hrm/shiftAllocation";
 	}
 }

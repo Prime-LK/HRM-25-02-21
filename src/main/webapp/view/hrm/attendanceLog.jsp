@@ -201,50 +201,37 @@
 												id="basic-datatables" width="100%" cellspacing="0">
 												<thead>
 													<tr>
-														<th style="display: none">Attendance ID</th>
 														<th>Date</th>
-														<th style="display: none">Shift ID</th>
-														<th>Shift Name</th>
-														<th>Department</th>
-														<th style="display: none">Employee ID</th>
 														<th>Employee Name</th>
+														<th>Department</th>
+														<th>Shift Name</th>
 														<th>On Time</th>
 														<th>Off Time</th>
 														<th>Approved</th>
-														<th style="display: none">Company ID</th>
 													</tr>
 												</thead>
 												<tfoot>
 													<tr>
-														<th style="display: none">Attendance ID</th>
 														<th>Date</th>
-														<th style="display: none">Shift ID</th>
-														<th>Shift Name</th>
-														<th>Department</th>
-														<th style="display: none">Employee ID</th>
 														<th>Employee Name</th>
+														<th>Department</th>
+														<th>Shift Name</th>
 														<th>On Time</th>
 														<th>Off Time</th>
 														<th>Approved</th>
-														<th style="display: none">Company ID</th>
 													</tr>
 												</tfoot>
 												<tbody>
 
 													<c:forEach items="${attendanceList}" var="attendance">
 														<tr>
-															<td style="display: none">${attendance[0]}</td>
-															<td>${attendance[1]}</td>
-															<td style="display: none">${attendance[2]}</td>
-															<td>${attendance[6]}</td>
-															<td>${attendance[4]}</td>
-															<td style="display: none">${attendance[5]}</td>
-															<td>${attendance[3]}</td>
-															<td>${attendance[7]}</td>
-															<td>${attendance[8]}</td>
-															<td><c:if test="${attendance[9] == 'true'}">Yes</c:if>
-																<c:if test="${attendance[9] == 'false'}">No</c:if></td>
-															<td style="display: none">${attendance[10]}</td>
+															<td>${attendance.date}</td>
+															<td>${attendance.employee}</td>
+															<td>${attendance.department}</td>
+															<td>${attendance.shift}</td>
+															<td>${attendance.onTime}</td>
+															<td>${attendance.offTime}</td>
+															<td>${attendance.approvalStatus}</td>
 														</tr>
 													</c:forEach>
 

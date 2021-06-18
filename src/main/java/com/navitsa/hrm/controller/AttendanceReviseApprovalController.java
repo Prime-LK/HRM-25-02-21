@@ -57,7 +57,8 @@ public class AttendanceReviseApprovalController {
 		}
 		return "hrm/attendanceReviseApproval";
 	}
-
+	
+	/*
 	@PostMapping("/approveAttendanceRevises")
 	public String approveAttendanceRevises(
 			@ModelAttribute("approveAttendanceRevisesForm") AttendanceReviseApproveForm approveForm) {
@@ -100,4 +101,5 @@ public class AttendanceReviseApprovalController {
 		}
 		return "redirect:/AttendanceReviseApproval";
 	}
+	*/
 }

@@ -76,13 +76,6 @@ public interface ShiftAllocationRepository extends CrudRepository<ShiftAllocatio
 			@Param("employeeId") String employeeId, @Param("shiftId") String shiftId,
 			@Param("companyId") String companyId);
 	
-	@Query(value = "SELECT sa FROM ShiftAllocation sa WHERE sa.shiftAllocationPK.date BETWEEN :startDate AND :endDate AND sa.company.comID = :companyId AND sa.shiftAllocationPK.shiftmaster.shiftId = :shiftId")
-	public List<ShiftAllocation> loadShiftsByDateRange(@Param("startDate") String startDate, @Param("endDate") String endDate,
-			@Param("shiftId") String shiftId, @Param("companyId") String companyId);
-	
-	@Query(value = "SELECT sa FROM ShiftAllocation sa WHERE sa.company.comID = :companyId")
-	public List<ShiftAllocation> loadShiftAllocationsByCompany(@Param("companyId") String companyId);
-	
 	@Query(value = "SELECT * FROM shift_allocation WHERE date(date)> :startDate AND date(date) <= :endDate AND employee_id=:employeeID", nativeQuery = true)
 	public List<ShiftAllocation> getAllShiftAllocationBy(
 			@Param("startDate") String startDate,
@@ -93,4 +86,44 @@ public interface ShiftAllocationRepository extends CrudRepository<ShiftAllocatio
 	public ShiftAllocation getShiftBy(
 			@Param("date") String date, 
 			@Param("employeeID") String employeeID);
+	
+	@Query(value = "SELECT sa FROM ShiftAllocation sa WHERE sa.shiftAllocationPK.date = :date AND sa.shiftAllocationPK.employee.empID = :employeeId AND sa.shiftAllocationPK.shiftmaster.shiftId = :shiftId AND sa.company.comID = :companyId")
+	public ShiftAllocation findShiftAllocationByCompany(String date, String shiftId, String employeeId,
+			String companyId);
+
+	@Query(value = "SELECT sa FROM ShiftAllocation sa WHERE sa.company.comID = :companyId")
+	public List<ShiftAllocation> loadShiftAllocationsByCompany(@Param("companyId") String companyId);
+
+	@Query(value = "SELECT sa FROM ShiftAllocation sa WHERE sa.shiftAllocationPK.date BETWEEN :startDate AND :endDate AND sa.company.comID = :companyId AND sa.shiftAllocationPK.shiftmaster.shiftId = :shiftId")
+	public List<ShiftAllocation> loadShiftsByDateRange(@Param("startDate") String startDate,
+			@Param("endDate") String endDate, @Param("shiftId") String shiftId, @Param("companyId") String companyId);
+
+	@Query(value = "SELECT sa FROM ShiftAllocation sa WHERE sa.shiftAllocationPK.date BETWEEN :startDate AND :endDate AND sa.company.comID =:companyId")
+	public List<ShiftAllocation> loadAllocatedShiftsByDate(@Param("startDate") String startDate,
+			@Param("endDate") String endDate, @Param("companyId") String companyId);
+
+	@Query(value = "SELECT sa FROM ShiftAllocation sa WHERE sa.shiftAllocationPK.date BETWEEN :startDate AND :endDate AND sa.departmentId =:departmentId AND sa.company.comID =:companyId")
+	public List<ShiftAllocation> loadAllocatedShiftsByDepartment(@Param("startDate") String startDate,
+			@Param("endDate") String endDate, @Param("departmentId") String departmentId,
+			@Param("companyId") String companyId);
+
+	@Query(value = "SELECT sa FROM ShiftAllocation sa WHERE sa.shiftAllocationPK.date BETWEEN :startDate AND :endDate AND sa.shiftAllocationPK.shiftmaster.shiftId =:shiftId AND sa.company.comID =:companyId")
+	public List<ShiftAllocation> loadAllocatedShiftsByShift(@Param("startDate") String startDate,
+			@Param("endDate") String endDate, @Param("shiftId") String shiftId, @Param("companyId") String companyId);
+
+	@Query(value = "SELECT sa FROM ShiftAllocation sa WHERE sa.shiftAllocationPK.date BETWEEN :startDate AND :endDate AND sa.departmentId =:departmentId AND sa.shiftAllocationPK.shiftmaster.shiftId =:shiftId AND sa.company.comID =:companyId")
+	public List<ShiftAllocation> loadAllocatedShiftsByDepartmentAndShift(@Param("startDate") String startDate,
+			@Param("endDate") String endDate, @Param("departmentId") String departmentId,
+			@Param("shiftId") String shiftId, @Param("companyId") String companyId);
+
+	@Query(value = "SELECT sa FROM ShiftAllocation sa WHERE sa.shiftAllocationPK.date BETWEEN :startDate AND :endDate AND sa.departmentId =:departmentId AND sa.shiftAllocationPK.employee.empID =:employeeId AND sa.company.comID =:companyId")
+	public List<ShiftAllocation> loadAllocatedShiftsByEmployee(@Param("startDate") String startDate,
+			@Param("endDate") String endDate, @Param("departmentId") String departmentId,
+			@Param("employeeId") String employeeId, @Param("companyId") String companyId);
+
+	@Query(value = "SELECT sa FROM ShiftAllocation sa WHERE sa.shiftAllocationPK.date BETWEEN :startDate AND :endDate AND sa.departmentId =:departmentId AND sa.shiftAllocationPK.employee.empID =:employeeId AND sa.shiftAllocationPK.shiftmaster.shiftId =:shiftId AND sa.company.comID =:companyId")
+	public List<ShiftAllocation> loadAllocatedShiftsByEmployeeAndShift(@Param("startDate") String startDate,
+			@Param("endDate") String endDate, @Param("departmentId") String departmentId,
+			@Param("employeeId") String employeeId, @Param("shiftId") String shiftId,
+			@Param("companyId") String companyId);
 }

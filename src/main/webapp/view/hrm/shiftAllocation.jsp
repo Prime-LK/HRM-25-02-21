@@ -122,6 +122,18 @@
 
 										<!-- Page Heading -->
 										<h1 class="h3 mb-4 text-gray-800"></h1>
+										<c:if test = "${success ==1}">
+											<div class="alert alert-success alert-dismissible">
+											  <button type="button" class="close" data-dismiss="alert">&times;</button>
+											  <strong>Success!</strong> Data Successfully Saved.
+											</div>
+										</c:if>
+										<c:if test = "${success ==0}">
+										  <div class="alert alert-danger alert-dismissible">
+										    <button type="button" class="close" data-dismiss="alert">&times;</button>
+										    <strong>Warning!</strong>Something went wrong ! Please try again!
+										  </div>
+										</c:if>
 										<form:form action="assignShift"
 											onsubmit="return validateForm()" method="post">
 											<div class=" row">
@@ -130,13 +142,13 @@
 														<div class="col-sm-3">
 															<label>Start Date</label> <input id="startDate"
 																name="startDate" type="date" class="form-control"
-																value="" required onchange="loadShiftsByDateRange()" />
+																value="" required onchange="" />
 															<span id="div1"></span>
 														</div>
 														<div class="col-sm-3">
 															<label>End Date</label> <input id="endDate"
 																name="endDate" type="date" class="form-control" value=""
-																required onchange="loadShiftsByDateRange()" /> <span
+																required onchange="" /> <span
 																id="div2"></span>
 														</div>
 													</div>
@@ -182,7 +194,7 @@
 														<div class="col-sm-3">
 															<label>Shift</label> <select id="shiftId" name="shiftId"
 																class="form-control text-capitalize" required
-																onchange="loadShiftById(); loadShiftsByDateRange();">
+																onchange="loadShiftById()">
 																<option value="" disabled selected>Select Shift</option>
 																<c:forEach items="${shiftList}" var="s">
 																	<option value="${s.shiftId}">${s.description}</option>
@@ -226,7 +238,7 @@
 										</form:form>
 
 										<!-- DataTables Example -->
-										<div class="card shadow mb-4">
+										<!-- <div class="card shadow mb-4">
 											<div class="card-header py-3">
 												<h6 class="m-0 font-weight-bold text-primary">Allocated
 													Shifts</h6>
@@ -239,7 +251,6 @@
 														<thead>
 															<tr>
 																<th>Date</th>
-																<!-- <th>Day Type</th> -->
 																<th>Shift Name</th>
 																<th>Start Time</th>
 																<th>End Time</th>
@@ -250,7 +261,6 @@
 														<tfoot>
 															<tr>
 																<th>Date</th>
-																<!-- <th>Day Type</th> -->
 																<th>Shift Name</th>
 																<th>Start Time</th>
 																<th>End Time</th>
@@ -264,7 +274,7 @@
 													</table>
 												</div>
 											</div>
-										</div>
+										</div> -->
 
 									</div>
 								</div>

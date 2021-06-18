@@ -14,11 +14,11 @@ public class EmployeeAttendanceService {
 	@Autowired
 	private EmployeeAttendanceRepository employeeAttendanceRepository;
 
-	public String getMaxAttendanceId(String companyId) {
-		if (employeeAttendanceRepository.maxAttendanceId(companyId) == null) {
+	public String getMaxAttendanceId() {
+		if (employeeAttendanceRepository.maxAttendanceId() == null) {
 			return "1";
 		} else {
-			return employeeAttendanceRepository.maxAttendanceId(companyId);
+			return employeeAttendanceRepository.maxAttendanceId();
 		}
 	}
 
@@ -43,69 +43,70 @@ public class EmployeeAttendanceService {
 		return employeeAttendanceRepository.findAttendanceByIdAndCompany(attendanceId, companyId);
 	}
 
-	public List<String> loadAttendancesByDate(String startDate, String endDate, String companyId) {
+	public List<EmployeeAttendance> loadAttendancesByDate(String startDate, String endDate, String companyId) {
 		return employeeAttendanceRepository.loadAttendancesByDate(startDate, endDate, companyId);
 	}
 
-	public List<String> loadAttendancesByDepartment(String startDate, String endDate, String departmentId,
+	public List<EmployeeAttendance> loadAttendancesByDepartment(String startDate, String endDate, String departmentId,
 			String companyId) {
 		return employeeAttendanceRepository.loadAttendancesByDepartment(startDate, endDate, departmentId, companyId);
 	}
 
-	public List<String> loadAttendancesByDepartmentAndShiftAndApprovalStatus(String startDate, String endDate,
-			String departmentId, String shiftId, int approvalStatus, String companyId) {
+	public List<EmployeeAttendance> loadAttendancesByDepartmentAndShiftAndApprovalStatus(String startDate, String endDate,
+			String departmentId, String shiftId, boolean approvalStatus, String companyId) {
 		return employeeAttendanceRepository.loadAttendancesByDepartmentAndShiftAndApprovalStatus(startDate, endDate,
 				departmentId, shiftId, approvalStatus, companyId);
 	}
 
-	public List<String> loadAttendancesByDepartmentAndShift(String startDate, String endDate, String departmentId,
-			String shiftId, String companyId) {
+	public List<EmployeeAttendance> loadAttendancesByDepartmentAndShift(String startDate, String endDate,
+			String departmentId, String shiftId, String companyId) {
 		return employeeAttendanceRepository.loadAttendancesByDepartmentAndShift(startDate, endDate, departmentId,
 				shiftId, companyId);
 	}
 
-	public List<String> loadAttendancesByDepartmentAndApprovalStatus(String startDate, String endDate,
-			String departmentId, int approvalStatus, String companyId) {
+	public List<EmployeeAttendance> loadAttendancesByDepartmentAndApprovalStatus(String startDate, String endDate,
+			String departmentId, boolean approvalStatus, String companyId) {
 		return employeeAttendanceRepository.loadAttendancesByDepartmentAndApprovalStatus(startDate, endDate,
 				departmentId, approvalStatus, companyId);
 	}
 
-	public List<String> loadAttendancesByEmployee(String startDate, String endDate, String departmentId,
+	public List<EmployeeAttendance> loadAttendancesByEmployee(String startDate, String endDate, String departmentId,
 			String employeeId, String companyId) {
 		return employeeAttendanceRepository.loadAttendancesByEmployee(startDate, endDate, departmentId, employeeId,
 				companyId);
 	}
 
-	public List<String> loadAttendancesByEmployeeAndShift(String startDate, String endDate, String departmentId,
-			String employeeId, String shiftId, String companyId) {
+	public List<EmployeeAttendance> loadAttendancesByEmployeeAndShift(String startDate, String endDate,
+			String departmentId, String employeeId, String shiftId, String companyId) {
 		return employeeAttendanceRepository.loadAttendancesByEmployeeAndShift(startDate, endDate, departmentId,
 				employeeId, shiftId, companyId);
 	}
 
-	public List<String> loadAttendancesByEmployeeAndApprovalStatus(String startDate, String endDate,
-			String departmentId, String employeeId, int approvalStatus, String companyId) {
+	public List<EmployeeAttendance> loadAttendancesByEmployeeAndApprovalStatus(String startDate, String endDate,
+			String departmentId, String employeeId, boolean approvalStatus, String companyId) {
 		return employeeAttendanceRepository.loadAttendancesByEmployeeAndApprovalStatus(startDate, endDate, departmentId,
 				employeeId, approvalStatus, companyId);
 	}
 
-	public List<String> loadAttendancesByShift(String startDate, String endDate, String shiftId, String companyId) {
+	public List<EmployeeAttendance> loadAttendancesByShift(String startDate, String endDate, String shiftId,
+			String companyId) {
 		return employeeAttendanceRepository.loadAttendancesByShift(startDate, endDate, shiftId, companyId);
 	}
 
-	public List<String> loadAttendancesByApprovalStatus(String startDate, String endDate, int approvalStatus,
+	public List<EmployeeAttendance> loadAttendancesByApprovalStatus(String startDate, String endDate, boolean approvalStatus,
 			String companyId) {
 		return employeeAttendanceRepository.loadAttendancesByApprovalStatus(startDate, endDate, approvalStatus,
 				companyId);
 	}
 
-	public List<String> loadAttendancesByShiftAndApprovalStatus(String startDate, String endDate, String shiftId,
-			int approvalStatus, String companyId) {
+	public List<EmployeeAttendance> loadAttendancesByShiftAndApprovalStatus(String startDate, String endDate, String shiftId,
+			boolean approvalStatus, String companyId) {
 		return employeeAttendanceRepository.loadAttendancesByShiftAndApprovalStatus(startDate, endDate, shiftId,
 				approvalStatus, companyId);
 	}
 
-	public List<String> loadAttendancesByEmployeeAndShiftAndApprovalStatus(String startDate, String endDate,
-			String departmentId, String employeeId, String shiftId, int approvalStatus, String companyId) {
+	public List<EmployeeAttendance> loadAttendancesByEmployeeAndShiftAndApprovalStatus(String startDate, String endDate,
+			String departmentId, String employeeId, String shiftId, boolean approvalStatus, String companyId) {
 		return employeeAttendanceRepository.loadAttendancesByEmployeeAndShiftAndApprovalStatus(startDate, endDate,
 				departmentId, employeeId, shiftId, approvalStatus, companyId);
 	}
@@ -157,17 +158,15 @@ public class EmployeeAttendanceService {
 			String companyId) {
 		return employeeAttendanceRepository.loadAttendanceSubReportDetails(startDate, endDate, employeeId, companyId);
 	}
-	
-	public String[][] loadAttendanceSubSheet(String startDate, String endDate, String employeeId,
-			String companyId) {
+
+	public String[][] loadAttendanceSubSheet(String startDate, String endDate, String employeeId, String companyId) {
 		return employeeAttendanceRepository.loadAttendanceSubSheet(startDate, endDate, employeeId, companyId);
 	}
-	
-	public String[][] loadAttendanceMainSheet(String startDate, String endDate, String employeeId,
-			String companyId) {
+
+	public String[][] loadAttendanceMainSheet(String startDate, String endDate, String employeeId, String companyId) {
 		return employeeAttendanceRepository.loadAttendanceMainSheet(startDate, endDate, employeeId, companyId);
 	}
-	
+
 	public List<String> loadAttendanceSubReportDetails2(String startDate, String endDate, String employeeId,
 			String companyId) {
 		return employeeAttendanceRepository.loadAttendanceSubReportDetails2(startDate, endDate, employeeId, companyId);

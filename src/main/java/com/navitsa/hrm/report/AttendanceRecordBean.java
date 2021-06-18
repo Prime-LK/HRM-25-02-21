@@ -15,6 +15,8 @@ public class AttendanceRecordBean {
 	private String onTime;
 	private String offTime;
 	private String approvalStatus;
+	private boolean status;
+	private String companyId;
 
 	public String getAttendanceId() {
 		return attendanceId;
@@ -118,5 +120,21 @@ public class AttendanceRecordBean {
 
 	public void setApprovalStatus(String approvalStatus) {
 		this.approvalStatus = approvalStatus;
+	}
+	
+	public boolean isStatus() {
+		return status;
+	}
+
+	public void setStatus(boolean status) {
+		this.status = status;
+	}
+
+	public String getCompanyId() {
+		return companyId;
+	}
+
+	public void setCompanyId(String companyId) {
+		this.companyId = companyId;
 	}
 }

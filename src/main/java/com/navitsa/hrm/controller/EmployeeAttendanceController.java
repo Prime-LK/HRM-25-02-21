@@ -1,8 +1,8 @@
 package com.navitsa.hrm.controller;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -13,14 +13,17 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.navitsa.hrm.entity.CompanyMaster;
 import com.navitsa.hrm.entity.DepartmentMaster;
+import com.navitsa.hrm.entity.Employee;
 import com.navitsa.hrm.entity.EmployeeAttendance;
 import com.navitsa.hrm.entity.EmployeeDetails;
 import com.navitsa.hrm.entity.ShiftAllocation;
 import com.navitsa.hrm.entity.ShiftMaster;
 import com.navitsa.hrm.report.AttendanceRecordBean;
-import com.navitsa.hrm.report.ShiftDetailReportBean;
+import com.navitsa.hrm.service.CompanyService;
 import com.navitsa.hrm.service.DepartmentService;
 import com.navitsa.hrm.service.EmployeeAttendanceService;
 import com.navitsa.hrm.service.EmployeeService;
@@ -45,8 +48,14 @@ public class EmployeeAttendanceController {
 	@Autowired
 	private ShiftAllocationService shiftAllocationService;
 
+	@Autowired
+	private CompanyService companyService;
+
 	@GetMapping("/EmployeeAttendance")
-	public String employeeAttendancePage() {
+	public String employeeAttendancePage(Map<String, Object> map) {
+		String id = "0000000000".substring(employeeAttendanceService.getMaxAttendanceId().length())
+				+ employeeAttendanceService.getMaxAttendanceId();
+		map.put("attendanceId", id);
 		return "hrm/employeeAttendance";
 	}
 
@@ -60,20 +69,6 @@ public class EmployeeAttendanceController {
 	public List<ShiftMaster> getAllShifts(HttpSession session) {
 		String companyId = session.getAttribute("company.comID").toString();
 		return shiftMasterService.loadAllShifts(companyId);
-	}
-
-	/*
-	 * @ModelAttribute("attendanceList") public List<String> getAllAttendances() {
-	 * List<String> attendances = employeeAttendanceService.loadAttendances();
-	 * return attendances; }
-	 */
-
-	@ModelAttribute("attendanceId")
-	public String setAttendanceCode(HttpSession session) {
-		String companyId = session.getAttribute("company.comID").toString();
-		String id = "0000000000".substring(employeeAttendanceService.getMaxAttendanceId(companyId).length())
-				+ employeeAttendanceService.getMaxAttendanceId(companyId);
-		return id;
 	}
 
 	@GetMapping("/loadEmployeesByDepartment")
@@ -92,7 +87,6 @@ public class EmployeeAttendanceController {
 		String companyId = session.getAttribute("company.comID").toString();
 		ShiftAllocation allocation = shiftAllocationService.findShiftAllocationByDetailsByCompany(date, shiftId,
 				employeeId, companyId);
-		System.out.println("Method Loaded");
 		return allocation;
 	}
 
@@ -104,34 +98,58 @@ public class EmployeeAttendanceController {
 		return attendance;
 	}
 
+	@GetMapping("/checkEmployeeShiftAllocation")
+	public @ResponseBody boolean checkEmployeeShiftAllocation(@RequestParam("shiftId") String shiftId,
+			@RequestParam("date") String date, @RequestParam("employeeId") String employeeId, HttpSession session) {
+		boolean result;
+		String companyId = session.getAttribute("company.comID").toString();
+		EmployeeDetails ed = employeeService.findEmployeeDetailsByEmployeeIdAndCompany(employeeId, companyId);
+		ShiftAllocation sa = shiftAllocationService.findShiftAllocationByCompany(date, shiftId, employeeId, companyId);
+		System.out.println("SID = " + ed.getShiftmaster().getShiftId());
+		System.out.println(sa);
+		if (ed.getShiftmaster().getShiftId() == shiftId) {
+			result = true;
+		} else if (!(sa == null)) {
+			result = true;
+		} else {
+			result = false;
+		}
+		return result;
+	}
+
 	@PostMapping("/saveAttendance")
-	public String saveAttendance(@RequestParam("attendanceId") String attendanceId,
+	public String saveAttendance(@RequestParam("attendanceId") String attendanceId, @RequestParam("departmentId") String departmentId,
 			@RequestParam("employeeId") String employeeId, @RequestParam("shiftId") String shiftId,
 			@RequestParam("date") String date, @RequestParam("onTime") String onTime,
 			@RequestParam("offTime") String offTime, @RequestParam("approved") boolean approved,
-			@RequestParam(value = "companyId", required = false) String companyId) {
+			@RequestParam(value = "companyId", required = false) String companyId,
+			RedirectAttributes redirectAttributes) {
 
 		EmployeeAttendance attendance = new EmployeeAttendance();
-		Date date1 = Date.valueOf(date);
+		Employee employee = employeeService.getEmployeeByCompany(employeeId, companyId);
+		ShiftMaster shift = shiftMasterService.findShiftByIdAndCompany(shiftId, companyId);
+		CompanyMaster company = companyService.findbyCompanyid(companyId);
 
 		try {
 
 			attendance.setAttendanceId(attendanceId);
-			attendance.setEmployeeId(employeeId);
-			attendance.setShiftId(shiftId);
-			attendance.setDate(date1);
+			attendance.setEmployee(employee);
+			attendance.setShiftmaster(shift);
+			attendance.setDate(date);
 			attendance.setOnTime(onTime);
 			attendance.setOffTime(offTime);
 			attendance.setApproved(approved);
-			attendance.setCompanyId(companyId);
+			attendance.setDepartmentId(departmentId);
+			attendance.setCompany(company);
 			employeeAttendanceService.saveEmployeeAttendance(attendance);
-
+			redirectAttributes.addFlashAttribute("success", 1);
 			return "redirect:/EmployeeAttendance";
 
 		} catch (Exception e) {
-			System.out.println("Error");
+			redirectAttributes.addFlashAttribute("success", 0);
+			System.out.println(e);
 		}
-		return "hrm/EmployeeAttendance";
+		return "hrm/employeeAttendance";
 	}
 
 	@GetMapping("/loadAttendanceRecords")

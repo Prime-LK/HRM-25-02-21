@@ -231,12 +231,13 @@
 																	<th>Date</th>
 																	<th style="display: none">Shift ID</th>
 																	<th>Shift Name</th>
+																	<th style="display: none">Department ID</th>
 																	<th>Department</th>
 																	<th style="display: none">Employee ID</th>
 																	<th>Employee Name</th>
 																	<th>On Time</th>
 																	<th>Off Time</th>
-																	<th>Approved</th>
+																	<th>Approval Status</th>
 																	<th style="display: none">Company ID</th>
 																</tr>
 															</thead>
@@ -246,12 +247,13 @@
 																	<th>Date</th>
 																	<th style="display: none">Shift ID</th>
 																	<th>Shift Name</th>
+																	<th style="display: none">Department ID</th>
 																	<th>Department</th>
 																	<th style="display: none">Employee ID</th>
 																	<th>Employee Name</th>
 																	<th>On Time</th>
 																	<th>Off Time</th>
-																	<th>Approved</th>
+																	<th>Approval Status</th>
 																	<th style="display: none">Company ID</th>
 																</tr>
 															</tfoot>
@@ -261,42 +263,45 @@
 																	var="attendance" varStatus="status">
 																	<tr>
 
-																		<td id="aId" style="display: none"><input
+																		<td style="display: none"><form:input
 																			id="attendanceId"
-																			name="attendances[${status.index}].attendanceId"
-																			value="${attendance[0]}" readonly /></td>
-																		<td id="dte"><input id="date"
-																			name="attendances[${status.index}].date"
-																			value="${attendance[1]}" readonly /></td>
-																		<td id="sId" style="display: none"><input
+																			path="attendances[${status.index}].attendanceId"
+																			value="${attendance.attendanceId}" readonly="true" /></td>
+																		<td><form:input id="date"
+																			path="attendances[${status.index}].date"
+																			value="${attendance.date}" readonly="true" /></td>
+																		<td style="display: none"><form:input
 																			id="shiftId"
-																			name="attendances[${status.index}].shiftId"
-																			value="${attendance[5]}" readonly /></td>
-																		<td id="sName"><input id="shiftName"
-																			name="shiftName" value="${attendance[6]}" readonly /></td>
-																		<td id="dName"><input id="departmentName"
-																			name="departmentName" value="${attendance[4]}"
-																			readonly /></td>
-																		<td id="eId" style="display: none"><input
+																			path="attendances[${status.index}].shiftmaster.shiftId"
+																			value="${attendance.shiftId}" readonly="true" /></td>
+																		<td><input id="shiftName"
+																			name="shiftName" value="${attendance.shift}" readonly="true" /></td>
+																		<td style="display: none"><form:input
+																			id="departmentId"
+																			path="attendances[${status.index}].departmentId"
+																			value="${attendance.departmentId}" readonly="true" /></td>
+																		<td><input id="departmentName"
+																			name="departmentName" value="${attendance.department}"
+																			readonly="true" /></td>
+																		<td style="display: none"><form:input
 																			id="employeeId"
-																			name="attendances[${status.index}].employeeId"
-																			value="${attendance[2]}" readonly /></td>
-																		<td id="eName"><input id="employeeName"
-																			name="employeeName" value="${attendance[3]}" readonly /></td>
-																		<td id="onT"><input id="onTime"
-																			name="attendances[${status.index}].onTime"
-																			value="${attendance[7]}" readonly /></td>
-																		<td id="offT"><input id="offTime"
-																			name="attendances[${status.index}].offTime"
-																			value="${attendance[8]}" readonly /></td>
-																		<td id="aprvetd"><input type="checkbox"
-																			id="aprve"
-																			name="attendances[${status.index}].approved"
-																			<c:if test="${attendance[9] == 'true'}">checked</c:if>></td>
-																		<td class="cId" style="display: none"><input
+																			path="attendances[${status.index}].employee.empID"
+																			value="${attendance.employeeId}" readonly="true" /></td>
+																		<td><input id="employeeName"
+																			name="employeeName" value="${attendance.employee}" readonly="true" /></td>
+																		<td><form:input id="onTime"
+																			path="attendances[${status.index}].onTime"
+																			value="${attendance.onTime}" readonly="true" /></td>
+																		<td><form:input id="offTime"
+																			path="attendances[${status.index}].offTime"
+																			value="${attendance.offTime}" readonly="true" /></td>
+																		<td><form:checkbox id="aprve" path="attendances[${status.index}].approved" 
+																		value="${attendance.status}"/>
+																		</td>
+																		<td style="display: none"><form:input
 																			id="companyId"
-																			name="attendances[${status.index}].companyId"
-																			value="${attendance[10]}" type="hidden" readonly /></td>
+																			path="attendances[${status.index}].company.comID"
+																			value="${attendance.companyId}" readonly="true" /></td>
 																	</tr>
 																</c:forEach>
 

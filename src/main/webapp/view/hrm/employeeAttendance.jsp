@@ -123,7 +123,19 @@
 
 										<!-- Page Heading -->
 										<h1 class="h3 mb-4 text-gray-800"></h1>
-										<form:form action="saveAttendance"
+										<c:if test = "${success ==1}">
+											<div class="alert alert-success alert-dismissible">
+											  <button type="button" class="close" data-dismiss="alert">&times;</button>
+											  <strong>Success!</strong> Data Successfully Saved.
+											</div>
+										</c:if>
+										<c:if test = "${success ==0}">
+										  <div class="alert alert-danger alert-dismissible">
+										    <button type="button" class="close" data-dismiss="alert">&times;</button>
+										    <strong>Warning!</strong>Something went wrong ! Please try again!
+										  </div>
+										</c:if>
+										<form:form action="saveAttendance" onsubmit="return validateForm()"
 											modelAttribute="EmployeeAttendance" method="post">
 											<div class=" row">
 												<div class="col-9">
@@ -132,7 +144,7 @@
 															<label>Department</label> <select id="selectDepartment"
 																name="departmentId" class="form-control text-capitalize"
 																required
-																onchange="loadEmployeesByDepartment(); loadAttendanceRecords()">
+																onchange="loadEmployeesByDepartment();">
 																<option value="" disabled selected>- Select
 																	Department -</option>
 																<c:forEach items="${depList}" var="d">
@@ -144,7 +156,7 @@
 															<label>Employee Name</label> <select
 																id="selectEmployeeId" name="employeeId"
 																class="form-control text-capitalize" required="true"
-																onchange="loadAttendanceRecords()">
+																onchange="">
 																<option value="" disabled selected>- Select
 																	Employee -</option>
 															</select>
@@ -153,13 +165,13 @@
 															<label>Date</label> <input id="date" name="date"
 																placeholder="dd-mm-yyyy" type="date"
 																class="form-control" value=""
-																onchange="loadAttendanceRecords()"
+																onchange=""
 																required="true" />
 														</div>
 														<div class="col-sm-3">
 															<label>Shift</label> <select id="shiftId" name="shiftId"
 																class="form-control text-capitalize" required
-																onchange="loadAttendanceRecords()">
+																onchange="">
 																<option value="" disabled selected>- Select
 																	Shift -</option>
 																<c:forEach items="${shiftList}" var="s">
@@ -174,25 +186,25 @@
 												<div class="col-9">
 													<div class="form-group row">
 														<div class="col-sm-3">
-															<label>On Time</label> <input id="onTime" name="onTime"
-																type="time" class="form-control" value="" /> <span
+															<label>On Time</label> <input id="onTime" name="onTime" onchange=""
+																type="time" class="form-control" value="" required="true"/> <span
 																id="div1"></span>
 														</div>
 														<div class="col-sm-3">
-															<label>Off Time</label> <input id="offTime"
-																name="offTime" type="time" class="form-control" value="" />
+															<label>Off Time</label> <input id="offTime" onchange=""
+																name="offTime" type="time" class="form-control" value="" required="true"/>
 															<span id="div2"></span>
 														</div>
-														<div class="col-sm-3">
-															<label>Start Time</label> <input id="startTime"
-																name="startTime" type="time" class="form-control"
+														<!-- <div class="col-sm-3">
+															<label>Over Time</label> <input id="overTime"
+																name="overTime" type="text" class="form-control"
 																value="" readonly /> <span id="div1"></span>
 														</div>
 														<div class="col-sm-3">
-															<label>End Time</label> <input id="endTime"
-																name="endTime" type="time" class="form-control" value=""
+															<label>Late Time</label> <input id="lateTime"
+																name="lateTime" type="text" class="form-control" value=""
 																readonly /> <span id="div2"></span>
-														</div>
+														</div> -->
 													</div>
 												</div>
 											</div>
@@ -223,7 +235,7 @@
 										</form:form>
 
 										<!-- DataTables Example -->
-										<div class="card shadow mb-4">
+										<!-- <div class="card shadow mb-4">
 											<div class="card-header py-3">
 												<h6 class="m-0 font-weight-bold text-primary">Attendance
 													Records</h6>
@@ -270,32 +282,11 @@
 														</tfoot>
 														<tbody>
 
-															<%-- <c:forEach items="${attendanceList}" var="attendance">
-															<tr>
-																<td id="aId" style="display: none">${attendance[0]}</td>
-																<td id="dte">${attendance[7]}</td>
-																<td id="sId" style="display: none">${attendance[5]}</td>
-																<td id="sft" >${attendance[6]}</td>
-																<td id="dId" style="display: none">${attendance[3]}</td>
-																<td id="dName">${attendance[4]}</td>
-																<td id="eId" style="display: none">${attendance[1]}</td>
-																<td id="eName">${attendance[2]}</td>
-																<td id="sTime" style="display: none">${attendance[8]}</td>
-																<td id="eTime" style="display: none">${attendance[9]}</td>
-																<td id="on">${attendance[10]}</td>
-																<td id="off">${attendance[11]}</td>
-																<td id="approval"><c:if
-																		test="${attendance[12] == 'true'}">Yes</c:if> <c:if
-																		test="${attendance[12] == 'false'}">No</c:if></td>
-																<td><a href="#" onclick="updateEmployeeAttendance('${attendance[0]}', '${attendance[2]}', '${attendance[3]}', '${attendance[4]}', '${attendance[5]}', '${attendance[6]}', new Date('${attendance[7]}'), '${attendance[8]}', '${attendance[9]}' )"><i class="far fa-edit"></i></a></td>
-															</tr>
-														</c:forEach> --%>
-
 														</tbody>
 													</table>
 												</div>
 											</div>
-										</div>
+										</div> -->
 
 									</div>
 								</div>
@@ -316,10 +307,9 @@
 	<script src="<c:url value='/resources/hrm/ajax/datatable.js'/>"></script>
 
 	<!-- Page level custom scripts -->
-	<script
-		src="<c:url value='/resources/hrm/ajax/employeeAttendance.js'/>"></script>
-	<script
-		src="<c:url value='/resources/hrm/ajax/employeeAttendance1.js'/>"></script>
+	<script src="<c:url value='/resources/hrm/ajax/employeeAttendance.js'/>"></script>
+	<script  src="<c:url value='/resources/hrm/ajax/employeeAttendance1.js'/>"></script>
+	<script  src="<c:url value='/resources/hrm/js/employeeAttendance.js'/>"></script>
 
 </body>
 </html>

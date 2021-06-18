@@ -1,10 +1,11 @@
 package com.navitsa.hrm.entity;
 
-import java.sql.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -15,14 +16,16 @@ public class EmployeeAttendance {
 	@Column(name = "attendance_id")
 	private String attendanceId;
 
-	@Column(name = "employee_id")
-	private String employeeId;
+	@ManyToOne(optional = false, fetch = FetchType.EAGER)
+	@JoinColumn(name = "employee_id", referencedColumnName = "Employee_ID")
+	private Employee employee;
 
-	@Column(name = "shift_id")
-	private String shiftId;
+	@ManyToOne(optional = false, fetch = FetchType.EAGER)
+	@JoinColumn(name = "shift_id", referencedColumnName = "shift_id")
+	private ShiftMaster shiftmaster;
 
 	@Column(name = "date")
-	private Date date;
+	private String date;
 
 	@Column(name = "on_time")
 	private String onTime;
@@ -32,24 +35,29 @@ public class EmployeeAttendance {
 
 	@Column(name = "approved")
 	private boolean approved;
+	
+	@Column(name = "department_id")
+	private String departmentId;
 
-	@Column(name = "company_id")
-	private String companyId;
+	@ManyToOne(optional = false, fetch = FetchType.EAGER)
+	@JoinColumn(name = "company_id", referencedColumnName = "Company_ID")
+	private CompanyMaster company;
 
 	public EmployeeAttendance() {
 
 	}
 
-	public EmployeeAttendance(String attendanceId, String employeeId, String shiftId, Date date, String onTime,
-			String offTime, boolean approved, String companyId) {
+	public EmployeeAttendance(String attendanceId, Employee employee, ShiftMaster shiftmaster, String date,
+			String onTime, String offTime, boolean approved, String departmentId, CompanyMaster company) {
 		this.attendanceId = attendanceId;
-		this.employeeId = employeeId;
-		this.shiftId = shiftId;
+		this.employee = employee;
+		this.shiftmaster = shiftmaster;
 		this.date = date;
 		this.onTime = onTime;
 		this.offTime = offTime;
 		this.approved = approved;
-		this.companyId = companyId;
+		this.departmentId = departmentId;
+		this.company = company;
 	}
 
 	public String getAttendanceId() {
@@ -60,27 +68,27 @@ public class EmployeeAttendance {
 		this.attendanceId = attendanceId;
 	}
 
-	public String getEmployeeId() {
-		return employeeId;
+	public Employee getEmployee() {
+		return employee;
 	}
 
-	public void setEmployeeId(String employeeId) {
-		this.employeeId = employeeId;
+	public void setEmployee(Employee employee) {
+		this.employee = employee;
 	}
 
-	public String getShiftId() {
-		return shiftId;
+	public ShiftMaster getShiftmaster() {
+		return shiftmaster;
 	}
 
-	public void setShiftId(String shiftId) {
-		this.shiftId = shiftId;
+	public void setShiftmaster(ShiftMaster shiftmaster) {
+		this.shiftmaster = shiftmaster;
 	}
 
-	public Date getDate() {
+	public String getDate() {
 		return date;
 	}
 
-	public void setDate(Date date) {
+	public void setDate(String date) {
 		this.date = date;
 	}
 
@@ -108,18 +116,26 @@ public class EmployeeAttendance {
 		this.approved = approved;
 	}
 
-	public String getCompanyId() {
-		return companyId;
+	public String getDepartmentId() {
+		return departmentId;
 	}
 
-	public void setCompanyId(String companyId) {
-		this.companyId = companyId;
+	public void setDepartmentId(String departmentId) {
+		this.departmentId = departmentId;
+	}
+
+	public CompanyMaster getCompany() {
+		return company;
+	}
+
+	public void setCompany(CompanyMaster company) {
+		this.company = company;
 	}
 
 	@Override
 	public String toString() {
-		return "EmployeeAttendance [attendanceId=" + attendanceId + ", employeeId=" + employeeId + ", shiftId="
-				+ shiftId + ", date=" + date + ", onTime=" + onTime + ", offTime=" + offTime + ", approved=" + approved
-				+ ", companyId=" + companyId + "]";
+		return "EmployeeAttendance [attendanceId=" + attendanceId + ", employee=" + employee + ", shiftmaster="
+				+ shiftmaster + ", date=" + date + ", onTime=" + onTime + ", offTime=" + offTime + ", approved="
+				+ approved + ", departmentId=" + departmentId + ", company=" + company + "]";
 	}
 }
