@@ -1,17 +1,24 @@
 package com.navitsa.hrm.controller;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FilenameFilter;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.navitsa.hrm.entity.AttendanceTxtFileDetail;
 import com.navitsa.hrm.service.AttendanceTxtFileReadingService;
@@ -21,13 +28,45 @@ public class AttendanceTxtFileReadingController {
 	
 	@Autowired
 	private AttendanceTxtFileReadingService service;
-
 	
-	@GetMapping("/readAttedanceTxtFile")
-	public void readAttedanceTxtFile(HttpSession session) {
+	private static final String UPLOAD_DIRECTORY ="/attendancetxt"; 
+
+	@GetMapping("/readAttedanceTxtFiles")
+	public ModelAndView LoadForm() {
+		
+		return new ModelAndView("hrm/attedanceTxtFileReading");
+		//return "hrm/attedanceTxtFileReading";
+	}
+	
+	 @RequestMapping(value="/upload",method=RequestMethod.POST)
+	 public ModelAndView upload(@RequestParam CommonsMultipartFile file,HttpSession session) throws Exception {
+		 
+		 ServletContext context = session.getServletContext();  
+		 String path = context.getRealPath(UPLOAD_DIRECTORY);  
+		 String fileName = file.getOriginalFilename();
+		 
+		 System.out.println(path+" "+fileName);
+		 
+		 byte[] bytes = file.getBytes();
+		 BufferedOutputStream stream =new BufferedOutputStream(new FileOutputStream(  
+		         new File(path + File.separator + fileName)));
+		 stream.write(bytes);
+		 stream.flush();
+		 stream.close();
+		 
+		 readAttedanceTxtFile(session,path,fileName);
+		 return new ModelAndView("hrm/attedanceTxtFileReading","filesuccess","File : "+fileName+" successfully imported!");
+	 }
+	 
+	 
+	
+	//@GetMapping("/readAttedanceTxtFile")
+	public void readAttedanceTxtFile(HttpSession session,String path, String fileName) {
 		
 		String companyID=(String) session.getAttribute("company.comID");
 		String userID=(String) session.getAttribute("empID");
+
+/*		
 		
 		String path = "C:\\Users\\Owner\\Downloads\\Attendance";
 		
@@ -46,8 +85,9 @@ public class AttendanceTxtFileReadingController {
 	      
 	      //List of all the text files
 	      String filesList[] = directoryPath.list(textFilefilter);
-	      
-	      for(String fileName : filesList) {
+*/
+
+//	      for(String fileName : filesList) {
 	    	  
 	    	  List<AttendanceTxtFileDetail> ls = new ArrayList<AttendanceTxtFileDetail>();
 	    	  char machine = 0;
@@ -86,13 +126,15 @@ public class AttendanceTxtFileReadingController {
 				 myReader.close();
 	    		 service.saveAttendanceLogHeader(fileName,machine,fileName,totalRecords,userID,companyID);
 	    		 service.saveAllAttendanceLogDetail(ls);
-	    		 myObj.delete();
+	    		 //myObj.delete();
 				
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			}
 	    	  
-	      }
+//	      }
+    		  
+    		 
 	}
 	
 	
