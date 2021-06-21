@@ -52,8 +52,8 @@ public class EmployeeAttendanceService {
 		return employeeAttendanceRepository.loadAttendancesByDepartment(startDate, endDate, departmentId, companyId);
 	}
 
-	public List<EmployeeAttendance> loadAttendancesByDepartmentAndShiftAndApprovalStatus(String startDate, String endDate,
-			String departmentId, String shiftId, boolean approvalStatus, String companyId) {
+	public List<EmployeeAttendance> loadAttendancesByDepartmentAndShiftAndApprovalStatus(String startDate,
+			String endDate, String departmentId, String shiftId, boolean approvalStatus, String companyId) {
 		return employeeAttendanceRepository.loadAttendancesByDepartmentAndShiftAndApprovalStatus(startDate, endDate,
 				departmentId, shiftId, approvalStatus, companyId);
 	}
@@ -93,14 +93,14 @@ public class EmployeeAttendanceService {
 		return employeeAttendanceRepository.loadAttendancesByShift(startDate, endDate, shiftId, companyId);
 	}
 
-	public List<EmployeeAttendance> loadAttendancesByApprovalStatus(String startDate, String endDate, boolean approvalStatus,
-			String companyId) {
+	public List<EmployeeAttendance> loadAttendancesByApprovalStatus(String startDate, String endDate,
+			boolean approvalStatus, String companyId) {
 		return employeeAttendanceRepository.loadAttendancesByApprovalStatus(startDate, endDate, approvalStatus,
 				companyId);
 	}
 
-	public List<EmployeeAttendance> loadAttendancesByShiftAndApprovalStatus(String startDate, String endDate, String shiftId,
-			boolean approvalStatus, String companyId) {
+	public List<EmployeeAttendance> loadAttendancesByShiftAndApprovalStatus(String startDate, String endDate,
+			String shiftId, boolean approvalStatus, String companyId) {
 		return employeeAttendanceRepository.loadAttendancesByShiftAndApprovalStatus(startDate, endDate, shiftId,
 				approvalStatus, companyId);
 	}
@@ -174,5 +174,41 @@ public class EmployeeAttendanceService {
 
 	public String getDepartmentByIdAndCompany(String departmentId, String companyId) {
 		return employeeAttendanceRepository.getDepartmentByIdAndCompany(departmentId, companyId);
+	}
+
+	public List<String> loadAttendancesByDateAndApprovalStatusNative(String startDate, String endDate,
+			int approvalStatus, String companyId) {
+		return employeeAttendanceRepository.loadAttendancesByDateAndApprovalStatusNative(startDate, endDate,
+				approvalStatus, companyId);
+	}
+
+	public List<String> loadAttendancesByDateAndDepartmentAndApprovalStatusNative(String startDate, String endDate,
+			String departmentId, int approvalStatus, String companyId) {
+		return employeeAttendanceRepository.loadAttendancesByDateAndDepartmentAndApprovalStatusNative(startDate,
+				endDate, departmentId, approvalStatus, companyId);
+	}
+
+	public List<String> loadAttendancesByDateAndShiftAndApprovalStatusNative(String startDate, String endDate,
+			String shiftId, int approvalStatus, String companyId) {
+		return employeeAttendanceRepository.loadAttendancesByDateAndShiftAndApprovalStatusNative(startDate, endDate,
+				shiftId, approvalStatus, companyId);
+	}
+
+	public List<String> loadAttendancesByDateAndDepartmentAndShiftAndApprovalStatusNative(String startDate,
+			String endDate, String departmentId, String shiftId, int approvalStatus, String companyId) {
+		return employeeAttendanceRepository.loadAttendancesByDateAndDepartmentAndShiftAndApprovalStatusNative(startDate,
+				endDate, departmentId, shiftId, approvalStatus, companyId);
+	}
+
+	public List<String> loadAttendancesByEmployeeAndApprovalStatusNative(String startDate, String endDate,
+			String departmentId, String employeeId, int approvalStatus, String companyId) {
+		return employeeAttendanceRepository.loadAttendancesByEmployeeAndApprovalStatusNative(startDate, endDate,
+				departmentId, employeeId, approvalStatus, companyId);
+	}
+
+	public List<String> loadAttendancesByEmployeeAndShiftAndApprovalStatusNative(String startDate, String endDate,
+			String departmentId, String employeeId, String shiftId, int approvalStatus, String companyId) {
+		return employeeAttendanceRepository.loadAttendancesByEmployeeAndShiftAndApprovalStatusNative(startDate, endDate,
+				departmentId, employeeId, shiftId, approvalStatus, companyId);
 	}
 }

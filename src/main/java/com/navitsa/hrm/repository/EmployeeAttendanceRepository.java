@@ -27,149 +27,77 @@ public interface EmployeeAttendanceRepository extends CrudRepository<EmployeeAtt
 			+ "INNER JOIN shift_allocation ON employee_attendance.date = shift_allocation.date AND employee_attendance.employee_id = shift_allocation.employee_id AND employee_attendance.shift_id = shift_allocation.shift_id AND employee_attendance.company_id = shift_allocation.company_id WHERE employee_attendance.company_id = :companyId", nativeQuery = true)
 	public List<String> loadAttendances(@Param("companyId") String companyId);
 
-	/*
-	 * @Query(value =
-	 * "SELECT employee_attendance.attendance_id, DATE_FORMAT(employee_attendance.date, \"%Y-%m-%d\"), employee_attendance.employee_id, shift_allocation.employee_name, shift_allocation.department_name, employee_attendance.shift_id, shift_allocation.shift_name, employee_attendance.on_time, employee_attendance.off_time, employee_attendance.approved, employee_attendance.company_id \r\n"
-	 * + "FROM employee_attendance\r\n" +
-	 * "INNER JOIN shift_allocation ON employee_attendance.employee_id = shift_allocation.employee_id AND employee_attendance.date = shift_allocation.date AND employee_attendance.shift_id = shift_allocation.shift_id AND employee_attendance.company_id = shift_allocation.company_id\r\n"
-	 * +
-	 * "WHERE employee_attendance.date BETWEEN :startDate AND :endDate AND employee_attendance.company_id = :companyId"
-	 * , nativeQuery = true) public List<String>
-	 * loadAttendancesByDate(@Param("startDate") String startDate, @Param("endDate")
-	 * String endDate,
-	 * 
-	 * @Param("companyId") String companyId);
-	 */
+	
+	@Query(value = "SELECT employee_attendance.attendance_id, employee_attendance.date, employee_master.Name, employee_master.lastname, department.Department, \n" + 
+			"shift_master.description, employee_attendance.on_time, employee_attendance.off_time, employee_attendance.approved, employee_attendance.company_id\n" + 
+			"FROM employee_attendance\n" + 
+			"INNER JOIN employee_master ON employee_attendance.employee_id = employee_master.Employee_ID AND employee_attendance.company_id = employee_master.Company_ID\n" + 
+			"INNER JOIN department ON employee_attendance.department_id = department.Department_ID AND employee_attendance.company_id = department.Company_ID\n" + 
+			"INNER JOIN shift_master ON employee_attendance.shift_id = shift_master.shift_id AND employee_attendance.company_id = shift_master.Company_ID\n" + 
+			"WHERE employee_attendance.date BETWEEN :startDate AND :endDate AND employee_attendance.approved = :approvalStatus AND employee_attendance.company_id = :companyId", nativeQuery = true)
+	  public List<String> loadAttendancesByDateAndApprovalStatusNative(@Param("startDate") String startDate, @Param("endDate") String endDate, @Param("approvalStatus") int approvalStatus, @Param("companyId") String companyId);
 
-	/*
-	 * @Query(value =
-	 * "SELECT employee_attendance.attendance_id, DATE_FORMAT(employee_attendance.date, \"%Y-%m-%d\"), employee_attendance.employee_id, shift_allocation.employee_name, shift_allocation.department_name, employee_attendance.shift_id, shift_allocation.shift_name, employee_attendance.on_time, employee_attendance.off_time, employee_attendance.approved, employee_attendance.company_id \r\n"
-	 * + "FROM employee_attendance\r\n" +
-	 * "INNER JOIN shift_allocation ON employee_attendance.employee_id = shift_allocation.employee_id AND employee_attendance.date = shift_allocation.date AND employee_attendance.shift_id = shift_allocation.shift_id AND employee_attendance.company_id = shift_allocation.company_id\r\n"
-	 * +
-	 * "WHERE employee_attendance.date BETWEEN :startDate AND :endDate AND shift_allocation.department_id = :departmentId AND employee_attendance.company_id = :companyId"
-	 * , nativeQuery = true) public List<String>
-	 * loadAttendancesByDepartment(@Param("startDate") String startDate,
-	 * 
-	 * @Param("endDate") String endDate, @Param("departmentId") String departmentId,
-	 * 
-	 * @Param("companyId") String companyId);
-	 */
+	@Query(value = "SELECT employee_attendance.attendance_id, employee_attendance.date, employee_master.Name, employee_master.lastname, department.Department, \n" + 
+			"shift_master.description, employee_attendance.on_time, employee_attendance.off_time, employee_attendance.approved, employee_attendance.company_id\n" + 
+			"FROM employee_attendance\n" + 
+			"INNER JOIN employee_master ON employee_attendance.employee_id = employee_master.Employee_ID AND employee_attendance.company_id = employee_master.Company_ID\n" + 
+			"INNER JOIN department ON employee_attendance.department_id = department.Department_ID AND employee_attendance.company_id = department.Company_ID\n" + 
+			"INNER JOIN shift_master ON employee_attendance.shift_id = shift_master.shift_id AND employee_attendance.company_id = shift_master.Company_ID\n" + 
+			"WHERE employee_attendance.date BETWEEN :startDate AND :endDate AND employee_attendance.department_id = :departmentId AND employee_attendance.approved = :approvalStatus AND employee_attendance.company_id = :companyId", nativeQuery = true)
+	  public List<String> loadAttendancesByDateAndDepartmentAndApprovalStatusNative(@Param("startDate") String startDate, @Param("endDate") String endDate, @Param("departmentId") String departmentId, @Param("approvalStatus") int approvalStatus, @Param("companyId") String companyId);
+	
+	@Query(value = "SELECT employee_attendance.attendance_id, employee_attendance.date, employee_master.Name, employee_master.lastname, department.Department, \n" + 
+			"shift_master.description, employee_attendance.on_time, employee_attendance.off_time, employee_attendance.approved, employee_attendance.company_id\n" + 
+			"FROM employee_attendance\n" + 
+			"INNER JOIN employee_master ON employee_attendance.employee_id = employee_master.Employee_ID AND employee_attendance.company_id = employee_master.Company_ID\n" + 
+			"INNER JOIN department ON employee_attendance.department_id = department.Department_ID AND employee_attendance.company_id = department.Company_ID\n" + 
+			"INNER JOIN shift_master ON employee_attendance.shift_id = shift_master.shift_id AND employee_attendance.company_id = shift_master.Company_ID\n" + 
+			"WHERE employee_attendance.date BETWEEN :startDate AND :endDate AND employee_attendance.shift_id = :shiftId AND employee_attendance.approved = :approvalStatus AND employee_attendance.company_id = :companyId", nativeQuery = true)
+	  public List<String> loadAttendancesByDateAndShiftAndApprovalStatusNative(@Param("startDate") String startDate, @Param("endDate") String endDate, @Param("shiftId") String shiftId, @Param("approvalStatus") int approvalStatus, @Param("companyId") String companyId);
+	
+	@Query(value = "SELECT employee_attendance.attendance_id, employee_attendance.date, employee_master.Name, employee_master.lastname, department.Department, \n" + 
+			"shift_master.description, employee_attendance.on_time, employee_attendance.off_time, employee_attendance.approved, employee_attendance.company_id\n" + 
+			"FROM employee_attendance\n" + 
+			"INNER JOIN employee_master ON employee_attendance.employee_id = employee_master.Employee_ID AND employee_attendance.company_id = employee_master.Company_ID\n" + 
+			"INNER JOIN department ON employee_attendance.department_id = department.Department_ID AND employee_attendance.company_id = department.Company_ID\n" + 
+			"INNER JOIN shift_master ON employee_attendance.shift_id = shift_master.shift_id AND employee_attendance.company_id = shift_master.Company_ID\n" + 
+			"WHERE employee_attendance.date BETWEEN :startDate AND :endDate AND employee_attendance.department_id = :departmentId AND employee_attendance.shift_id = :shiftId AND employee_attendance.approved = :approvalStatus AND employee_attendance.company_id = :companyId", nativeQuery = true)
+	  public List<String> loadAttendancesByDateAndDepartmentAndShiftAndApprovalStatusNative(@Param("startDate") String startDate, @Param("endDate") String endDate, @Param("departmentId") String departmentId, @Param("shiftId") String shiftId, @Param("approvalStatus") int approvalStatus, @Param("companyId") String companyId);
+	
+	@Query(value = "SELECT employee_attendance.attendance_id, employee_attendance.date, employee_master.Name, employee_master.lastname, department.Department, \n" + 
+			"shift_master.description, employee_attendance.on_time, employee_attendance.off_time, employee_attendance.approved, employee_attendance.company_id\n" + 
+			"FROM employee_attendance\n" + 
+			"INNER JOIN employee_master ON employee_attendance.employee_id = employee_master.Employee_ID AND employee_attendance.company_id = employee_master.Company_ID\n" + 
+			"INNER JOIN department ON employee_attendance.department_id = department.Department_ID AND employee_attendance.company_id = department.Company_ID\n" + 
+			"INNER JOIN shift_master ON employee_attendance.shift_id = shift_master.shift_id AND employee_attendance.company_id = shift_master.Company_ID\n" + 
+			"WHERE employee_attendance.date BETWEEN :startDate AND :endDate AND employee_attendance.department_id = :departmentId AND employee_attendance.employee_id = :employeeId AND employee_attendance.approved = :approvalStatus AND employee_attendance.company_id = :companyId", nativeQuery = true)
+	  public List<String> loadAttendancesByEmployeeAndApprovalStatusNative(@Param("startDate") String startDate, @Param("endDate") String endDate, @Param("departmentId") String departmentId, @Param("employeeId") String employeeId, @Param("approvalStatus") int approvalStatus, @Param("companyId") String companyId);
+	
+	@Query(value = "SELECT employee_attendance.attendance_id, employee_attendance.date, employee_master.Name, employee_master.lastname, department.Department, \n" + 
+			"shift_master.description, employee_attendance.on_time, employee_attendance.off_time, employee_attendance.approved, employee_attendance.company_id\n" + 
+			"FROM employee_attendance\n" + 
+			"INNER JOIN employee_master ON employee_attendance.employee_id = employee_master.Employee_ID AND employee_attendance.company_id = employee_master.Company_ID\n" + 
+			"INNER JOIN department ON employee_attendance.department_id = department.Department_ID AND employee_attendance.company_id = department.Company_ID\n" + 
+			"INNER JOIN shift_master ON employee_attendance.shift_id = shift_master.shift_id AND employee_attendance.company_id = shift_master.Company_ID\n" + 
+			"WHERE employee_attendance.date BETWEEN :startDate AND :endDate AND employee_attendance.department_id = :departmentId AND employee_attendance.employee_id = :employeeId AND employee_attendance.shift_id = :shiftId AND employee_attendance.approved = :approvalStatus AND employee_attendance.company_id = :companyId", nativeQuery = true)
+	  public List<String> loadAttendancesByEmployeeAndShiftAndApprovalStatusNative(@Param("startDate") String startDate, @Param("endDate") String endDate, @Param("departmentId") String departmentId, @Param("employeeId") String employeeId, @Param("shiftId") String shiftId, @Param("approvalStatus") int approvalStatus, @Param("companyId") String companyId);
 
-	/*@Query(value = "SELECT employee_attendance.attendance_id, DATE_FORMAT(employee_attendance.date, \"%Y-%m-%d\"), employee_attendance.employee_id, shift_allocation.employee_name, shift_allocation.department_name, employee_attendance.shift_id, shift_allocation.shift_name, employee_attendance.on_time, employee_attendance.off_time, employee_attendance.approved, employee_attendance.company_id \r\n"
-			+ "FROM employee_attendance\r\n"
-			+ "INNER JOIN shift_allocation ON employee_attendance.employee_id = shift_allocation.employee_id AND employee_attendance.date = shift_allocation.date AND employee_attendance.shift_id = shift_allocation.shift_id AND employee_attendance.company_id = shift_allocation.company_id\r\n"
-			+ "WHERE employee_attendance.date BETWEEN :startDate AND :endDate AND shift_allocation.department_id = :departmentId AND employee_attendance.shift_id = :shiftId AND employee_attendance.approved = :approvalStatus AND employee_attendance.company_id = :companyId", nativeQuery = true)
-	public List<String> loadAttendancesByDepartmentAndShiftAndApprovalStatus(@Param("startDate") String startDate,
-			@Param("endDate") String endDate, @Param("departmentId") String departmentId,
-			@Param("shiftId") String shiftId, @Param("approvalStatus") boolean approvalStatus,
-			@Param("companyId") String companyId);*/
-
-	/*
-	 * @Query(value =
-	 * "SELECT employee_attendance.attendance_id, DATE_FORMAT(employee_attendance.date, \"%Y-%m-%d\"), employee_attendance.employee_id, shift_allocation.employee_name, shift_allocation.department_name, employee_attendance.shift_id, shift_allocation.shift_name, employee_attendance.on_time, employee_attendance.off_time, employee_attendance.approved, employee_attendance.company_id \r\n"
-	 * + "FROM employee_attendance\r\n" +
-	 * "INNER JOIN shift_allocation ON employee_attendance.employee_id = shift_allocation.employee_id AND employee_attendance.date = shift_allocation.date AND employee_attendance.shift_id = shift_allocation.shift_id AND employee_attendance.company_id = shift_allocation.company_id\r\n"
-	 * +
-	 * "WHERE employee_attendance.date BETWEEN :startDate AND :endDate AND shift_allocation.department_id = :departmentId AND employee_attendance.shift_id = :shiftId AND employee_attendance.company_id = :companyId"
-	 * , nativeQuery = true) public List<String>
-	 * loadAttendancesByDepartmentAndShift(@Param("startDate") String startDate,
-	 * 
-	 * @Param("endDate") String endDate, @Param("departmentId") String departmentId,
-	 * 
-	 * @Param("shiftId") String shiftId, @Param("companyId") String companyId);
-	 */
-
-	/*@Query(value = "SELECT employee_attendance.attendance_id, DATE_FORMAT(employee_attendance.date, \"%Y-%m-%d\"), employee_attendance.employee_id, shift_allocation.employee_name, shift_allocation.department_name, employee_attendance.shift_id, shift_allocation.shift_name, employee_attendance.on_time, employee_attendance.off_time, employee_attendance.approved, employee_attendance.company_id \r\n"
-			+ "FROM employee_attendance\r\n"
-			+ "INNER JOIN shift_allocation ON employee_attendance.employee_id = shift_allocation.employee_id AND employee_attendance.date = shift_allocation.date AND employee_attendance.shift_id = shift_allocation.shift_id AND employee_attendance.company_id = shift_allocation.company_id\r\n"
-			+ "WHERE employee_attendance.date BETWEEN :startDate AND :endDate AND shift_allocation.department_id = :departmentId AND employee_attendance.approved = :approvalStatus AND employee_attendance.company_id = :companyId", nativeQuery = true)
-	public List<String> loadAttendancesByDepartmentAndApprovalStatus(@Param("startDate") String startDate,
-			@Param("endDate") String endDate, @Param("departmentId") String departmentId,
-			@Param("approvalStatus") boolean approvalStatus, @Param("companyId") String companyId);*/
-
-	/*
-	 * @Query(value =
-	 * "SELECT employee_attendance.attendance_id, DATE_FORMAT(employee_attendance.date, \"%Y-%m-%d\"), employee_attendance.employee_id, shift_allocation.employee_name, shift_allocation.department_name, employee_attendance.shift_id, shift_allocation.shift_name, employee_attendance.on_time, employee_attendance.off_time, employee_attendance.approved, employee_attendance.company_id \r\n"
-	 * + "FROM employee_attendance\r\n" +
-	 * "INNER JOIN shift_allocation ON employee_attendance.employee_id = shift_allocation.employee_id AND employee_attendance.date = shift_allocation.date AND employee_attendance.shift_id = shift_allocation.shift_id AND employee_attendance.company_id = shift_allocation.company_id\r\n"
-	 * +
-	 * "WHERE employee_attendance.date BETWEEN :startDate AND :endDate AND shift_allocation.department_id = :departmentId AND employee_attendance.employee_id = :employeeId AND employee_attendance.company_id = :companyId"
-	 * , nativeQuery = true) public List<String>
-	 * loadAttendancesByEmployee(@Param("startDate") String startDate,
-	 * 
-	 * @Param("endDate") String endDate, @Param("departmentId") String departmentId,
-	 * 
-	 * @Param("employeeId") String employeeId, @Param("companyId") String
-	 * companyId);
-	 */
-
-	/*
-	 * @Query(value =
-	 * "SELECT employee_attendance.attendance_id, DATE_FORMAT(employee_attendance.date, \"%Y-%m-%d\"), employee_attendance.employee_id, shift_allocation.employee_name, shift_allocation.department_name, employee_attendance.shift_id, shift_allocation.shift_name, employee_attendance.on_time, employee_attendance.off_time, employee_attendance.approved, employee_attendance.company_id \r\n"
-	 * + "FROM employee_attendance\r\n" +
-	 * "INNER JOIN shift_allocation ON employee_attendance.employee_id = shift_allocation.employee_id AND employee_attendance.date = shift_allocation.date AND employee_attendance.shift_id = shift_allocation.shift_id AND employee_attendance.company_id = shift_allocation.company_id\r\n"
-	 * +
-	 * "WHERE employee_attendance.date BETWEEN :startDate AND :endDate AND shift_allocation.department_id = :departmentId AND employee_attendance.employee_id = :employeeId AND employee_attendance.shift_id = :shiftId AND employee_attendance.company_id = :companyId"
-	 * , nativeQuery = true) public List<String>
-	 * loadAttendancesByEmployeeAndShift(@Param("startDate") String startDate,
-	 * 
-	 * @Param("endDate") String endDate, @Param("departmentId") String departmentId,
-	 * 
-	 * @Param("employeeId") String employeeId, @Param("shiftId") String shiftId,
-	 * 
-	 * @Param("companyId") String companyId);
-	 */
-
-	/*@Query(value = "SELECT employee_attendance.attendance_id, DATE_FORMAT(employee_attendance.date, \"%Y-%m-%d\"), employee_attendance.employee_id, shift_allocation.employee_name, shift_allocation.department_name, employee_attendance.shift_id, shift_allocation.shift_name, employee_attendance.on_time, employee_attendance.off_time, employee_attendance.approved, employee_attendance.company_id \r\n"
-			+ "FROM employee_attendance\r\n"
-			+ "INNER JOIN shift_allocation ON employee_attendance.employee_id = shift_allocation.employee_id AND employee_attendance.date = shift_allocation.date AND employee_attendance.shift_id = shift_allocation.shift_id AND employee_attendance.company_id = shift_allocation.company_id\r\n"
-			+ "WHERE employee_attendance.date BETWEEN :startDate AND :endDate AND shift_allocation.department_id = :departmentId AND employee_attendance.employee_id = :employeeId AND employee_attendance.approved = :approvalStatus AND employee_attendance.company_id = :companyId", nativeQuery = true)
-	public List<String> loadAttendancesByEmployeeAndApprovalStatus(@Param("startDate") String startDate,
-			@Param("endDate") String endDate, @Param("departmentId") String departmentId,
-			@Param("employeeId") String employeeId, @Param("approvalStatus") boolean approvalStatus,
-			@Param("companyId") String companyId);*/
-
-	/*
-	 * @Query(value =
-	 * "SELECT employee_attendance.attendance_id, DATE_FORMAT(employee_attendance.date, \"%Y-%m-%d\"), employee_attendance.employee_id, shift_allocation.employee_name, shift_allocation.department_name, employee_attendance.shift_id, shift_allocation.shift_name, employee_attendance.on_time, employee_attendance.off_time, employee_attendance.approved, employee_attendance.company_id \r\n"
-	 * + "FROM employee_attendance\r\n" +
-	 * "INNER JOIN shift_allocation ON employee_attendance.employee_id = shift_allocation.employee_id AND employee_attendance.date = shift_allocation.date AND employee_attendance.shift_id = shift_allocation.shift_id AND employee_attendance.company_id = shift_allocation.company_id\r\n"
-	 * +
-	 * "WHERE employee_attendance.date BETWEEN :startDate AND :endDate AND employee_attendance.shift_id = :shiftId AND employee_attendance.company_id = :companyId"
-	 * , nativeQuery = true) public List<String>
-	 * loadAttendancesByShift(@Param("startDate") String
-	 * startDate, @Param("endDate") String endDate,
-	 * 
-	 * @Param("shiftId") String shiftId, @Param("companyId") String companyId);
-	 */
-
-	/*@Query(value = "SELECT employee_attendance.attendance_id, DATE_FORMAT(employee_attendance.date, \"%Y-%m-%d\"), employee_attendance.employee_id, shift_allocation.employee_name, shift_allocation.department_name, employee_attendance.shift_id, shift_allocation.shift_name, employee_attendance.on_time, employee_attendance.off_time, employee_attendance.approved, employee_attendance.company_id \r\n"
-			+ "FROM employee_attendance\r\n"
-			+ "INNER JOIN shift_allocation ON employee_attendance.employee_id = shift_allocation.employee_id AND employee_attendance.date = shift_allocation.date AND employee_attendance.shift_id = shift_allocation.shift_id AND employee_attendance.company_id = shift_allocation.company_id\r\n"
-			+ "WHERE employee_attendance.date BETWEEN :startDate AND :endDate AND employee_attendance.approved = :approvalStatus AND employee_attendance.company_id = :companyId", nativeQuery = true)
-	public List<String> loadAttendancesByApprovalStatus(@Param("startDate") String startDate,
-			@Param("endDate") String endDate, @Param("approvalStatus") boolean approvalStatus,
-			@Param("companyId") String companyId);*/
-
-	/*
-	@Query(value = "SELECT employee_attendance.attendance_id, DATE_FORMAT(employee_attendance.date, \"%Y-%m-%d\"), employee_attendance.employee_id, shift_allocation.employee_name, shift_allocation.department_name, employee_attendance.shift_id, shift_allocation.shift_name, employee_attendance.on_time, employee_attendance.off_time, employee_attendance.approved, employee_attendance.company_id \r\n"
-			+ "FROM employee_attendance\r\n"
-			+ "INNER JOIN shift_allocation ON employee_attendance.employee_id = shift_allocation.employee_id AND employee_attendance.date = shift_allocation.date AND employee_attendance.shift_id = shift_allocation.shift_id AND employee_attendance.company_id = shift_allocation.company_id\r\n"
-			+ "WHERE employee_attendance.date BETWEEN :startDate AND :endDate AND employee_attendance.shift_id = :shiftId AND employee_attendance.approved = :approvalStatus AND employee_attendance.company_id = :companyId", nativeQuery = true)
-	public List<String> loadAttendancesByShiftAndApprovalStatus(@Param("startDate") String startDate,
-			@Param("endDate") String endDate, @Param("shiftId") String shiftId,
-			@Param("approvalStatus") boolean approvalStatus, @Param("companyId") String companyId);*/
-
-	/*@Query(value = "SELECT employee_attendance.attendance_id, DATE_FORMAT(employee_attendance.date, \"%Y-%m-%d\"), employee_attendance.employee_id, shift_allocation.employee_name, shift_allocation.department_name, employee_attendance.shift_id, shift_allocation.shift_name, employee_attendance.on_time, employee_attendance.off_time, employee_attendance.approved, employee_attendance.company_id \r\n"
-			+ "FROM employee_attendance\r\n"
-			+ "INNER JOIN shift_allocation ON employee_attendance.employee_id = shift_allocation.employee_id AND employee_attendance.date = shift_allocation.date AND employee_attendance.shift_id = shift_allocation.shift_id AND employee_attendance.company_id = shift_allocation.company_id\r\n"
-			+ "WHERE employee_attendance.date BETWEEN :startDate AND :endDate AND shift_allocation.department_id = :departmentId AND employee_attendance.employee_id = :employeeId AND employee_attendance.shift_id = :shiftId AND employee_attendance.approved = :approvalStatus AND employee_attendance.company_id = :companyId", nativeQuery = true)
-	public List<String> loadAttendancesByEmployeeAndShiftAndApprovalStatus(@Param("startDate") String startDate,
-			@Param("endDate") String endDate, @Param("departmentId") String departmentId,
-			@Param("employeeId") String employeeId, @Param("shiftId") String shiftId,
-			@Param("approvalStatus") boolean approvalStatus, @Param("companyId") String companyId);*/
-
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	@Query(value = "SELECT DATE_FORMAT(shift_allocation.date, \"%Y-%m-%d\") as date, DATE_FORMAT(shift_allocation.date, \"%W\") as weekday, calander.Description as day_type, employee_attendance.on_time, employee_attendance.off_time, \r\n"
 			+ "TIME_FORMAT(TIMEDIFF(employee_attendance.off_time, employee_attendance.on_time), \"%H:%i\") AS worked_time, \r\n"
 			+ "CASE WHEN shift_allocation.start_time > employee_attendance.on_time && employee_attendance.off_time > shift_allocation.end_time THEN TIME_FORMAT(CONVERT(ADDTIME(TIMEDIFF(shift_allocation.start_time, employee_attendance.on_time), TIMEDIFF(employee_attendance.off_time, shift_allocation.end_time)), TIME), \"%H:%i\") WHEN shift_allocation.start_time > employee_attendance.on_time THEN TIME_FORMAT(CONVERT(TIMEDIFF(shift_allocation.start_time, employee_attendance.on_time), TIME), \"%H:%i\") WHEN employee_attendance.off_time > shift_allocation.end_time THEN TIME_FORMAT(CONVERT(TIMEDIFF(employee_attendance.off_time, shift_allocation.end_time), TIME), \"%H:%i\") ELSE null END AS over_time, \r\n"

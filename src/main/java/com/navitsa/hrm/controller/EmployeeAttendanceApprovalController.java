@@ -27,7 +27,7 @@ import com.navitsa.hrm.service.ShiftMasterService;
 public class EmployeeAttendanceApprovalController {
 
 	@Autowired
-	private static List<EmployeeAttendance> attendances = new ArrayList<EmployeeAttendance>();
+	private static List<EmployeeAttendance> attendances;
 
 	@Autowired
 	private EmployeeAttendanceService employeeAttendanceService;
@@ -40,7 +40,7 @@ public class EmployeeAttendanceApprovalController {
 
 	@GetMapping("/EmployeeAttendanceApproval")
 	public String employeeAttendanceApprovalPage(Model model) {
-		//model.addAttribute("approveForm", new EmployeeAttendanceApproveForm());
+		// model.addAttribute("approveForm", new EmployeeAttendanceApproveForm());
 		return "hrm/employeeAttendanceApproval";
 	}
 
@@ -65,19 +65,19 @@ public class EmployeeAttendanceApprovalController {
 			HttpSession session) {
 
 		String companyId = session.getAttribute("company.comID").toString();
-		
-		boolean status = false;
-		
-		if(approvalStatus == "1") {
-			 status = true;
+
+		int status = 0;
+
+		if (approvalStatus == "1") {
+			status = 1;
 		}
-		
-		List<EmployeeAttendance> attendances = new ArrayList<>();
+
+		List<String> attendances = new ArrayList<>();
 		if ((departmentId.equals("All") || departmentId == null) && (employeeId.equals("All") || employeeId == null)
 				&& (shiftId.equals("All") || shiftId == null) && (approvalStatus == null)) {
 			// Dates
-			attendances = employeeAttendanceService.loadAttendancesByApprovalStatus(startDate, endDate, status,
-					companyId);
+			attendances = employeeAttendanceService.loadAttendancesByDateAndApprovalStatusNative(startDate, endDate,
+					status, companyId);
 			/*
 			 * List<String> attendances =
 			 * employeeAttendanceService.loadAttendancesByDate(startDate, endDate,
@@ -86,7 +86,7 @@ public class EmployeeAttendanceApprovalController {
 		} else if ((employeeId.equals("All") || employeeId == null) && (shiftId.equals("All") || shiftId == null)
 				&& (approvalStatus == null)) {
 			// Department
-			attendances = employeeAttendanceService.loadAttendancesByDepartmentAndApprovalStatus(startDate,
+			attendances = employeeAttendanceService.loadAttendancesByDateAndDepartmentAndApprovalStatusNative(startDate,
 					endDate, departmentId, status, companyId);
 			/*
 			 * List<String> attendances =
@@ -96,7 +96,7 @@ public class EmployeeAttendanceApprovalController {
 		} else if ((departmentId.equals("All") || departmentId == null)
 				&& (employeeId.equals("All") || employeeId == null) && (approvalStatus == null)) {
 			// Shift
-			attendances = employeeAttendanceService.loadAttendancesByShiftAndApprovalStatus(startDate,
+			attendances = employeeAttendanceService.loadAttendancesByDateAndShiftAndApprovalStatusNative(startDate,
 					endDate, shiftId, status, companyId);
 			/*
 			 * List<String> attendances =
@@ -106,12 +106,12 @@ public class EmployeeAttendanceApprovalController {
 		} else if ((departmentId.equals("All") || departmentId == null)
 				&& (employeeId.equals("All") || employeeId == null) && (shiftId.equals("All") || shiftId == null)) {
 			// Approval Status
-			attendances = employeeAttendanceService.loadAttendancesByApprovalStatus(startDate, endDate,
+			attendances = employeeAttendanceService.loadAttendancesByDateAndApprovalStatusNative(startDate, endDate,
 					status, companyId);
 		} else if ((employeeId.equals("All") || employeeId == null) && (approvalStatus == null)) {
 			// Department + Shift
-			attendances = employeeAttendanceService.loadAttendancesByDepartmentAndShiftAndApprovalStatus(startDate,
-					endDate, departmentId, shiftId, status, companyId);
+			attendances = employeeAttendanceService.loadAttendancesByDateAndDepartmentAndShiftAndApprovalStatusNative(
+					startDate, endDate, departmentId, shiftId, status, companyId);
 			/*
 			 * List<String> attendances =
 			 * employeeAttendanceService.loadAttendancesByDepartmentAndShift(startDate,
@@ -119,24 +119,24 @@ public class EmployeeAttendanceApprovalController {
 			 */
 		} else if ((employeeId.equals("All") || employeeId == null) && (shiftId.equals("All") || shiftId == null)) {
 			// Department + Approval Status
-			attendances = employeeAttendanceService.loadAttendancesByDepartmentAndApprovalStatus(startDate,
+			attendances = employeeAttendanceService.loadAttendancesByDateAndDepartmentAndApprovalStatusNative(startDate,
 					endDate, departmentId, status, companyId);
 		} else if ((departmentId.equals("All") || departmentId == null)
 				&& (employeeId.equals("All") || employeeId == null)) {
 			// Shift + Approval Status
-			attendances = employeeAttendanceService.loadAttendancesByShiftAndApprovalStatus(startDate,
+			attendances = employeeAttendanceService.loadAttendancesByDateAndShiftAndApprovalStatusNative(startDate,
 					endDate, shiftId, status, companyId);
 		} else if ((employeeId.equals("All") || employeeId == null)) {
 			// Department + Shift + Approval Status
-			attendances = employeeAttendanceService.loadAttendancesByDepartmentAndShiftAndApprovalStatus(
+			attendances = employeeAttendanceService.loadAttendancesByDateAndDepartmentAndShiftAndApprovalStatusNative(
 					startDate, endDate, departmentId, shiftId, status, companyId);
 		} else if ((shiftId.equals("All") || shiftId == null) && (approvalStatus == null)) {
-			
+
 			if (!employeeId.equals("All") && !(employeeId == null)) {
 				// Employee
 				System.out.println("Employee ID is not All " + employeeId);
-				attendances = employeeAttendanceService.loadAttendancesByEmployeeAndApprovalStatus(
-						startDate, endDate, departmentId, employeeId, status, companyId);
+				attendances = employeeAttendanceService.loadAttendancesByEmployeeAndApprovalStatusNative(startDate,
+						endDate, departmentId, employeeId, status, companyId);
 				/*
 				 * List<String> attendances =
 				 * employeeAttendanceService.loadAttendancesByEmployee(startDate, endDate,
@@ -145,8 +145,8 @@ public class EmployeeAttendanceApprovalController {
 			} else {
 				// Department
 				System.out.println("Employee ID is All");
-				attendances = employeeAttendanceService
-						.loadAttendancesByDepartmentAndApprovalStatus(startDate, endDate, departmentId, status, companyId);
+				attendances = employeeAttendanceService.loadAttendancesByDateAndDepartmentAndApprovalStatusNative(
+						startDate, endDate, departmentId, status, companyId);
 				/*
 				 * List<String> attendances =
 				 * employeeAttendanceService.loadAttendancesByDepartment(startDate, endDate,
@@ -155,8 +155,8 @@ public class EmployeeAttendanceApprovalController {
 			}
 		} else if ((!employeeId.equals("All")) && (approvalStatus == null)) {
 			// Employee + Shift
-			attendances = employeeAttendanceService.loadAttendancesByEmployeeAndShiftAndApprovalStatus(
-					startDate, endDate, departmentId, employeeId, shiftId, status, companyId);
+			attendances = employeeAttendanceService.loadAttendancesByEmployeeAndShiftAndApprovalStatusNative(startDate,
+					endDate, departmentId, employeeId, shiftId, status, companyId);
 			/*
 			 * List<String> attendances =
 			 * employeeAttendanceService.loadAttendancesByEmployeeAndShift(startDate,
@@ -164,31 +164,12 @@ public class EmployeeAttendanceApprovalController {
 			 */
 		} else if ((!employeeId.equals("All")) && (shiftId.equals("All") || shiftId == null)) {
 			// Employee + Approval Status
-			attendances = employeeAttendanceService.loadAttendancesByEmployeeAndApprovalStatus(startDate,
-					endDate, departmentId, employeeId, status, companyId);
+			attendances = employeeAttendanceService.loadAttendancesByEmployeeAndApprovalStatusNative(startDate, endDate,
+					departmentId, employeeId, status, companyId);
 		} else if ((!employeeId.equals("All"))) {
 			// Employee + Shift + Approval Status
-			attendances = employeeAttendanceService.loadAttendancesByEmployeeAndShiftAndApprovalStatus(
-					startDate, endDate, departmentId, employeeId, shiftId, status, companyId);
-		}
-		List<AttendanceRecordBean> list = new ArrayList<>();
-		for (int i = 0; i < attendances.size(); i++) {
-			AttendanceRecordBean arb = new AttendanceRecordBean();
-			DepartmentMaster department = departmentService.getDepartmentByIdAndCompany(attendances.get(i).getDepartmentId(), companyId);
-			arb.setAttendanceId(attendances.get(i).getAttendanceId());
-			arb.setDate(attendances.get(i).getDate());
-			arb.setShiftId(attendances.get(i).getShiftmaster().getShiftId());
-			arb.setShift(attendances.get(i).getShiftmaster().getDescription());
-			arb.setDepartmentId(department.getDepID());
-			arb.setDepartment(department.getDepartment());
-			arb.setEmployeeId(attendances.get(i).getEmployee().getEmpID());
-			arb.setEmployee(attendances.get(i).getEmployee().getName() + " " + attendances.get(i).getEmployee().getLastname());
-			arb.setShift(attendances.get(i).getShiftmaster().getDescription());
-			arb.setOnTime(attendances.get(i).getOnTime());
-			arb.setOffTime(attendances.get(i).getOffTime());
-			arb.setStatus(attendances.get(i).isApproved());
-			arb.setCompanyId(attendances.get(i).getCompany().getComID());
-			list.add(arb);
+			attendances = employeeAttendanceService.loadAttendancesByEmployeeAndShiftAndApprovalStatusNative(startDate,
+					endDate, departmentId, employeeId, shiftId, status, companyId);
 		}
 		model.put("filteredAttendanceList", attendances);
 		return "hrm/employeeAttendanceApproval";
@@ -201,19 +182,13 @@ public class EmployeeAttendanceApprovalController {
 
 		if (null != attendances && attendances.size() > 0) {
 			EmployeeAttendanceApprovalController.attendances = attendances;
-			/*List<EmployeeAttendance> list = new ArrayList<>();
-			for(int i = 0; i < attendances.size(); i++) {
-				EmployeeAttendance ea = new EmployeeAttendance();
-				ea.setAttendanceId(attendances.get(i).getAttendanceId());
-				ea.setEmployee(attendances.get(i).getEmployee());
-				ea.setShiftmaster(attendances.get(i).getShiftmaster());
-				ea.setDate(attendances.get(i).getDate());
-				ea.setOnTime(attendances.get(i).getOnTime());
-				ea.setOffTime(attendances.get(i).getOffTime());
-				ea.setDepartmentId(attendances.get(i).getDepartmentId());
-				ea.setCompany(attendances.get(i).getCompany());
+			List<EmployeeAttendance> list = new ArrayList<>();
+			for (int i = 0; i < attendances.size(); i++) {
+				EmployeeAttendance ea = employeeAttendanceService.findAttendanceByIdAndCompany(
+						attendances.get(i).getAttendanceId(), attendances.get(i).getCompany().getComID());
+				ea.setApproved(attendances.get(i).isApproved());
 				list.add(ea);
-			}*/
+			}
 			employeeAttendanceService.saveEmployeeAttendance(attendances);
 		}
 		return "redirect:/EmployeeAttendanceApproval";
