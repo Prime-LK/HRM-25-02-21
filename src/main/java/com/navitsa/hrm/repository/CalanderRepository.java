@@ -22,4 +22,7 @@ public interface CalanderRepository extends CrudRepository<CalanderEntity, Strin
 	
     @Query(value = "SELECT Date FROM calander WHERE date(Date) > :startDate AND date(Date) < :endDate", nativeQuery = true)
 	public List<Date> getHolidays(@Param("startDate") String startDate, @Param("endDate") String endDate);
+
+    @Query(value = "SELECT * FROM calander WHERE date(date) =:date", nativeQuery = true)
+	public CalanderEntity isHoliday(@Param("date") String date);
 }
