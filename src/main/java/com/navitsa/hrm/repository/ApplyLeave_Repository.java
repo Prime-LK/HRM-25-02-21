@@ -48,4 +48,10 @@ public interface ApplyLeave_Repository extends CrudRepository<ApplyLeave_Entity,
 	@Query(value = "UPDATE ApplyLeave_Entity l SET l.approved=true WHERE l.leaveID=:applyLeaveID")
 	public void updateApprovedStatus(@Param("applyLeaveID") String applyLeaveID);
 	
+	@Query(value="SELECT l FROM ApplyLeave_Entity l WHERE l.employee.empID =:employeeID")
+	public ApplyLeave_Entity getByEmployeeID(@Param("employeeID") String employeeID);
+
+	@Query(value="SELECT COUNT(apply_leave_detail_id) FROM apply_leave_detail WHERE date(date) > '2021-03-21' AND date(date)<='2021-04-20' AND apply_leave_header_id=00001 AND approved=true",nativeQuery = true)
+	public int getTotalApprovedLeaveBy(String startDate, String endDate, String leaveID);
+	
 }

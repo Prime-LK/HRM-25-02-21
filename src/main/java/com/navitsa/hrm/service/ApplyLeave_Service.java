@@ -75,4 +75,15 @@ public class ApplyLeave_Service {
 	public void updateApprovedStatus(String applyLeaveID) {
 		ALRepo.updateApprovedStatus(applyLeaveID);	
 	}
+	
+	public ApplyLeave_Entity findAppliedLeaveByEmployee(String employeeID) {
+
+		return ALRepo.getByEmployeeID(employeeID);
+	}
+
+	public int getTotalApprovedLeaveBy(String startDate, String endDate, String leaveID) {
+		// TODO Auto-generated method stub
+		return ALRepo.getTotalApprovedLeaveBy(startDate,endDate,leaveID);
+	}
+
 }

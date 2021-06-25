@@ -211,4 +211,9 @@ public class EmployeeAttendanceService {
 		return employeeAttendanceRepository.loadAttendancesByEmployeeAndShiftAndApprovalStatusNative(startDate, endDate,
 				departmentId, employeeId, shiftId, approvalStatus, companyId);
 	}
+
+	public List<EmployeeAttendance> getAttendanceRecords(String startDate, String endDate, String employeeID) {
+		// TODO Auto-generated method stub
+		return employeeAttendanceRepository.getAttendanceRecords(startDate,endDate,employeeID);
+	}
 }

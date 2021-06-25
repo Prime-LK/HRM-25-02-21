@@ -307,4 +307,11 @@ public interface EmployeeAttendanceRepository extends CrudRepository<EmployeeAtt
 			@Param("endDate") String endDate, @Param("departmentId") String departmentId,
 			@Param("employeeId") String employeeId, @Param("shiftId") String shiftId,
 			@Param("approvalStatus") boolean approvalStatus, @Param("companyId") String companyId);
+
+	@Query(value = "SELECT * FROM employee_attendance WHERE date(date) > :startDate AND date(date) <= :endDate AND employee_id=:employeeID AND approved=true", nativeQuery = true)
+	public List<EmployeeAttendance> getAttendanceRecords(
+			@Param("startDate") String startDate, 
+			@Param("endDate") String endDate, 
+			@Param("employeeID") String employeeID);
+	
 }
