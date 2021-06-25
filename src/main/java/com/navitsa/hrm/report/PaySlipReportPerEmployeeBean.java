@@ -18,6 +18,9 @@ public class PaySlipReportPerEmployeeBean {
 	private String braNameDesc;
 	private String braName;
 	private String designation;
+	private String grtypr;
+	private String grdes;
+	
 	
 	public String getCompanyName() {
 		return companyName;
@@ -121,4 +124,20 @@ public class PaySlipReportPerEmployeeBean {
 	public void setDesignation(String designation) {
 		this.designation = designation;
 	}
+	public String getGrtypr() {
+		return grtypr;
+	}
+	public void setGrtypr(String grtypr) {
+		this.grtypr = grtypr;
+	}
+	public String getGrdes() {
+		return grdes;
+	}
+	public void setGrdes(String grdes) {
+		this.grdes = grdes;
+	}
+	
+	
+	
+	
 }

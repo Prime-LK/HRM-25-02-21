@@ -327,588 +327,596 @@ public interface ProcessPayrollMasterRepository extends JpaRepository<ProcessPay
 //	// end of employee report 01 data	
 	
 	//new paySlipData
-	@Query(value="-- basic salary\n" + 
-			"SELECT * from (select \n" + 
-			"k.Company_Name as company_name,b.Process_Date as processDate,e.Name as fName, e.lastname as lname,  \n" + 
-			"e.Employee_ID as empId,c.Epf_No as epfNo,c.basicSalary as basicSalary, d.Department as department, \n" + 
-			"h.Designation as designaion,'BASIC SALARY' as add_fixOrVar_basic_desc, \n" + 
-			"format(c.basicSalary,2) as add_fixOrVar_basic_amount,'' as monthVal, '' as yearVal\n" + 
-			"from process_payroll_details a \n" + 
-			"inner join month_process_paycodes b on a.Pay_Code_ID = b.Pay_Code_ID\n" + 
-			"inner join employee_details c on a.Employee_ID = c.Employee_ID \n" + 
-			"inner join department d on c.Department_ID = d.Department_ID\n" + 
-			"inner join employee_master e on a.Employee_ID = e.Employee_ID \n" + 
-			"inner join pay_add_deduct_types f on a.Pay_Add_Deduct_Type_Code = f.Pay_Add_Deduct_Type_Code \n" + 
-			"inner join designation_master h on c.Designation_ID = h.Designation_ID\n" + 
-			"inner join company_master k on a.Company_ID = k.Company_ID\n" + 
-			"where a.Employee_ID =:Employee_ID and a.Company_ID =:Company_ID group by add_fixOrVar_basic_desc\n" + 
-			"union all\n" + 
-			"select k.Company_Name as company_name,b.Process_Date as processDate,e.Name as fName, e.lastname as lname,  \n" + 
-			"e.Employee_ID as empId,c.Epf_No as epfNo,c.basicSalary as basicSalary, d.Department as department, \n" + 
-			"h.Designation as designaion, 'BASIC SALARY' as add_fixOrVar_basic_desc, \n" + 
-			"format(c.basicSalary,2) as add_fixOrVar_basic_amount,'' as monthVal, '' as yearVal  \n" + 
-			"FROM process_payroll_details a \n" + 
-			"inner join month_process_master b on a.Pay_Period_ID = b.Pay_Period_ID\n" + 
-			"inner join employee_details c on a.Employee_ID = c.Employee_ID \n" + 
-			"inner join department d on c.Department_ID = d.Department_ID\n" + 
-			"inner join employee_master e on a.Employee_ID = e.Employee_ID \n" + 
-			"inner join pay_add_deduct_types f on a.Pay_Add_Deduct_Type_Code = f.Pay_Add_Deduct_Type_Code\n" + 
-			"inner join designation_master h on c.Designation_ID = h.Designation_ID\n" + 
-			"inner join company_master k on a.Company_ID = k.Company_ID   \n" + 
-			"where a.Employee_ID =:Employee_ID and a.Company_ID =:Company_ID group by add_fixOrVar_basic_desc)a \n" + 
-			"UNION ALL\n" + 
-			"-- addtion depends on basic salary\n" + 
-			"SELECT * from (select \n" + 
-			"k.Company_Name as company_name,b.Process_Date as processDate,e.Name as fName, e.lastname as lname,  \n" + 
-			"e.Employee_ID as empId,c.Epf_No as epfNo,c.basicSalary as basicSalary, d.Department as department,h.Designation as designaion, \n" + 
-			"(case when f.Add_Deduct_Status = 'addition' and (f.Add_Deduct_Type = 'variableType' or f.Add_Deduct_Type = 'fixedType')\n" + 
-			"and f.Is_On_Basic_Salary = 'basicSalary'  then if(f.Add_Deduct_Type = 'variableType', f.Description, f.Description) else '' end) \n" + 
-			"as add_fixOrVar_basic_desc, \n" + 
-			"(case when f.Add_Deduct_Status = 'addition' and (f.Add_Deduct_Type = 'variableType' or f.Add_Deduct_Type = 'fixedType')  \n" + 
-			"and f.Is_On_Basic_Salary = 'basicSalary'  then if(f.Add_Deduct_Type = 'variableType', format(a.Amount,2), format(f.Add_Deduct_Value,2)) else '' end) \n" + 
-			"as add_fixOrVar_basic_amount,'' as monthVal, '' as yearVal\n" + 
-			"FROM process_payroll_details a \n" + 
-			"inner join month_process_paycodes b on a.Pay_Code_ID = b.Pay_Code_ID\n" + 
-			"inner join employee_details c on a.Employee_ID = c.Employee_ID \n" + 
-			"inner join department d on c.Department_ID = d.Department_ID\n" + 
-			"inner join employee_master e on a.Employee_ID = e.Employee_ID \n" + 
-			"inner join pay_add_deduct_types f on a.Pay_Add_Deduct_Type_Code = f.Pay_Add_Deduct_Type_Code\n" + 
-			"inner join designation_master h on c.Designation_ID = h.Designation_ID\n" + 
-			"inner join company_master k on a.Company_ID = k.Company_ID     \n" + 
-			"where a.Employee_ID =:Employee_ID and a.Company_ID =:Company_ID group by add_fixOrVar_basic_desc\n" + 
-			"union all\n" + 
-			"select k.Company_Name as company_name,b.Process_Date as processDate,e.Name as fName, e.lastname as lname,  \n" + 
-			"e.Employee_ID as empId,c.Epf_No as epfNo,c.basicSalary as basicSalary, d.Department as department, h.Designation as designaion,\n" + 
-			"(case when f.Add_Deduct_Status = 'addition' and (f.Add_Deduct_Type = 'variableType' or f.Add_Deduct_Type = 'fixedType')\n" + 
-			"and f.Is_On_Basic_Salary = 'basicSalary'  then if(f.Add_Deduct_Type = 'variableType', f.Description, f.Description) else '' end) \n" + 
-			"as add_fixOrVar_basic_desc, \n" + 
-			"(case when f.Add_Deduct_Status = 'addition' and (f.Add_Deduct_Type = 'variableType' or f.Add_Deduct_Type = 'fixedType')  \n" + 
-			"and f.Is_On_Basic_Salary = 'basicSalary'  then if(f.Add_Deduct_Type = 'variableType', format(a.Amount,2), format(f.Add_Deduct_Value,2)) else '' end) \n" + 
-			"as add_fixOrVar_basic_amount, '' as monthVal, '' as yearVal\n" + 
-			"FROM process_payroll_details a \n" + 
-			"inner join month_process_master b on a.Pay_Period_ID = b.Pay_Period_ID\n" + 
-			"inner join employee_details c on a.Employee_ID = c.Employee_ID \n" + 
-			"inner join department d on c.Department_ID = d.Department_ID\n" + 
-			"inner join employee_master e on a.Employee_ID = e.Employee_ID \n" + 
-			"inner join pay_add_deduct_types f on a.Pay_Add_Deduct_Type_Code = f.Pay_Add_Deduct_Type_Code   \n" + 
-			"inner join designation_master h on c.Designation_ID = h.Designation_ID\n" + 
-			"inner join company_master k on a.Company_ID = k.Company_ID   \n" + 
-			"where a.Employee_ID =:Employee_ID and a.Company_ID =:Company_ID group by add_fixOrVar_basic_desc)a \n" + 
-			"UNION ALL \n" + 
-			"-- total basic salary\n" + 
-			"SELECT * from(select company_name, processDate, fName, lname, empId, epfNo, basicSalary, department, designaion,\n" + 
-			"'TOTAL BASIC SALARY' as totBaSaDesc, format(max(total_bSalary + basicSalary),2), '' as monthVal, '' as yearVal\n" + 
-			"from(select '' as company_name,b.Process_Date as processDate,e.Name as fName, e.lastname as lname,  \n" + 
-			"e.Employee_ID as empId,c.Epf_No as epfNo, c.basicSalary as basicSalary, d.Department as department,\n" + 
-			"h.Designation as designaion, 'TOTAL BASIC SALARY' as totBaSaDesc,\n" + 
-			"sum(case when f.Add_Deduct_Status = 'addition' and (f.Add_Deduct_Type = 'variableType' or f.Add_Deduct_Type = 'fixedType')  \n" + 
-			"and f.Is_On_Basic_Salary = 'basicSalary'  then if(f.Add_Deduct_Type = 'variableType', a.Amount, f.Add_Deduct_Value) else '' end) \n" + 
-			"as total_bSalary,\n" + 
-			"'' as monthVal, '' as yearVal \n" + 
-			"FROM process_payroll_details a\n" + 
-			"inner join month_process_paycodes b on a.Pay_Code_ID = b.Pay_Code_ID\n" + 
-			"inner join employee_details c on a.Employee_ID = c.Employee_ID\n" + 
-			"inner join department d on c.Department_ID = d.Department_ID\n" + 
-			"inner join employee_master e on a.Employee_ID = e.Employee_ID  \n" + 
-			"inner join pay_add_deduct_types f on a.Pay_Add_Deduct_Type_Code = f.Pay_Add_Deduct_Type_Code \n" + 
-			"inner join designation_master h on c.Designation_ID = h.Designation_ID \n" + 
-			"inner join company_master k on a.Company_ID = k.Company_ID  \n" + 
-			"where a.Employee_ID =:Employee_ID and a.Company_ID =:Company_ID\n" + 
-			"union all \n" + 
-			"select '' as company_name,b.Process_Date as processDate,e.Name as fName, e.lastname as lname,  \n" + 
-			"e.Employee_ID as empId,c.Epf_No as epfNo,c.basicSalary as basicSalary, d.Department as department, \n" + 
-			"h.Designation as designaion, 'TOTAL BASIC SALARY' as totBaSaDesc,\n" + 
-			"sum(case when f.Add_Deduct_Status = 'addition' and (f.Add_Deduct_Type = 'variableType' or f.Add_Deduct_Type = 'fixedType')  \n" + 
-			"and f.Is_On_Basic_Salary = 'basicSalary'  then if(f.Add_Deduct_Type = 'variableType', a.Amount, f.Add_Deduct_Value) else '' end) \n" + 
-			"as total_bSalary,'' as monthVal, '' as yearVal \n" + 
-			"FROM process_payroll_details a\n" + 
-			"inner join month_process_master b on a.Pay_Period_ID = b.Pay_Period_ID\n" + 
-			"inner join employee_details c on a.Employee_ID = c.Employee_ID\n" + 
-			"inner join department d on c.Department_ID = d.Department_ID\n" + 
-			"inner join employee_master e on a.Employee_ID = e.Employee_ID  \n" + 
-			"inner join pay_add_deduct_types f on a.Pay_Add_Deduct_Type_Code = f.Pay_Add_Deduct_Type_Code\n" + 
-			"inner join designation_master h on c.Designation_ID = h.Designation_ID \n" + 
-			"inner join company_master k on a.Company_ID = k.Company_ID   \n" + 
-			"where a.Employee_ID =:Employee_ID and a.Company_ID =:Company_ID)a )b\n" + 
-			"UNION ALL\n" + 
-			"-- deductions depends on basic salary\n" + 
-			"SELECT company_name, processDate, fName, lname,  \n" + 
-			"empId, epfNo, basicSalary,  department, designaion, add_fixOrVar_basic_desc, add_fixOrVar_basic_amount,\n" + 
-			"monthVal, yearVal\n" + 
-			"from (select k.Company_Name as company_name,b.Process_Date as processDate,e.Name as fName, e.lastname as lname,  \n" + 
-			"e.Employee_ID as empId,c.Epf_No as epfNo,c.basicSalary as basicSalary, d.Department as department,h.Designation as designaion, \n" + 
-			"(case when f.Add_Deduct_Status = 'deduction' and (f.Add_Deduct_Type = 'variableType' or f.Add_Deduct_Type = 'fixedType')\n" + 
-			"and f.Is_On_Basic_Salary = 'basicSalary'  then if(f.Add_Deduct_Type = 'variableType' or f.Add_Deduct_Type = 'fixedType', f.Description, f.Description) else '' end) \n" + 
-			"as add_fixOrVar_basic_desc, \n" + 
-			"(case when f.Add_Deduct_Status = 'deduction' and (f.Add_Deduct_Type = 'variableType' or f.Add_Deduct_Type = 'fixedType')  \n" + 
-			"and f.Is_On_Basic_Salary = 'basicSalary'  then if(f.Add_Deduct_Type = 'variableType' or f.Add_Deduct_Type = 'fixedType',\n" + 
-			"concat(\"(\",format(a.Amount,2),\")\"), concat(\"(\",format(f.Add_Deduct_Value,2),\")\")) else '' end) \n" + 
-			"as add_fixOrVar_basic_amount, '' as monthVal, '' as yearVal  \n" + 
-			"from process_payroll_details a \n" + 
-			"inner join month_process_paycodes b on a.Pay_Code_ID = b.Pay_Code_ID\n" + 
-			"inner join employee_details c on a.Employee_ID = c.Employee_ID \n" + 
-			"inner join department d on c.Department_ID = d.Department_ID\n" + 
-			"inner join employee_master e on a.Employee_ID = e.Employee_ID \n" + 
-			"inner join pay_add_deduct_types f on a.Pay_Add_Deduct_Type_Code = f.Pay_Add_Deduct_Type_Code\n" + 
-			"inner join designation_master h on c.Designation_ID = h.Designation_ID \n" + 
-			"inner join company_master k on a.Company_ID = k.Company_ID    \n" + 
-			"where a.Employee_ID =:Employee_ID and a.Company_ID =:Company_ID group by add_fixOrVar_basic_desc\n" + 
-			"union all\n" + 
-			"select k.Company_Name as company_name,b.Process_Date as processDate,e.Name as fName, e.lastname as lname,  \n" + 
-			"e.Employee_ID as empId,c.Epf_No as epfNo,c.basicSalary as basicSalary, d.Department as department, h.Designation as designaion,\n" + 
-			"(case when f.Add_Deduct_Status = 'deduction' and (f.Add_Deduct_Type = 'variableType' or f.Add_Deduct_Type = 'fixedType')\n" + 
-			"and f.Is_On_Basic_Salary = 'basicSalary'  then if(f.Add_Deduct_Type = 'variableType', f.Description, f.Description) else '' end) \n" + 
-			"as add_fixOrVar_basic_desc, \n" + 
-			"(case when f.Add_Deduct_Status = 'deduction' and (f.Add_Deduct_Type = 'variableType' or f.Add_Deduct_Type = 'fixedType')  \n" + 
-			"and f.Is_On_Basic_Salary = 'basicSalary'  then if(f.Add_Deduct_Type = 'variableType', \n" + 
-			"concat(\"(\",format(a.Amount,2),\")\"), concat(\"(\",format(f.Add_Deduct_Value,2),\")\")) else '' end) \n" + 
-			"as add_fixOrVar_basic_amount, '' as monthVal, '' as yearVal  \n" + 
-			"from process_payroll_details a \n" + 
-			"inner join month_process_master b on a.Pay_Period_ID = b.Pay_Period_ID\n" + 
-			"inner join employee_details c on a.Employee_ID = c.Employee_ID \n" + 
-			"inner join department d on c.Department_ID = d.Department_ID\n" + 
-			"inner join employee_master e on a.Employee_ID = e.Employee_ID \n" + 
-			"inner join pay_add_deduct_types f on a.Pay_Add_Deduct_Type_Code = f.Pay_Add_Deduct_Type_Code \n" + 
-			"inner join designation_master h on c.Designation_ID = h.Designation_ID\n" + 
-			"inner join company_master k on a.Company_ID = k.Company_ID   \n" + 
-			"where a.Employee_ID =:Employee_ID and a.Company_ID =:Company_ID group by add_fixOrVar_basic_desc)a \n" + 
-			"UNION ALL\n" + 
-			"-- line\n" + 
-			"SELECT '' as company_name,'' as processDate,'' as fName, '' as lname,  \n" + 
-			"'' as empId, '' as epfNo, '' as basicSalary, '' as department, \n" + 
-			"'' as designation, \"\" as add_fixOrVar_basic_desc, \n" + 
-			"\"......................\" as add_fixOrVar_basic_amount,'' as monthVal, '' as yearVal\n" + 
-			"FROM process_payroll_details a\n" + 
-			"inner join company_master k on a.Company_ID = k.Company_ID \n" + 
-			"where a.Company_ID =:Company_ID group by add_fixOrVar_basic_desc\n" + 
-			"UNION ALL\n" + 
-			"-- Total EPF Salary\n" + 
-			"SELECT company_name, processDate, fName, lname, empId, epfNo, basicSalary, department, designaion, totEpfSaDesc,\n" + 
-			"format(max(total_epf_salary + basicSalary) - max(add_fixOrVar_basic_amount),2) as EPF_Salary, '' as monthVal, '' as yearVal\n" + 
-			"from (select i.Company_Name as company_name, b.Process_Date as processDate, e.Name as fName, e.lastname as lname,  \n" + 
-			"e.Employee_ID as empId,c.Epf_No as epfNo,c.basicSalary as basicSalary, d.Department as department, \n" + 
-			"h.Designation as designaion, 'TOTAL EPF SALARY' as totEpfSaDesc,\n" + 
-			"sum(case when f.Add_Deduct_Status = 'addition' and (f.Add_Deduct_Type = 'variableType' or f.Add_Deduct_Type = 'fixedType')  \n" + 
-			"and f.Is_On_Basic_Salary = 'basicSalary'  then if(f.Add_Deduct_Type = 'variableType', a.Amount, f.Add_Deduct_Value) else '' end) \n" + 
-			"as total_epf_salary,\n" + 
-			"sum(case when f.Add_Deduct_Status = 'deduction' and (f.Add_Deduct_Type = 'variableType' or f.Add_Deduct_Type = 'fixedType')  \n" + 
-			"and f.Is_On_Basic_Salary = 'basicSalary'  then if(f.Add_Deduct_Type = 'variableType', a.Amount, f.Add_Deduct_Value) else null end) \n" + 
-			"as add_fixOrVar_basic_amount,'' as monthVal, '' as yearVal \n" + 
-			"FROM process_payroll_details a\n" + 
-			"inner join month_process_paycodes b on a.Pay_Code_ID = b.Pay_Code_ID \n" + 
-			"inner join employee_details c on a.Employee_ID = c.Employee_ID\n" + 
-			"inner join department d on c.Department_ID = d.Department_ID\n" + 
-			"inner join employee_master e on a.Employee_ID = e.Employee_ID \n" + 
-			"inner join pay_add_deduct_types f on a.Pay_Add_Deduct_Type_Code = f.Pay_Add_Deduct_Type_Code \n" + 
-			"inner join designation_master h on c.Designation_ID = h.Designation_ID \n" + 
-			"inner join company_master i on a.Company_ID = i.Company_ID \n" + 
-			"where a.Employee_ID =:Employee_ID and a.Company_ID =:Company_ID\n" + 
-			"union all\n" + 
-			"select i.Company_Name as company_name,b.Process_Date as processDate,e.Name as fName, e.lastname as lname,  \n" + 
-			"e.Employee_ID as empId,c.Epf_No as epfNo,c.basicSalary as basicSalary, d.Department as department, \n" + 
-			"h.Designation as designaion, 'TOTAL EPF SALARY' as totEpfSaDesc,\n" + 
-			"sum(case when f.Add_Deduct_Status = 'addition' and (f.Add_Deduct_Type = 'variableType' or f.Add_Deduct_Type = 'fixedType')  \n" + 
-			"and f.Is_On_Basic_Salary = 'basicSalary'  then if(f.Add_Deduct_Type = 'variableType', a.Amount, f.Add_Deduct_Value) else '' end) \n" + 
-			"as total_epf_salary,\n" + 
-			"sum(case when f.Add_Deduct_Status = 'deduction' and (f.Add_Deduct_Type = 'variableType' or f.Add_Deduct_Type = 'fixedType')  \n" + 
-			"and f.Is_On_Basic_Salary = 'basicSalary'  then if(f.Add_Deduct_Type = 'variableType', a.Amount, f.Add_Deduct_Value) else '' end) \n" + 
-			"as add_fixOrVar_basic_amount, '' as monthVal, '' as yearVal \n" + 
-			"from process_payroll_details a\n" + 
-			"inner join month_process_master b on a.Pay_Period_ID = b.Pay_Period_ID \n" + 
-			"inner join employee_details c on a.Employee_ID = c.Employee_ID\n" + 
-			"inner join department d on c.Department_ID = d.Department_ID\n" + 
-			"inner join employee_master e on a.Employee_ID = e.Employee_ID \n" + 
-			"inner join pay_add_deduct_types f on a.Pay_Add_Deduct_Type_Code = f.Pay_Add_Deduct_Type_Code \n" + 
-			"inner join designation_master h on c.Designation_ID = h.Designation_ID\n" + 
-			"inner join company_master i on a.Company_ID = i.Company_ID \n" + 
-			"where a.Employee_ID =:Employee_ID and a.Company_ID =:Company_ID) a group by totEpfSaDesc\n" + 
-			"UNION ALL\n" + 
-			"-- Earnings label\n" + 
-			"SELECT '' as company_name,'' as processDate,'' as fName, '' as lname,  \n" + 
-			"'' as empId, '' as epfNo, '' as basicSalary, '' as department, \n" + 
-			"'' as designation, \"EARNINGS\" as add_fixOrVar_basic_desc, \n" + 
-			"'' as add_fixOrVar_basic_amount, '' as monthVal, '' as yearVal \n" + 
-			"from process_payroll_details a\n" + 
-			"inner join company_master k on a.Company_ID = k.Company_ID \n" + 
-			"where a.Company_ID =:Company_ID group by add_fixOrVar_basic_desc\n" + 
-			"UNION ALL\n" + 
-			"-- All Earnings\n" + 
-			"SELECT * from(select '' as company_name,b.Process_Date as processDate,e.Name as fName, e.lastname as lname, \n" + 
-			"e.Employee_ID as empId,c.Epf_No as epfNo,c.basicSalary as basicSalary, d.Department as department, h.Designation as designaion, \n" + 
-			"(case when f.Add_Deduct_Status = 'addition' and (f.Add_Deduct_Type = 'variableType' or f.Add_Deduct_Type = 'fixedType') \n" + 
-			"and f.Is_On_Basic_Salary = 'grossSalary'  then if(f.Add_Deduct_Type = 'variableType', f.Description, f.Description) else '' end) \n" + 
-			"as add_fixOrVar_gross_desc,\n" + 
-			"(case when f.Add_Deduct_Status = 'addition' and (f.Add_Deduct_Type = 'variableType' or f.Add_Deduct_Type = 'fixedType')  \n" + 
-			"and f.Is_On_Basic_Salary = 'grossSalary'  then if(f.Add_Deduct_Type = 'variableType', format(a.Amount,2), format(f.Add_Deduct_Value,2)) else '' end)  \n" + 
-			"as add_fixOrVar_gross_amount,'' as monthVal, '' as yearVal \n" + 
-			"FROM process_payroll_details a \n" + 
-			"inner join month_process_paycodes b on a.Pay_Code_ID = b.Pay_Code_ID\n" + 
-			"inner join employee_details c on a.Employee_ID = c.Employee_ID\n" + 
-			"inner join department d on c.Department_ID = d.Department_ID\n" + 
-			"inner join employee_master e on a.Employee_ID = e.Employee_ID \n" + 
-			"inner join pay_add_deduct_types f on a.Pay_Add_Deduct_Type_Code = f.Pay_Add_Deduct_Type_Code \n" + 
-			"inner join designation_master h on c.Designation_ID = h.Designation_ID\n" + 
-			"inner join company_master k on a.Company_ID = k.Company_ID  \n" + 
-			"where a.Employee_ID =:Employee_ID and a.Company_ID =:Company_ID group by add_fixOrVar_gross_desc\n" + 
-			"union all \n" + 
-			"select '' as company_name,b.Process_Date as processDate,e.Name as fName, e.lastname as lname, \n" + 
-			"e.Employee_ID as empId,c.Epf_No as epfNo,c.basicSalary as basicSalary, d.Department as department, h.Designation as designaion,\n" + 
-			"(case when f.Add_Deduct_Status = 'addition' and (f.Add_Deduct_Type = 'variableType' or f.Add_Deduct_Type = 'fixedType') \n" + 
-			"and f.Is_On_Basic_Salary = 'grossSalary'  then if(f.Add_Deduct_Type = 'variableType', f.Description, f.Description) else '' end) \n" + 
-			"as add_fixOrVar_gross_desc,\n" + 
-			"(case when f.Add_Deduct_Status = 'addition' and (f.Add_Deduct_Type = 'variableType' or f.Add_Deduct_Type = 'fixedType')  \n" + 
-			"and f.Is_On_Basic_Salary = 'grossSalary'  then if(f.Add_Deduct_Type = 'variableType', format(a.Amount,2), format(f.Add_Deduct_Value,2)) else '' end) \n" + 
-			"as add_fixOrVar_gross_amount, '' as monthVal, '' as yearVal\n" + 
-			"FROM process_payroll_details a \n" + 
-			"inner join month_process_master b on a.Pay_Period_ID = b.Pay_Period_ID \n" + 
-			"inner join employee_details c on a.Employee_ID = c.Employee_ID\n" + 
-			"inner join department d on c.Department_ID = d.Department_ID\n" + 
-			"inner join employee_master e on a.Employee_ID = e.Employee_ID \n" + 
-			"inner join pay_add_deduct_types f on a.Pay_Add_Deduct_Type_Code = f.Pay_Add_Deduct_Type_Code\n" + 
-			"inner join designation_master h on c.Designation_ID = h.Designation_ID\n" + 
-			"inner join company_master k on a.Company_ID = k.Company_ID   \n" + 
-			"where a.Employee_ID =:Employee_ID and a.Company_ID =:Company_ID group by add_fixOrVar_gross_desc)a\n" + 
-			"UNION ALL\n" + 
-			"-- line\n" + 
-			"SELECT '' as company_name,'' as processDate,'' as fName, '' as lname,  \n" + 
-			"'' as empId, '' as epfNo, '' as basicSalary, '' as department, \n" + 
-			"'' as designation, \"\" as add_fixOrVar_basic_desc, \n" + 
-			"\"......................\" as add_fixOrVar_basic_amount,'' as monthVal, '' as yearVal\n" + 
-			"FROM process_payroll_details a\n" + 
-			"inner join company_master k on a.Company_ID = k.Company_ID \n" + 
-			"where a.Company_ID =:Company_ID group by add_fixOrVar_basic_desc\n" + 
-			"UNION ALL\n" + 
-			"-- Gross salary\n" + 
-			"SELECT company_name, processDate, fName, lname, empId, epfNo, basicSalary, department, designaion, totEpfSaDesc,\n" + 
-			"format(max(total_epf_salary + gross_salary + basicSalary) - max(add_fixOrVar_basic_amount),2) as EPF_Salary, '' as monthVal, '' as yearVal\n" + 
-			"from (select i.Company_Name as company_name, b.Process_Date as processDate, e.Name as fName, e.lastname as lname,  \n" + 
-			"e.Employee_ID as empId,c.Epf_No as epfNo,c.basicSalary as basicSalary, d.Department as department, \n" + 
-			"h.Designation as designaion, 'GROSS SALARY' as totEpfSaDesc,\n" + 
-			"sum(case when f.Add_Deduct_Status = 'addition' and (f.Add_Deduct_Type = 'variableType' or f.Add_Deduct_Type = 'fixedType')  \n" + 
-			"and f.Is_On_Basic_Salary = 'basicSalary'  then if(f.Add_Deduct_Type = 'variableType', a.Amount, f.Add_Deduct_Value) else '' end) \n" + 
-			"as total_epf_salary,\n" + 
-			"sum(case when f.Add_Deduct_Status = 'addition' and (f.Add_Deduct_Type = 'variableType' or f.Add_Deduct_Type = 'fixedType')  \n" + 
-			"and f.Is_On_Basic_Salary = 'grossSalary'  then if(f.Add_Deduct_Type = 'variableType', a.Amount, f.Add_Deduct_Value) else '' end) \n" + 
-			"as gross_salary,\n" + 
-			"sum(case when f.Add_Deduct_Status = 'deduction' and (f.Add_Deduct_Type = 'variableType' or f.Add_Deduct_Type = 'fixedType')  \n" + 
-			"and f.Is_On_Basic_Salary = 'basicSalary'  then if(f.Add_Deduct_Type = 'variableType', a.Amount, f.Add_Deduct_Value) else null end) \n" + 
-			"as add_fixOrVar_basic_amount,'' as monthVal, '' as yearVal \n" + 
-			"FROM process_payroll_details a\n" + 
-			"inner join month_process_paycodes b on a.Pay_Code_ID = b.Pay_Code_ID \n" + 
-			"inner join employee_details c on a.Employee_ID = c.Employee_ID\n" + 
-			"inner join department d on c.Department_ID = d.Department_ID\n" + 
-			"inner join employee_master e on a.Employee_ID = e.Employee_ID \n" + 
-			"inner join pay_add_deduct_types f on a.Pay_Add_Deduct_Type_Code = f.Pay_Add_Deduct_Type_Code \n" + 
-			"inner join designation_master h on c.Designation_ID = h.Designation_ID \n" + 
-			"inner join company_master i on a.Company_ID = i.Company_ID \n" + 
-			"where a.Employee_ID =:Employee_ID and a.Company_ID =:Company_ID\n" + 
-			"union all\n" + 
-			"select i.Company_Name as company_name,b.Process_Date as processDate,e.Name as fName, e.lastname as lname,  \n" + 
-			"e.Employee_ID as empId,c.Epf_No as epfNo,c.basicSalary as basicSalary, d.Department as department, \n" + 
-			"h.Designation as designaion, 'GROSS SALARY' as totEpfSaDesc,\n" + 
-			"sum(case when f.Add_Deduct_Status = 'addition' and (f.Add_Deduct_Type = 'variableType' or f.Add_Deduct_Type = 'fixedType')  \n" + 
-			"and f.Is_On_Basic_Salary = 'basicSalary'  then if(f.Add_Deduct_Type = 'variableType', a.Amount, f.Add_Deduct_Value) else '' end) \n" + 
-			"as total_epf_salary,\n" + 
-			"sum(case when f.Add_Deduct_Status = 'addition' and (f.Add_Deduct_Type = 'variableType' or f.Add_Deduct_Type = 'fixedType')  \n" + 
-			"and f.Is_On_Basic_Salary = 'grossSalary'  then if(f.Add_Deduct_Type = 'variableType', a.Amount, f.Add_Deduct_Value) else '' end) \n" + 
-			"as gross_salary,\n" + 
-			"sum(case when f.Add_Deduct_Status = 'deduction' and (f.Add_Deduct_Type = 'variableType' or f.Add_Deduct_Type = 'fixedType')  \n" + 
-			"and f.Is_On_Basic_Salary = 'basicSalary'  then if(f.Add_Deduct_Type = 'variableType', a.Amount, f.Add_Deduct_Value) else '' end) \n" + 
-			"as add_fixOrVar_basic_amount, '' as monthVal, '' as yearVal \n" + 
-			"from process_payroll_details a\n" + 
-			"inner join month_process_master b on a.Pay_Period_ID = b.Pay_Period_ID \n" + 
-			"inner join employee_details c on a.Employee_ID = c.Employee_ID\n" + 
-			"inner join department d on c.Department_ID = d.Department_ID\n" + 
-			"inner join employee_master e on a.Employee_ID = e.Employee_ID \n" + 
-			"inner join pay_add_deduct_types f on a.Pay_Add_Deduct_Type_Code = f.Pay_Add_Deduct_Type_Code \n" + 
-			"inner join designation_master h on c.Designation_ID = h.Designation_ID\n" + 
-			"inner join company_master i on a.Company_ID = i.Company_ID \n" + 
-			"where a.Employee_ID =:Employee_ID and a.Company_ID =:Company_ID) a group by totEpfSaDesc\n" + 
-			"UNION ALL\n" + 
-			"-- Deduiction label\n" + 
-			"SELECT '' as company_name,'' as processDate,'' as fName, '' as lname,  \n" + 
-			"'' as empId, '' as epfNo, '' as basicSalary, '' as department, \n" + 
-			"'' as designation, \"DEDUCTIONS\" as add_fixOrVar_basic_desc, \n" + 
-			"'' as add_fixOrVar_basic_amount, '' as monthVal, '' as yearVal \n" + 
-			"from process_payroll_details a\n" + 
-			"inner join company_master k on a.Company_ID = k.Company_ID \n" + 
-			"where a.Company_ID =:Company_ID group by add_fixOrVar_basic_desc\n" + 
-			"UNION ALL\n" + 
-			"-- Deductions Depends on Gross Salary\n" + 
-			"SELECT company_name, processDate, fName, lname,  \n" + 
-			"empId, epfNo, basicSalary,  department, designaion, add_fixOrVar_basic_desc, add_fixOrVar_basic_amount,monthVal, yearVal\n" + 
-			"from (select \n" + 
-			"k.Company_Name as company_name,b.Process_Date as processDate,e.Name as fName, e.lastname as lname,  \n" + 
-			"e.Employee_ID as empId,c.Epf_No as epfNo,c.basicSalary as basicSalary, d.Department as department,h.Designation as designaion, \n" + 
-			"(case when f.Add_Deduct_Status = 'deduction' and (f.Add_Deduct_Type = 'variableType' or f.Add_Deduct_Type = 'fixedType')\n" + 
-			"and f.Is_On_Basic_Salary = 'grossSalary'  then if(f.Add_Deduct_Type = 'variableType', f.Description, f.Description) else '' end) \n" + 
-			"as add_fixOrVar_basic_desc, \n" + 
-			"(case when f.Add_Deduct_Status = 'deduction' and (f.Add_Deduct_Type = 'variableType' or f.Add_Deduct_Type = 'fixedType')  \n" + 
-			"and f.Is_On_Basic_Salary = 'grossSalary'  then if(f.Add_Deduct_Type = 'variableType' or f.Add_Deduct_Type = 'fixedType', format(a.Amount,2), format(f.Add_Deduct_Value,2)) else '' end) \n" + 
-			"as add_fixOrVar_basic_amount, '' as monthVal, '' as yearVal  \n" + 
-			"FROM process_payroll_details a \n" + 
-			"inner join month_process_paycodes b on a.Pay_Code_ID = b.Pay_Code_ID\n" + 
-			"inner join employee_details c on a.Employee_ID = c.Employee_ID \n" + 
-			"inner join department d on c.Department_ID = d.Department_ID\n" + 
-			"inner join employee_master e on a.Employee_ID = e.Employee_ID \n" + 
-			"inner join pay_add_deduct_types f on a.Pay_Add_Deduct_Type_Code = f.Pay_Add_Deduct_Type_Code\n" + 
-			"inner join designation_master h on c.Designation_ID = h.Designation_ID \n" + 
-			"inner join company_master k on a.Company_ID = k.Company_ID    \n" + 
-			"where a.Employee_ID =:Employee_ID and a.Company_ID =:Company_ID group by add_fixOrVar_basic_desc\n" + 
-			"union all\n" + 
-			"select k.Company_Name as company_name,b.Process_Date as processDate,e.Name as fName, e.lastname as lname,  \n" + 
-			"e.Employee_ID as empId,c.Epf_No as epfNo,c.basicSalary as basicSalary, d.Department as department, h.Designation as designaion,\n" + 
-			"(case when f.Add_Deduct_Status = 'deduction' and (f.Add_Deduct_Type = 'variableType' or f.Add_Deduct_Type = 'fixedType')\n" + 
-			"and f.Is_On_Basic_Salary = 'grossSalary'  then if(f.Add_Deduct_Type = 'variableType', f.Description, f.Description) else '' end) \n" + 
-			"as add_fixOrVar_basic_desc, \n" + 
-			"(case when f.Add_Deduct_Status = 'deduction' and (f.Add_Deduct_Type = 'variableType' or f.Add_Deduct_Type = 'fixedType')  \n" + 
-			"and f.Is_On_Basic_Salary = 'grossSalary'  then if((f.Add_Deduct_Type = 'variableType' or f.Add_Deduct_Type = 'fixedType'), format(a.Amount,2), format(f.Add_Deduct_Value,2)) else '' end) \n" + 
-			"as add_fixOrVar_basic_amount, '' as monthVal, '' as yearVal  \n" + 
-			"FROM process_payroll_details a \n" + 
-			"inner join month_process_master b on a.Pay_Period_ID = b.Pay_Period_ID\n" + 
-			"inner join employee_details c on a.Employee_ID = c.Employee_ID \n" + 
-			"inner join department d on c.Department_ID = d.Department_ID\n" + 
-			"inner join employee_master e on a.Employee_ID = e.Employee_ID \n" + 
-			"inner join pay_add_deduct_types f on a.Pay_Add_Deduct_Type_Code = f.Pay_Add_Deduct_Type_Code  \n" + 
-			"inner join designation_master h on c.Designation_ID = h.Designation_ID\n" + 
-			"inner join company_master k on a.Company_ID = k.Company_ID   \n" + 
-			"where a.Employee_ID =:Employee_ID and a.Company_ID =:Company_ID group by add_fixOrVar_basic_desc)a \n" + 
-			"UNION ALL\n" + 
-			"-- line\n" + 
-			"SELECT '' as company_name,'' as processDate,'' as fName, '' as lname,  \n" + 
-			"'' as empId, '' as epfNo, '' as basicSalary, '' as department, \n" + 
-			"'' as designation, \"\" as add_fixOrVar_basic_desc, \n" + 
-			"\"......................\" as add_fixOrVar_basic_amount, '' as monthVal, '' as yearVal\n" + 
-			"FROM process_payroll_details a \n" + 
-			"inner join company_master k on a.Company_ID = k.Company_ID \n" + 
-			"where a.Company_ID =:Company_ID group by add_fixOrVar_basic_desc\n" + 
-			"UNION ALL\n" + 
-			"-- Total Deduction\n" + 
-			"SELECT * from(select company_name, processDate, fName, lname, empId, epfNo, basicSalary, department, designaion,\n" + 
-			"'TOTAL DEDUCTIONS' as totBaSaDesc, format(max(total_deductions),2), '' as monthVal, '' as yearVal\n" + 
-			"from(select '' as company_name,b.Process_Date as processDate,e.Name as fName, e.lastname as lname,  \n" + 
-			"e.Employee_ID as empId,c.Epf_No as epfNo, c.basicSalary as basicSalary, d.Department as department,\n" + 
-			"h.Designation as designaion, 'TOTAL DEDUCTIONS' as totBaSaDesc,\n" + 
-			"sum(case when f.Add_Deduct_Status = 'deduction' and (f.Add_Deduct_Type = 'variableType' or f.Add_Deduct_Type = 'fixedType')  \n" + 
-			"and f.Is_On_Basic_Salary = 'grossSalary'  then if(f.Add_Deduct_Type = 'variableType' or f.Add_Deduct_Type = 'fixedType', a.Amount, f.Add_Deduct_Value) else '' end) \n" + 
-			"as total_deductions, '' as monthVal, '' as yearVal \n" + 
-			"FROM process_payroll_details a\n" + 
-			"inner join month_process_paycodes b on a.Pay_Code_ID = b.Pay_Code_ID\n" + 
-			"inner join employee_details c on a.Employee_ID = c.Employee_ID\n" + 
-			"inner join department d on c.Department_ID = d.Department_ID\n" + 
-			"inner join employee_master e on a.Employee_ID = e.Employee_ID  \n" + 
-			"inner join pay_add_deduct_types f on a.Pay_Add_Deduct_Type_Code = f.Pay_Add_Deduct_Type_Code \n" + 
-			"inner join designation_master h on c.Designation_ID = h.Designation_ID \n" + 
-			"inner join company_master k on a.Company_ID = k.Company_ID  \n" + 
-			"where a.Employee_ID =:Employee_ID and a.Company_ID =:Company_ID\n" + 
-			"union all \n" + 
-			"select '' as company_name,b.Process_Date as processDate,e.Name as fName, e.lastname as lname,  \n" + 
-			"e.Employee_ID as empId,c.Epf_No as epfNo,c.basicSalary as basicSalary, d.Department as department, \n" + 
-			"h.Designation as designaion, 'TOTAL DEDUCTIONS' as totBaSaDesc,\n" + 
-			"sum(case when f.Add_Deduct_Status = 'deduction' and (f.Add_Deduct_Type = 'variableType' or f.Add_Deduct_Type = 'fixedType')  \n" + 
-			"and f.Is_On_Basic_Salary = 'grossSalary'  then if(f.Add_Deduct_Type = 'variableType' or f.Add_Deduct_Type = 'fixedType', a.Amount, f.Add_Deduct_Value) else '' end) \n" + 
-			"as total_deductions,'' as monthVal, '' as yearVal \n" + 
-			"FROM process_payroll_details a\n" + 
-			"inner join month_process_master b on a.Pay_Period_ID = b.Pay_Period_ID\n" + 
-			"inner join employee_details c on a.Employee_ID = c.Employee_ID\n" + 
-			"inner join department d on c.Department_ID = d.Department_ID\n" + 
-			"inner join employee_master e on a.Employee_ID = e.Employee_ID  \n" + 
-			"inner join pay_add_deduct_types f on a.Pay_Add_Deduct_Type_Code = f.Pay_Add_Deduct_Type_Code\n" + 
-			"inner join designation_master h on c.Designation_ID = h.Designation_ID \n" + 
-			"inner join company_master k on a.Company_ID = k.Company_ID   \n" + 
-			"where a.Employee_ID =:Employee_ID and a.Company_ID =:Company_ID)a )b\n" + 
-			"UNION ALL\n" + 
-			"-- line\n" + 
-			"SELECT \n" + 
-			"'' as company_name,'' as processDate,'' as fName, '' as lname,  \n" + 
-			"'' as empId, '' as epfNo, '' as basicSalary, '' as department, \n" + 
-			"'' as designation, '' as add_fixOrVar_basic_desc, \n" + 
-			"'......................' as add_fixOrVar_basic_amount, '' as monthVal, '' as yearVal \n" + 
-			"from process_payroll_details a\n" + 
-			"inner join company_master k on a.Company_ID = k.Company_ID \n" + 
-			"where a.Company_ID =:Company_ID group by add_fixOrVar_basic_desc\n" + 
-			"UNION ALL\n" + 
-			"-- Net Pay\n" + 
-			"SELECT  '' as company_name,'' as processDate,'' as fName, '' as lname,  \n" + 
-			"'' as empId, '' as epfNo, '' as basicSalary, '' as department, designaion, 'NET PAY' as netSalaryDesc, \n" + 
-			"format(((((add_fixOrVar_basic_amount) + (add_fixOrVar_gross_amount) + (oth_fixOrVar_basic_amount)) + basicSalary) - all_ded_amount),2)  \n" + 
-			"as net_salary, '' as monthVal, '' as yearVal\n" + 
-			"from (select \n" + 
-			"a.Employee_ID as emp, b.basicSalary as basicSalary, h.Designation as designaion, \n" + 
-			"'' as totEpfSaDesc,'' as total_epf_salary,'' as grossSaDesc,'' as gross_salary,'' as taxSaDesc,'' as taxableSalary, \n" + 
-			"sum(case when f.Add_Deduct_Status = 'addition' and (f.Add_Deduct_Type = 'variableType' or f.Add_Deduct_Type = 'fixedType')  \n" + 
-			"and f.Is_On_Basic_Salary = 'basicSalary'  then if(f.Add_Deduct_Type = 'variableType', a.Amount, f.Add_Deduct_Value) else '-' end)  \n" + 
-			"as add_fixOrVar_basic_amount, \n" + 
-			"sum(case when f.Add_Deduct_Status = 'addition' and (f.Add_Deduct_Type = 'variableType' or f.Add_Deduct_Type = 'fixedType')  \n" + 
-			"and f.Is_On_Basic_Salary = 'grossSalary'  then if(f.Add_Deduct_Type = 'variableType', a.Amount, f.Add_Deduct_Value) else '-' end)  \n" + 
-			"as add_fixOrVar_gross_amount, \n" + 
-			"sum(case when f.Add_Deduct_Status = 'other' and (f.Add_Deduct_Type = 'variableType' or f.Add_Deduct_Type = 'fixedType')  \n" + 
-			"and f.Is_On_Basic_Salary = 'basicSalary'  then if(f.Add_Deduct_Type = 'variableType', a.Amount, f.Add_Deduct_Value) else '-' end)  \n" + 
-			"as oth_fixOrVar_basic_amount, \n" + 
-			"sum(case when f.Add_Deduct_Status = 'deduction' and (f.Add_Deduct_Type = 'variableType' or f.Add_Deduct_Type = 'fixedType') then \n" + 
-			"if(f.Add_Deduct_Type = 'fixedType', a.Amount, f.Add_Deduct_Value) else '-' end) as all_ded_amount,\n" + 
-			"'' as monthVal, '' as yearVal  \n" + 
-			"from process_payroll_details a \n" + 
-			"inner join pay_add_deduct_types f on a.Pay_Add_Deduct_Type_Code = f.Pay_Add_Deduct_Type_Code \n" + 
-			"inner join employee_details b on a.Employee_ID = b.Employee_ID \n" + 
-			"inner join designation_master h on b.Designation_ID = h.Designation_ID\n" + 
-			"inner join company_master k on a.Company_ID = k.Company_ID \n" + 
-			"where a.Employee_ID =:Employee_ID and a.Company_ID =:Company_ID)a \n" + 
-			"UNION ALL\n" + 
-			"-- Double line\n" + 
-			"SELECT '' as company_name,'' as processDate,'' as fName, '' as lname,  \n" + 
-			"'' as empId, '' as epfNo, '' as basicSalary, '' as department, \n" + 
-			"'' as designation, \"\" as add_fixOrVar_basic_desc, \n" + 
-			"\"::::::::::::::::::::::\" as add_fixOrVar_basic_amount, '' as monthVal, '' as yearVal\n" + 
-			"from process_payroll_details a\n" + 
-			"inner join company_master k on a.Company_ID = k.Company_ID \n" + 
-			"where a.Company_ID =:Company_ID group by add_fixOrVar_basic_desc\n" + 
-			"UNION ALL\n" + 
-			"-- Label Company Contribution\n" + 
-			"SELECT '' as company_name,'' as processDate,'' as fName, '' as lname,  \n" + 
-			"'' as empId, '' as epfNo, '' as basicSalary, '' as department, \n" + 
-			"'' as designation, 'COMPANY CONTRIBUTION' as add_fixOrVar_basic_desc, \n" + 
-			"'' as add_fixOrVar_basic_amount, '' as monthVal, '' as yearVal \n" + 
-			"from process_payroll_details a \n" + 
-			"inner join company_master k on a.Company_ID = k.Company_ID \n" + 
-			"where a.Company_ID =:Company_ID group by add_fixOrVar_basic_desc\n" + 
-			"UNION ALL\n" + 
-			"SELECT * from (select '' as company_name,b.Process_Date as processDate,e.Name as fName, e.lastname as lname,  \n" + 
-			"e.Employee_ID as empId,c.Epf_No as epfNo,c.basicSalary as basicSalary, d.Department as department, h.Designation as designaion, \n" + 
-			"if(f.Add_Deduct_Status = 'other' , f.Description, '') as all_oth_desc,  \n" + 
-			"(case when f.Add_Deduct_Status = 'other' and (f.Add_Deduct_Type = 'variableType' or f.Add_Deduct_Type = 'fixedType')  \n" + 
-			"then if(if(f.Add_Deduct_Type = 'fixedType', format(a.Amount,2), format(f.Add_Deduct_Value,2)), format(a.Amount,2), format(f.Add_Deduct_Value,2))else '' end) as all_oth_amount,\n" + 
-			"'' as monthVal, '' as yearVal  \n" + 
-			"FROM process_payroll_details a\n" + 
-			"inner join month_process_paycodes b on a.Pay_Code_ID = b.Pay_Code_ID \n" + 
-			"inner join employee_details c on a.Employee_ID = c.Employee_ID \n" + 
-			"inner join department d on c.Department_ID = d.Department_ID\n" + 
-			"inner join employee_master e on a.Employee_ID = e.Employee_ID \n" + 
-			"inner join pay_add_deduct_types f on a.Pay_Add_Deduct_Type_Code = f.Pay_Add_Deduct_Type_Code\n" + 
-			"inner join designation_master h on c.Designation_ID = h.Designation_ID \n" + 
-			"inner join company_master k on a.Company_ID = k.Company_ID \n" + 
-			"where a.Employee_ID =:Employee_ID and a.Company_ID =:Company_ID group by all_oth_desc\n" + 
-			"union all \n" + 
-			"select '' as company_name,b.Process_Date as processDate,e.Name as fName, e.lastname as lname,  \n" + 
-			"e.Employee_ID as empId,c.Epf_No as epfNo,c.basicSalary as basicSalary, d.Department as department, h.Designation as designaion, \n" + 
-			"if(f.Add_Deduct_Status = 'other' , f.Description, '') as all_oth_desc,  \n" + 
-			"(case when f.Add_Deduct_Status = 'other' and (f.Add_Deduct_Type = 'variableType' or f.Add_Deduct_Type = 'fixedType')  \n" + 
-			"then if(if(f.Add_Deduct_Type = 'fixedType', format(a.Amount,2), format(f.Add_Deduct_Value,2)), format(a.Amount,2), format(f.Add_Deduct_Value,2))else '' end) as all_oth_amount,\n" + 
-			"'' as monthVal, '' as yearVal  \n" + 
-			"FROM process_payroll_details a\n" + 
-			"inner join month_process_master b on a.Pay_Period_ID = b.Pay_Period_ID \n" + 
-			"inner join employee_details c on a.Employee_ID = c.Employee_ID \n" + 
-			"inner join department d on c.Department_ID = d.Department_ID\n" + 
-			"inner join employee_master e on a.Employee_ID = e.Employee_ID \n" + 
-			"inner join pay_add_deduct_types f on a.Pay_Add_Deduct_Type_Code = f.Pay_Add_Deduct_Type_Code\n" + 
-			"inner join designation_master h on c.Designation_ID = h.Designation_ID \n" + 
-			"inner join company_master k on a.Company_ID = k.Company_ID \n" + 
-			"where a.Employee_ID =:Employee_ID and a.Company_ID =:Company_ID group by all_oth_desc) a\n" + 
-			"UNION ALL\n" + 
-			"-- bank details\n" + 
-			"SELECT * from (select \n" + 
-			"k.Company_Name as company_name,b.Process_Date as processDate,e.Name as fName, e.lastname as lname,  \n" + 
-			"e.Employee_ID as empId,c.Epf_No as epfNo,c.basicSalary as basicSalary, d.Department as department,\n" + 
-			"h.Designation as designaion, \n" + 
-			"\"Bank A/C No.\" as add_fixOrVar_basic_desc, i.Bank_Account as add_fixOrVar_basic_amount,\n" + 
-			"'' as monthVal, '' as yearVal\n" + 
-			"FROM process_payroll_details a \n" + 
-			"inner join month_process_paycodes b on a.Pay_Code_ID = b.Pay_Code_ID\n" + 
-			"inner join employee_details c on a.Employee_ID = c.Employee_ID \n" + 
-			"inner join department d on c.Department_ID = d.Department_ID\n" + 
-			"inner join employee_master e on a.Employee_ID = e.Employee_ID \n" + 
-			"inner join pay_add_deduct_types f on a.Pay_Add_Deduct_Type_Code = f.Pay_Add_Deduct_Type_Code\n" + 
-			"inner join designation_master h on c.Designation_ID = h.Designation_ID\n" + 
-			"inner join employee_master i on a.Employee_ID = i.Employee_ID\n" + 
-			"inner join bank_master j on i.Bank_ID = j.Bank_ID  \n" + 
-			"inner join company_master k on a.Company_ID = k.Company_ID\n" + 
-			"where a.Employee_ID =:Employee_ID and a.Company_ID =:Company_ID group by add_fixOrVar_basic_desc \n" + 
-			"union all\n" + 
-			"select k.Company_Name as company_name,b.Process_Date as processDate,e.Name as fName, e.lastname as lname,  \n" + 
-			"e.Employee_ID as empId,c.Epf_No as epfNo,c.basicSalary as basicSalary, d.Department as department,\n" + 
-			"h.Designation as designaion,\n" + 
-			"\"Bank A/C No.\" as add_fixOrVar_basic_desc, i.Bank_Account as add_fixOrVar_basic_amount,\n" + 
-			" '' as monthVal, '' as yearVal \n" + 
-			"FROM process_payroll_details a \n" + 
-			"inner join month_process_master b on a.Pay_Period_ID = b.Pay_Period_ID\n" + 
-			"inner join employee_details c on a.Employee_ID = c.Employee_ID \n" + 
-			"inner join department d on c.Department_ID = d.Department_ID\n" + 
-			"inner join employee_master e on a.Employee_ID = e.Employee_ID \n" + 
-			"inner join pay_add_deduct_types f on a.Pay_Add_Deduct_Type_Code = f.Pay_Add_Deduct_Type_Code  \n" + 
-			"inner join designation_master h on c.Designation_ID = h.Designation_ID\n" + 
-			"inner join employee_master i on a.Employee_ID = i.Employee_ID\n" + 
-			"inner join bank_master j on i.Bank_ID = j.Bank_ID\n" + 
-			"inner join company_master k on a.Company_ID = k.Company_ID\n" + 
-			"where a.Employee_ID =:Employee_ID and a.Company_ID =:Company_ID group by add_fixOrVar_basic_desc\n" + 
-			"union all\n" + 
-			"select k.Company_Name as company_name,b.Process_Date as processDate,e.Name as fName, e.lastname as lname,  \n" + 
-			"e.Employee_ID as empId,c.Epf_No as epfNo,c.basicSalary as basicSalary, d.Department as department,\n" + 
-			"h.Designation as designaion, \n" + 
-			"\"Account Name  :\" as add_fixOrVar_basic_desc, concat(i.Name,\" \",i.lastname) as add_fixOrVar_basic_amount,\n" + 
-			"'' as monthVal, '' as yearVal\n" + 
-			"FROM process_payroll_details a \n" + 
-			"inner join month_process_paycodes b on a.Pay_Code_ID = b.Pay_Code_ID\n" + 
-			"inner join employee_details c on a.Employee_ID = c.Employee_ID \n" + 
-			"inner join department d on c.Department_ID = d.Department_ID\n" + 
-			"inner join employee_master e on a.Employee_ID = e.Employee_ID \n" + 
-			"inner join pay_add_deduct_types f on a.Pay_Add_Deduct_Type_Code = f.Pay_Add_Deduct_Type_Code\n" + 
-			"inner join designation_master h on c.Designation_ID = h.Designation_ID\n" + 
-			"inner join employee_master i on a.Employee_ID = i.Employee_ID\n" + 
-			"inner join bank_master j on i.Bank_ID = j.Bank_ID  \n" + 
-			"inner join company_master k on a.Company_ID = k.Company_ID\n" + 
-			"where a.Employee_ID =:Employee_ID and a.Company_ID =:Company_ID group by add_fixOrVar_basic_desc \n" + 
-			"union all\n" + 
-			"select k.Company_Name as company_name,b.Process_Date as processDate,e.Name as fName, e.lastname as lname,  \n" + 
-			"e.Employee_ID as empId,c.Epf_No as epfNo,c.basicSalary as basicSalary, d.Department as department,\n" + 
-			"h.Designation as designaion,\n" + 
-			"\"Account Name  :\" as add_fixOrVar_basic_desc, concat(i.Name,\" \",i.lastname) as add_fixOrVar_basic_amount,\n" + 
-			" '' as monthVal, '' as yearVal\n" + 
-			"FROM process_payroll_details a \n" + 
-			"inner join month_process_master b on a.Pay_Period_ID = b.Pay_Period_ID\n" + 
-			"inner join employee_details c on a.Employee_ID = c.Employee_ID \n" + 
-			"inner join department d on c.Department_ID = d.Department_ID\n" + 
-			"inner join employee_master e on a.Employee_ID = e.Employee_ID \n" + 
-			"inner join pay_add_deduct_types f on a.Pay_Add_Deduct_Type_Code = f.Pay_Add_Deduct_Type_Code  \n" + 
-			"inner join designation_master h on c.Designation_ID = h.Designation_ID\n" + 
-			"inner join employee_master i on a.Employee_ID = i.Employee_ID\n" + 
-			"inner join bank_master j on i.Bank_ID = j.Bank_ID\n" + 
-			"inner join company_master k on a.Company_ID = k.Company_ID\n" + 
-			"where a.Employee_ID =:Employee_ID and a.Company_ID =:Company_ID group by add_fixOrVar_basic_desc\n" + 
-			"union all\n" + 
-			"select k.Company_Name as company_name,b.Process_Date as processDate,e.Name as fName, e.lastname as lname,  \n" + 
-			"e.Employee_ID as empId,c.Epf_No as epfNo,c.basicSalary as basicSalary, d.Department as department,\n" + 
-			"h.Designation as designaion,\n" + 
-			"\"Branch Name  :\" as add_fixOrVar_basic_desc, j.Bank_Name as add_fixOrVar_basic_amount,\n" + 
-			" '' as monthVal, '' as yearVal\n" + 
-			"FROM process_payroll_details a \n" + 
-			"inner join month_process_paycodes b on a.Pay_Code_ID = b.Pay_Code_ID\n" + 
-			"inner join employee_details c on a.Employee_ID = c.Employee_ID \n" + 
-			"inner join department d on c.Department_ID = d.Department_ID\n" + 
-			"inner join employee_master e on a.Employee_ID = e.Employee_ID \n" + 
-			"inner join pay_add_deduct_types f on a.Pay_Add_Deduct_Type_Code = f.Pay_Add_Deduct_Type_Code\n" + 
-			"inner join designation_master h on c.Designation_ID = h.Designation_ID\n" + 
-			"inner join employee_master i on a.Employee_ID = i.Employee_ID\n" + 
-			"inner join bank_master j on i.Bank_ID = j.Bank_ID  \n" + 
-			"inner join company_master k on a.Company_ID = k.Company_ID\n" + 
-			"where a.Employee_ID =:Employee_ID and a.Company_ID =:Company_ID group by add_fixOrVar_basic_desc \n" + 
-			"union all\n" + 
-			"select k.Company_Name as company_name,b.Process_Date as processDate,e.Name as fName, e.lastname as lname,  \n" + 
-			"e.Employee_ID as empId,c.Epf_No as epfNo,c.basicSalary as basicSalary, d.Department as department,\n" + 
-			"h.Designation as designaion,\n" + 
-			"\"Branch Name  :\" as add_fixOrVar_basic_desc, j.Bank_Name as add_fixOrVar_basic_amount,\n" + 
-			"'' as monthVal, '' as yearVal \n" + 
-			"FROM process_payroll_details a \n" + 
-			"inner join month_process_master b on a.Pay_Period_ID = b.Pay_Period_ID\n" + 
-			"inner join employee_details c on a.Employee_ID = c.Employee_ID \n" + 
-			"inner join department d on c.Department_ID = d.Department_ID\n" + 
-			"inner join employee_master e on a.Employee_ID = e.Employee_ID \n" + 
-			"inner join pay_add_deduct_types f on a.Pay_Add_Deduct_Type_Code = f.Pay_Add_Deduct_Type_Code  \n" + 
-			"inner join designation_master h on c.Designation_ID = h.Designation_ID\n" + 
-			"inner join employee_master i on a.Employee_ID = i.Employee_ID\n" + 
-			"inner join bank_master j on i.Bank_ID = j.Bank_ID\n" + 
-			"inner join company_master k on a.Company_ID = k.Company_ID\n" + 
-			"where a.Employee_ID =:Employee_ID and a.Company_ID =:Company_ID group by add_fixOrVar_basic_desc)a;",nativeQuery=true)
-	public String[][] paySlipData(@Param("Employee_ID")String empID, @Param("Company_ID")String comID);
+//	@Query(value="-- basic salary\n" + 
+//			"SELECT * from (select \n" + 
+//			"k.Company_Name as company_name,b.Process_Date as processDate,e.Name as fName, e.lastname as lname,  \n" + 
+//			"e.Employee_ID as empId,c.Epf_No as epfNo,c.basicSalary as basicSalary, d.Department as department, \n" + 
+//			"h.Designation as designaion,'BASIC SALARY' as add_fixOrVar_basic_desc, \n" + 
+//			"format(c.basicSalary,2) as add_fixOrVar_basic_amount,'' as monthVal, '' as yearVal\n" + 
+//			"from process_payroll_details a \n" + 
+//			"inner join month_process_paycodes b on a.Pay_Code_ID = b.Pay_Code_ID\n" + 
+//			"inner join employee_details c on a.Employee_ID = c.Employee_ID \n" + 
+//			"inner join department d on c.Department_ID = d.Department_ID\n" + 
+//			"inner join employee_master e on a.Employee_ID = e.Employee_ID \n" + 
+//			"inner join pay_add_deduct_types f on a.Pay_Add_Deduct_Type_Code = f.Pay_Add_Deduct_Type_Code \n" + 
+//			"inner join designation_master h on c.Designation_ID = h.Designation_ID\n" + 
+//			"inner join company_master k on a.Company_ID = k.Company_ID\n" + 
+//			"where a.Employee_ID =:Employee_ID and a.Company_ID =:Company_ID group by add_fixOrVar_basic_desc\n" + 
+//			"union all\n" + 
+//			"select k.Company_Name as company_name,b.Process_Date as processDate,e.Name as fName, e.lastname as lname,  \n" + 
+//			"e.Employee_ID as empId,c.Epf_No as epfNo,c.basicSalary as basicSalary, d.Department as department, \n" + 
+//			"h.Designation as designaion, 'BASIC SALARY' as add_fixOrVar_basic_desc, \n" + 
+//			"format(c.basicSalary,2) as add_fixOrVar_basic_amount,'' as monthVal, '' as yearVal  \n" + 
+//			"FROM process_payroll_details a \n" + 
+//			"inner join month_process_master b on a.Pay_Period_ID = b.Pay_Period_ID\n" + 
+//			"inner join employee_details c on a.Employee_ID = c.Employee_ID \n" + 
+//			"inner join department d on c.Department_ID = d.Department_ID\n" + 
+//			"inner join employee_master e on a.Employee_ID = e.Employee_ID \n" + 
+//			"inner join pay_add_deduct_types f on a.Pay_Add_Deduct_Type_Code = f.Pay_Add_Deduct_Type_Code\n" + 
+//			"inner join designation_master h on c.Designation_ID = h.Designation_ID\n" + 
+//			"inner join company_master k on a.Company_ID = k.Company_ID   \n" + 
+//			"where a.Employee_ID =:Employee_ID and a.Company_ID =:Company_ID group by add_fixOrVar_basic_desc)a \n" + 
+//			"UNION ALL\n" + 
+//			"-- addtion depends on basic salary\n" + 
+//			"SELECT * from (select \n" + 
+//			"k.Company_Name as company_name,b.Process_Date as processDate,e.Name as fName, e.lastname as lname,  \n" + 
+//			"e.Employee_ID as empId,c.Epf_No as epfNo,c.basicSalary as basicSalary, d.Department as department,h.Designation as designaion, \n" + 
+//			"(case when f.Add_Deduct_Status = 'addition' and (f.Add_Deduct_Type = 'variableType' or f.Add_Deduct_Type = 'fixedType')\n" + 
+//			"and f.Is_On_Basic_Salary = 'basicSalary'  then if(f.Add_Deduct_Type = 'variableType', f.Description, f.Description) else '' end) \n" + 
+//			"as add_fixOrVar_basic_desc, \n" + 
+//			"(case when f.Add_Deduct_Status = 'addition' and (f.Add_Deduct_Type = 'variableType' or f.Add_Deduct_Type = 'fixedType')  \n" + 
+//			"and f.Is_On_Basic_Salary = 'basicSalary'  then if(f.Add_Deduct_Type = 'variableType', format(a.Amount,2), format(f.Add_Deduct_Value,2)) else '' end) \n" + 
+//			"as add_fixOrVar_basic_amount,'' as monthVal, '' as yearVal\n" + 
+//			"FROM process_payroll_details a \n" + 
+//			"inner join month_process_paycodes b on a.Pay_Code_ID = b.Pay_Code_ID\n" + 
+//			"inner join employee_details c on a.Employee_ID = c.Employee_ID \n" + 
+//			"inner join department d on c.Department_ID = d.Department_ID\n" + 
+//			"inner join employee_master e on a.Employee_ID = e.Employee_ID \n" + 
+//			"inner join pay_add_deduct_types f on a.Pay_Add_Deduct_Type_Code = f.Pay_Add_Deduct_Type_Code\n" + 
+//			"inner join designation_master h on c.Designation_ID = h.Designation_ID\n" + 
+//			"inner join company_master k on a.Company_ID = k.Company_ID     \n" + 
+//			"where a.Employee_ID =:Employee_ID and a.Company_ID =:Company_ID group by add_fixOrVar_basic_desc\n" + 
+//			"union all\n" + 
+//			"select k.Company_Name as company_name,b.Process_Date as processDate,e.Name as fName, e.lastname as lname,  \n" + 
+//			"e.Employee_ID as empId,c.Epf_No as epfNo,c.basicSalary as basicSalary, d.Department as department, h.Designation as designaion,\n" + 
+//			"(case when f.Add_Deduct_Status = 'addition' and (f.Add_Deduct_Type = 'variableType' or f.Add_Deduct_Type = 'fixedType')\n" + 
+//			"and f.Is_On_Basic_Salary = 'basicSalary'  then if(f.Add_Deduct_Type = 'variableType', f.Description, f.Description) else '' end) \n" + 
+//			"as add_fixOrVar_basic_desc, \n" + 
+//			"(case when f.Add_Deduct_Status = 'addition' and (f.Add_Deduct_Type = 'variableType' or f.Add_Deduct_Type = 'fixedType')  \n" + 
+//			"and f.Is_On_Basic_Salary = 'basicSalary'  then if(f.Add_Deduct_Type = 'variableType', format(a.Amount,2), format(f.Add_Deduct_Value,2)) else '' end) \n" + 
+//			"as add_fixOrVar_basic_amount, '' as monthVal, '' as yearVal\n" + 
+//			"FROM process_payroll_details a \n" + 
+//			"inner join month_process_master b on a.Pay_Period_ID = b.Pay_Period_ID\n" + 
+//			"inner join employee_details c on a.Employee_ID = c.Employee_ID \n" + 
+//			"inner join department d on c.Department_ID = d.Department_ID\n" + 
+//			"inner join employee_master e on a.Employee_ID = e.Employee_ID \n" + 
+//			"inner join pay_add_deduct_types f on a.Pay_Add_Deduct_Type_Code = f.Pay_Add_Deduct_Type_Code   \n" + 
+//			"inner join designation_master h on c.Designation_ID = h.Designation_ID\n" + 
+//			"inner join company_master k on a.Company_ID = k.Company_ID   \n" + 
+//			"where a.Employee_ID =:Employee_ID and a.Company_ID =:Company_ID group by add_fixOrVar_basic_desc)a \n" + 
+//			"UNION ALL \n" + 
+//			"-- total basic salary\n" + 
+//			"SELECT * from(select company_name, processDate, fName, lname, empId, epfNo, basicSalary, department, designaion,\n" + 
+//			"'TOTAL BASIC SALARY' as totBaSaDesc, format(max(total_bSalary + basicSalary),2), '' as monthVal, '' as yearVal\n" + 
+//			"from(select '' as company_name,b.Process_Date as processDate,e.Name as fName, e.lastname as lname,  \n" + 
+//			"e.Employee_ID as empId,c.Epf_No as epfNo, c.basicSalary as basicSalary, d.Department as department,\n" + 
+//			"h.Designation as designaion, 'TOTAL BASIC SALARY' as totBaSaDesc,\n" + 
+//			"sum(case when f.Add_Deduct_Status = 'addition' and (f.Add_Deduct_Type = 'variableType' or f.Add_Deduct_Type = 'fixedType')  \n" + 
+//			"and f.Is_On_Basic_Salary = 'basicSalary'  then if(f.Add_Deduct_Type = 'variableType', a.Amount, f.Add_Deduct_Value) else '' end) \n" + 
+//			"as total_bSalary,\n" + 
+//			"'' as monthVal, '' as yearVal \n" + 
+//			"FROM process_payroll_details a\n" + 
+//			"inner join month_process_paycodes b on a.Pay_Code_ID = b.Pay_Code_ID\n" + 
+//			"inner join employee_details c on a.Employee_ID = c.Employee_ID\n" + 
+//			"inner join department d on c.Department_ID = d.Department_ID\n" + 
+//			"inner join employee_master e on a.Employee_ID = e.Employee_ID  \n" + 
+//			"inner join pay_add_deduct_types f on a.Pay_Add_Deduct_Type_Code = f.Pay_Add_Deduct_Type_Code \n" + 
+//			"inner join designation_master h on c.Designation_ID = h.Designation_ID \n" + 
+//			"inner join company_master k on a.Company_ID = k.Company_ID  \n" + 
+//			"where a.Employee_ID =:Employee_ID and a.Company_ID =:Company_ID\n" + 
+//			"union all \n" + 
+//			"select '' as company_name,b.Process_Date as processDate,e.Name as fName, e.lastname as lname,  \n" + 
+//			"e.Employee_ID as empId,c.Epf_No as epfNo,c.basicSalary as basicSalary, d.Department as department, \n" + 
+//			"h.Designation as designaion, 'TOTAL BASIC SALARY' as totBaSaDesc,\n" + 
+//			"sum(case when f.Add_Deduct_Status = 'addition' and (f.Add_Deduct_Type = 'variableType' or f.Add_Deduct_Type = 'fixedType')  \n" + 
+//			"and f.Is_On_Basic_Salary = 'basicSalary'  then if(f.Add_Deduct_Type = 'variableType', a.Amount, f.Add_Deduct_Value) else '' end) \n" + 
+//			"as total_bSalary,'' as monthVal, '' as yearVal \n" + 
+//			"FROM process_payroll_details a\n" + 
+//			"inner join month_process_master b on a.Pay_Period_ID = b.Pay_Period_ID\n" + 
+//			"inner join employee_details c on a.Employee_ID = c.Employee_ID\n" + 
+//			"inner join department d on c.Department_ID = d.Department_ID\n" + 
+//			"inner join employee_master e on a.Employee_ID = e.Employee_ID  \n" + 
+//			"inner join pay_add_deduct_types f on a.Pay_Add_Deduct_Type_Code = f.Pay_Add_Deduct_Type_Code\n" + 
+//			"inner join designation_master h on c.Designation_ID = h.Designation_ID \n" + 
+//			"inner join company_master k on a.Company_ID = k.Company_ID   \n" + 
+//			"where a.Employee_ID =:Employee_ID and a.Company_ID =:Company_ID)a )b\n" + 
+//			"UNION ALL\n" + 
+//			"-- deductions depends on basic salary\n" + 
+//			"SELECT company_name, processDate, fName, lname,  \n" + 
+//			"empId, epfNo, basicSalary,  department, designaion, add_fixOrVar_basic_desc, add_fixOrVar_basic_amount,\n" + 
+//			"monthVal, yearVal\n" + 
+//			"from (select k.Company_Name as company_name,b.Process_Date as processDate,e.Name as fName, e.lastname as lname,  \n" + 
+//			"e.Employee_ID as empId,c.Epf_No as epfNo,c.basicSalary as basicSalary, d.Department as department,h.Designation as designaion, \n" + 
+//			"(case when f.Add_Deduct_Status = 'deduction' and (f.Add_Deduct_Type = 'variableType' or f.Add_Deduct_Type = 'fixedType')\n" + 
+//			"and f.Is_On_Basic_Salary = 'basicSalary'  then if(f.Add_Deduct_Type = 'variableType' or f.Add_Deduct_Type = 'fixedType', f.Description, f.Description) else '' end) \n" + 
+//			"as add_fixOrVar_basic_desc, \n" + 
+//			"(case when f.Add_Deduct_Status = 'deduction' and (f.Add_Deduct_Type = 'variableType' or f.Add_Deduct_Type = 'fixedType')  \n" + 
+//			"and f.Is_On_Basic_Salary = 'basicSalary'  then if(f.Add_Deduct_Type = 'variableType' or f.Add_Deduct_Type = 'fixedType',\n" + 
+//			"concat(\"(\",format(a.Amount,2),\")\"), concat(\"(\",format(f.Add_Deduct_Value,2),\")\")) else '' end) \n" + 
+//			"as add_fixOrVar_basic_amount, '' as monthVal, '' as yearVal  \n" + 
+//			"from process_payroll_details a \n" + 
+//			"inner join month_process_paycodes b on a.Pay_Code_ID = b.Pay_Code_ID\n" + 
+//			"inner join employee_details c on a.Employee_ID = c.Employee_ID \n" + 
+//			"inner join department d on c.Department_ID = d.Department_ID\n" + 
+//			"inner join employee_master e on a.Employee_ID = e.Employee_ID \n" + 
+//			"inner join pay_add_deduct_types f on a.Pay_Add_Deduct_Type_Code = f.Pay_Add_Deduct_Type_Code\n" + 
+//			"inner join designation_master h on c.Designation_ID = h.Designation_ID \n" + 
+//			"inner join company_master k on a.Company_ID = k.Company_ID    \n" + 
+//			"where a.Employee_ID =:Employee_ID and a.Company_ID =:Company_ID group by add_fixOrVar_basic_desc\n" + 
+//			"union all\n" + 
+//			"select k.Company_Name as company_name,b.Process_Date as processDate,e.Name as fName, e.lastname as lname,  \n" + 
+//			"e.Employee_ID as empId,c.Epf_No as epfNo,c.basicSalary as basicSalary, d.Department as department, h.Designation as designaion,\n" + 
+//			"(case when f.Add_Deduct_Status = 'deduction' and (f.Add_Deduct_Type = 'variableType' or f.Add_Deduct_Type = 'fixedType')\n" + 
+//			"and f.Is_On_Basic_Salary = 'basicSalary'  then if(f.Add_Deduct_Type = 'variableType', f.Description, f.Description) else '' end) \n" + 
+//			"as add_fixOrVar_basic_desc, \n" + 
+//			"(case when f.Add_Deduct_Status = 'deduction' and (f.Add_Deduct_Type = 'variableType' or f.Add_Deduct_Type = 'fixedType')  \n" + 
+//			"and f.Is_On_Basic_Salary = 'basicSalary'  then if(f.Add_Deduct_Type = 'variableType', \n" + 
+//			"concat(\"(\",format(a.Amount,2),\")\"), concat(\"(\",format(f.Add_Deduct_Value,2),\")\")) else '' end) \n" + 
+//			"as add_fixOrVar_basic_amount, '' as monthVal, '' as yearVal  \n" + 
+//			"from process_payroll_details a \n" + 
+//			"inner join month_process_master b on a.Pay_Period_ID = b.Pay_Period_ID\n" + 
+//			"inner join employee_details c on a.Employee_ID = c.Employee_ID \n" + 
+//			"inner join department d on c.Department_ID = d.Department_ID\n" + 
+//			"inner join employee_master e on a.Employee_ID = e.Employee_ID \n" + 
+//			"inner join pay_add_deduct_types f on a.Pay_Add_Deduct_Type_Code = f.Pay_Add_Deduct_Type_Code \n" + 
+//			"inner join designation_master h on c.Designation_ID = h.Designation_ID\n" + 
+//			"inner join company_master k on a.Company_ID = k.Company_ID   \n" + 
+//			"where a.Employee_ID =:Employee_ID and a.Company_ID =:Company_ID group by add_fixOrVar_basic_desc)a \n" + 
+//			"UNION ALL\n" + 
+//			"-- line\n" + 
+//			"SELECT '' as company_name,'' as processDate,'' as fName, '' as lname,  \n" + 
+//			"'' as empId, '' as epfNo, '' as basicSalary, '' as department, \n" + 
+//			"'' as designation, \"\" as add_fixOrVar_basic_desc, \n" + 
+//			"\"......................\" as add_fixOrVar_basic_amount,'' as monthVal, '' as yearVal\n" + 
+//			"FROM process_payroll_details a\n" + 
+//			"inner join company_master k on a.Company_ID = k.Company_ID \n" + 
+//			"where a.Company_ID =:Company_ID group by add_fixOrVar_basic_desc\n" + 
+//			"UNION ALL\n" + 
+//			"-- Total EPF Salary\n" + 
+//			"SELECT company_name, processDate, fName, lname, empId, epfNo, basicSalary, department, designaion, totEpfSaDesc,\n" + 
+//			"format(max(total_epf_salary + basicSalary) - max(add_fixOrVar_basic_amount),2) as EPF_Salary, '' as monthVal, '' as yearVal\n" + 
+//			"from (select i.Company_Name as company_name, b.Process_Date as processDate, e.Name as fName, e.lastname as lname,  \n" + 
+//			"e.Employee_ID as empId,c.Epf_No as epfNo,c.basicSalary as basicSalary, d.Department as department, \n" + 
+//			"h.Designation as designaion, 'TOTAL EPF SALARY' as totEpfSaDesc,\n" + 
+//			"sum(case when f.Add_Deduct_Status = 'addition' and (f.Add_Deduct_Type = 'variableType' or f.Add_Deduct_Type = 'fixedType')  \n" + 
+//			"and f.Is_On_Basic_Salary = 'basicSalary'  then if(f.Add_Deduct_Type = 'variableType', a.Amount, f.Add_Deduct_Value) else '' end) \n" + 
+//			"as total_epf_salary,\n" + 
+//			"sum(case when f.Add_Deduct_Status = 'deduction' and (f.Add_Deduct_Type = 'variableType' or f.Add_Deduct_Type = 'fixedType')  \n" + 
+//			"and f.Is_On_Basic_Salary = 'basicSalary'  then if(f.Add_Deduct_Type = 'variableType', a.Amount, f.Add_Deduct_Value) else null end) \n" + 
+//			"as add_fixOrVar_basic_amount,'' as monthVal, '' as yearVal \n" + 
+//			"FROM process_payroll_details a\n" + 
+//			"inner join month_process_paycodes b on a.Pay_Code_ID = b.Pay_Code_ID \n" + 
+//			"inner join employee_details c on a.Employee_ID = c.Employee_ID\n" + 
+//			"inner join department d on c.Department_ID = d.Department_ID\n" + 
+//			"inner join employee_master e on a.Employee_ID = e.Employee_ID \n" + 
+//			"inner join pay_add_deduct_types f on a.Pay_Add_Deduct_Type_Code = f.Pay_Add_Deduct_Type_Code \n" + 
+//			"inner join designation_master h on c.Designation_ID = h.Designation_ID \n" + 
+//			"inner join company_master i on a.Company_ID = i.Company_ID \n" + 
+//			"where a.Employee_ID =:Employee_ID and a.Company_ID =:Company_ID\n" + 
+//			"union all\n" + 
+//			"select i.Company_Name as company_name,b.Process_Date as processDate,e.Name as fName, e.lastname as lname,  \n" + 
+//			"e.Employee_ID as empId,c.Epf_No as epfNo,c.basicSalary as basicSalary, d.Department as department, \n" + 
+//			"h.Designation as designaion, 'TOTAL EPF SALARY' as totEpfSaDesc,\n" + 
+//			"sum(case when f.Add_Deduct_Status = 'addition' and (f.Add_Deduct_Type = 'variableType' or f.Add_Deduct_Type = 'fixedType')  \n" + 
+//			"and f.Is_On_Basic_Salary = 'basicSalary'  then if(f.Add_Deduct_Type = 'variableType', a.Amount, f.Add_Deduct_Value) else '' end) \n" + 
+//			"as total_epf_salary,\n" + 
+//			"sum(case when f.Add_Deduct_Status = 'deduction' and (f.Add_Deduct_Type = 'variableType' or f.Add_Deduct_Type = 'fixedType')  \n" + 
+//			"and f.Is_On_Basic_Salary = 'basicSalary'  then if(f.Add_Deduct_Type = 'variableType', a.Amount, f.Add_Deduct_Value) else '' end) \n" + 
+//			"as add_fixOrVar_basic_amount, '' as monthVal, '' as yearVal \n" + 
+//			"from process_payroll_details a\n" + 
+//			"inner join month_process_master b on a.Pay_Period_ID = b.Pay_Period_ID \n" + 
+//			"inner join employee_details c on a.Employee_ID = c.Employee_ID\n" + 
+//			"inner join department d on c.Department_ID = d.Department_ID\n" + 
+//			"inner join employee_master e on a.Employee_ID = e.Employee_ID \n" + 
+//			"inner join pay_add_deduct_types f on a.Pay_Add_Deduct_Type_Code = f.Pay_Add_Deduct_Type_Code \n" + 
+//			"inner join designation_master h on c.Designation_ID = h.Designation_ID\n" + 
+//			"inner join company_master i on a.Company_ID = i.Company_ID \n" + 
+//			"where a.Employee_ID =:Employee_ID and a.Company_ID =:Company_ID) a group by totEpfSaDesc\n" + 
+//			"UNION ALL\n" + 
+//			"-- Earnings label\n" + 
+//			"SELECT '' as company_name,'' as processDate,'' as fName, '' as lname,  \n" + 
+//			"'' as empId, '' as epfNo, '' as basicSalary, '' as department, \n" + 
+//			"'' as designation, \"EARNINGS\" as add_fixOrVar_basic_desc, \n" + 
+//			"'' as add_fixOrVar_basic_amount, '' as monthVal, '' as yearVal \n" + 
+//			"from process_payroll_details a\n" + 
+//			"inner join company_master k on a.Company_ID = k.Company_ID \n" + 
+//			"where a.Company_ID =:Company_ID group by add_fixOrVar_basic_desc\n" + 
+//			"UNION ALL\n" + 
+//			"-- All Earnings\n" + 
+//			"SELECT * from(select '' as company_name,b.Process_Date as processDate,e.Name as fName, e.lastname as lname, \n" + 
+//			"e.Employee_ID as empId,c.Epf_No as epfNo,c.basicSalary as basicSalary, d.Department as department, h.Designation as designaion, \n" + 
+//			"(case when f.Add_Deduct_Status = 'addition' and (f.Add_Deduct_Type = 'variableType' or f.Add_Deduct_Type = 'fixedType') \n" + 
+//			"and f.Is_On_Basic_Salary = 'grossSalary'  then if(f.Add_Deduct_Type = 'variableType', f.Description, f.Description) else '' end) \n" + 
+//			"as add_fixOrVar_gross_desc,\n" + 
+//			"(case when f.Add_Deduct_Status = 'addition' and (f.Add_Deduct_Type = 'variableType' or f.Add_Deduct_Type = 'fixedType')  \n" + 
+//			"and f.Is_On_Basic_Salary = 'grossSalary'  then if(f.Add_Deduct_Type = 'variableType', format(a.Amount,2), format(f.Add_Deduct_Value,2)) else '' end)  \n" + 
+//			"as add_fixOrVar_gross_amount,'' as monthVal, '' as yearVal \n" + 
+//			"FROM process_payroll_details a \n" + 
+//			"inner join month_process_paycodes b on a.Pay_Code_ID = b.Pay_Code_ID\n" + 
+//			"inner join employee_details c on a.Employee_ID = c.Employee_ID\n" + 
+//			"inner join department d on c.Department_ID = d.Department_ID\n" + 
+//			"inner join employee_master e on a.Employee_ID = e.Employee_ID \n" + 
+//			"inner join pay_add_deduct_types f on a.Pay_Add_Deduct_Type_Code = f.Pay_Add_Deduct_Type_Code \n" + 
+//			"inner join designation_master h on c.Designation_ID = h.Designation_ID\n" + 
+//			"inner join company_master k on a.Company_ID = k.Company_ID  \n" + 
+//			"where a.Employee_ID =:Employee_ID and a.Company_ID =:Company_ID group by add_fixOrVar_gross_desc\n" + 
+//			"union all \n" + 
+//			"select '' as company_name,b.Process_Date as processDate,e.Name as fName, e.lastname as lname, \n" + 
+//			"e.Employee_ID as empId,c.Epf_No as epfNo,c.basicSalary as basicSalary, d.Department as department, h.Designation as designaion,\n" + 
+//			"(case when f.Add_Deduct_Status = 'addition' and (f.Add_Deduct_Type = 'variableType' or f.Add_Deduct_Type = 'fixedType') \n" + 
+//			"and f.Is_On_Basic_Salary = 'grossSalary'  then if(f.Add_Deduct_Type = 'variableType', f.Description, f.Description) else '' end) \n" + 
+//			"as add_fixOrVar_gross_desc,\n" + 
+//			"(case when f.Add_Deduct_Status = 'addition' and (f.Add_Deduct_Type = 'variableType' or f.Add_Deduct_Type = 'fixedType')  \n" + 
+//			"and f.Is_On_Basic_Salary = 'grossSalary'  then if(f.Add_Deduct_Type = 'variableType', format(a.Amount,2), format(f.Add_Deduct_Value,2)) else '' end) \n" + 
+//			"as add_fixOrVar_gross_amount, '' as monthVal, '' as yearVal\n" + 
+//			"FROM process_payroll_details a \n" + 
+//			"inner join month_process_master b on a.Pay_Period_ID = b.Pay_Period_ID \n" + 
+//			"inner join employee_details c on a.Employee_ID = c.Employee_ID\n" + 
+//			"inner join department d on c.Department_ID = d.Department_ID\n" + 
+//			"inner join employee_master e on a.Employee_ID = e.Employee_ID \n" + 
+//			"inner join pay_add_deduct_types f on a.Pay_Add_Deduct_Type_Code = f.Pay_Add_Deduct_Type_Code\n" + 
+//			"inner join designation_master h on c.Designation_ID = h.Designation_ID\n" + 
+//			"inner join company_master k on a.Company_ID = k.Company_ID   \n" + 
+//			"where a.Employee_ID =:Employee_ID and a.Company_ID =:Company_ID group by add_fixOrVar_gross_desc)a\n" + 
+//			"UNION ALL\n" + 
+//			"-- line\n" + 
+//			"SELECT '' as company_name,'' as processDate,'' as fName, '' as lname,  \n" + 
+//			"'' as empId, '' as epfNo, '' as basicSalary, '' as department, \n" + 
+//			"'' as designation, \"\" as add_fixOrVar_basic_desc, \n" + 
+//			"\"......................\" as add_fixOrVar_basic_amount,'' as monthVal, '' as yearVal\n" + 
+//			"FROM process_payroll_details a\n" + 
+//			"inner join company_master k on a.Company_ID = k.Company_ID \n" + 
+//			"where a.Company_ID =:Company_ID group by add_fixOrVar_basic_desc\n" + 
+//			"UNION ALL\n" + 
+//			"-- Gross salary\n" + 
+//			"SELECT company_name, processDate, fName, lname, empId, epfNo, basicSalary, department, designaion, totEpfSaDesc,\n" + 
+//			"format(max(total_epf_salary + gross_salary + basicSalary) - max(add_fixOrVar_basic_amount),2) as EPF_Salary, '' as monthVal, '' as yearVal\n" + 
+//			"from (select i.Company_Name as company_name, b.Process_Date as processDate, e.Name as fName, e.lastname as lname,  \n" + 
+//			"e.Employee_ID as empId,c.Epf_No as epfNo,c.basicSalary as basicSalary, d.Department as department, \n" + 
+//			"h.Designation as designaion, 'GROSS SALARY' as totEpfSaDesc,\n" + 
+//			"sum(case when f.Add_Deduct_Status = 'addition' and (f.Add_Deduct_Type = 'variableType' or f.Add_Deduct_Type = 'fixedType')  \n" + 
+//			"and f.Is_On_Basic_Salary = 'basicSalary'  then if(f.Add_Deduct_Type = 'variableType', a.Amount, f.Add_Deduct_Value) else '' end) \n" + 
+//			"as total_epf_salary,\n" + 
+//			"sum(case when f.Add_Deduct_Status = 'addition' and (f.Add_Deduct_Type = 'variableType' or f.Add_Deduct_Type = 'fixedType')  \n" + 
+//			"and f.Is_On_Basic_Salary = 'grossSalary'  then if(f.Add_Deduct_Type = 'variableType', a.Amount, f.Add_Deduct_Value) else '' end) \n" + 
+//			"as gross_salary,\n" + 
+//			"sum(case when f.Add_Deduct_Status = 'deduction' and (f.Add_Deduct_Type = 'variableType' or f.Add_Deduct_Type = 'fixedType')  \n" + 
+//			"and f.Is_On_Basic_Salary = 'basicSalary'  then if(f.Add_Deduct_Type = 'variableType', a.Amount, f.Add_Deduct_Value) else null end) \n" + 
+//			"as add_fixOrVar_basic_amount,'' as monthVal, '' as yearVal \n" + 
+//			"FROM process_payroll_details a\n" + 
+//			"inner join month_process_paycodes b on a.Pay_Code_ID = b.Pay_Code_ID \n" + 
+//			"inner join employee_details c on a.Employee_ID = c.Employee_ID\n" + 
+//			"inner join department d on c.Department_ID = d.Department_ID\n" + 
+//			"inner join employee_master e on a.Employee_ID = e.Employee_ID \n" + 
+//			"inner join pay_add_deduct_types f on a.Pay_Add_Deduct_Type_Code = f.Pay_Add_Deduct_Type_Code \n" + 
+//			"inner join designation_master h on c.Designation_ID = h.Designation_ID \n" + 
+//			"inner join company_master i on a.Company_ID = i.Company_ID \n" + 
+//			"where a.Employee_ID =:Employee_ID and a.Company_ID =:Company_ID\n" + 
+//			"union all\n" + 
+//			"select i.Company_Name as company_name,b.Process_Date as processDate,e.Name as fName, e.lastname as lname,  \n" + 
+//			"e.Employee_ID as empId,c.Epf_No as epfNo,c.basicSalary as basicSalary, d.Department as department, \n" + 
+//			"h.Designation as designaion, 'GROSS SALARY' as totEpfSaDesc,\n" + 
+//			"sum(case when f.Add_Deduct_Status = 'addition' and (f.Add_Deduct_Type = 'variableType' or f.Add_Deduct_Type = 'fixedType')  \n" + 
+//			"and f.Is_On_Basic_Salary = 'basicSalary'  then if(f.Add_Deduct_Type = 'variableType', a.Amount, f.Add_Deduct_Value) else '' end) \n" + 
+//			"as total_epf_salary,\n" + 
+//			"sum(case when f.Add_Deduct_Status = 'addition' and (f.Add_Deduct_Type = 'variableType' or f.Add_Deduct_Type = 'fixedType')  \n" + 
+//			"and f.Is_On_Basic_Salary = 'grossSalary'  then if(f.Add_Deduct_Type = 'variableType', a.Amount, f.Add_Deduct_Value) else '' end) \n" + 
+//			"as gross_salary,\n" + 
+//			"sum(case when f.Add_Deduct_Status = 'deduction' and (f.Add_Deduct_Type = 'variableType' or f.Add_Deduct_Type = 'fixedType')  \n" + 
+//			"and f.Is_On_Basic_Salary = 'basicSalary'  then if(f.Add_Deduct_Type = 'variableType', a.Amount, f.Add_Deduct_Value) else '' end) \n" + 
+//			"as add_fixOrVar_basic_amount, '' as monthVal, '' as yearVal \n" + 
+//			"from process_payroll_details a\n" + 
+//			"inner join month_process_master b on a.Pay_Period_ID = b.Pay_Period_ID \n" + 
+//			"inner join employee_details c on a.Employee_ID = c.Employee_ID\n" + 
+//			"inner join department d on c.Department_ID = d.Department_ID\n" + 
+//			"inner join employee_master e on a.Employee_ID = e.Employee_ID \n" + 
+//			"inner join pay_add_deduct_types f on a.Pay_Add_Deduct_Type_Code = f.Pay_Add_Deduct_Type_Code \n" + 
+//			"inner join designation_master h on c.Designation_ID = h.Designation_ID\n" + 
+//			"inner join company_master i on a.Company_ID = i.Company_ID \n" + 
+//			"where a.Employee_ID =:Employee_ID and a.Company_ID =:Company_ID) a group by totEpfSaDesc\n" + 
+//			"UNION ALL\n" + 
+//			"-- Deduiction label\n" + 
+//			"SELECT '' as company_name,'' as processDate,'' as fName, '' as lname,  \n" + 
+//			"'' as empId, '' as epfNo, '' as basicSalary, '' as department, \n" + 
+//			"'' as designation, \"DEDUCTIONS\" as add_fixOrVar_basic_desc, \n" + 
+//			"'' as add_fixOrVar_basic_amount, '' as monthVal, '' as yearVal \n" + 
+//			"from process_payroll_details a\n" + 
+//			"inner join company_master k on a.Company_ID = k.Company_ID \n" + 
+//			"where a.Company_ID =:Company_ID group by add_fixOrVar_basic_desc\n" + 
+//			"UNION ALL\n" + 
+//			"-- Deductions Depends on Gross Salary\n" + 
+//			"SELECT company_name, processDate, fName, lname,  \n" + 
+//			"empId, epfNo, basicSalary,  department, designaion, add_fixOrVar_basic_desc, add_fixOrVar_basic_amount,monthVal, yearVal\n" + 
+//			"from (select \n" + 
+//			"k.Company_Name as company_name,b.Process_Date as processDate,e.Name as fName, e.lastname as lname,  \n" + 
+//			"e.Employee_ID as empId,c.Epf_No as epfNo,c.basicSalary as basicSalary, d.Department as department,h.Designation as designaion, \n" + 
+//			"(case when f.Add_Deduct_Status = 'deduction' and (f.Add_Deduct_Type = 'variableType' or f.Add_Deduct_Type = 'fixedType')\n" + 
+//			"and f.Is_On_Basic_Salary = 'grossSalary'  then if(f.Add_Deduct_Type = 'variableType', f.Description, f.Description) else '' end) \n" + 
+//			"as add_fixOrVar_basic_desc, \n" + 
+//			"(case when f.Add_Deduct_Status = 'deduction' and (f.Add_Deduct_Type = 'variableType' or f.Add_Deduct_Type = 'fixedType')  \n" + 
+//			"and f.Is_On_Basic_Salary = 'grossSalary'  then if(f.Add_Deduct_Type = 'variableType' or f.Add_Deduct_Type = 'fixedType', format(a.Amount,2), format(f.Add_Deduct_Value,2)) else '' end) \n" + 
+//			"as add_fixOrVar_basic_amount, '' as monthVal, '' as yearVal  \n" + 
+//			"FROM process_payroll_details a \n" + 
+//			"inner join month_process_paycodes b on a.Pay_Code_ID = b.Pay_Code_ID\n" + 
+//			"inner join employee_details c on a.Employee_ID = c.Employee_ID \n" + 
+//			"inner join department d on c.Department_ID = d.Department_ID\n" + 
+//			"inner join employee_master e on a.Employee_ID = e.Employee_ID \n" + 
+//			"inner join pay_add_deduct_types f on a.Pay_Add_Deduct_Type_Code = f.Pay_Add_Deduct_Type_Code\n" + 
+//			"inner join designation_master h on c.Designation_ID = h.Designation_ID \n" + 
+//			"inner join company_master k on a.Company_ID = k.Company_ID    \n" + 
+//			"where a.Employee_ID =:Employee_ID and a.Company_ID =:Company_ID group by add_fixOrVar_basic_desc\n" + 
+//			"union all\n" + 
+//			"select k.Company_Name as company_name,b.Process_Date as processDate,e.Name as fName, e.lastname as lname,  \n" + 
+//			"e.Employee_ID as empId,c.Epf_No as epfNo,c.basicSalary as basicSalary, d.Department as department, h.Designation as designaion,\n" + 
+//			"(case when f.Add_Deduct_Status = 'deduction' and (f.Add_Deduct_Type = 'variableType' or f.Add_Deduct_Type = 'fixedType')\n" + 
+//			"and f.Is_On_Basic_Salary = 'grossSalary'  then if(f.Add_Deduct_Type = 'variableType', f.Description, f.Description) else '' end) \n" + 
+//			"as add_fixOrVar_basic_desc, \n" + 
+//			"(case when f.Add_Deduct_Status = 'deduction' and (f.Add_Deduct_Type = 'variableType' or f.Add_Deduct_Type = 'fixedType')  \n" + 
+//			"and f.Is_On_Basic_Salary = 'grossSalary'  then if((f.Add_Deduct_Type = 'variableType' or f.Add_Deduct_Type = 'fixedType'), format(a.Amount,2), format(f.Add_Deduct_Value,2)) else '' end) \n" + 
+//			"as add_fixOrVar_basic_amount, '' as monthVal, '' as yearVal  \n" + 
+//			"FROM process_payroll_details a \n" + 
+//			"inner join month_process_master b on a.Pay_Period_ID = b.Pay_Period_ID\n" + 
+//			"inner join employee_details c on a.Employee_ID = c.Employee_ID \n" + 
+//			"inner join department d on c.Department_ID = d.Department_ID\n" + 
+//			"inner join employee_master e on a.Employee_ID = e.Employee_ID \n" + 
+//			"inner join pay_add_deduct_types f on a.Pay_Add_Deduct_Type_Code = f.Pay_Add_Deduct_Type_Code  \n" + 
+//			"inner join designation_master h on c.Designation_ID = h.Designation_ID\n" + 
+//			"inner join company_master k on a.Company_ID = k.Company_ID   \n" + 
+//			"where a.Employee_ID =:Employee_ID and a.Company_ID =:Company_ID group by add_fixOrVar_basic_desc)a \n" + 
+//			"UNION ALL\n" + 
+//			"-- line\n" + 
+//			"SELECT '' as company_name,'' as processDate,'' as fName, '' as lname,  \n" + 
+//			"'' as empId, '' as epfNo, '' as basicSalary, '' as department, \n" + 
+//			"'' as designation, \"\" as add_fixOrVar_basic_desc, \n" + 
+//			"\"......................\" as add_fixOrVar_basic_amount, '' as monthVal, '' as yearVal\n" + 
+//			"FROM process_payroll_details a \n" + 
+//			"inner join company_master k on a.Company_ID = k.Company_ID \n" + 
+//			"where a.Company_ID =:Company_ID group by add_fixOrVar_basic_desc\n" + 
+//			"UNION ALL\n" + 
+//			"-- Total Deduction\n" + 
+//			"SELECT * from(select company_name, processDate, fName, lname, empId, epfNo, basicSalary, department, designaion,\n" + 
+//			"'TOTAL DEDUCTIONS' as totBaSaDesc, format(max(total_deductions),2), '' as monthVal, '' as yearVal\n" + 
+//			"from(select '' as company_name,b.Process_Date as processDate,e.Name as fName, e.lastname as lname,  \n" + 
+//			"e.Employee_ID as empId,c.Epf_No as epfNo, c.basicSalary as basicSalary, d.Department as department,\n" + 
+//			"h.Designation as designaion, 'TOTAL DEDUCTIONS' as totBaSaDesc,\n" + 
+//			"sum(case when f.Add_Deduct_Status = 'deduction' and (f.Add_Deduct_Type = 'variableType' or f.Add_Deduct_Type = 'fixedType')  \n" + 
+//			"and f.Is_On_Basic_Salary = 'grossSalary'  then if(f.Add_Deduct_Type = 'variableType' or f.Add_Deduct_Type = 'fixedType', a.Amount, f.Add_Deduct_Value) else '' end) \n" + 
+//			"as total_deductions, '' as monthVal, '' as yearVal \n" + 
+//			"FROM process_payroll_details a\n" + 
+//			"inner join month_process_paycodes b on a.Pay_Code_ID = b.Pay_Code_ID\n" + 
+//			"inner join employee_details c on a.Employee_ID = c.Employee_ID\n" + 
+//			"inner join department d on c.Department_ID = d.Department_ID\n" + 
+//			"inner join employee_master e on a.Employee_ID = e.Employee_ID  \n" + 
+//			"inner join pay_add_deduct_types f on a.Pay_Add_Deduct_Type_Code = f.Pay_Add_Deduct_Type_Code \n" + 
+//			"inner join designation_master h on c.Designation_ID = h.Designation_ID \n" + 
+//			"inner join company_master k on a.Company_ID = k.Company_ID  \n" + 
+//			"where a.Employee_ID =:Employee_ID and a.Company_ID =:Company_ID\n" + 
+//			"union all \n" + 
+//			"select '' as company_name,b.Process_Date as processDate,e.Name as fName, e.lastname as lname,  \n" + 
+//			"e.Employee_ID as empId,c.Epf_No as epfNo,c.basicSalary as basicSalary, d.Department as department, \n" + 
+//			"h.Designation as designaion, 'TOTAL DEDUCTIONS' as totBaSaDesc,\n" + 
+//			"sum(case when f.Add_Deduct_Status = 'deduction' and (f.Add_Deduct_Type = 'variableType' or f.Add_Deduct_Type = 'fixedType')  \n" + 
+//			"and f.Is_On_Basic_Salary = 'grossSalary'  then if(f.Add_Deduct_Type = 'variableType' or f.Add_Deduct_Type = 'fixedType', a.Amount, f.Add_Deduct_Value) else '' end) \n" + 
+//			"as total_deductions,'' as monthVal, '' as yearVal \n" + 
+//			"FROM process_payroll_details a\n" + 
+//			"inner join month_process_master b on a.Pay_Period_ID = b.Pay_Period_ID\n" + 
+//			"inner join employee_details c on a.Employee_ID = c.Employee_ID\n" + 
+//			"inner join department d on c.Department_ID = d.Department_ID\n" + 
+//			"inner join employee_master e on a.Employee_ID = e.Employee_ID  \n" + 
+//			"inner join pay_add_deduct_types f on a.Pay_Add_Deduct_Type_Code = f.Pay_Add_Deduct_Type_Code\n" + 
+//			"inner join designation_master h on c.Designation_ID = h.Designation_ID \n" + 
+//			"inner join company_master k on a.Company_ID = k.Company_ID   \n" + 
+//			"where a.Employee_ID =:Employee_ID and a.Company_ID =:Company_ID)a )b\n" + 
+//			"UNION ALL\n" + 
+//			"-- line\n" + 
+//			"SELECT \n" + 
+//			"'' as company_name,'' as processDate,'' as fName, '' as lname,  \n" + 
+//			"'' as empId, '' as epfNo, '' as basicSalary, '' as department, \n" + 
+//			"'' as designation, '' as add_fixOrVar_basic_desc, \n" + 
+//			"'......................' as add_fixOrVar_basic_amount, '' as monthVal, '' as yearVal \n" + 
+//			"from process_payroll_details a\n" + 
+//			"inner join company_master k on a.Company_ID = k.Company_ID \n" + 
+//			"where a.Company_ID =:Company_ID group by add_fixOrVar_basic_desc\n" + 
+//			"UNION ALL\n" + 
+//			"-- Net Pay\n" + 
+//			"SELECT  '' as company_name,'' as processDate,'' as fName, '' as lname,  \n" + 
+//			"'' as empId, '' as epfNo, '' as basicSalary, '' as department, designaion, 'NET PAY' as netSalaryDesc, \n" + 
+//			"format(((((add_fixOrVar_basic_amount) + (add_fixOrVar_gross_amount) + (oth_fixOrVar_basic_amount)) + basicSalary) - all_ded_amount),2)  \n" + 
+//			"as net_salary, '' as monthVal, '' as yearVal\n" + 
+//			"from (select \n" + 
+//			"a.Employee_ID as emp, b.basicSalary as basicSalary, h.Designation as designaion, \n" + 
+//			"'' as totEpfSaDesc,'' as total_epf_salary,'' as grossSaDesc,'' as gross_salary,'' as taxSaDesc,'' as taxableSalary, \n" + 
+//			"sum(case when f.Add_Deduct_Status = 'addition' and (f.Add_Deduct_Type = 'variableType' or f.Add_Deduct_Type = 'fixedType')  \n" + 
+//			"and f.Is_On_Basic_Salary = 'basicSalary'  then if(f.Add_Deduct_Type = 'variableType', a.Amount, f.Add_Deduct_Value) else '-' end)  \n" + 
+//			"as add_fixOrVar_basic_amount, \n" + 
+//			"sum(case when f.Add_Deduct_Status = 'addition' and (f.Add_Deduct_Type = 'variableType' or f.Add_Deduct_Type = 'fixedType')  \n" + 
+//			"and f.Is_On_Basic_Salary = 'grossSalary'  then if(f.Add_Deduct_Type = 'variableType', a.Amount, f.Add_Deduct_Value) else '-' end)  \n" + 
+//			"as add_fixOrVar_gross_amount, \n" + 
+//			"sum(case when f.Add_Deduct_Status = 'other' and (f.Add_Deduct_Type = 'variableType' or f.Add_Deduct_Type = 'fixedType')  \n" + 
+//			"and f.Is_On_Basic_Salary = 'basicSalary'  then if(f.Add_Deduct_Type = 'variableType', a.Amount, f.Add_Deduct_Value) else '-' end)  \n" + 
+//			"as oth_fixOrVar_basic_amount, \n" + 
+//			"sum(case when f.Add_Deduct_Status = 'deduction' and (f.Add_Deduct_Type = 'variableType' or f.Add_Deduct_Type = 'fixedType') then \n" + 
+//			"if(f.Add_Deduct_Type = 'fixedType', a.Amount, f.Add_Deduct_Value) else '-' end) as all_ded_amount,\n" + 
+//			"'' as monthVal, '' as yearVal  \n" + 
+//			"from process_payroll_details a \n" + 
+//			"inner join pay_add_deduct_types f on a.Pay_Add_Deduct_Type_Code = f.Pay_Add_Deduct_Type_Code \n" + 
+//			"inner join employee_details b on a.Employee_ID = b.Employee_ID \n" + 
+//			"inner join designation_master h on b.Designation_ID = h.Designation_ID\n" + 
+//			"inner join company_master k on a.Company_ID = k.Company_ID \n" + 
+//			"where a.Employee_ID =:Employee_ID and a.Company_ID =:Company_ID)a \n" + 
+//			"UNION ALL\n" + 
+//			"-- Double line\n" + 
+//			"SELECT '' as company_name,'' as processDate,'' as fName, '' as lname,  \n" + 
+//			"'' as empId, '' as epfNo, '' as basicSalary, '' as department, \n" + 
+//			"'' as designation, \"\" as add_fixOrVar_basic_desc, \n" + 
+//			"\"::::::::::::::::::::::\" as add_fixOrVar_basic_amount, '' as monthVal, '' as yearVal\n" + 
+//			"from process_payroll_details a\n" + 
+//			"inner join company_master k on a.Company_ID = k.Company_ID \n" + 
+//			"where a.Company_ID =:Company_ID group by add_fixOrVar_basic_desc\n" + 
+//			"UNION ALL\n" + 
+//			"-- Label Company Contribution\n" + 
+//			"SELECT '' as company_name,'' as processDate,'' as fName, '' as lname,  \n" + 
+//			"'' as empId, '' as epfNo, '' as basicSalary, '' as department, \n" + 
+//			"'' as designation, 'COMPANY CONTRIBUTION' as add_fixOrVar_basic_desc, \n" + 
+//			"'' as add_fixOrVar_basic_amount, '' as monthVal, '' as yearVal \n" + 
+//			"from process_payroll_details a \n" + 
+//			"inner join company_master k on a.Company_ID = k.Company_ID \n" + 
+//			"where a.Company_ID =:Company_ID group by add_fixOrVar_basic_desc\n" + 
+//			"UNION ALL\n" + 
+//			"SELECT * from (select '' as company_name,b.Process_Date as processDate,e.Name as fName, e.lastname as lname,  \n" + 
+//			"e.Employee_ID as empId,c.Epf_No as epfNo,c.basicSalary as basicSalary, d.Department as department, h.Designation as designaion, \n" + 
+//			"if(f.Add_Deduct_Status = 'other' , f.Description, '') as all_oth_desc,  \n" + 
+//			"(case when f.Add_Deduct_Status = 'other' and (f.Add_Deduct_Type = 'variableType' or f.Add_Deduct_Type = 'fixedType')  \n" + 
+//			"then if(if(f.Add_Deduct_Type = 'fixedType', format(a.Amount,2), format(f.Add_Deduct_Value,2)), format(a.Amount,2), format(f.Add_Deduct_Value,2))else '' end) as all_oth_amount,\n" + 
+//			"'' as monthVal, '' as yearVal  \n" + 
+//			"FROM process_payroll_details a\n" + 
+//			"inner join month_process_paycodes b on a.Pay_Code_ID = b.Pay_Code_ID \n" + 
+//			"inner join employee_details c on a.Employee_ID = c.Employee_ID \n" + 
+//			"inner join department d on c.Department_ID = d.Department_ID\n" + 
+//			"inner join employee_master e on a.Employee_ID = e.Employee_ID \n" + 
+//			"inner join pay_add_deduct_types f on a.Pay_Add_Deduct_Type_Code = f.Pay_Add_Deduct_Type_Code\n" + 
+//			"inner join designation_master h on c.Designation_ID = h.Designation_ID \n" + 
+//			"inner join company_master k on a.Company_ID = k.Company_ID \n" + 
+//			"where a.Employee_ID =:Employee_ID and a.Company_ID =:Company_ID group by all_oth_desc\n" + 
+//			"union all \n" + 
+//			"select '' as company_name,b.Process_Date as processDate,e.Name as fName, e.lastname as lname,  \n" + 
+//			"e.Employee_ID as empId,c.Epf_No as epfNo,c.basicSalary as basicSalary, d.Department as department, h.Designation as designaion, \n" + 
+//			"if(f.Add_Deduct_Status = 'other' , f.Description, '') as all_oth_desc,  \n" + 
+//			"(case when f.Add_Deduct_Status = 'other' and (f.Add_Deduct_Type = 'variableType' or f.Add_Deduct_Type = 'fixedType')  \n" + 
+//			"then if(if(f.Add_Deduct_Type = 'fixedType', format(a.Amount,2), format(f.Add_Deduct_Value,2)), format(a.Amount,2), format(f.Add_Deduct_Value,2))else '' end) as all_oth_amount,\n" + 
+//			"'' as monthVal, '' as yearVal  \n" + 
+//			"FROM process_payroll_details a\n" + 
+//			"inner join month_process_master b on a.Pay_Period_ID = b.Pay_Period_ID \n" + 
+//			"inner join employee_details c on a.Employee_ID = c.Employee_ID \n" + 
+//			"inner join department d on c.Department_ID = d.Department_ID\n" + 
+//			"inner join employee_master e on a.Employee_ID = e.Employee_ID \n" + 
+//			"inner join pay_add_deduct_types f on a.Pay_Add_Deduct_Type_Code = f.Pay_Add_Deduct_Type_Code\n" + 
+//			"inner join designation_master h on c.Designation_ID = h.Designation_ID \n" + 
+//			"inner join company_master k on a.Company_ID = k.Company_ID \n" + 
+//			"where a.Employee_ID =:Employee_ID and a.Company_ID =:Company_ID group by all_oth_desc) a\n" + 
+//			"UNION ALL\n" + 
+//			"-- bank details\n" + 
+//			"SELECT * from (select \n" + 
+//			"k.Company_Name as company_name,b.Process_Date as processDate,e.Name as fName, e.lastname as lname,  \n" + 
+//			"e.Employee_ID as empId,c.Epf_No as epfNo,c.basicSalary as basicSalary, d.Department as department,\n" + 
+//			"h.Designation as designaion, \n" + 
+//			"\"Bank A/C No.\" as add_fixOrVar_basic_desc, i.Bank_Account as add_fixOrVar_basic_amount,\n" + 
+//			"'' as monthVal, '' as yearVal\n" + 
+//			"FROM process_payroll_details a \n" + 
+//			"inner join month_process_paycodes b on a.Pay_Code_ID = b.Pay_Code_ID\n" + 
+//			"inner join employee_details c on a.Employee_ID = c.Employee_ID \n" + 
+//			"inner join department d on c.Department_ID = d.Department_ID\n" + 
+//			"inner join employee_master e on a.Employee_ID = e.Employee_ID \n" + 
+//			"inner join pay_add_deduct_types f on a.Pay_Add_Deduct_Type_Code = f.Pay_Add_Deduct_Type_Code\n" + 
+//			"inner join designation_master h on c.Designation_ID = h.Designation_ID\n" + 
+//			"inner join employee_master i on a.Employee_ID = i.Employee_ID\n" + 
+//			"inner join bank_master j on i.Bank_ID = j.Bank_ID  \n" + 
+//			"inner join company_master k on a.Company_ID = k.Company_ID\n" + 
+//			"where a.Employee_ID =:Employee_ID and a.Company_ID =:Company_ID group by add_fixOrVar_basic_desc \n" + 
+//			"union all\n" + 
+//			"select k.Company_Name as company_name,b.Process_Date as processDate,e.Name as fName, e.lastname as lname,  \n" + 
+//			"e.Employee_ID as empId,c.Epf_No as epfNo,c.basicSalary as basicSalary, d.Department as department,\n" + 
+//			"h.Designation as designaion,\n" + 
+//			"\"Bank A/C No.\" as add_fixOrVar_basic_desc, i.Bank_Account as add_fixOrVar_basic_amount,\n" + 
+//			" '' as monthVal, '' as yearVal \n" + 
+//			"FROM process_payroll_details a \n" + 
+//			"inner join month_process_master b on a.Pay_Period_ID = b.Pay_Period_ID\n" + 
+//			"inner join employee_details c on a.Employee_ID = c.Employee_ID \n" + 
+//			"inner join department d on c.Department_ID = d.Department_ID\n" + 
+//			"inner join employee_master e on a.Employee_ID = e.Employee_ID \n" + 
+//			"inner join pay_add_deduct_types f on a.Pay_Add_Deduct_Type_Code = f.Pay_Add_Deduct_Type_Code  \n" + 
+//			"inner join designation_master h on c.Designation_ID = h.Designation_ID\n" + 
+//			"inner join employee_master i on a.Employee_ID = i.Employee_ID\n" + 
+//			"inner join bank_master j on i.Bank_ID = j.Bank_ID\n" + 
+//			"inner join company_master k on a.Company_ID = k.Company_ID\n" + 
+//			"where a.Employee_ID =:Employee_ID and a.Company_ID =:Company_ID group by add_fixOrVar_basic_desc\n" + 
+//			"union all\n" + 
+//			"select k.Company_Name as company_name,b.Process_Date as processDate,e.Name as fName, e.lastname as lname,  \n" + 
+//			"e.Employee_ID as empId,c.Epf_No as epfNo,c.basicSalary as basicSalary, d.Department as department,\n" + 
+//			"h.Designation as designaion, \n" + 
+//			"\"Account Name  :\" as add_fixOrVar_basic_desc, concat(i.Name,\" \",i.lastname) as add_fixOrVar_basic_amount,\n" + 
+//			"'' as monthVal, '' as yearVal\n" + 
+//			"FROM process_payroll_details a \n" + 
+//			"inner join month_process_paycodes b on a.Pay_Code_ID = b.Pay_Code_ID\n" + 
+//			"inner join employee_details c on a.Employee_ID = c.Employee_ID \n" + 
+//			"inner join department d on c.Department_ID = d.Department_ID\n" + 
+//			"inner join employee_master e on a.Employee_ID = e.Employee_ID \n" + 
+//			"inner join pay_add_deduct_types f on a.Pay_Add_Deduct_Type_Code = f.Pay_Add_Deduct_Type_Code\n" + 
+//			"inner join designation_master h on c.Designation_ID = h.Designation_ID\n" + 
+//			"inner join employee_master i on a.Employee_ID = i.Employee_ID\n" + 
+//			"inner join bank_master j on i.Bank_ID = j.Bank_ID  \n" + 
+//			"inner join company_master k on a.Company_ID = k.Company_ID\n" + 
+//			"where a.Employee_ID =:Employee_ID and a.Company_ID =:Company_ID group by add_fixOrVar_basic_desc \n" + 
+//			"union all\n" + 
+//			"select k.Company_Name as company_name,b.Process_Date as processDate,e.Name as fName, e.lastname as lname,  \n" + 
+//			"e.Employee_ID as empId,c.Epf_No as epfNo,c.basicSalary as basicSalary, d.Department as department,\n" + 
+//			"h.Designation as designaion,\n" + 
+//			"\"Account Name  :\" as add_fixOrVar_basic_desc, concat(i.Name,\" \",i.lastname) as add_fixOrVar_basic_amount,\n" + 
+//			" '' as monthVal, '' as yearVal\n" + 
+//			"FROM process_payroll_details a \n" + 
+//			"inner join month_process_master b on a.Pay_Period_ID = b.Pay_Period_ID\n" + 
+//			"inner join employee_details c on a.Employee_ID = c.Employee_ID \n" + 
+//			"inner join department d on c.Department_ID = d.Department_ID\n" + 
+//			"inner join employee_master e on a.Employee_ID = e.Employee_ID \n" + 
+//			"inner join pay_add_deduct_types f on a.Pay_Add_Deduct_Type_Code = f.Pay_Add_Deduct_Type_Code  \n" + 
+//			"inner join designation_master h on c.Designation_ID = h.Designation_ID\n" + 
+//			"inner join employee_master i on a.Employee_ID = i.Employee_ID\n" + 
+//			"inner join bank_master j on i.Bank_ID = j.Bank_ID\n" + 
+//			"inner join company_master k on a.Company_ID = k.Company_ID\n" + 
+//			"where a.Employee_ID =:Employee_ID and a.Company_ID =:Company_ID group by add_fixOrVar_basic_desc\n" + 
+//			"union all\n" + 
+//			"select k.Company_Name as company_name,b.Process_Date as processDate,e.Name as fName, e.lastname as lname,  \n" + 
+//			"e.Employee_ID as empId,c.Epf_No as epfNo,c.basicSalary as basicSalary, d.Department as department,\n" + 
+//			"h.Designation as designaion,\n" + 
+//			"\"Branch Name  :\" as add_fixOrVar_basic_desc, j.Bank_Name as add_fixOrVar_basic_amount,\n" + 
+//			" '' as monthVal, '' as yearVal\n" + 
+//			"FROM process_payroll_details a \n" + 
+//			"inner join month_process_paycodes b on a.Pay_Code_ID = b.Pay_Code_ID\n" + 
+//			"inner join employee_details c on a.Employee_ID = c.Employee_ID \n" + 
+//			"inner join department d on c.Department_ID = d.Department_ID\n" + 
+//			"inner join employee_master e on a.Employee_ID = e.Employee_ID \n" + 
+//			"inner join pay_add_deduct_types f on a.Pay_Add_Deduct_Type_Code = f.Pay_Add_Deduct_Type_Code\n" + 
+//			"inner join designation_master h on c.Designation_ID = h.Designation_ID\n" + 
+//			"inner join employee_master i on a.Employee_ID = i.Employee_ID\n" + 
+//			"inner join bank_master j on i.Bank_ID = j.Bank_ID  \n" + 
+//			"inner join company_master k on a.Company_ID = k.Company_ID\n" + 
+//			"where a.Employee_ID =:Employee_ID and a.Company_ID =:Company_ID group by add_fixOrVar_basic_desc \n" + 
+//			"union all\n" + 
+//			"select k.Company_Name as company_name,b.Process_Date as processDate,e.Name as fName, e.lastname as lname,  \n" + 
+//			"e.Employee_ID as empId,c.Epf_No as epfNo,c.basicSalary as basicSalary, d.Department as department,\n" + 
+//			"h.Designation as designaion,\n" + 
+//			"\"Branch Name  :\" as add_fixOrVar_basic_desc, j.Bank_Name as add_fixOrVar_basic_amount,\n" + 
+//			"'' as monthVal, '' as yearVal \n" + 
+//			"FROM process_payroll_details a \n" + 
+//			"inner join month_process_master b on a.Pay_Period_ID = b.Pay_Period_ID\n" + 
+//			"inner join employee_details c on a.Employee_ID = c.Employee_ID \n" + 
+//			"inner join department d on c.Department_ID = d.Department_ID\n" + 
+//			"inner join employee_master e on a.Employee_ID = e.Employee_ID \n" + 
+//			"inner join pay_add_deduct_types f on a.Pay_Add_Deduct_Type_Code = f.Pay_Add_Deduct_Type_Code  \n" + 
+//			"inner join designation_master h on c.Designation_ID = h.Designation_ID\n" + 
+//			"inner join employee_master i on a.Employee_ID = i.Employee_ID\n" + 
+//			"inner join bank_master j on i.Bank_ID = j.Bank_ID\n" + 
+//			"inner join company_master k on a.Company_ID = k.Company_ID\n" + 
+//			"where a.Employee_ID =:Employee_ID and a.Company_ID =:Company_ID group by add_fixOrVar_basic_desc)a;",nativeQuery=true)
+//	public String[][] paySlipData(@Param("Employee_ID")String empID, @Param("Company_ID")String comID);
+//	
+	
+	
+	@Query(value="call Payslip_employees(:payperodid,:dept,:Company_ID,:Employee_ID)",nativeQuery=true)
+	public String[][] paySlipData(@Param("payperodid")String payperodid,@Param("dept")String dept,@Param("Employee_ID")String empID, @Param("Company_ID")String comID);
+	
+	@Query(value="call paySheet(:dept,:Company_ID)",nativeQuery=true)	
+	public String[][] getpaySheet(@Param("dept")String dept,@Param("Company_ID")String comID);
 	
 	@Query(value="select a.Company_Name from company_master a where a.Company_ID =:Company_ID",nativeQuery=true)
 	public String loggedComapanyName(@Param("Company_ID")String comID);
@@ -3193,4 +3201,8 @@ public interface ProcessPayrollMasterRepository extends JpaRepository<ProcessPay
 			"where f.Pay_Code_ID =:Pay_Code_ID and a.Company_ID =:Company_ID group by empId) a group by empId order by empId)b",nativeQuery=true)
 	public String[][] saveDataMonthProcessMaster(@Param("Pay_Code_ID")String payCodeID,@Param("Company_ID")String comID);
 
+	
+	@Query(value = "CALL processPayroll(:payCodeID,:comID)",nativeQuery=true)
+	public String[][]  getProcessPayroll(@Param("payCodeID")String payCodeID,@Param("comID")String comID);
+	
 }

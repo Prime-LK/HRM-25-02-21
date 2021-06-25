@@ -1,5 +1,7 @@
 package com.navitsa.hrm.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -47,11 +49,8 @@ public interface PayPeriodsRepository extends CrudRepository<PayPeriods, String>
 			@Param("Start_Date")String startDate,@Param("End_Date")String endDate,
 			@Param("Pay_Date")String payDate,@Param("Status")String status);
 	
-	
-	
-	
-	
-	
+	@Query(value="SELECT p FROM PayPeriods p WHERE p.company.comID =:companyid order by p.payPeriodID desc")
+	public List<PayPeriods> getPayPeriodsBycompanyid(@Param("companyid")String companyid);
 	
 	
 	

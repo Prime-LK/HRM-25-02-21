@@ -220,215 +220,221 @@ public class PayController {
 	public String saveProcessPayrollData01(String payCodeID, String periodID, String processUser, String startDate,
 			String endDate, RedirectAttributes ra, String comID, Model m) {
 		
-		//check already process the data
-		List<ProcessPayrollDetails> ppd = proPaDeService.getAllRecords();
-		if (ppd.isEmpty()) {
-
-			// declare the date object for save
-			DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
-			LocalDateTime ldt = LocalDateTime.now();
-
-			// declare the payPeriod
-			PayPeriods pp = new PayPeriods();
-			pp.setPayPeriodID(periodID);
-
-			// declare the payCode
-			PayCode pc = new PayCode();
-			pc.setPayCodeID(payCodeID);
-
-			CompanyMaster com = new CompanyMaster();
-			com.setComID(comID);
-
-			List<MonthProcessPayCode> list = new ArrayList<>();
-			List<ProcessPayrollMaster> list2 = new ArrayList<>();
-			List<ProcessPayrollDetails> list3 = new ArrayList<>();
-
-			String[][] table01Data = proPaMaService.loadTable01Data(payCodeID,comID);
-			String[][] moProPcData = proPaMaService.getMoProPCTabbleData(payCodeID,comID);
-			String[][] table03Data = proPaMaService.sampleSave(payCodeID,comID);
-			String[][] othCalPri = proPaMaService.otherGrossPerCal(comID); // other allowances gross per
-			String[][] dedCalPri = proPaMaService.dedGrossPerCal(comID); // deduction allowances gross per
-			String[][] addCalPri = proPaMaService.addGrossPerCal(comID);// addition allowances gross per
-			String[][] empListCalPri = proPaMaService.calPriEmpList(comID); // emp cal pro
-
-			// save of month process paycode
-			for (int i = 0; i < table01Data.length; i++) {
-
-				MonthProcessPayCode obj02 = new MonthProcessPayCode();
-				MonthProcessPayCodePK obj02PK = new MonthProcessPayCodePK();
-				obj02PK.setPayPeriod(pp);
-				obj02PK.setPayCode(pc);
-
-				obj02.setMoProPCpk(obj02PK);
-				obj02.setEmps(table01Data[i][0]);
-				obj02.setTotBasicSa(table01Data[i][1]);
-				obj02.setTotAdd(table01Data[i][2]);
-				obj02.setTotDed(table01Data[i][3]);
-				obj02.setProcessDate(dtf.format(ldt));
-				obj02.setProcessUser(processUser);
-				obj02.setCompany(com);
-
-				list.add(obj02);
-			}
-			// save of process payroll master
-			for (int i = 0; i < moProPcData.length; i++) {
-				ProcessPayrollMaster obj = new ProcessPayrollMaster();
-				obj.setProPayrollMaID(
-						"00000".substring(proPaMaService.getMaxID().length()) + proPaMaService.getMaxID());
-				obj.setEmps(moProPcData[i][0]);
-				obj.setBasicSalary(moProPcData[i][1]);
-				obj.setEndDate(endDate);
-				obj.setStartDate(startDate);
-				obj.setMonthlyBasic(moProPcData[i][1]);
-				obj.setPayPeriod(pp);
-				obj.setGrossMonth(moProPcData[i][2]);
-				obj.setNetMonth(moProPcData[i][3]);
-				obj.setCompany(com);
-
-				list2.add(obj);
-			}
-			// save of process payroll details
-			for (int i = 0; i < table03Data.length; i++) {
-				ProcessPayrollDetails obj03 = new ProcessPayrollDetails();
-				ProcessPayrollDetailsPK obj03PK = new ProcessPayrollDetailsPK();
-
-				Employee emp = new Employee();
-				emp.setEmpID(table03Data[i][0]);
-
-				PayAddDeductTypes addDed = new PayAddDeductTypes();
-				addDed.setDeductTypeCode(table03Data[i][1]);
-
-				obj03PK.setEmpID(emp);
-				obj03PK.setPayCodeid(pc);
-				obj03PK.setPayPeriod(pp);
-				obj03PK.setPayType(addDed);
-
-				obj03.setProPayDePK(obj03PK);
-				obj03.setAmount(table03Data[i][3]);
-				obj03.setCompany(com);
-
-				list3.add(obj03);
-			}
-			// for the calculation priority of addition allowances
-			for (int j = 0; j < empListCalPri.length; j++) {
-				for (int i = 0; i < addCalPri.length; i++) {
-					ProcessPayrollDetails obj03 = new ProcessPayrollDetails();
-					ProcessPayrollDetailsPK obj03PK = new ProcessPayrollDetailsPK();
-
-					String no1 = addCalPri[i][1];
-					double dnum = Double.parseDouble(no1);
-
-					String no2 = empListCalPri[j][1];
-					double dnum02 = Double.parseDouble(no2);
-
-					double amount = (dnum * dnum02) / 100;
-					String newAmount = String.valueOf(amount);
-
-					Employee emp = new Employee();
-					emp.setEmpID(empListCalPri[j][0]);
-
-					PayAddDeductTypes addDed = new PayAddDeductTypes();
-					addDed.setDeductTypeCode(addCalPri[i][0]);
-
-					obj03PK.setEmpID(emp);
-					obj03PK.setPayCodeid(pc);
-					obj03PK.setPayPeriod(pp);
-					obj03PK.setPayType(addDed);
-
-					obj03.setProPayDePK(obj03PK);
-					obj03.setAmount(newAmount);
-					obj03.setCompany(com);
-
-					list3.add(obj03);
-				}
-
-			}
-			// for the calculation priority of deduction allowances
-			for (int j = 0; j < empListCalPri.length; j++) {
-				for (int i = 0; i < dedCalPri.length; i++) {
-					ProcessPayrollDetails obj03 = new ProcessPayrollDetails();
-					ProcessPayrollDetailsPK obj03PK = new ProcessPayrollDetailsPK();
-
-					String no1 = dedCalPri[i][1];
-					double dnum = Double.parseDouble(no1);
-
-					String no2 = empListCalPri[j][1];
-					double dnum02 = Double.parseDouble(no2);
-
-					double amount = (dnum * dnum02) / 100;
-					String newAmount = String.valueOf(amount);
-
-					Employee emp = new Employee();
-					emp.setEmpID(empListCalPri[j][0]);
-
-					PayAddDeductTypes addDed = new PayAddDeductTypes();
-					addDed.setDeductTypeCode(dedCalPri[i][0]);
-
-					obj03PK.setEmpID(emp);
-					obj03PK.setPayCodeid(pc);
-					obj03PK.setPayPeriod(pp);
-					obj03PK.setPayType(addDed);
-
-					obj03.setProPayDePK(obj03PK);
-					obj03.setAmount(newAmount);
-					obj03.setCompany(com);
-
-					list3.add(obj03);
-				}
-
-			}
-
-			// for the calculation priority of other allowances
-			for (int j = 0; j < empListCalPri.length; j++) {
-				for (int i = 0; i < othCalPri.length; i++) {
-					ProcessPayrollDetails obj03 = new ProcessPayrollDetails();
-					ProcessPayrollDetailsPK obj03PK = new ProcessPayrollDetailsPK();
-
-					String no1 = othCalPri[i][1];
-					double dnum = Double.parseDouble(no1);
-
-					String no2 = empListCalPri[j][1];
-					double dnum02 = Double.parseDouble(no2);
-
-					double amount = (dnum * dnum02) / 100;
-					String newAmount = String.valueOf(amount);
-
-					Employee emp = new Employee();
-					emp.setEmpID(empListCalPri[j][0]);
-
-					PayAddDeductTypes addDed = new PayAddDeductTypes();
-					addDed.setDeductTypeCode(othCalPri[i][0]);
-
-					obj03PK.setEmpID(emp);
-					obj03PK.setPayCodeid(pc);
-					obj03PK.setPayPeriod(pp);
-					obj03PK.setPayType(addDed);
-
-					obj03.setProPayDePK(obj03PK);
-					obj03.setAmount(newAmount);
-					obj03.setCompany(com);
-
-					list3.add(obj03);
-				}
-
-			}
-			try {
-				ra.addFlashAttribute("success", 1);
-				proPaDeService.saveListOfDetails(list3);
-				proPaMaService.saveDataList(list2);
-				moProPCService.saveList(list);
-				return "redirect:/hrm/getProcessPayrollPage";
-
-			} catch (Exception e) {
-				ra.addFlashAttribute("success", 0);
-				System.out.println(e);
-			}
-
-		} else if (ppd.isEmpty() == false) {
-			m.addAttribute("MsgForPPDMonth", "This Month Already Process the Details !");
-			return "hrm/processPayrollNew1";
-		}
+		
+		String[][] table01Data = proPaMaService.getProcessPayroll(payCodeID,comID);
+		
+		
+		
 		return "hrm/processPayrollNew1";
+		//check already process the data
+//		List<ProcessPayrollDetails> ppd = proPaDeService.getAllRecords();
+//		if (ppd.isEmpty()) {
+//
+//			// declare the date object for save
+//			DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+//			LocalDateTime ldt = LocalDateTime.now();
+//
+//			// declare the payPeriod
+//			PayPeriods pp = new PayPeriods();
+//			pp.setPayPeriodID(periodID);
+//
+//			// declare the payCode
+//			PayCode pc = new PayCode();
+//			pc.setPayCodeID(payCodeID);
+//
+//			CompanyMaster com = new CompanyMaster();
+//			com.setComID(comID);
+//
+//			List<MonthProcessPayCode> list = new ArrayList<>();
+//			List<ProcessPayrollMaster> list2 = new ArrayList<>();
+//			List<ProcessPayrollDetails> list3 = new ArrayList<>();
+//
+//			String[][] table01Data = proPaMaService.loadTable01Data(payCodeID,comID);
+//			String[][] moProPcData = proPaMaService.getMoProPCTabbleData(payCodeID,comID);
+//			String[][] table03Data = proPaMaService.sampleSave(payCodeID,comID);
+//			String[][] othCalPri = proPaMaService.otherGrossPerCal(comID); // other allowances gross per
+//			String[][] dedCalPri = proPaMaService.dedGrossPerCal(comID); // deduction allowances gross per
+//			String[][] addCalPri = proPaMaService.addGrossPerCal(comID);// addition allowances gross per
+//			String[][] empListCalPri = proPaMaService.calPriEmpList(comID); // emp cal pro
+//
+//			// save of month process paycode
+//			for (int i = 0; i < table01Data.length; i++) {
+//
+//				MonthProcessPayCode obj02 = new MonthProcessPayCode();
+//				MonthProcessPayCodePK obj02PK = new MonthProcessPayCodePK();
+//				obj02PK.setPayPeriod(pp);
+//				obj02PK.setPayCode(pc);
+//
+//				obj02.setMoProPCpk(obj02PK);
+//				obj02.setEmps(table01Data[i][0]);
+//				obj02.setTotBasicSa(table01Data[i][1]);
+//				obj02.setTotAdd(table01Data[i][2]);
+//				obj02.setTotDed(table01Data[i][3]);
+//				obj02.setProcessDate(dtf.format(ldt));
+//				obj02.setProcessUser(processUser);
+//				obj02.setCompany(com);
+//
+//				list.add(obj02);
+//			}
+//			// save of process payroll master
+//			for (int i = 0; i < moProPcData.length; i++) {
+//				ProcessPayrollMaster obj = new ProcessPayrollMaster();
+//				obj.setProPayrollMaID(
+//						"00000".substring(proPaMaService.getMaxID().length()) + proPaMaService.getMaxID());
+//				obj.setEmps(moProPcData[i][0]);
+//				obj.setBasicSalary(moProPcData[i][1]);
+//				obj.setEndDate(endDate);
+//				obj.setStartDate(startDate);
+//				obj.setMonthlyBasic(moProPcData[i][1]);
+//				obj.setPayPeriod(pp);
+//				obj.setGrossMonth(moProPcData[i][2]);
+//				obj.setNetMonth(moProPcData[i][3]);
+//				obj.setCompany(com);
+//
+//				list2.add(obj);
+//			}
+//			// save of process payroll details
+//			for (int i = 0; i < table03Data.length; i++) {
+//				ProcessPayrollDetails obj03 = new ProcessPayrollDetails();
+//				ProcessPayrollDetailsPK obj03PK = new ProcessPayrollDetailsPK();
+//
+//				Employee emp = new Employee();
+//				emp.setEmpID(table03Data[i][0]);
+//
+//				PayAddDeductTypes addDed = new PayAddDeductTypes();
+//				addDed.setDeductTypeCode(table03Data[i][1]);
+//
+//				obj03PK.setEmpID(emp);
+//				obj03PK.setPayCodeid(pc);
+//				obj03PK.setPayPeriod(pp);
+//				obj03PK.setPayType(addDed);
+//
+//				obj03.setProPayDePK(obj03PK);
+//				obj03.setAmount(table03Data[i][3]);
+//				obj03.setCompany(com);
+//
+//				list3.add(obj03);
+//			}
+//			// for the calculation priority of addition allowances
+//			for (int j = 0; j < empListCalPri.length; j++) {
+//				for (int i = 0; i < addCalPri.length; i++) {
+//					ProcessPayrollDetails obj03 = new ProcessPayrollDetails();
+//					ProcessPayrollDetailsPK obj03PK = new ProcessPayrollDetailsPK();
+//
+//					String no1 = addCalPri[i][1];
+//					double dnum = Double.parseDouble(no1);
+//
+//					String no2 = empListCalPri[j][1];
+//					double dnum02 = Double.parseDouble(no2);
+//
+//					double amount = (dnum * dnum02) / 100;
+//					String newAmount = String.valueOf(amount);
+//
+//					Employee emp = new Employee();
+//					emp.setEmpID(empListCalPri[j][0]);
+//
+//					PayAddDeductTypes addDed = new PayAddDeductTypes();
+//					addDed.setDeductTypeCode(addCalPri[i][0]);
+//
+//					obj03PK.setEmpID(emp);
+//					obj03PK.setPayCodeid(pc);
+//					obj03PK.setPayPeriod(pp);
+//					obj03PK.setPayType(addDed);
+//
+//					obj03.setProPayDePK(obj03PK);
+//					obj03.setAmount(newAmount);
+//					obj03.setCompany(com);
+//
+//					list3.add(obj03);
+//				}
+//
+//			}
+//			// for the calculation priority of deduction allowances
+//			for (int j = 0; j < empListCalPri.length; j++) {
+//				for (int i = 0; i < dedCalPri.length; i++) {
+//					ProcessPayrollDetails obj03 = new ProcessPayrollDetails();
+//					ProcessPayrollDetailsPK obj03PK = new ProcessPayrollDetailsPK();
+//
+//					String no1 = dedCalPri[i][1];
+//					double dnum = Double.parseDouble(no1);
+//
+//					String no2 = empListCalPri[j][1];
+//					double dnum02 = Double.parseDouble(no2);
+//
+//					double amount = (dnum * dnum02) / 100;
+//					String newAmount = String.valueOf(amount);
+//
+//					Employee emp = new Employee();
+//					emp.setEmpID(empListCalPri[j][0]);
+//
+//					PayAddDeductTypes addDed = new PayAddDeductTypes();
+//					addDed.setDeductTypeCode(dedCalPri[i][0]);
+//
+//					obj03PK.setEmpID(emp);
+//					obj03PK.setPayCodeid(pc);
+//					obj03PK.setPayPeriod(pp);
+//					obj03PK.setPayType(addDed);
+//
+//					obj03.setProPayDePK(obj03PK);
+//					obj03.setAmount(newAmount);
+//					obj03.setCompany(com);
+//
+//					list3.add(obj03);
+//				}
+//
+//			}
+//
+//			// for the calculation priority of other allowances
+//			for (int j = 0; j < empListCalPri.length; j++) {
+//				for (int i = 0; i < othCalPri.length; i++) {
+//					ProcessPayrollDetails obj03 = new ProcessPayrollDetails();
+//					ProcessPayrollDetailsPK obj03PK = new ProcessPayrollDetailsPK();
+//
+//					String no1 = othCalPri[i][1];
+//					double dnum = Double.parseDouble(no1);
+//
+//					String no2 = empListCalPri[j][1];
+//					double dnum02 = Double.parseDouble(no2);
+//
+//					double amount = (dnum * dnum02) / 100;
+//					String newAmount = String.valueOf(amount);
+//
+//					Employee emp = new Employee();
+//					emp.setEmpID(empListCalPri[j][0]);
+//
+//					PayAddDeductTypes addDed = new PayAddDeductTypes();
+//					addDed.setDeductTypeCode(othCalPri[i][0]);
+//
+//					obj03PK.setEmpID(emp);
+//					obj03PK.setPayCodeid(pc);
+//					obj03PK.setPayPeriod(pp);
+//					obj03PK.setPayType(addDed);
+//
+//					obj03.setProPayDePK(obj03PK);
+//					obj03.setAmount(newAmount);
+//					obj03.setCompany(com);
+//
+//					list3.add(obj03);
+//				}
+//
+//			}
+//			try {
+//				ra.addFlashAttribute("success", 1);
+//				proPaDeService.saveListOfDetails(list3);
+//				proPaMaService.saveDataList(list2);
+//				moProPCService.saveList(list);
+//				return "redirect:/hrm/getProcessPayrollPage";
+//
+//			} catch (Exception e) {
+//				ra.addFlashAttribute("success", 0);
+//				System.out.println(e);
+//			}
+//
+//		} else if (ppd.isEmpty() == false) {
+//			m.addAttribute("MsgForPPDMonth", "This Month Already Process the Details !");
+//			return "hrm/processPayrollNew1";
+//		}
+//		return "hrm/processPayrollNew1";
 	}
 
 	@GetMapping("/getPage2")

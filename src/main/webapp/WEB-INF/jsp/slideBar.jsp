@@ -91,14 +91,19 @@
 							<li><a href="createPayPeriod"> <span class="sub-item">Pay Periods</span></a></li>
 							<li><a href="Paycodes"> <span class="sub-item">Pay Codes</span></a></li>
 							<li><a href="employeeSalaryMaster"> <span class="sub-item">Employee Salary</span></a></li>
-							<li><a href="getEmployeeSalaryDetailsPage"> <span class="sub-item">Allocate Allowances Yearly</span></a></li>
+							<li><a href="getEmployeeSalaryDetailsPage"> <span class="sub-item">Employee Salary Details</span></a></li>
 							<li><a href="getEmpMonthSalaryDetailsPage"> <span class="sub-item">Allocate Allowances Monthly</span></a></li>
 							<li><a href="getProcessPayrollPage"> <span class="sub-item">Salary Process</span></a></li>
 							<li><a href="getSalaryMonthEnd"> <span class="sub-item">Month End</span></a></li>
 							<li class="dropdown-divider">Reports</li>
-							<li><a href="processPayRollReport"> <span class="sub-item">PaySlip</span></a></li>
-							<li><a href="getSalaryAnalyzer"> <span class="sub-item">Salary Analyze</span></a></li>
-							<li><a href="getFTDReport"> <span class="sub-item">Fixed Transaction details</span></a></li>
+<!-- 							<li><a href="processPayRollReport"> <span class="sub-item">PaySlip</span></a></li> -->
+<!-- 							<li><a href="getSalaryAnalyzer"> <span class="sub-item">Salary Analyze</span></a></li> -->
+														<li><a href="paySlip"> <span class="sub-item">Pay Slip</span></a></li>
+							<li><a href="paySheet"> <span class="sub-item">Pay Sheet</span></a></li>
+							
+							
+							
+<!-- 							<li><a href="getFTDReport"> <span class="sub-item">Fixed Transaction details</span></a></li> -->
 						</ul>
 					</div></li>
 
@@ -135,18 +140,18 @@
 						</ul>
 					</div></li>
 					
-				<li class="nav-item"><a data-toggle="collapse" href="#base6">
-						<i class="fas fa-layer-group"></i>
-						<p>Assert Details</p> <span class="caret"></span>
-				</a>
-					<div class="collapse" id="base6">
-						<ul class="nav nav-collapse">
-							<li><a href="Asset_Classes"> <span class="sub-item">Asset Class</span></a></li>
-							<li><a href="itemgroup"> <span class="sub-item">Item Group</span></a></li>
-							<li><a href="assetmaster"> <span class="sub-item">Asset Master</span></a></li>
-							<li><a href="assettransfer"> <span class="sub-item">Asset Transfer</span></a></li>
-						</ul>
-					</div></li>
+<!-- 				<li class="nav-item"><a data-toggle="collapse" href="#base6"> -->
+<!-- 						<i class="fas fa-layer-group"></i> -->
+<!-- 						<p>Assert Details</p> <span class="caret"></span> -->
+<!-- 				</a> -->
+<!-- 					<div class="collapse" id="base6"> -->
+<!-- 						<ul class="nav nav-collapse"> -->
+<!-- 							<li><a href="Asset_Classes"> <span class="sub-item">Asset Class</span></a></li> -->
+<!-- 							<li><a href="itemgroup"> <span class="sub-item">Item Group</span></a></li> -->
+<!-- 							<li><a href="assetmaster"> <span class="sub-item">Asset Master</span></a></li> -->
+<!-- 							<li><a href="assettransfer"> <span class="sub-item">Asset Transfer</span></a></li> -->
+<!-- 						</ul> -->
+<!-- 					</div></li> -->
 					
 				<li class="nav-item"><a data-toggle="collapse" href="#base7">
 						<i class="fas fa-layer-group"></i>

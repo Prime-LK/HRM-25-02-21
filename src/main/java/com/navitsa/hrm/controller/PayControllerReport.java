@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -25,12 +27,15 @@ import com.navitsa.hrm.entity.DepartmentMaster;
 import com.navitsa.hrm.entity.Employee;
 import com.navitsa.hrm.entity.EmployeeDetails;
 import com.navitsa.hrm.entity.PayAddDeductTypes;
+import com.navitsa.hrm.entity.PayPeriods;
 import com.navitsa.hrm.entity.SalaryAnalyze;
 import com.navitsa.hrm.report.FTDREmployessReportBean;
+import com.navitsa.hrm.report.PaySheetBeen;
 import com.navitsa.hrm.report.PaySlipAllEmployees;
 import com.navitsa.hrm.report.PaySlipReportPerEmployeeBean;
 import com.navitsa.hrm.report.SalaryAnalyzeReportBeanHeaderData;
 import com.navitsa.hrm.report.processPayrollEmpAllDetails;
+import com.navitsa.hrm.service.CompanyService;
 import com.navitsa.hrm.service.DepartmentService;
 import com.navitsa.hrm.service.EmployeeService;
 import com.navitsa.hrm.service.PayAddDeductTypeService;
@@ -43,7 +48,10 @@ public class PayControllerReport {
 
 	@Autowired
 	private EmployeeService empDeRepo;
-
+	
+	@Autowired
+	private EmployeeService employeeService;
+	
 	@Autowired
 	private ProcessPayrollMasterService proPaMaService;
 
@@ -56,6 +64,13 @@ public class PayControllerReport {
 	@Autowired
 	private PayAddDeductTypeService allowanceService;
 
+	@Autowired
+	private DepartmentService departmentService;
+	
+	@Autowired
+	private CompanyService companyService;
+	
+	
 	@ModelAttribute("getAllEmps")
 	public List<EmployeeDetails> getAllEmps() {
 		return empDeRepo.getAllEmpDetails();
@@ -65,7 +80,128 @@ public class PayControllerReport {
 	public String getPage() {
 		return "hrm/processPayrollReport";
 	}
+	
+	@GetMapping("/paySlip")
+	public String getPaySlip() {
+		return "hrm/paySlip";
+	}
+	
+	@ModelAttribute("departmentPaySlipRpt")
+	public List<DepartmentMaster> getDepartment(HttpSession session){
+		String companyId=session.getAttribute("company.comID")+"";
+		List<DepartmentMaster> listDept = departmentService.getDepartmentsByCompany(companyId);
+		return listDept;
+	}
+	@ModelAttribute("payPeriodPayShip")
+	public List<PayPeriods> getPayPeriods(HttpSession session){
+		String companyId=session.getAttribute("company.comID")+"";
+		List<PayPeriods> payPeriods = payService.getPayPeriodsBycompanyid(companyId);
+		return payPeriods;
+	}
+	
+	
+	
+	@RequestMapping(value="/getPaySlipdetails", method=RequestMethod.GET)
+	public @ResponseBody List<Employee>  getPaySlipdetails(@RequestParam String dep,HttpSession session) {
+		String companyId=session.getAttribute("company.comID")+"";
+		List<Employee> listallemploy = employeeService.getEmployeeListrpt(dep,"%","%","%","%","%","%",companyId);
+		return listallemploy;
+	}
+	
+	@PostMapping("/viewPaySlip")
+	public ModelAndView viewPaySlip(@RequestParam("payperodid") String payperodid,@RequestParam("dept") String dept, @RequestParam("empID") String empID, HttpServletRequest request,
+			HttpServletResponse response, HttpSession session) throws Exception {
+		String comID = (String) session.getAttribute("company.comID");
+		String fileName = "PaySlip : " + empID;
+		String loggedComDetails = proPaMaService.loggedCompanyName(comID);
+		String[][] data = proPaMaService.paySlipData(payperodid,dept,empID, comID);
+		List<PaySlipReportPerEmployeeBean> d = new ArrayList<>();
+		for (int i = 0; i < data.length; i++) {
+			PaySlipReportPerEmployeeBean a1 = new PaySlipReportPerEmployeeBean();
+			a1.setCompanyName(loggedComDetails);
 
+			a1.setGrtypr(data[i][0]);
+			a1.setGrdes(data[i][1]);
+			
+			a1.setfName(data[i][3]);
+			a1.setlName(data[i][4]);
+			a1.setEmpID(data[i][5]);
+			a1.setEpfNo(data[i][6]);
+			
+			a1.setDepartment(data[i][8]);
+			a1.setDesignation(data[i][9]);
+			a1.setAllowanceDesc(data[i][10]);
+			a1.setAllowanceAmt(data[i][11]);
+			a1.setYear(data[i][12]);
+			a1.setMonth(data[i][13]);
+			
+			a1.setBraName(data[i][14]);
+			a1.setAccName(data[i][15]);
+			a1.setAccNo(data[i][16]);	
+			
+			
+
+
+			
+			
+			d.add(a1);
+		}
+
+		Map<String, Object> params = new HashMap<>();
+		params.put("empID", empID);
+		params.put("comID", comID);
+		ReportViewe review = new ReportViewe();
+		String report = review.pdfReportViewInlineSystemOpen("paySlipPerEmployee.jasper", fileName, d, params,
+				response);
+		ModelAndView mav = new ModelAndView("hrm/paySlip");
+		mav.addObject("pdfViewEq", report);
+		return mav;
+	}
+	
+	@GetMapping("/paySheet")
+	public String getPaySheet() {
+		return "hrm/paySheet";
+	}
+	
+	@PostMapping("/generatePaySheetDeperment")
+	public ModelAndView getpaySheet(@RequestParam("dept") String dept,  HttpServletRequest request,
+			HttpServletResponse response, HttpSession session) throws Exception {
+		String comID = (String) session.getAttribute("company.comID");
+		
+		
+		String[][] data = proPaMaService.getpaySheet(dept,comID);
+		List<PaySheetBeen> paySheetBeenList = new ArrayList<>();
+		for (int i = 0; i < data.length; i++) {
+			PaySheetBeen paySheetBeen = new PaySheetBeen();
+			
+			paySheetBeen.setDeptment(data[i][0]);
+			paySheetBeen.setDeducttype(data[i][1]);
+			paySheetBeen.setAmount(Double.parseDouble(data[i][2]));
+			paySheetBeen.setAdddedmethod(data[i][3]);
+			paySheetBeen.setTotal(data[i][4]);
+			
+			paySheetBeenList.add(paySheetBeen);
+		}
+		
+		
+		CompanyMaster companyMaster = companyService.findbyCompanyid(comID);
+      	Map<String,Object> params = new HashMap<>();
+
+    	params.put("hedder",companyMaster.getComName());
+      	params.put("address",companyMaster.getConNo());
+      	
+		String fileName = "Pay Sheet";
+		ReportViewe review = new ReportViewe();
+		String report = review.pdfReportViewInlineSystemOpen("paySheetAllDepartment.jasper",
+				fileName, paySheetBeenList, params, response);
+		ModelAndView mav = new ModelAndView("hrm/paySheet");
+		mav.addObject("pdfViewEq", report);
+		return mav;
+	}
+	
+	
+	
+	
 	// employee report 01 data
 	@PostMapping("/generateEmpAllAllowanceReport")
 	public ModelAndView getReport(HttpSession session, HttpServletRequest request, HttpServletResponse response)
@@ -409,7 +545,7 @@ public class PayControllerReport {
 		ReportViewe review = new ReportViewe();
 		String report = review.pdfReportViewInlineSystemOpen("processPayrollAllEmpsWithAllowanceReport.jasper",
 				fileName, d, null, response);
-		ModelAndView mav = new ModelAndView("processPayrollAllEmpsWithAllowance");
+		ModelAndView mav = new ModelAndView("hrm/processPayrollAllEmpsWithAllowance");
 		mav.addObject("pdfViewPPAEWA", report);
 		return mav;
 	}
@@ -421,21 +557,34 @@ public class PayControllerReport {
 		String comID = (String) session.getAttribute("company.comID");
 		String fileName = "PaySlip : " + empID;
 		String loggedComDetails = proPaMaService.loggedCompanyName(comID);
-		String[][] data = proPaMaService.paySlipData(empID, comID);
+		String[][] data = proPaMaService.paySlipData("","",empID, comID);
 		List<PaySlipReportPerEmployeeBean> d = new ArrayList<>();
 		for (int i = 0; i < data.length; i++) {
 			PaySlipReportPerEmployeeBean a1 = new PaySlipReportPerEmployeeBean();
 			a1.setCompanyName(loggedComDetails);
-			a1.setEmpID(data[i][4]);
-			a1.setEpfNo(data[i][5]);
+//			a1.setEmpID(data[i][4]);
+//			a1.setEpfNo(data[i][5]);
+//			a1.setYear(data[i][12]);
+//			a1.setMonth(data[i][11]);
+//			a1.setfName(data[i][2]);
+//			a1.setlName(data[i][3]);
+//			a1.setDepartment(data[i][7]);
+//			a1.setDesignation(data[i][8]);
+//			a1.setAllowanceDesc(data[i][9]);
+//			a1.setAllowanceAmt(data[i][10]);
+			a1.setGrtypr(data[i][0]);
+			a1.setGrdes(data[i][1]);
+			a1.setEmpID(data[i][5]);
+			a1.setEpfNo(data[i][6]);
 			a1.setYear(data[i][12]);
-			a1.setMonth(data[i][11]);
-			a1.setfName(data[i][2]);
-			a1.setlName(data[i][3]);
-			a1.setDepartment(data[i][7]);
-			a1.setDesignation(data[i][8]);
-			a1.setAllowanceDesc(data[i][9]);
-			a1.setAllowanceAmt(data[i][10]);
+			a1.setMonth(data[i][13]);
+			a1.setfName(data[i][3]);
+			a1.setlName(data[i][4]);
+			a1.setDepartment(data[i][8]);
+			a1.setDesignation(data[i][9]);
+			a1.setAllowanceDesc(data[i][10]);
+			a1.setAllowanceAmt(data[i][11]);	
+			
 			d.add(a1);
 		}
 

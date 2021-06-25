@@ -326,7 +326,9 @@ public class PayService {
 	public String[][] getDataRelatedAllDepartments(String comID) {
 		return saRepo.getDataRelatedAllDepartments(comID);
 	}
-	
+	public List<PayPeriods> getPayPeriodsBycompanyid(String companyid) {
+		return payPeriodsRepository.getPayPeriodsBycompanyid(companyid);
+	}
 	// end of fixed transactional details report
 	
 }
