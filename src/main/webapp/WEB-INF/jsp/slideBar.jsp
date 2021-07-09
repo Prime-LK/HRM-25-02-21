@@ -126,6 +126,7 @@
 							<li class="dropdown-divider"></li>
 							<li><a href="readAttedanceTxtFiles"> <span class="sub-item">Import Attendance Files</span></a></li>
 							<li><a href="attendanceProcess"> <span class="sub-item">Attendance Process</span></a></li>
+							<li><a href="attendanceApproval"> <span class="sub-item">Attendance Approval</span></a></li>
 						</ul>
 					</div></li>
 

@@ -34,7 +34,7 @@
 					<div class="page-inner py-3">
 						<div class="d-flex align-items-left align-items-md-center flex-column flex-md-row">
 							<div class="col-xl col-lg">
-								 <h2 class="text-white pb-2 fw-bold">Attendance Approval</h2>
+								 <h2 class="text-white pb-2 fw-bold">Attendance Process</h2>
 							</div>
 
 						</div>
@@ -44,17 +44,16 @@
 				<div class="page-inner mt--5">	
 					<div class="container-fluid">
 
-			              <div class="card shadow mb-4 border-left-primary">
+			              <div class="card shadow">
 			                <div class="card-body">
 			                
 								<div class="row">
-									<div class="col-xl">
-<h3>${filesuccess}</h3> 
-<form action="approveAttendanceProcess"  method="POST">
+									<div class="col-xl-8">
+<h3>${filesuccess}</h3>  
+<form action="saveAttendanceProcess"  method="POST">
 
 <div class="form-group row">
-	<div class="col-lg-3">
-	
+	<div class="col-lg-5">
 		<label for="payPeriod">Pay Period</label>
 		<select class="form-control form-control-sm" id="payPeriod"
 			name="payPeriodID" required>
@@ -63,10 +62,9 @@
 				<option value="${a.payPeriodID}">${a.startDate} to ${a.endDate}</option>
 			</c:forEach>
 		</select>
-
 	</div>
 	<div class="col-lg">
-		<label>Department</label>
+		<label for="department">Department</label>
 		<select class="form-control form-control-sm" id="department"
 			name="depID" onchange="getEmployees(this.value)">
 			<option value="" selected>--Select--</option>
@@ -74,7 +72,6 @@
 				<option value="${dp.depID}">${dp.department}</option>
 			</c:forEach>
 		</select>
-
 	</div>
 	<div class="col-lg">
 		<label for="employee">Employee</label>
@@ -88,18 +85,24 @@
 	</div>
 </div>
 
+
 <div class="form-group row">
 	<div class="col-lg">
-		<button type="submit" class="btn btn-success btn-sm">
-			Approve
+		<button type="submit" class="btn btn-success btn-sm" >
+			Process
 		</button>
-		<button type="reset" class="btn btn-danger btn-sm">
+		<button type="reset" class="btn btn-danger btn-sm" >
 			Reset
 		</button>
 	</div>
 </div>	
 </form>
 					              
+									</div>
+									<div class="col-xl">
+									
+
+																			
 									</div>
 								</div>
 
@@ -181,7 +184,29 @@ function getPayCodes(str)
 	}
 }
 
+function getDatesBetweenPayPeriod()
+{
+	var payPeriod = document.getElementById("payPeriod").value;
+	var employee = document.getElementById("employee").value;
+	
+	if (payPeriod=="" || employee=="") {
+		return;
+	}
+	else{
+		$.ajax({
+        type: 'GET',
+        url: "getDatesBetweenPayPeriod",
+        data: {"payPeriodID":payPeriod,"employeeID":employee},
+        success: function(data){
 
+        },
+        error:function(){
+            alert("error");
+        }
+
+    	});
+	}
+}
 </script>
 
 </body>

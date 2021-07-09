@@ -3,6 +3,8 @@ package com.navitsa.hrm.entity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -13,20 +15,24 @@ import javax.persistence.Table;
 public class AttendanceSummary {
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "attendance_summary_id")
-	private String attendanceSummaryId;
+	private int attendanceSummaryId;
 	
-	@Column(name = "total_ot_hours")
+	@Column(name = "total_ot")
 	private double totalOtHours;
 	
-	@Column(name = "total_late_minutes")
-	private int totalLateMinutes;
+	@Column(name = "total_late_hours")
+	private double totalLateMinutes;
 	
 	@Column(name = "total_leave")
 	private int totalLeave;
 	
 	@Column(name = "no_pay_days")
 	private int noPayDays;
+	
+	@Column(name = "no_pay_hours")
+	private double noPayHours;
 	
 	@ManyToOne(optional = false, fetch = FetchType.EAGER)
 	@JoinColumn(name = "employee_id", referencedColumnName = "Employee_ID")
@@ -40,11 +46,11 @@ public class AttendanceSummary {
 	@JoinColumn(name="company_id", referencedColumnName="Company_ID")
 	private CompanyMaster company;
 
-	public String getAttendanceSummaryId() {
+	public int getAttendanceSummaryId() {
 		return attendanceSummaryId;
 	}
 
-	public void setAttendanceSummaryId(String attendanceSummaryId) {
+	public void setAttendanceSummaryId(int attendanceSummaryId) {
 		this.attendanceSummaryId = attendanceSummaryId;
 	}
 
@@ -56,11 +62,11 @@ public class AttendanceSummary {
 		this.totalOtHours = totalOtHours;
 	}
 
-	public int getTotalLateMinutes() {
+	public double getTotalLateMinutes() {
 		return totalLateMinutes;
 	}
 
-	public void setTotalLateMinutes(int totalLateMinutes) {
+	public void setTotalLateMinutes(double totalLateMinutes) {
 		this.totalLateMinutes = totalLateMinutes;
 	}
 
@@ -104,14 +110,23 @@ public class AttendanceSummary {
 		this.company = company;
 	}
 
-	public AttendanceSummary(String attendanceSummaryId, double totalOtHours, int totalLateMinutes, int totalLeave,
-			int noPayDays, Employee employee, PayPeriods payPeriod, CompanyMaster company) {
+	public double getNoPayHours() {
+		return noPayHours;
+	}
+
+	public void setNoPayHours(double noPayHours) {
+		this.noPayHours = noPayHours;
+	}
+
+	public AttendanceSummary(int attendanceSummaryId, double totalOtHours, double totalLateMinutes, int totalLeave,
+			int noPayDays, double noPayHours, Employee employee, PayPeriods payPeriod, CompanyMaster company) {
 		super();
 		this.attendanceSummaryId = attendanceSummaryId;
 		this.totalOtHours = totalOtHours;
 		this.totalLateMinutes = totalLateMinutes;
 		this.totalLeave = totalLeave;
 		this.noPayDays = noPayDays;
+		this.noPayHours = noPayHours;
 		this.employee = employee;
 		this.payPeriod = payPeriod;
 		this.company = company;
@@ -119,6 +134,8 @@ public class AttendanceSummary {
 
 	public AttendanceSummary() {
 		super();
+		// TODO Auto-generated constructor stub
 	}
+
 	
 }

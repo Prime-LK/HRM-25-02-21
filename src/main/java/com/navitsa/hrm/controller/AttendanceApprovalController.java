@@ -1,7 +1,9 @@
 package com.navitsa.hrm.controller;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -13,13 +15,17 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
+import com.navitsa.hrm.entity.ApplyLeaveDetail;
 import com.navitsa.hrm.entity.ApplyLeave_Entity;
+import com.navitsa.hrm.entity.AttendanceSheet;
 import com.navitsa.hrm.entity.AttendanceSummary;
 import com.navitsa.hrm.entity.AttendanceSummaryDetail;
 import com.navitsa.hrm.entity.CompanyMaster;
 import com.navitsa.hrm.entity.DepartmentMaster;
 import com.navitsa.hrm.entity.Employee;
+import com.navitsa.hrm.entity.EmployeeDetails;
 import com.navitsa.hrm.entity.PayPeriods;
 import com.navitsa.hrm.service.ApplyLeave_Service;
 import com.navitsa.hrm.service.AttendanceProcessService;
@@ -49,7 +55,7 @@ public class AttendanceApprovalController {
 	@Autowired
 	private DepartmentService departmentService;
 	
-	// load payPeriods data
+/*
 	@ModelAttribute("payPeriodsList")
 	public List<PayPeriods> getPeriods() {
 		return payService.getPayPeriods();
@@ -64,16 +70,27 @@ public class AttendanceApprovalController {
 	public List<DepartmentMaster> findAllDepartments(){
 		return departmentService.getAllDep();
 	}
+*/
 	
 	@GetMapping("/attendanceApproval")
-	public String LoadForm() {
+	public ModelAndView LoadForm(HttpSession session) {
+
+		ModelAndView mav=new ModelAndView("hrm/attendanceApproval");
+		try {
+			String companyID=(String) session.getAttribute("company.comID");	
+			mav.addObject("payPeriodsList", payService.getPayPeriodsBycompanyid(companyID));
+			mav.addObject("DepAll", departmentService.getAllDepartmentByCompany(companyID));
 			
-		return "hrm/attendanceApproval";
+		} catch (Exception e) {
+			
+		}
+
+		return mav;
 	}
 
 	@RequestMapping(value="/approveAttendanceProcess", method=RequestMethod.POST)
-	public void approveAttendance(
-			@RequestParam String payPeriodID, 
+	public ModelAndView approveAttendance(
+			@RequestParam String payPeriodID,
 			@RequestParam String employeeID,
 			HttpSession session) throws ParseException {
 		
@@ -83,47 +100,90 @@ public class AttendanceApprovalController {
 		String companyID=(String) session.getAttribute("company.comID");
 		CompanyMaster cm = new CompanyMaster();
 		cm.setComID(companyID);
-		Employee em = new Employee(employeeID);
+		//Employee em = new Employee(employeeID);
 		
-		double totalOTHr = attendanceProcessService.getTotalOT(payPeriodID, employeeID);	
-		int totalLateMn = attendanceProcessService.getTotalLate(payPeriodID,employeeID);					
-		int totalLeave = attendanceProcessService.getTotalLeave(payPeriodID, employeeID);
-				
-		ApplyLeave_Entity leave = applyLeaveService.findAppliedLeaveByEmployee(employeeID);
-		PayPeriods payPeriod = payService.getPayPeriods(payPeriodID);		
-		int totalApprovedLeave =  applyLeaveService.getTotalApprovedLeaveBy(
-				payPeriod.getStartDate(),
-				payPeriod.getEndDate(),
-				leave.getLeaveID());
-		
-		int noPayDays = totalLeave - totalApprovedLeave;
-		
-		AttendanceSummary summary = new AttendanceSummary();
-		summary.setAttendanceSummaryId("00000".substring(attendanceSummaryService.getMaxID().length()) + attendanceSummaryService.getMaxID());
-		summary.setTotalOtHours(totalOTHr);
-		summary.setTotalLateMinutes(totalLateMn);
-		summary.setTotalLeave(totalLeave);
-		summary.setNoPayDays(noPayDays);
-		summary.setPayPeriod(payPeriod);
-		summary.setEmployee(em);
-		summary.setCompany(cm);
-		attendanceSummaryService.saveSummary(summary);
-		
-		String dayTypes[]={"SUNDAY","HOLIDAY","HALFDAY","WORKDAY"};
-		
-		List<AttendanceSummaryDetail> ls = new ArrayList<AttendanceSummaryDetail>();
-		
-		for(int i=0;i<dayTypes.length;i++) {
+		List<EmployeeDetails> edList =  empService.getEmployeeDetailsByCompanyID(companyID);
+		for(EmployeeDetails ed :edList) {
 
-			String otHours =  attendanceProcessService.getTotalOTByDayType(dayTypes[i], payPeriodID, employeeID);
-			AttendanceSummaryDetail summaryDetail = new AttendanceSummaryDetail();
-			summaryDetail.setAttendanceSummaryHeaderId(summary);
-			summaryDetail.setDayType(dayTypes[i]);
-			summaryDetail.setOtHours(Double.valueOf(otHours));
-			ls.add(summaryDetail);
+			String employee_id = ed.getDetailsPK().getEmpID().getEmpID();
+			double totalOTHr =0;
+			double totalLateHr = 0;
+			double totalOTMin = attendanceProcessService.getTotalOT(payPeriodID, employee_id,companyID);
+			totalOTHr = totalOTMin/60;
+			int totalLateMn = attendanceProcessService.getTotalLate(payPeriodID,employee_id,companyID);
+			totalLateHr = totalLateMn/60;
+			
+			List<AttendanceSheet> leaveInfo = attendanceProcessService.getTotalLeave(payPeriodID, employee_id,companyID);
+			int totalLeave = leaveInfo.size();
+			
+			PayPeriods payPeriod = payService.getPayPeriods(payPeriodID);
+			ApplyLeave_Entity leave = applyLeaveService.findAppliedLeaveByEmployee(employee_id,companyID);
+			List<ApplyLeaveDetail> leaveApproved = null;
+			if(leave != null) {
+				leaveApproved =  applyLeaveService.getTotalApprovedLeaveBy(payPeriod.getStartDate(),payPeriod.getEndDate(),leave.getLeaveID());
+				
+			}
+		
+			SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+			SimpleDateFormat stf = new SimpleDateFormat("HH:mm:ss");
+			int noPayDays = 0;
+			double noPayHrs = 0;
+			
+			for(AttendanceSheet a :leaveInfo) {
+				Date leaveDate = df.parse(a.getDate());
+				boolean flag = false;
+				
+				if(leave != null) {
+					for(ApplyLeaveDetail b :leaveApproved) {
+						System.out.println("apply leave detail loop");
+						Date requestedDate = df.parse(b.getDate());				
+						if(leaveDate.compareTo(requestedDate)==0) {
+							flag = true;
+						}
+					}
+				}
+				
+				if(flag==false) {
+					noPayDays++;
+					long difference = 0;
+					difference  = stf.parse(a.getShiftOut()).getTime() - stf.parse(a.getShiftIn()).getTime();
+					long diffMinutes = difference / 60000;
+					noPayHrs = (noPayHrs + diffMinutes)/60;
+				}
+				
+
+			}
+			
+			AttendanceSummary summary = new AttendanceSummary();
+			//summary.setAttendanceSummaryId("00000".substring(attendanceSummaryService.getMaxID().length()) + attendanceSummaryService.getMaxID());
+			summary.setTotalOtHours(totalOTHr);
+			summary.setTotalLateMinutes(totalLateHr);
+			summary.setTotalLeave(totalLeave);
+			summary.setNoPayDays(noPayDays);
+			summary.setNoPayHours(noPayHrs);
+			summary.setPayPeriod(payPeriod);
+			summary.setEmployee(ed.getDetailsPK().getEmpID());
+			summary.setCompany(cm);
+			summary = attendanceSummaryService.saveSummary(summary);
+			
+			String dayTypes[]={"SUNDAY","HOLIDAY","SAT","WORKDAY"};
+			
+			List<AttendanceSummaryDetail> ls = new ArrayList<AttendanceSummaryDetail>();
+			
+			for(int i=0;i<dayTypes.length;i++) {
+
+				String otHours =  attendanceProcessService.getTotalOTByDayType(dayTypes[i], payPeriodID, employee_id,companyID);
+				AttendanceSummaryDetail summaryDetail = new AttendanceSummaryDetail();
+				summaryDetail.setAttendanceSummaryHeaderId(summary);
+				summaryDetail.setDayType(dayTypes[i]);
+				summaryDetail.setOtHours(Double.valueOf(otHours)/60);
+				ls.add(summaryDetail);
+			}
+			
+			attendanceSummaryService.saveSummaryDetail(ls);
 		}
 		
-		attendanceSummaryService.saveSummaryDetail(ls);
+		return new ModelAndView("hrm/attendanceApproval","filesuccess","Attendance successfully approved !");
 	
 	}
 }

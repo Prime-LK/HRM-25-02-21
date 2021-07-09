@@ -26,8 +26,8 @@ public class AttendanceSummaryService {
 			return attendanceSummaryRepo.getMaxID();
 	}
 	
-	public void saveSummary(AttendanceSummary obj) {
-		attendanceSummaryRepo.save(obj);
+	public AttendanceSummary saveSummary(AttendanceSummary obj) {
+		return attendanceSummaryRepo.save(obj);
 	}
 
 	public void saveSummaryDetail(List<AttendanceSummaryDetail> ls) {

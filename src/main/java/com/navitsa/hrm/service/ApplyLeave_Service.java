@@ -79,9 +79,9 @@ public class ApplyLeave_Service {
 		ALRepo.updateApprovedStatus(applyLeaveID);	
 	}
 	
-	public ApplyLeave_Entity findAppliedLeaveByEmployee(String employeeID) {
+	public ApplyLeave_Entity findAppliedLeaveByEmployee(String employeeID, String companyID) {
 
-		return ALRepo.getByEmployeeID(employeeID);
+		return ALRepo.getByEmployeeID(employeeID,companyID);
 	}
 
 	public List<ApplyLeaveDetail> getTotalApprovedLeaveBy(String startDate, String endDate, String leaveID) {

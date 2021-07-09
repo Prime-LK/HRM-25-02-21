@@ -26,7 +26,7 @@ public class AttendanceSummaryDetail {
 	private double otHours;
 	
 	@ManyToOne(optional = false, fetch = FetchType.EAGER)
-	@JoinColumn(name = "attendance_summary_header_id", referencedColumnName = "attendance_summary_id")
+	@JoinColumn(name = "attendance_summary_id", referencedColumnName = "attendance_summary_id")
 	private AttendanceSummary attendanceSummaryHeaderId;
 
 	public int getAttendanceSummaryDetailId() {
