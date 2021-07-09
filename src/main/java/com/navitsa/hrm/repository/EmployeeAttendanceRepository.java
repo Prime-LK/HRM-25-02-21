@@ -28,8 +28,8 @@ public interface EmployeeAttendanceRepository extends CrudRepository<EmployeeAtt
 	public List<String> loadAttendances(@Param("companyId") String companyId);
 
 	
-	@Query(value = "SELECT employee_attendance.attendance_id, employee_attendance.date, employee_master.Name, employee_master.lastname, department.Department, \n" + 
-			"shift_master.description, employee_attendance.on_time, employee_attendance.off_time, employee_attendance.approved, employee_attendance.company_id\n" + 
+	@Query(value = "SELECT employee_attendance.attendance_id, employee_attendance.date, employee_attendance.employee_id, employee_master.Name, employee_master.lastname, employee_attendance.department_id, department.Department, \n" + 
+			"employee_attendance.shift_id, shift_master.description, employee_attendance.on_time, employee_attendance.off_time, employee_attendance.approved, employee_attendance.company_id\n" + 
 			"FROM employee_attendance\n" + 
 			"INNER JOIN employee_master ON employee_attendance.employee_id = employee_master.Employee_ID AND employee_attendance.company_id = employee_master.Company_ID\n" + 
 			"INNER JOIN department ON employee_attendance.department_id = department.Department_ID AND employee_attendance.company_id = department.Company_ID\n" + 
@@ -37,8 +37,8 @@ public interface EmployeeAttendanceRepository extends CrudRepository<EmployeeAtt
 			"WHERE employee_attendance.date BETWEEN :startDate AND :endDate AND employee_attendance.approved = :approvalStatus AND employee_attendance.company_id = :companyId", nativeQuery = true)
 	  public List<String> loadAttendancesByDateAndApprovalStatusNative(@Param("startDate") String startDate, @Param("endDate") String endDate, @Param("approvalStatus") int approvalStatus, @Param("companyId") String companyId);
 
-	@Query(value = "SELECT employee_attendance.attendance_id, employee_attendance.date, employee_master.Name, employee_master.lastname, department.Department, \n" + 
-			"shift_master.description, employee_attendance.on_time, employee_attendance.off_time, employee_attendance.approved, employee_attendance.company_id\n" + 
+	@Query(value = "SELECT employee_attendance.attendance_id, employee_attendance.date, employee_attendance.employee_id, employee_master.Name, employee_master.lastname, employee_attendance.department_id, department.Department, \n" + 
+			"employee_attendance.shift_id, shift_master.description, employee_attendance.on_time, employee_attendance.off_time, employee_attendance.approved, employee_attendance.company_id\n" + 
 			"FROM employee_attendance\n" + 
 			"INNER JOIN employee_master ON employee_attendance.employee_id = employee_master.Employee_ID AND employee_attendance.company_id = employee_master.Company_ID\n" + 
 			"INNER JOIN department ON employee_attendance.department_id = department.Department_ID AND employee_attendance.company_id = department.Company_ID\n" + 
@@ -46,8 +46,8 @@ public interface EmployeeAttendanceRepository extends CrudRepository<EmployeeAtt
 			"WHERE employee_attendance.date BETWEEN :startDate AND :endDate AND employee_attendance.department_id = :departmentId AND employee_attendance.approved = :approvalStatus AND employee_attendance.company_id = :companyId", nativeQuery = true)
 	  public List<String> loadAttendancesByDateAndDepartmentAndApprovalStatusNative(@Param("startDate") String startDate, @Param("endDate") String endDate, @Param("departmentId") String departmentId, @Param("approvalStatus") int approvalStatus, @Param("companyId") String companyId);
 	
-	@Query(value = "SELECT employee_attendance.attendance_id, employee_attendance.date, employee_master.Name, employee_master.lastname, department.Department, \n" + 
-			"shift_master.description, employee_attendance.on_time, employee_attendance.off_time, employee_attendance.approved, employee_attendance.company_id\n" + 
+	@Query(value = "SELECT employee_attendance.attendance_id, employee_attendance.date, employee_attendance.employee_id, employee_master.Name, employee_master.lastname, employee_attendance.department_id, department.Department, \n" + 
+			"employee_attendance.shift_id, shift_master.description, employee_attendance.on_time, employee_attendance.off_time, employee_attendance.approved, employee_attendance.company_id\n" + 
 			"FROM employee_attendance\n" + 
 			"INNER JOIN employee_master ON employee_attendance.employee_id = employee_master.Employee_ID AND employee_attendance.company_id = employee_master.Company_ID\n" + 
 			"INNER JOIN department ON employee_attendance.department_id = department.Department_ID AND employee_attendance.company_id = department.Company_ID\n" + 
@@ -55,8 +55,8 @@ public interface EmployeeAttendanceRepository extends CrudRepository<EmployeeAtt
 			"WHERE employee_attendance.date BETWEEN :startDate AND :endDate AND employee_attendance.shift_id = :shiftId AND employee_attendance.approved = :approvalStatus AND employee_attendance.company_id = :companyId", nativeQuery = true)
 	  public List<String> loadAttendancesByDateAndShiftAndApprovalStatusNative(@Param("startDate") String startDate, @Param("endDate") String endDate, @Param("shiftId") String shiftId, @Param("approvalStatus") int approvalStatus, @Param("companyId") String companyId);
 	
-	@Query(value = "SELECT employee_attendance.attendance_id, employee_attendance.date, employee_master.Name, employee_master.lastname, department.Department, \n" + 
-			"shift_master.description, employee_attendance.on_time, employee_attendance.off_time, employee_attendance.approved, employee_attendance.company_id\n" + 
+	@Query(value = "SELECT employee_attendance.attendance_id, employee_attendance.date, employee_attendance.employee_id, employee_master.Name, employee_master.lastname, employee_attendance.department_id, department.Department, \n" + 
+			"employee_attendance.shift_id, shift_master.description, employee_attendance.on_time, employee_attendance.off_time, employee_attendance.approved, employee_attendance.company_id\n" + 
 			"FROM employee_attendance\n" + 
 			"INNER JOIN employee_master ON employee_attendance.employee_id = employee_master.Employee_ID AND employee_attendance.company_id = employee_master.Company_ID\n" + 
 			"INNER JOIN department ON employee_attendance.department_id = department.Department_ID AND employee_attendance.company_id = department.Company_ID\n" + 
@@ -64,8 +64,8 @@ public interface EmployeeAttendanceRepository extends CrudRepository<EmployeeAtt
 			"WHERE employee_attendance.date BETWEEN :startDate AND :endDate AND employee_attendance.department_id = :departmentId AND employee_attendance.shift_id = :shiftId AND employee_attendance.approved = :approvalStatus AND employee_attendance.company_id = :companyId", nativeQuery = true)
 	  public List<String> loadAttendancesByDateAndDepartmentAndShiftAndApprovalStatusNative(@Param("startDate") String startDate, @Param("endDate") String endDate, @Param("departmentId") String departmentId, @Param("shiftId") String shiftId, @Param("approvalStatus") int approvalStatus, @Param("companyId") String companyId);
 	
-	@Query(value = "SELECT employee_attendance.attendance_id, employee_attendance.date, employee_master.Name, employee_master.lastname, department.Department, \n" + 
-			"shift_master.description, employee_attendance.on_time, employee_attendance.off_time, employee_attendance.approved, employee_attendance.company_id\n" + 
+	@Query(value = "SELECT employee_attendance.attendance_id, employee_attendance.date, employee_attendance.employee_id, employee_master.Name, employee_master.lastname, employee_attendance.department_id, department.Department, \n" + 
+			"employee_attendance.shift_id, shift_master.description, employee_attendance.on_time, employee_attendance.off_time, employee_attendance.approved, employee_attendance.company_id\n" + 
 			"FROM employee_attendance\n" + 
 			"INNER JOIN employee_master ON employee_attendance.employee_id = employee_master.Employee_ID AND employee_attendance.company_id = employee_master.Company_ID\n" + 
 			"INNER JOIN department ON employee_attendance.department_id = department.Department_ID AND employee_attendance.company_id = department.Company_ID\n" + 
@@ -73,8 +73,8 @@ public interface EmployeeAttendanceRepository extends CrudRepository<EmployeeAtt
 			"WHERE employee_attendance.date BETWEEN :startDate AND :endDate AND employee_attendance.department_id = :departmentId AND employee_attendance.employee_id = :employeeId AND employee_attendance.approved = :approvalStatus AND employee_attendance.company_id = :companyId", nativeQuery = true)
 	  public List<String> loadAttendancesByEmployeeAndApprovalStatusNative(@Param("startDate") String startDate, @Param("endDate") String endDate, @Param("departmentId") String departmentId, @Param("employeeId") String employeeId, @Param("approvalStatus") int approvalStatus, @Param("companyId") String companyId);
 	
-	@Query(value = "SELECT employee_attendance.attendance_id, employee_attendance.date, employee_master.Name, employee_master.lastname, department.Department, \n" + 
-			"shift_master.description, employee_attendance.on_time, employee_attendance.off_time, employee_attendance.approved, employee_attendance.company_id\n" + 
+	@Query(value = "SELECT employee_attendance.attendance_id, employee_attendance.date, employee_attendance.employee_id, employee_master.Name, employee_master.lastname, employee_attendance.department_id, department.Department, \n" + 
+			"employee_attendance.shift_id, shift_master.description, employee_attendance.on_time, employee_attendance.off_time, employee_attendance.approved, employee_attendance.company_id\n" + 
 			"FROM employee_attendance\n" + 
 			"INNER JOIN employee_master ON employee_attendance.employee_id = employee_master.Employee_ID AND employee_attendance.company_id = employee_master.Company_ID\n" + 
 			"INNER JOIN department ON employee_attendance.department_id = department.Department_ID AND employee_attendance.company_id = department.Company_ID\n" + 

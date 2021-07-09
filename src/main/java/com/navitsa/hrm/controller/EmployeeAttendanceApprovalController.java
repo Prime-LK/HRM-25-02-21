@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.navitsa.hrm.entity.DepartmentMaster;
 import com.navitsa.hrm.entity.EmployeeAttendance;
 import com.navitsa.hrm.entity.ShiftMaster;
-import com.navitsa.hrm.report.AttendanceRecordBean;
 import com.navitsa.hrm.report.EmployeeAttendanceApproveForm;
 import com.navitsa.hrm.service.DepartmentService;
 import com.navitsa.hrm.service.EmployeeAttendanceService;
@@ -66,11 +65,7 @@ public class EmployeeAttendanceApprovalController {
 
 		String companyId = session.getAttribute("company.comID").toString();
 
-		int status = 0;
-
-		if (approvalStatus == "1") {
-			status = 1;
-		}
+		int status = Integer.valueOf(approvalStatus);
 
 		List<String> attendances = new ArrayList<>();
 		if ((departmentId.equals("All") || departmentId == null) && (employeeId.equals("All") || employeeId == null)
@@ -177,9 +172,7 @@ public class EmployeeAttendanceApprovalController {
 
 	@PostMapping("/approveAttendance")
 	public String approveAttendance(@ModelAttribute("approveForm") EmployeeAttendanceApproveForm approveForm) {
-		System.out.println("Called");
 		List<EmployeeAttendance> attendances = approveForm.getAttendances();
-
 		if (null != attendances && attendances.size() > 0) {
 			EmployeeAttendanceApprovalController.attendances = attendances;
 			List<EmployeeAttendance> list = new ArrayList<>();

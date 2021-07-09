@@ -129,7 +129,7 @@
 										<h1 class="h3 mb-4 text-gray-800"></h1>
 										<form:form action="loadAttendance"
 											modelAttribute="EmployeeAttendanceApproval" method="get"
-											onsubmit="return validateForm()">
+											onsubmit="">
 											<div class=" row">
 												<div class="col-9">
 													<div class="form-group row">
@@ -188,7 +188,7 @@
 																	value="1" class="selectgroup-input"> <span
 																	class="selectgroup-button">Approved</span>
 																</label> <label class="selectgroup-item"> <input
-																	type="radio" id="unapproved" name="approvalStatus"
+																	type="radio" checked id="unapproved" name="approvalStatus"
 																	value="0" class="selectgroup-input"> <span
 																	class="selectgroup-button">Unapproved</span>
 																</label>
@@ -229,10 +229,11 @@
 																<tr>
 																	<th style="display: none">Attendance ID</th>
 																	<th>Date</th>
-																	<!-- <th style="display: none">Shift ID</th> -->
+																	<th style="display: none">Employee ID</th>
 																	<th>Employee Name</th>
+																	<th style="display: none">Department ID</th>
 																	<th>Department</th>
-																	<!-- <th style="display: none">Employee ID</th> -->
+																	<th style="display: none">Shift ID</th>
 																	<th>Shift Name</th>
 																	<th>On Time</th>
 																	<th>Off Time</th>
@@ -244,10 +245,11 @@
 																<tr>
 																	<th style="display: none">Attendance ID</th>
 																	<th>Date</th>
-																	<!-- <th style="display: none">Shift ID</th> -->
+																	<th style="display: none">Employee ID</th>
 																	<th>Employee Name</th>
+																	<th style="display: none">Department ID</th>
 																	<th>Department</th>
-																	<!-- <th style="display: none">Employee ID</th> -->
+																	<th style="display: none">Shift ID</th>
 																	<th>Shift Name</th>
 																	<th>On Time</th>
 																	<th>Off Time</th>
@@ -268,35 +270,40 @@
 																		<td id="dte"><input id="date"
 																			name="attendances[${status.index}].date"
 																			value="${attendance[1]}" readonly /></td>
-																		<td id="eName"><input id="employeeName"
-																			name="employeeName" value="${attendance[2]} ${attendance[3]}" readonly /></td>	
-																		<td id="dName"><input id="departmentName"
-																			name="departmentName" value="${attendance[4]}"
-																			readonly /></td>
-																		<%-- <td id="sId" style="display: none"><input
-																			id="shiftId"
-																			name="attendances[${status.index}].shiftId"
-																			value="${attendance[5]}" readonly /></td> --%>
-																		<td id="sName"><input id="shiftName"
-																			name="shiftName" value="${attendance[5]}" readonly /></td>
-																		<%-- <td id="eId" style="display: none"><input
+																		<td id="eId" style="display: none"><input
 																			id="employeeId"
-																			name="attendances[${status.index}].employeeId"
-																			value="${attendance[2]}" readonly /></td> --%>
+																			name="attendances[${status.index}].employee.empID"
+																			value="${attendance[2]}" readonly /></td>
+																		<td id="eName"><input id="employeeName"
+																			name="employeeName"
+																			value="${attendance[3]} ${attendance[4]}" readonly /></td>
+																		<td id="dId" style="display: none"><input
+																			id="departmentId"
+																			name="attendances[${status.index}].departmentId"
+																			value="${attendance[5]}" readonly /></td>
+																		<td id="dName"><input id="departmentName"
+																			name="departmentName" value="${attendance[6]}"
+																			readonly /></td>
+																		<td id="sId" style="display: none"><input
+																			id="shiftId"
+																			name="attendances[${status.index}].shiftmaster.shiftId"
+																			value="${attendance[7]}" readonly /></td>
+																		<td id="sName"><input id="shiftName"
+																			name="shiftName" value="${attendance[8]}" readonly /></td>
 																		<td id="onT"><input id="onTime"
 																			name="attendances[${status.index}].onTime"
-																			value="${attendance[6]}" readonly /></td>
+																			value="${attendance[9]}" readonly /></td>
 																		<td id="offT"><input id="offTime"
 																			name="attendances[${status.index}].offTime"
-																			value="${attendance[7]}" readonly /></td>
+																			value="${attendance[10]}" readonly /></td>
 																		<td id="aprvetd"><input type="checkbox"
 																			id="aprve"
 																			name="attendances[${status.index}].approved"
-																			<c:if test="${attendance[8] == 'true'}">checked</c:if>></td>
+																			<c:if test="${attendance[11] == 'true'}">checked</c:if>></td>
 																		<td class="cId" style="display: none"><input
 																			id="companyId"
-																			name="attendances[${status.index}].companyId"
-																			value="${attendance[9]}" type="hidden" readonly /></td>
+																			name="attendances[${status.index}].company.comID"
+																			value="${attendance[12]}" type="hidden" readonly /></td>
 																	</tr>
 																</c:forEach>
 
@@ -331,7 +338,9 @@
 
 	<!-- Page level custom scripts -->
 	<script src="<c:url value='/resources/hrm/js/employeeAttendance.js'/>"></script>
-	<script src="<c:url value='/resources/hrm/ajax/employeeAttendance.js'/>"></script>
-	<script src="<c:url value='/resources/hrm/ajax/employeeAttendance.js'/>"></script>
+	<script
+		src="<c:url value='/resources/hrm/ajax/employeeAttendance.js'/>"></script>
+	<script
+		src="<c:url value='/resources/hrm/ajax/employeeAttendance.js'/>"></script>
 </body>
 </html>
