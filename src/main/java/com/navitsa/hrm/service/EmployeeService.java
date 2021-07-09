@@ -328,5 +328,9 @@ public class EmployeeService {
 	public List<Employee> getEmployeesByCompany(String companyId){
 		return empRepo.getEmployeesByCompany(companyId);
 	}
+
+	public List<EmployeeDetails> getEmployeeDetailsByCompanyID(String companyID) {
+		return empDeRepo.getEmployeeDetailsByCompanyID(companyID);
+	}
 }
 

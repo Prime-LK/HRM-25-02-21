@@ -98,17 +98,21 @@ public class AttendanceTxtFileReadingController {
     		  try {
 				Scanner myReader = new Scanner(myObj);
 				
-				myReader.nextLine(); // skip the header row
+				//myReader.nextLine(); // skip the header row
 				while (myReader.hasNextLine()) {
 					
 					String rs = myReader.nextLine();
-	    			rs = rs.replace(" ","");
-	    			rs = rs.replace("	","");
+	    			//rs = rs.replace(" ","");
+	    			//rs = rs.replace("	","");
 
-	    			machine = rs.charAt(6);
-	    			String employeeNo = rs.substring(7, 17);
-	    			String inout_date = rs.substring(19, 29);
-	    			String inout_time = rs.substring(29, 37);
+	    			//machine = rs.charAt(6);
+	    			//String employeeNo = rs.substring(7, 17);
+	    			//String inout_date = rs.substring(19, 29);
+	    			//String inout_time = rs.substring(29, 37);
+	    			
+	    			String employeeNo = rs.substring(0, 9).replace(" ", "");
+	    			String inout_date = rs.substring(10, 20);
+	    			String inout_time = rs.substring(21, 29);
 	    			
 	    			//System.out.println(machine+" "+employeeNo+" "+inout_date+" "+inout_time);
 	    			

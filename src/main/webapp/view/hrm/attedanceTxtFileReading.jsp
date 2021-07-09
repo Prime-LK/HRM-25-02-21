@@ -45,7 +45,7 @@
 					<div class="page-inner py-3">
 						<div class="d-flex align-items-left align-items-md-center flex-column flex-md-row">
 							<div class="col-xl col-lg">
-								 <h2 class="text-white pb-2 fw-bold">Import Attendance Files (.txt)</h2>
+								 <h2 class="text-white pb-2 fw-bold">Import Attendance Files (.txt / .dat)</h2>
 							</div>
 
 						</div>
@@ -63,8 +63,9 @@
 
 <h3>${filesuccess}</h3>  							
 <form action="upload" method="post" enctype="multipart/form-data">  
-	Select File (s) : <input type="file" name="file" accept=".txt" required/><br/><br/>
-	<input type="submit" class="btn btn-success" value="Import"> 
+	Select File (s) : <input type="file" name="file" required/><br/><br/>
+	<input type="submit" class="btn btn-success btn-sm" value="Import"> 
+	<input type="reset" class="btn btn-danger btn-sm" value="Reset"> 
 </form>		              
 									</div>
 									<div class="col-xl col-md-6 mb-4">										

@@ -57,8 +57,8 @@ public class CalanderService {
 		return calanderRepo.getHolidays(startDate,endDate);
 	}
 
-	public CalanderEntity isHoliday(String date) {
-		return calanderRepo.isHoliday(date);
+	public CalanderEntity isHoliday(String date, String companyID) {
+		return calanderRepo.isHoliday(date,companyID);
 		
 	}
 }

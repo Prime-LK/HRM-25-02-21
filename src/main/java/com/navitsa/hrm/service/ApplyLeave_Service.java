@@ -5,17 +5,20 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.navitsa.hrm.entity.ApplyLeaveDetail;
 import com.navitsa.hrm.entity.ApplyLeave_Entity;
+import com.navitsa.hrm.repository.ApplyLeaveDetailRepository;
 import com.navitsa.hrm.repository.ApplyLeave_Repository;
 
 
 @Service
 public class ApplyLeave_Service {
 
-	
-	
 	@Autowired
 	private ApplyLeave_Repository ALRepo;
+	
+	@Autowired
+	private ApplyLeaveDetailRepository ALDRepo;
 
 	public ApplyLeave_Entity getAll(String leaveID) {
 
@@ -81,9 +84,9 @@ public class ApplyLeave_Service {
 		return ALRepo.getByEmployeeID(employeeID);
 	}
 
-	public int getTotalApprovedLeaveBy(String startDate, String endDate, String leaveID) {
+	public List<ApplyLeaveDetail> getTotalApprovedLeaveBy(String startDate, String endDate, String leaveID) {
 		// TODO Auto-generated method stub
-		return ALRepo.getTotalApprovedLeaveBy(startDate,endDate,leaveID);
+		return ALDRepo.getTotalApprovedLeaveBy(startDate,endDate,leaveID);
 	}
 
 }
