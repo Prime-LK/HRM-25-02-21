@@ -123,19 +123,21 @@
 
 										<!-- Page Heading -->
 										<h1 class="h3 mb-4 text-gray-800"></h1>
-										<c:if test = "${success ==1}">
+										<c:if test="${success ==1}">
 											<div class="alert alert-success alert-dismissible">
-											  <button type="button" class="close" data-dismiss="alert">&times;</button>
-											  <strong>Success!</strong> Data Successfully Saved.
+												<button type="button" class="close" data-dismiss="alert">&times;</button>
+												<strong>Success!</strong> Data Successfully Saved.
 											</div>
 										</c:if>
-										<c:if test = "${success ==0}">
-										  <div class="alert alert-danger alert-dismissible">
-										    <button type="button" class="close" data-dismiss="alert">&times;</button>
-										    <strong>Warning!</strong>Something went wrong ! Please try again!
-										  </div>
+										<c:if test="${success ==0}">
+											<div class="alert alert-danger alert-dismissible">
+												<button type="button" class="close" data-dismiss="alert">&times;</button>
+												<strong>Warning!</strong>Something went wrong ! Please try
+												again!
+											</div>
 										</c:if>
-										<form:form action="saveAttendance" onsubmit="return validateForm()"
+										<form:form action="saveAttendance"
+											onsubmit="return validateForm()"
 											modelAttribute="EmployeeAttendance" method="post">
 											<div class=" row">
 												<div class="col-9">
@@ -143,10 +145,8 @@
 														<div class="col-sm-3">
 															<label>Department</label> <select id="selectDepartment"
 																name="departmentId" class="form-control text-capitalize"
-																required
-																onchange="loadEmployeesByDepartment();">
-																<option value="" disabled selected>- Select
-																	Department -</option>
+																required onchange="loadEmployeesByDepartment();">
+																<option value="" selected>SELECT</option>
 																<c:forEach items="${depList}" var="d">
 																	<option value="${d.depID}">${d.department}</option>
 																</c:forEach>
@@ -157,23 +157,20 @@
 																id="selectEmployeeId" name="employeeId"
 																class="form-control text-capitalize" required="true"
 																onchange="">
-																<option value="" disabled selected>- Select
-																	Employee -</option>
+																<option value="" selected>SELECT</option>
 															</select>
 														</div>
 														<div class="col-sm-3">
 															<label>Date</label> <input id="date" name="date"
 																placeholder="dd-mm-yyyy" type="date"
-																class="form-control" value=""
-																onchange=""
+																class="form-control" value="" onchange=""
 																required="true" />
 														</div>
 														<div class="col-sm-3">
 															<label>Shift</label> <select id="shiftId" name="shiftId"
 																class="form-control text-capitalize" required
 																onchange="">
-																<option value="" disabled selected>- Select
-																	Shift -</option>
+																<option value="" selected>SELECT</option>
 																<c:forEach items="${shiftList}" var="s">
 																	<option value="${s.shiftId}">${s.description}</option>
 																</c:forEach>
@@ -186,14 +183,14 @@
 												<div class="col-9">
 													<div class="form-group row">
 														<div class="col-sm-3">
-															<label>On Time</label> <input id="onTime" name="onTime" onchange=""
-																type="time" class="form-control" value="" required="true"/> <span
-																id="div1"></span>
+															<label>On Time</label> <input id="onTime" name="onTime"
+																onchange="" type="time" class="form-control" value=""
+																required="true" /> <span id="div1"></span>
 														</div>
 														<div class="col-sm-3">
 															<label>Off Time</label> <input id="offTime" onchange=""
-																name="offTime" type="time" class="form-control" value="" required="true"/>
-															<span id="div2"></span>
+																name="offTime" type="time" class="form-control" value=""
+																required="true" /> <span id="div2"></span>
 														</div>
 														<!-- <div class="col-sm-3">
 															<label>Over Time</label> <input id="overTime"
@@ -307,9 +304,11 @@
 	<script src="<c:url value='/resources/hrm/ajax/datatable.js'/>"></script>
 
 	<!-- Page level custom scripts -->
-	<script src="<c:url value='/resources/hrm/ajax/employeeAttendance.js'/>"></script>
-	<script  src="<c:url value='/resources/hrm/ajax/employeeAttendance1.js'/>"></script>
-	<script  src="<c:url value='/resources/hrm/js/employeeAttendance.js'/>"></script>
+	<script
+		src="<c:url value='/resources/hrm/ajax/employeeAttendance.js'/>"></script>
+	<script
+		src="<c:url value='/resources/hrm/ajax/employeeAttendance1.js'/>"></script>
+	<script src="<c:url value='/resources/hrm/js/employeeAttendance.js'/>"></script>
 
 </body>
 </html>

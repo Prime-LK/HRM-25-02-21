@@ -122,19 +122,20 @@
 
 										<!-- Page Heading -->
 										<h1 class="h3 mb-4 text-gray-800"></h1>
-										<c:if test = "${success ==1}">
+										<c:if test="${success ==1}">
 											<div class="alert alert-success alert-dismissible">
-											  <button type="button" class="close" data-dismiss="alert">&times;</button>
-											  <strong>Success!</strong> Data Successfully Saved.
+												<button type="button" class="close" data-dismiss="alert">&times;</button>
+												<strong>Success!</strong> Data Successfully Saved.
 											</div>
 										</c:if>
-										<c:if test = "${success ==0}">
-										  <div class="alert alert-danger alert-dismissible">
-										    <button type="button" class="close" data-dismiss="alert">&times;</button>
-										    <strong>Warning!</strong>Something went wrong ! Please try again!
-										  </div>
+										<c:if test="${success ==0}">
+											<div class="alert alert-danger alert-dismissible">
+												<button type="button" class="close" data-dismiss="alert">&times;</button>
+												<strong>Warning!</strong>Something went wrong ! Please try
+												again!
+											</div>
 										</c:if>
-										<form:form action="assignShift"
+										<form:form action="allocateShift"
 											onsubmit="return validateForm()" method="post">
 											<div class=" row">
 												<div class="col-9">
@@ -142,14 +143,12 @@
 														<div class="col-sm-3">
 															<label>Start Date</label> <input id="startDate"
 																name="startDate" type="date" class="form-control"
-																value="" required onchange="" />
-															<span id="div1"></span>
+																value="" required onchange="" /> <span id="div1"></span>
 														</div>
 														<div class="col-sm-3">
 															<label>End Date</label> <input id="endDate"
 																name="endDate" type="date" class="form-control" value=""
-																required onchange="" /> <span
-																id="div2"></span>
+																required onchange="" /> <span id="div2"></span>
 														</div>
 													</div>
 												</div>
@@ -157,31 +156,39 @@
 											<div class=" row">
 												<div class="col-9">
 													<div class="form-group row">
-														<div class="col-sm-4">
+														<div class="col-sm-3">
 															<label>Department</label> <select id="selectDepartment"
 																name="departmentId"
 																class="form-control form-control-user col-12 foo text-capitalize"
-																required
-																onchange="loadEmployeeIdByDepartmentId();">
-																<option value="" disabled selected>Select
-																	Department</option>
+																required onchange="loadEmployeesByDepartment();">
+																<option value="" selected>SELECT</option>
 																<c:forEach items="${depList}" var="d">
 																	<option value="${d.depID}">${d.department}</option>
 																</c:forEach>
 															</select> <span id="div1"></span>
 														</div>
-														<div class="col-sm-5">
+														<div class="col-sm-3">
 															<label>Employee</label> <select id="selectEmployeeId"
 																name="employeeId" class="form-control text-capitalize">
-																<option value="" disabled selected>Select
-																	Employee</option>
+																<option value="all" selected>ALL</option>
 															</select>
 														</div>
+														<div class="col-sm-3">
+															<label class="form-label">Include Holidays</label>
+															<div class="selectgroup w-100">
+																<label class="selectgroup-item"> <input
+																	type="radio" id="includeHolidays" name="includeHolidays"
+																	value="1" class="selectgroup-input"> <span
+																	class="selectgroup-button">Yes</span>
+																</label> <label class="selectgroup-item"> <input
+																	type="radio" checked id="excludeHolidays"
+																	name="includeHolidays" value="0"
+																	class="selectgroup-input"> <span
+																	class="selectgroup-button">No</span>
+																</label>
+															</div>
+														</div>
 														<div class="col-sm-1">
-															<br> <label for="check">All Employees</label> <input
-																type="checkbox" id="allEmployees" name="allEmployees"
-																value="1" /> <input type="hidden"
-																id="allEmployeesHidden" name="allEmployees" value="0" />
 															<input type="hidden" id="companyId" name="companyId"
 																value="<%=session.getAttribute("company.comID")%>" />
 														</div>
@@ -195,7 +202,7 @@
 															<label>Shift</label> <select id="shiftId" name="shiftId"
 																class="form-control text-capitalize" required
 																onchange="loadShiftById()">
-																<option value="" disabled selected>Select Shift</option>
+																<option value="" disabled selected>SELECT</option>
 																<c:forEach items="${shiftList}" var="s">
 																	<option value="${s.shiftId}">${s.description}</option>
 																</c:forEach>
@@ -222,12 +229,10 @@
 											<div class=" row">
 												<div class="col-9">
 													<div class="form-group row">
-														<div class="col-sm-2">
+														<div class="col-sm-12">
 															<input type="submit"
 																class="btn btn-primary btn-sm-3 mr-3"
 																value="Allocate Shift" />
-														</div>
-														<div class="col-sm-2">
 															<input type="reset" class="btn btn-danger btn-sm-3 mr-3"
 																value="Reset" />
 														</div>

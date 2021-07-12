@@ -127,23 +127,23 @@
 											<div class=" row">
 												<div class="col-9">
 													<div class="form-group row">
-														<div class="col-sm-4">
+														<div class="col-sm-3">
 															<label>Start Date</label> <input id="startDate"
 																name="startDate" type="date"
 																class="form-control form-control-user col-12 foo text-capitalize"
 																value="" required /> <span id="div1"></span>
 														</div>
-														<div class="col-sm-4">
+														<div class="col-sm-3">
 															<label>End Date</label> <input id="endDate"
 																name="endDate" type="date"
 																class="form-control form-control-user col-12 foo text-capitalize"
 																value="" required /> <span id="div2"></span>
 														</div>
-														<div class="col-sm-4">
+														<div class="col-sm-3">
 															<label>Shift Name</label> <select id="shiftId"
 																name="shiftId"
 																class="form-control form-control-user col-12 foo text-capitalize">
-																<option value="All" selected>- All Shifts -</option>
+																<option value="all" selected>ALL</option>
 																<c:forEach items="${shiftList}" var="s">
 																	<option value="${s.shiftId}">${s.description}</option>
 																</c:forEach>
@@ -155,23 +155,22 @@
 											<div class=" row">
 												<div class="col-9">
 													<div class="form-group row">
-														<div class="col-sm-4">
+														<div class="col-sm-3">
 															<label>Department</label> <select id="selectDepartment"
 																name="departmentId"
 																class="form-control form-control-user col-12 foo text-capitalize"
 																onchange="loadEmployeesByDepartment()">
-																<option value="All" selected>- All Departments
-																	-</option>
+																<option value="all" selected>ALL</option>
 																<c:forEach items="${depList}" var="d">
 																	<option value="${d.depID}">${d.department}</option>
 																</c:forEach>
 															</select> <span id="div1"></span>
 														</div>
-														<div class="col-sm-4">
+														<div class="col-sm-3">
 															<label>Employee Name</label> <select
 																id="selectEmployeeId" name="employeeId"
 																class="form-control form-control-user col-12 foo text-capitalize">
-																<option value="All" selected>- All Employees -</option>
+																<option value="all" selected>ALL</option>
 															</select> <span id="div2"></span>
 														</div>
 													</div>
@@ -256,7 +255,7 @@
 
 	<!-- Datatable -->
 	<script src="<c:url value='/resources/hrm/ajax/datatable.js'/>"></script>
-	<script	src="<c:url value='/resources/hrm/ajax/employeeAttendance.js'/>"></script>
-
+	<script	src="<c:url value='/resources/hrm/ajax/shiftAllocation.js'/>"></script>
+	<script	src="<c:url value='/resources/hrm/js/shiftAllocation.js'/>"></script>
 </body>
 </html>

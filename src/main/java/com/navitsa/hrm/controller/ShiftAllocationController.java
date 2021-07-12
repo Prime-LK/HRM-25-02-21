@@ -1,11 +1,10 @@
 package com.navitsa.hrm.controller;
 
+import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.sql.Date;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -52,6 +51,9 @@ public class ShiftAllocationController {
 
 	@Autowired
 	private CompanyService companyService;
+
+	@Autowired
+	private CalanderService calanderService;
 
 	@GetMapping("/ShiftAllocation")
 	public String shiftAllocationPage() {
@@ -122,13 +124,15 @@ public class ShiftAllocationController {
 		return list;
 	}
 
-	@PostMapping("/assignShift")
+	@PostMapping("/allocateShift")
 	public String assignShift(@RequestParam("startDate") String startDate, @RequestParam("endDate") String endDate,
 			@RequestParam("shiftId") String shiftId, @RequestParam("departmentId") String departmentId,
 			@RequestParam(value = "employeeId", required = false) String employeeId,
-			@RequestParam(value = "allEmployees", required = false) int allEmployees,
-			@RequestParam(value = "companyId", required = false) String companyId, RedirectAttributes redirectAttributes) {
+			@RequestParam(value = "includeHolidays", required = false) String includeHolidays,
+			@RequestParam(value = "companyId", required = false) String companyId,
+			RedirectAttributes redirectAttributes) {
 
+		int includeHoliday = Integer.valueOf(includeHolidays);
 		CompanyMaster company = companyService.findbyCompanyid(companyId);
 		ShiftMaster shift = shiftMasterService.findShiftByIdAndCompany(shiftId, companyId);
 		List<ShiftAllocation> list = new ArrayList<>();
@@ -141,7 +145,7 @@ public class ShiftAllocationController {
 
 		try {
 
-			if (allEmployees == 1) {
+			if (employeeId.equals("all")) {
 
 				List<EmployeeDetails> department = employeeService.filterEmployeesByDepartmentAndCompany(departmentId,
 						companyId);
@@ -152,6 +156,10 @@ public class ShiftAllocationController {
 					for (LocalDate date = d1.toLocalDate(); date
 							.isBefore(d2.toLocalDate().plusDays(1)); date = date.plusDays(1)) {
 						Date shiftDate = Date.valueOf(date);
+						CalanderEntity calander = calanderService.getCalenderByCompany(shiftDate.toString(), companyId);
+						if (includeHoliday == 0 && calander.getStatus().equals("Holiday")) {
+							continue;
+						}
 						ShiftAllocationPK shiftAllocationPK = new ShiftAllocationPK();
 						ShiftAllocation allocation = new ShiftAllocation();
 						shiftAllocationPK.setDate(shiftDate.toString());
@@ -164,13 +172,17 @@ public class ShiftAllocationController {
 					}
 				}
 				shiftAllocationService.saveShiftAllocations(list);
-			} else if (allEmployees == 0) {
+			} else {
 
 				Employee employee = employeeService.getEmployeeByCompany(employeeId, companyId);
 
 				for (LocalDate date = d1.toLocalDate(); date
 						.isBefore(d2.toLocalDate().plusDays(1)); date = date.plusDays(1)) {
 					Date shiftDate = Date.valueOf(date);
+					CalanderEntity calander = calanderService.getCalenderByCompany(shiftDate.toString(), companyId);
+					if (includeHoliday == 0 && calander.getStatus().equals("Holiday")) {
+						continue;
+					}
 					ShiftAllocationPK shiftAllocationPK = new ShiftAllocationPK();
 					ShiftAllocation allocation = new ShiftAllocation();
 					shiftAllocationPK.setDate(shiftDate.toString());

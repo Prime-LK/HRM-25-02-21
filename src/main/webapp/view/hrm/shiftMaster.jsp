@@ -135,7 +135,7 @@
 										  </div>
 										</c:if>
 										<form:form id="shiftMaster" onsubmit="return validateForm()"
-											action="saveShiftMaster" modelAttribute="ShiftMaster"
+											action="saveShift" modelAttribute="ShiftMaster"
 											method="post">
 											<div class=" row">
 												<div class="col-9">
@@ -226,7 +226,7 @@
 																<td><c:if test="${shifts.continuing == 'true'}">Yes</c:if>
 																	<c:if test="${shifts.continuing == 'false'}">No</c:if></td>
 																<td width="25rem"><a
-																	href="updateShiftMaster?id=${shifts.shiftId}"> <i
+																	href="updateShift?id=${shifts.shiftId}"> <i
 																		class="far fa-edit"></i>
 																</a></td>
 															</tr>

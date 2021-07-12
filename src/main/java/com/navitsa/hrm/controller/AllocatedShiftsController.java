@@ -65,32 +65,32 @@ public class AllocatedShiftsController {
 
 		String companyId = session.getAttribute("company.comID").toString();
 		List<ShiftAllocation> allocations;
-		if ((departmentId.equals("All") || departmentId == null) && (employeeId.equals("All") || employeeId == null)
-				&& (shiftId.equals("All") || shiftId == null)) {
+		if ((departmentId.equals("all") || departmentId == null) && (employeeId.equals("all") || employeeId == null)
+				&& (shiftId.equals("all") || shiftId == null)) {
 			// Dates
 			allocations = shiftAllocationService.loadAllocatedShiftsByDate(startDate, endDate, companyId);
-		} else if ((employeeId.equals("All") || employeeId == null) && (shiftId.equals("All") || shiftId == null)) {
+		} else if ((employeeId.equals("all") || employeeId == null) && (shiftId.equals("all") || shiftId == null)) {
 			// Department
 			allocations = shiftAllocationService.loadAllocatedShiftsByDepartment(startDate, endDate,
 					departmentId, companyId);
-		} else if ((departmentId.equals("All") || departmentId == null)
-				&& (employeeId.equals("All") || employeeId == null)) {
+		} else if ((departmentId.equals("all") || departmentId == null)
+				&& (employeeId.equals("all") || employeeId == null)) {
 			// Shift
 			allocations = shiftAllocationService.loadAllocatedShiftsByShift(startDate, endDate, shiftId,
 					companyId);
-		} else if ((employeeId.equals("All") || employeeId == null)) {
+		} else if ((employeeId.equals("all") || employeeId == null)) {
 			// Department + Shift
 			allocations = shiftAllocationService.loadAllocatedShiftsByDepartmentAndShift(startDate, endDate,
 					departmentId, shiftId, companyId);
-		} else if ((shiftId.equals("All") || shiftId == null)) {
+		} else if ((shiftId.equals("all") || shiftId == null)) {
 
-			if (!employeeId.equals("All") && !(employeeId == null)) {
+			if (!employeeId.equals("all") && !(employeeId == null)) {
 				// Employee
 				allocations = shiftAllocationService.loadAllocatedShiftsByEmployee(startDate, endDate,
 						departmentId, employeeId, companyId);
 			} else {
 				// Department
-				System.out.println("Employee ID is All");
+				System.out.println("Employee ID is all");
 				allocations = shiftAllocationService.loadAllocatedShiftsByDepartment(startDate, endDate,
 						departmentId, companyId);
 			}

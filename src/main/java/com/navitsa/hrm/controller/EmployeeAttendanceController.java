@@ -5,9 +5,11 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -107,9 +109,9 @@ public class EmployeeAttendanceController {
 		ShiftAllocation sa = shiftAllocationService.findShiftAllocationByCompany(date, shiftId, employeeId, companyId);
 		System.out.println("SID = " + ed.getShiftmaster().getShiftId());
 		System.out.println(sa);
-		if (ed.getShiftmaster().getShiftId() == shiftId) {
+		if (ed.getShiftmaster().getShiftId().equals(shiftId)) {
 			result = true;
-		} else if (!(sa == null)) {
+		} else if (!(sa.equals(null))) {
 			result = true;
 		} else {
 			result = false;
@@ -118,10 +120,11 @@ public class EmployeeAttendanceController {
 	}
 
 	@PostMapping("/saveAttendance")
-	public String saveAttendance(@RequestParam("attendanceId") String attendanceId, @RequestParam("departmentId") String departmentId,
-			@RequestParam("employeeId") String employeeId, @RequestParam("shiftId") String shiftId,
-			@RequestParam("date") String date, @RequestParam("onTime") String onTime,
-			@RequestParam("offTime") String offTime, @RequestParam("approved") boolean approved,
+	public String saveAttendance(@RequestParam("attendanceId") String attendanceId,
+			@RequestParam("departmentId") String departmentId, @RequestParam("employeeId") String employeeId,
+			@RequestParam("shiftId") String shiftId, @RequestParam("date") String date,
+			@RequestParam("onTime") String onTime, @RequestParam("offTime") String offTime,
+			@RequestParam("approved") boolean approved,
 			@RequestParam(value = "companyId", required = false) String companyId,
 			RedirectAttributes redirectAttributes) {
 
@@ -158,10 +161,7 @@ public class EmployeeAttendanceController {
 			@RequestParam(value = "departmentId", required = false) String departmentId,
 			@RequestParam(value = "employeeId", required = false) String employeeId,
 			@RequestParam(value = "shiftId", required = false) String shiftId, HttpSession session) {
-		System.out.println(date);
-		System.out.println(departmentId);
-		System.out.println(employeeId);
-		System.out.println(shiftId);
+
 		List<AttendanceRecordBean> list = new ArrayList<>();
 		String companyId = session.getAttribute("company.comID").toString();
 		if (departmentId == null && employeeId == null && shiftId == null) {

@@ -1,4 +1,4 @@
-function loadEmployeeIdByDepartmentId() {
+function loadEmployeesByDepartment() {
 
 	var selectDepartment = document.getElementById("selectDepartment").value;
 	if (selectDepartment == "") {
@@ -10,7 +10,7 @@ function loadEmployeeIdByDepartmentId() {
 		$
 				.ajax({
 					type : 'GET',
-					url : "loadEmployeeIdByDepartmentId",
+					url : "loadEmployeesByDepartment",
 					data : {
 						"depID" : selectDepartment
 					},
@@ -29,7 +29,7 @@ function loadEmployeeIdByDepartmentId() {
 						}
 						var selectEmployee = $("#selectEmployeeId"), option = "";
 						selectEmployee.empty();
-						selected_option = "<option value='' selected>- Select Employee -</option>";
+						selected_option = "<option value='all' selected>ALL</option>";
 						selectEmployee.append(selected_option);
 
 						for (var i = 0; i < data.length; i++) {

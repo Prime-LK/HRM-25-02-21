@@ -68,8 +68,8 @@ public class EmployeeAttendanceApprovalController {
 		int status = Integer.valueOf(approvalStatus);
 
 		List<String> attendances = new ArrayList<>();
-		if ((departmentId.equals("All") || departmentId == null) && (employeeId.equals("All") || employeeId == null)
-				&& (shiftId.equals("All") || shiftId == null) && (approvalStatus == null)) {
+		if ((departmentId.equals("all") || departmentId == null) && (employeeId.equals("all") || employeeId == null)
+				&& (shiftId.equals("all") || shiftId == null) && (approvalStatus == null)) {
 			// Dates
 			attendances = employeeAttendanceService.loadAttendancesByDateAndApprovalStatusNative(startDate, endDate,
 					status, companyId);
@@ -78,7 +78,7 @@ public class EmployeeAttendanceApprovalController {
 			 * employeeAttendanceService.loadAttendancesByDate(startDate, endDate,
 			 * companyId);
 			 */
-		} else if ((employeeId.equals("All") || employeeId == null) && (shiftId.equals("All") || shiftId == null)
+		} else if ((employeeId.equals("all") || employeeId == null) && (shiftId.equals("all") || shiftId == null)
 				&& (approvalStatus == null)) {
 			// Department
 			attendances = employeeAttendanceService.loadAttendancesByDateAndDepartmentAndApprovalStatusNative(startDate,
@@ -88,8 +88,8 @@ public class EmployeeAttendanceApprovalController {
 			 * employeeAttendanceService.loadAttendancesByDepartment(startDate, endDate,
 			 * departmentId, companyId);
 			 */
-		} else if ((departmentId.equals("All") || departmentId == null)
-				&& (employeeId.equals("All") || employeeId == null) && (approvalStatus == null)) {
+		} else if ((departmentId.equals("all") || departmentId == null)
+				&& (employeeId.equals("all") || employeeId == null) && (approvalStatus == null)) {
 			// Shift
 			attendances = employeeAttendanceService.loadAttendancesByDateAndShiftAndApprovalStatusNative(startDate,
 					endDate, shiftId, status, companyId);
@@ -98,12 +98,12 @@ public class EmployeeAttendanceApprovalController {
 			 * employeeAttendanceService.loadAttendancesByShift(startDate, endDate, shiftId,
 			 * companyId);
 			 */
-		} else if ((departmentId.equals("All") || departmentId == null)
-				&& (employeeId.equals("All") || employeeId == null) && (shiftId.equals("All") || shiftId == null)) {
+		} else if ((departmentId.equals("all") || departmentId == null)
+				&& (employeeId.equals("all") || employeeId == null) && (shiftId.equals("all") || shiftId == null)) {
 			// Approval Status
 			attendances = employeeAttendanceService.loadAttendancesByDateAndApprovalStatusNative(startDate, endDate,
 					status, companyId);
-		} else if ((employeeId.equals("All") || employeeId == null) && (approvalStatus == null)) {
+		} else if ((employeeId.equals("all") || employeeId == null) && (approvalStatus == null)) {
 			// Department + Shift
 			attendances = employeeAttendanceService.loadAttendancesByDateAndDepartmentAndShiftAndApprovalStatusNative(
 					startDate, endDate, departmentId, shiftId, status, companyId);
@@ -112,24 +112,24 @@ public class EmployeeAttendanceApprovalController {
 			 * employeeAttendanceService.loadAttendancesByDepartmentAndShift(startDate,
 			 * endDate, departmentId, shiftId, companyId);
 			 */
-		} else if ((employeeId.equals("All") || employeeId == null) && (shiftId.equals("All") || shiftId == null)) {
+		} else if ((employeeId.equals("all") || employeeId == null) && (shiftId.equals("all") || shiftId == null)) {
 			// Department + Approval Status
 			attendances = employeeAttendanceService.loadAttendancesByDateAndDepartmentAndApprovalStatusNative(startDate,
 					endDate, departmentId, status, companyId);
-		} else if ((departmentId.equals("All") || departmentId == null)
-				&& (employeeId.equals("All") || employeeId == null)) {
+		} else if ((departmentId.equals("all") || departmentId == null)
+				&& (employeeId.equals("all") || employeeId == null)) {
 			// Shift + Approval Status
 			attendances = employeeAttendanceService.loadAttendancesByDateAndShiftAndApprovalStatusNative(startDate,
 					endDate, shiftId, status, companyId);
-		} else if ((employeeId.equals("All") || employeeId == null)) {
+		} else if ((employeeId.equals("all") || employeeId == null)) {
 			// Department + Shift + Approval Status
 			attendances = employeeAttendanceService.loadAttendancesByDateAndDepartmentAndShiftAndApprovalStatusNative(
 					startDate, endDate, departmentId, shiftId, status, companyId);
-		} else if ((shiftId.equals("All") || shiftId == null) && (approvalStatus == null)) {
+		} else if ((shiftId.equals("all") || shiftId == null) && (approvalStatus == null)) {
 
-			if (!employeeId.equals("All") && !(employeeId == null)) {
+			if (!employeeId.equals("all") && !(employeeId == null)) {
 				// Employee
-				System.out.println("Employee ID is not All " + employeeId);
+				System.out.println("Employee ID is not all " + employeeId);
 				attendances = employeeAttendanceService.loadAttendancesByEmployeeAndApprovalStatusNative(startDate,
 						endDate, departmentId, employeeId, status, companyId);
 				/*
@@ -139,7 +139,7 @@ public class EmployeeAttendanceApprovalController {
 				 */
 			} else {
 				// Department
-				System.out.println("Employee ID is All");
+				System.out.println("Employee ID is all");
 				attendances = employeeAttendanceService.loadAttendancesByDateAndDepartmentAndApprovalStatusNative(
 						startDate, endDate, departmentId, status, companyId);
 				/*
@@ -148,7 +148,7 @@ public class EmployeeAttendanceApprovalController {
 				 * departmentId, companyId);
 				 */
 			}
-		} else if ((!employeeId.equals("All")) && (approvalStatus == null)) {
+		} else if ((!employeeId.equals("all")) && (approvalStatus == null)) {
 			// Employee + Shift
 			attendances = employeeAttendanceService.loadAttendancesByEmployeeAndShiftAndApprovalStatusNative(startDate,
 					endDate, departmentId, employeeId, shiftId, status, companyId);
@@ -157,11 +157,11 @@ public class EmployeeAttendanceApprovalController {
 			 * employeeAttendanceService.loadAttendancesByEmployeeAndShift(startDate,
 			 * endDate, departmentId, employeeId, shiftId, companyId);
 			 */
-		} else if ((!employeeId.equals("All")) && (shiftId.equals("All") || shiftId == null)) {
+		} else if ((!employeeId.equals("all")) && (shiftId.equals("all") || shiftId == null)) {
 			// Employee + Approval Status
 			attendances = employeeAttendanceService.loadAttendancesByEmployeeAndApprovalStatusNative(startDate, endDate,
 					departmentId, employeeId, status, companyId);
-		} else if ((!employeeId.equals("All"))) {
+		} else if ((!employeeId.equals("all"))) {
 			// Employee + Shift + Approval Status
 			attendances = employeeAttendanceService.loadAttendancesByEmployeeAndShiftAndApprovalStatusNative(startDate,
 					endDate, departmentId, employeeId, shiftId, status, companyId);

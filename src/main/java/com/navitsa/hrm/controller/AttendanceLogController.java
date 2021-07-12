@@ -58,31 +58,31 @@ public class AttendanceLogController {
 
 		String companyId = session.getAttribute("company.comID").toString();
 		List<EmployeeAttendance> attendances;
-		if ((departmentId.equals("All") || departmentId == null) && (employeeId.equals("All") || employeeId == null)
-				&& (shiftId.equals("All") || shiftId == null)) {
+		if ((departmentId.equals("all") || departmentId == null) && (employeeId.equals("all") || employeeId == null)
+				&& (shiftId.equals("all") || shiftId == null)) {
 			// Dates
 			attendances = employeeAttendanceService.loadAttendancesByDate(startDate, endDate, companyId);
-		} else if ((employeeId.equals("All") || employeeId == null) && (shiftId.equals("All") || shiftId == null)) {
+		} else if ((employeeId.equals("all") || employeeId == null) && (shiftId.equals("all") || shiftId == null)) {
 			// Department
 			attendances = employeeAttendanceService.loadAttendancesByDepartment(startDate, endDate, departmentId,
 					companyId);
-		} else if ((departmentId.equals("All") || departmentId == null)
-				&& (employeeId.equals("All") || employeeId == null)) {
+		} else if ((departmentId.equals("all") || departmentId == null)
+				&& (employeeId.equals("all") || employeeId == null)) {
 			// Shift
 			attendances = employeeAttendanceService.loadAttendancesByShift(startDate, endDate, shiftId, companyId);
-		} else if ((employeeId.equals("All") || employeeId == null)) {
+		} else if ((employeeId.equals("all") || employeeId == null)) {
 			// Department + Shift
 			attendances = employeeAttendanceService.loadAttendancesByDepartmentAndShift(startDate, endDate,
 					departmentId, shiftId, companyId);
-		} else if ((shiftId.equals("All") || shiftId == null)) {
+		} else if ((shiftId.equals("all") || shiftId == null)) {
 
-			if (!employeeId.equals("All") && !(employeeId == null)) {
+			if (!employeeId.equals("all") && !(employeeId == null)) {
 				// Employee
 				attendances = employeeAttendanceService.loadAttendancesByEmployee(startDate, endDate, departmentId,
 						employeeId, companyId);
 			} else {
 				// Department
-				System.out.println("Employee ID is All");
+				System.out.println("Employee ID is all");
 				attendances = employeeAttendanceService.loadAttendancesByDepartment(startDate, endDate, departmentId,
 						companyId);
 			}

@@ -2,6 +2,31 @@ function validateForm() {
 
 	let sDate = document.getElementById('startDate').value;
 	let eDate = document.getElementById('endDate').value;
+
+	let sd = new Date(sDate);
+	let ed = new Date(eDate);
+
+	if (sd > ed) {
+		swal(
+				"Invalid Date Range! Start Date must be lesser or equal to the End Date!",
+				"", {
+					icon : "warning",
+					buttons : {
+						confirm : {
+							className : 'btn btn-warning'
+						}
+					},
+				});
+		return false;
+	} else {
+		return true;
+	}
+}
+
+/*function validateForm() {
+
+	let sDate = document.getElementById('startDate').value;
+	let eDate = document.getElementById('endDate').value;
 	let sId = document.getElementById('shiftId').value;
 	let dId = document.getElementById('selectDepartment').value;
 	let eId = document.getElementById('selectEmployeeId').value;
@@ -144,3 +169,4 @@ function validateForm() {
 		}
 	}
 }
+*/

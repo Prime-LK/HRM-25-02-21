@@ -27,7 +27,7 @@ function loadEmployeesByDepartment() {
 						}
 						var selectEmployee = $("#selectEmployeeId"), option = "";
 						selectEmployee.empty();
-						selected_option = "<option value='All' selected>- Select Employee -</option>";
+						selected_option = "<option value='' selected>SELECT</option>";
 						selectEmployee.append(selected_option);
 
 						for (var i = 0; i < data.length; i++) {

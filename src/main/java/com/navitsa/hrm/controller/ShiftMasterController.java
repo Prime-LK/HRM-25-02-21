@@ -47,7 +47,7 @@ public class ShiftMasterController {
 		return "hrm/shiftMaster";
 	}
 
-	@PostMapping("/saveShiftMaster")
+	@PostMapping("/saveShift")
 	public String saveShiftMaster(@Valid @ModelAttribute("ShiftMaster") ShiftMaster shift, BindingResult br, @RequestParam("companyId") String companyId,
 			RedirectAttributes redirectAttributes) {
 		CompanyMaster company = companyService.findbyCompanyid(companyId);
@@ -87,8 +87,8 @@ public class ShiftMasterController {
 	}
 
 	// update shift master
-	@GetMapping("/updateShiftMaster")
-	public ModelAndView updateShiftMaster(@RequestParam String id, HttpSession session) {
+	@GetMapping("/updateShift")
+	public ModelAndView updateShift(@RequestParam String id, HttpSession session) {
 		ModelAndView mav = new ModelAndView("hrm/shiftMaster");// jsp
 		String companyId = session.getAttribute("company.comID").toString();
 		ShiftMaster shiftMaster = shiftMasterService.findShiftByIdAndCompany(id, companyId);
