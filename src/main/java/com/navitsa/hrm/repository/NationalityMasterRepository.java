@@ -15,4 +15,10 @@ public interface NationalityMasterRepository extends CrudRepository<NationalityM
 
 	@Query(value = "SELECT nm FROM NationalityMaster nm WHERE nm.company.comID = :companyId")
 	public List<NationalityMaster> getAllNationalityByCompany(@Param("companyId") String companyId);
+	
+	
+	@Query(value = "CALL employeeSummaryReport(:companyId)",nativeQuery=true)
+	public String[][] getEmployeeSummaryReport(@Param("companyId") String companyId);
+	
+	
 }

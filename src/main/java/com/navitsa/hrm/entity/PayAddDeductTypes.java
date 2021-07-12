@@ -37,6 +37,9 @@ public class PayAddDeductTypes {
 	@Column(name="Is_On_Gross_Salary")
 	private String onGrSalary;
 
+	@Column(name="Is_On_EPF_Salary")
+	private String isOnEPFSalary;
+	
 	@Column(name="Add_Deduct_Period")
 	private String addDePeriod;
 	
@@ -55,6 +58,9 @@ public class PayAddDeductTypes {
 	@Column(name="Is_Active")
 	private String isActive;
 	
+	@Column(name="Calculation_Method")
+	private String calculationMethod;
+		
 	@ManyToOne(optional=false, fetch = FetchType.EAGER)
 	@JoinColumn(name="Company_ID", referencedColumnName="Company_ID")
 	private CompanyMaster company;
@@ -205,6 +211,22 @@ public class PayAddDeductTypes {
 
 	public PayAddDeductTypes(String deductTypeCode) {
 		this.deductTypeCode = deductTypeCode;
+	}
+
+	public String getCalculationMethod() {
+		return calculationMethod;
+	}
+
+	public void setCalculationMethod(String calculationMethod) {
+		this.calculationMethod = calculationMethod;
+	}
+
+	public String getIsOnEPFSalary() {
+		return isOnEPFSalary;
+	}
+
+	public void setIsOnEPFSalary(String isOnEPFSalary) {
+		this.isOnEPFSalary = isOnEPFSalary;
 	}
 	
 	

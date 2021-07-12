@@ -7,6 +7,9 @@ public class PaySheetBeen {
 	double amount;	
 	String adddedmethod;
 	String total;
+	String empname;
+	String empid;
+	
 	
 	public String getDeptment() {
 		return deptment;
@@ -37,6 +40,18 @@ public class PaySheetBeen {
 	}
 	public void setTotal(String total) {
 		this.total = total;
+	}
+	public String getEmpname() {
+		return empname;
+	}
+	public void setEmpname(String empname) {
+		this.empname = empname;
+	}
+	public String getEmpid() {
+		return empid;
+	}
+	public void setEmpid(String empid) {
+		this.empid = empid;
 	}
 	
 	

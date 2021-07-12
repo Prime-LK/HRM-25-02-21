@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,10 +19,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.navitsa.hrm.entity.CompanyMaster;
 import com.navitsa.hrm.entity.DepartmentMaster;
 import com.navitsa.hrm.entity.Employee;
 import com.navitsa.hrm.entity.EmployeeDetails;
 import com.navitsa.hrm.report.EmployeeReportBean;
+import com.navitsa.hrm.report.EmployeeSummaryReportBeen;
+import com.navitsa.hrm.service.CompanyService;
 import com.navitsa.hrm.service.DepartmentService;
 import com.navitsa.hrm.service.EmployeeService;
 import com.navitsa.hrm.utils.ReportViewe;
@@ -32,9 +36,12 @@ public class EmployeeReportController {
 	@Autowired
 	private EmployeeService empService;
 	
-	@Autowired
-	
+	@Autowired	
 	private DepartmentService depservive;
+	
+	@Autowired
+	private CompanyService companyService;
+	
 	
 	@GetMapping("employeeReport")
 	public String loadPage() {
@@ -180,4 +187,48 @@ public class EmployeeReportController {
 	    	return detail;
 	    }
 	    
+	 
+	 
+	 @GetMapping("/employeeSummaryReport")
+	 public ModelAndView employeeSummaryReport(HttpServletRequest request, HttpServletResponse response,HttpSession session) throws Exception {
+		
+		String companyId=session.getAttribute("company.comID")+"";	
+		String[][] result=empService.getEmployeeSummaryReport(companyId);
+				
+		 List<EmployeeSummaryReportBeen> listemp = new ArrayList<>(); 
+		 
+		 for(int i=0; i<result.length;i++)
+		 {
+			 EmployeeSummaryReportBeen employeeSummaryReport=new EmployeeSummaryReportBeen();
+			employeeSummaryReport.setEpfno(result[i][0]);
+			employeeSummaryReport.setName(result[i][1]);
+			employeeSummaryReport.setNic(result[i][2]);
+			employeeSummaryReport.setBankname(result[i][3]);
+			employeeSummaryReport.setAccount(result[i][4]);
+			employeeSummaryReport.setBasicsal(Double.parseDouble(result[i][5]));
+			employeeSummaryReport.setType(result[i][6]);
+			employeeSummaryReport.setAmount(Double.parseDouble(result[i][7]));
+ 
+			 
+			listemp.add(employeeSummaryReport);
+
+		 }
+		 	//Map<String, Object> params = new HashMap<>();
+		 	//params.put("empID", empID);companny address
+			CompanyMaster companyMaster = companyService.findbyCompanyid(companyId);
+	      	Map<String,Object> params = new HashMap<>();
+
+	    	params.put("companny",companyMaster.getComName());
+	      	params.put("address",companyMaster.getConNo());
+		 	
+		 	
+		 	ReportViewe review=new ReportViewe();
+	        String report = review.pdfReportViewInlineSystemOpen("employeeSummaryReport.jasper", "", listemp, params, response);
+	        ModelAndView mav = new ModelAndView("hrm/employeeReportView");
+	        mav.addObject("pdfViewEq",report);
+	        return mav;
+	 }
+	 
+	 
+	 
 }

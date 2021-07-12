@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -952,8 +954,9 @@ public class SalaryController {
 
 	// load PAyAddDetuctType
 	@ModelAttribute("payAddDetuctType")
-	public List<PayAddDeductTypes> getAllPayAddDeductTypes() {
-		return payAddDeductTypeService.getAllDetails();
+	public List<PayAddDeductTypes> getAllPayAddDeductTypes(HttpSession session) {
+		String companyId=session.getAttribute("company.comID")+"";
+		return payAddDeductTypeService.getAllActiveDetailsbyCompid(companyId);
 	}
 
 	// load employee salary details jsp
@@ -1113,8 +1116,9 @@ public class SalaryController {
 	}
 
 	@ModelAttribute("getAllEmpSaDetails")
-	public List<EmployeeSalaryDetail> getAllEmpSaDetails() {
-		return employeeSalaryService.getAllEmpSaDe();
+	public List<EmployeeSalaryDetail> getAllEmpSaDetails(HttpSession session) {
+		String companyId=session.getAttribute("company.comID")+"";		
+		return employeeSalaryService.getemployeeSalaryDetailsBycompid(companyId);
 	}
 	// end of salary details functions
 

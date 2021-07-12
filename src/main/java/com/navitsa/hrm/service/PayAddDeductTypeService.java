@@ -3,6 +3,7 @@ package com.navitsa.hrm.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import com.navitsa.hrm.entity.PayAddDeductTypes;
@@ -32,5 +33,12 @@ public class PayAddDeductTypeService {
 	
 	public PayAddDeductTypes updateDeductType(String id) {
 		return deTypeRepo.findById(id).get();
+	}
+	
+	public List<PayAddDeductTypes> getAllDetailsbyCompid(String compid) {
+		return  deTypeRepo.getAllDetailsbyCompid(compid);
+	}
+	public List<PayAddDeductTypes> getAllActiveDetailsbyCompid(String compid){
+		return  deTypeRepo.getAllActiveDetailsbyCompid(compid);
 	}
 }

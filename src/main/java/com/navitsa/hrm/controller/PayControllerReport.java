@@ -164,12 +164,12 @@ public class PayControllerReport {
 	}
 	
 	@PostMapping("/generatePaySheetDeperment")
-	public ModelAndView getpaySheet(@RequestParam("dept") String dept,  HttpServletRequest request,
+	public ModelAndView getpaySheet(@RequestParam("dept") String dept,@RequestParam("type") String type,@RequestParam("payperodid") String payperodid , HttpServletRequest request,
 			HttpServletResponse response, HttpSession session) throws Exception {
 		String comID = (String) session.getAttribute("company.comID");
 		
 		
-		String[][] data = proPaMaService.getpaySheet(dept,comID);
+		String[][] data = proPaMaService.getpaySheet(dept,comID,type,payperodid);
 		List<PaySheetBeen> paySheetBeenList = new ArrayList<>();
 		for (int i = 0; i < data.length; i++) {
 			PaySheetBeen paySheetBeen = new PaySheetBeen();
@@ -180,6 +180,8 @@ public class PayControllerReport {
 			paySheetBeen.setAdddedmethod(data[i][3]);
 			paySheetBeen.setTotal(data[i][4]);
 			
+			paySheetBeen.setEmpname(data[i][5]);
+			paySheetBeen.setEmpid(data[i][6]);
 			paySheetBeenList.add(paySheetBeen);
 		}
 		
@@ -191,9 +193,18 @@ public class PayControllerReport {
       	params.put("address",companyMaster.getConNo());
       	
 		String fileName = "Pay Sheet";
+		
 		ReportViewe review = new ReportViewe();
-		String report = review.pdfReportViewInlineSystemOpen("paySheetAllDepartment.jasper",
+		String report ="";
+		if(type.equals("Summary")) {
+		 report = review.pdfReportViewInlineSystemOpen("paySheetAllDepartment.jasper",
 				fileName, paySheetBeenList, params, response);
+		}else {
+			 report = review.pdfReportViewInlineSystemOpen("paySheetAllDepartmentDetails.jasper",
+					fileName, paySheetBeenList, params, response);
+			
+		}
+		
 		ModelAndView mav = new ModelAndView("hrm/paySheet");
 		mav.addObject("pdfViewEq", report);
 		return mav;

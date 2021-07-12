@@ -332,5 +332,10 @@ public class EmployeeService {
 	public List<EmployeeDetails> getEmployeeDetailsByCompanyID(String companyID) {
 		return empDeRepo.getEmployeeDetailsByCompanyID(companyID);
 	}
+	
+	public String[][] getEmployeeSummaryReport(String companyId){
+		return naRepo.getEmployeeSummaryReport(companyId);
+		
+	}
 }
 

@@ -57,8 +57,8 @@ public class ProcessPayrollMasterService {
 	public String[][] paySlipData(String payperodid,String dept,String empID, String comID) {
 		return proPaMaRepo.paySlipData(payperodid,dept,empID,comID);
 	}
-	public String[][] getpaySheet(String dept,String comID) {
-		return proPaMaRepo.getpaySheet(dept,comID);
+	public String[][] getpaySheet(String dept,String comID,String type,String payperodid) {
+		return proPaMaRepo.getpaySheet(dept,comID,type,payperodid);
 	}
 	
 	public String loggedCompanyName(String comID) {
@@ -177,8 +177,8 @@ public class ProcessPayrollMasterService {
 	public void deleteAllDataOfProcessPayrollMaster() {
 		proPaMaRepo.deleteAll();
 	}
-	public String[][]  getProcessPayroll(String payCodeID,String comID){
-		return proPaMaRepo.getProcessPayroll(payCodeID,comID);
+	public String[][]  getProcessPayroll(String payperoide,String payCodeID,String comID){
+		return proPaMaRepo.getProcessPayroll(payperoide,payCodeID,comID);
 		
 	}
 }

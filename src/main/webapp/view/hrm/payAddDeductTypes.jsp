@@ -192,14 +192,26 @@
 												<div class="form-group row">
 													<div id="div3">
 														<label>calculated as</label> <br>
-														<form:radiobutton path="isPercentage"
-															onchange="checkIfPercentage()" value="percentage"
-															checked="checked" id="isPercentage" />
-														percentage
-														<form:radiobutton path="isPercentage" class="ml-4"
-															value="value" id="isPercentage2"
-															onchange="checkIfPercentage2()" />
-														value
+											<form:select class="form-control form-control-user fontst"
+												path="calculationMethod" id="calculationMethod">
+												
+													<form:option value="N/A">Value</form:option>
+												<form:option value="OT Formula">OTFormula</form:option>
+												<form:option value="NoPayFormula">NoPay Formula</form:option>
+												<form:option value="ETFFormula">ETF Formula</form:option>
+												
+											</form:select>				
+														
+														
+<%-- 														<form:radiobutton path="isPercentage" --%>
+<%-- 															onchange="checkIfPercentage()" value="percentage" --%>
+<%-- 															checked="checked" id="isPercentage" /> --%>
+<!-- 														percentage -->
+<%-- 														<form:radiobutton path="isPercentage" class="ml-4" --%>
+<%-- 															value="value" id="isPercentage2" --%>
+<%-- 															onchange="checkIfPercentage2()" /> --%>
+<!-- 														value -->
+														
 													</div>
 												</div>
 											</div>
@@ -208,13 +220,41 @@
 											<div class="col-4">
 												<div class="form-group row">
 													<div id="div4">
-														<label>based on</label> <br>
-														<form:radiobutton path="onBaSalary" value="basicSalary"
-															checked="checked" />
-														basic salary
-														<form:radiobutton path="onBaSalary" class="ml-4"
-															value="grossSalary" />
-														gross salary
+													
+<!-- 													<label>is on basic salary</label> -->
+<!-- 													<div class="btn-group btn-group-toggle" data-toggle="buttons"> -->
+<!-- 												  <label class="btn btn-outline-success btn-sm"> -->
+<%-- 												    <form:radiobutton path="onBaSalary" value="THRUE" />ACTIVE --%>
+<!-- 												  </label> -->
+<!-- 												  <label class="btn btn-outline-primary btn-sm"> -->
+<%-- 												    <form:radiobutton path="onBaSalary"  value="FALSE"  />INACTIVE --%>
+<!-- 												  </label> -->
+												 
+<!-- 												</div>	 -->
+
+
+
+
+													<label>Is on basic salary</label>	
+													<form:checkbox path="onBaSalary" value="TRUE" id="onbasicsal"/>
+													<br/>	<label>Is on Gross Salary</label>
+													<form:checkbox path="onGrSalary" value="TRUE" />
+													<br/>	<label>Is On EPF Salary</label>
+													<form:checkbox path="isOnEPFSalary" value="TRUE" />
+														
+										
+													
+													
+													
+													
+													
+<!-- 														<label>IS on</label> <br> -->
+<%-- 														<form:radiobutton path="onBaSalary" value="basicSalary" --%>
+<%-- 															checked="checked" /> --%>
+<!-- 														basic salary -->
+<%-- 														<form:radiobutton path="onGrSalary" class="ml-4" --%>
+<%-- 															value="grossSalary" /> --%>
+<!-- 														gross salary -->
 													</div>
 												</div>
 											</div>
@@ -278,8 +318,8 @@
 																path="isActive" value="active" class="selectgroup-input" />
 															<span class="selectgroup-button">Active</span>
 														</label> <label class="selectgroup-item"> <form:radiobutton
-																path="isActive" value="day" class="selectgroup-input" />
-															<span class="selectgroup-button">Depends on Day</span>
+																path="isActive" value="Inactive" class="selectgroup-input" />
+															<span class="selectgroup-button">Inactive</span>
 														</label>
 													</div>
 												</div>
@@ -309,18 +349,21 @@
 												<thead>
 													<tr>
 														<th>Description</th>
-														<th>status</th>
-														<th>calculation circle</th>
+														<th>Type</th>
+														
 														<th>calculated as</th>
 														<th>deduct value</th>
-														<th>multiply value</th>
-														<th>based on salary type</th>
-														<th>deduct period</th>
+<!-- 														<th>multiply value</th> -->
+														<th>Basic Salary</th>
+														<th>Gross Salary</th>
+														<th>ETF/EPF Salary</th>
+														
+<!-- 														<th>deduct period</th> -->
 														<th>type</th>
 														<th>cal priority</th>
 														<th>ledger code</th>
 														<th>print priority</th>
-														<th>active status</th>
+														<th>Status</th>
 														<th>Action</th>
 													</tr>
 												</thead>
@@ -329,12 +372,15 @@
 														<tr>
 															<td id="tPro"><div>${s.desc}</div></td>
 															<td id="tItem"><div>${s.addDeStatus}</div></td>
-															<td id="tItem"><div>${s.addDePeriod}</div></td>
-															<td id="tItem"><div>${s.isPercentage}</div></td>
+														
+															<td id="tItem"><div>${s.calculationMethod}</div></td>
 															<td id="tItem"><div>${s.addDeValue}</div></td>
-															<td id="tItem"><div>${s.multipiyValue}</div></td>
+<%-- 															<td id="tItem"><div>${s.multipiyValue}</div></td> --%>
 															<td id="tItem"><div>${s.onBaSalary}</div></td>
-															<td id="tItem"><div>${s.addDePeriod}</div></td>
+															<td id="tItem"><div>${s.onGrSalary}</div></td>
+															<td id="tItem"><div>${s.isOnEPFSalary}</div></td>
+															
+<%-- 															<td id="tItem"><div>${s.addDePeriod}</div></td> --%>
 															<td id="tItem"><div>${s.addDeType}</div></td>
 															<td id="tItem"><div>${s.calPriSeq}</div></td>
 															<td id="tItem"><div>${s.ledgerCode}</div></td>
@@ -411,5 +457,17 @@
 
 			});
 		});
+		
+		
+		function display() {
+			if(document.getElementById("check").checked) {
+			    document.getElementById('checkHidden').disabled = true;
+			}
+			  }
+			} 
+			
+	
+			
+		
 	</script>
 </html>

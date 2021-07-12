@@ -915,8 +915,8 @@ public interface ProcessPayrollMasterRepository extends JpaRepository<ProcessPay
 	@Query(value="call Payslip_employees(:payperodid,:dept,:Company_ID,:Employee_ID)",nativeQuery=true)
 	public String[][] paySlipData(@Param("payperodid")String payperodid,@Param("dept")String dept,@Param("Employee_ID")String empID, @Param("Company_ID")String comID);
 	
-	@Query(value="call paySheet(:dept,:Company_ID)",nativeQuery=true)	
-	public String[][] getpaySheet(@Param("dept")String dept,@Param("Company_ID")String comID);
+	@Query(value="call paySheet(:dept,:Company_ID,:type,:payperodid)",nativeQuery=true)	
+	public String[][] getpaySheet(@Param("dept")String dept,@Param("Company_ID")String comID,@Param("type")String type,@Param("payperodid")String payperodid );
 	
 	@Query(value="select a.Company_Name from company_master a where a.Company_ID =:Company_ID",nativeQuery=true)
 	public String loggedComapanyName(@Param("Company_ID")String comID);
@@ -3202,7 +3202,7 @@ public interface ProcessPayrollMasterRepository extends JpaRepository<ProcessPay
 	public String[][] saveDataMonthProcessMaster(@Param("Pay_Code_ID")String payCodeID,@Param("Company_ID")String comID);
 
 	
-	@Query(value = "CALL processPayroll(:payCodeID,:comID)",nativeQuery=true)
-	public String[][]  getProcessPayroll(@Param("payCodeID")String payCodeID,@Param("comID")String comID);
+	@Query(value = "CALL processPayroll(:payperoide,:payCodeID,:comID)",nativeQuery=true)
+	public String[][]  getProcessPayroll(@Param("payperoide")String payperoide,@Param("payCodeID")String payCodeID,@Param("comID")String comID);
 	
 }

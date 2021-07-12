@@ -123,8 +123,8 @@ public class PayService {
 	}
 
 	// load payCode data based on payCodeID
-	public List<PayCode> loadpayCodestoGrid(String payPeriodID) {
-		return payCodeRepository.loadPayCodedata(payPeriodID);
+	public List<PayCode> loadpayCodestoGrid(String payPeriodID,String comID) {
+		return payCodeRepository.loadPayCodedata(payPeriodID,comID);
 	}
 
 	// load payCode data based on payCodeID

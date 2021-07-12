@@ -150,5 +150,14 @@ public interface EmployeeSalaryDetailRepository extends CrudRepository<EmployeeS
 				"inner join hrm.pay_add_deduct_types p on s.Pay_Add_Deduct_Type_Code = p.Pay_Add_Deduct_Type_Code \r\n" + 
 				"inner join hrm.employee_types t on  d.Emp_Category_ID = t.Emp_Type_ID where t.Emp_Type_ID=:tid and s.Pay_Add_Deduct_Type_Code=:deductTypeCode" , nativeQuery = true)
 		public String [][] getallSalarydetailsbasedontypeID(@Param("tid") String tid , @Param("deductTypeCode") String deductTypeCode);
+	
+		
+		@Query(value = "SELECT ed FROM EmployeeSalaryDetail ed WHERE ed.company.comID=:comID")
+		public List<EmployeeSalaryDetail> getemployeeSalaryDetailsBycompid(@Param("comID") String comID);
+		
 		
 }
+
+
+
+

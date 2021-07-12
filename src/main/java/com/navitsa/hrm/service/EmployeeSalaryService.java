@@ -287,8 +287,8 @@ public class EmployeeSalaryService {
 		return (List<EmployeeMonthSalaryDetails>) empMoDeSaRepo.findAll();
 	}
 	
-	public List<EmployeeSalaryDetail> getAllEmpSaDe() {
-		return (List<EmployeeSalaryDetail>) employeeSalaryDetailRepo.findAll();
+	public List<EmployeeSalaryDetail> getemployeeSalaryDetailsBycompid(String Compid) {
+		return (List<EmployeeSalaryDetail>) employeeSalaryDetailRepo.getemployeeSalaryDetailsBycompid(Compid);
 	}
 	
 }

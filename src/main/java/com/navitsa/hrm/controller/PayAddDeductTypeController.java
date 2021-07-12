@@ -44,6 +44,20 @@ public class PayAddDeductTypeController {
 	public String saveDeductType(@ModelAttribute("deductForm") PayAddDeductTypes deductType,
 			RedirectAttributes redirectAttributes) {
 		try {
+			
+			
+			if(deductType.getOnBaSalary()==null) {
+				deductType.setOnBaSalary("FALSE");
+			}
+			
+			if(deductType.getOnGrSalary()==null) {
+				deductType.setOnGrSalary("FALSE");
+			}
+			
+			if(deductType.getIsOnEPFSalary()==null) {
+				deductType.setIsOnEPFSalary("FALSE");
+			}
+			
 			deService.saveDeductType(deductType);
 			
         	redirectAttributes.addFlashAttribute("success", 1);
@@ -70,7 +84,9 @@ public class PayAddDeductTypeController {
 	}
 	
 	@ModelAttribute("allAddDed")
-	public List<PayAddDeductTypes> getAll() {
-		return deService.getAllDetails();
+	public List<PayAddDeductTypes> getAll(HttpSession session) {
+		
+		String companyID=(String) session.getAttribute("company.comID");			
+		return deService.getAllDetailsbyCompid(companyID);
 	}
 }

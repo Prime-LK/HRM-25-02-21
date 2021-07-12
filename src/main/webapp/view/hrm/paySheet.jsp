@@ -129,6 +129,21 @@
 
 							<div class="form-group row">
 										<div class="col-sm-12">
+										<label class="l-fontst">Pay Period</label>
+												<select class="custom-select custom-select-sm" id="payperodid" name="payperodid" 
+													 required>
+													<option value=""> select Pay Period</option>
+													<c:forEach items="${payPeriodPayShip}" var="pship">
+														<option value="${pship.payPeriodID}">${pship.desc} (${pship.startDate}-${pship.endDate})</option>
+													</c:forEach>
+												</select>	
+										</div>
+									
+										
+							</div>
+
+							<div class="form-group row">
+										<div class="col-sm-12">
 										<label class="l-fontst">Department</label>
 												<select class="custom-select custom-select-sm" id="dept" name="dept" onchange="getEmployee();"
 													 required>
@@ -142,7 +157,23 @@
 										
 							</div>
 					
-							
+								<div class="row">
+											<div class="col-6">
+												<div class="form-group row">
+													
+													<div class="selectgroup w-100 col-5 ml-4">
+														<label class="selectgroup-item"> 
+														
+															<input type="radio" name="type" value="Summary" class="selectgroup-input" required>
+															<span class="selectgroup-button">Summary Report</span>
+														</label> <label class="selectgroup-item"> 
+															<input type="radio" name="type" value="Details" class="selectgroup-input" required>
+															<span class="selectgroup-button">Details Report</span>
+														</label>
+													</div>
+												</div>
+											</div>
+										</div>
 	
 				
 							

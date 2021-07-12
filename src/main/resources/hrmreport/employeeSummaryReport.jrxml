@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="employeeSummaryReport" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="842" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="3737c8f8-35e7-4ea0-bf9f-c557f6bbbdf3">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Crosstab Data Text" hAlign="Center"/>
+	<parameter name="companny" class="java.lang.String"/>
+	<parameter name="address" class="java.lang.String"/>
+	<parameter name="deparment" class="java.lang.String"/>
+	<parameter name="emptype" class="java.lang.String"/>
+	<parameter name="design" class="java.lang.String"/>
+	<parameter name="employee" class="java.lang.String"/>
+	<parameter name="costcenter" class="java.lang.String"/>
+	<parameter name="empcatP" class="java.lang.String"/>
+	<parameter name="religionP" class="java.lang.String"/>
+	<parameter name="civistaP" class="java.lang.String"/>
+	<field name="epfno" class="java.lang.String"/>
+	<field name="name" class="java.lang.String"/>
+	<field name="nic" class="java.lang.String"/>
+	<field name="bankname" class="java.lang.String"/>
+	<field name="account" class="java.lang.String"/>
+	<field name="basicsal" class="java.lang.Double"/>
+	<field name="type" class="java.lang.String"/>
+	<field name="amount" class="java.lang.Double"/>
+	<pageHeader>
+		<band height="99">
+			<textField>
+				<reportElement x="97" y="36" width="656" height="20" uuid="6b49a67e-dc73-43a6-a53e-860b4ad24947"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{companny}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="97" y="56" width="656" height="20" uuid="e78af55c-a957-459f-9aae-c883000a5884"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{address}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="97" y="16" width="656" height="20" forecolor="#000000" uuid="2ace482a-5e4e-46a6-a753-ced9e680d33d"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["EMPLOYEE SUMMARY REPORT"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="77" width="117" height="19" uuid="a1f06462-0d2b-40cd-93e1-2022552123ce"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Department]]></text>
+			</staticText>
+			<line>
+				<reportElement x="10" y="76" width="818" height="1" uuid="85fa6316-5012-4d30-97b9-24515a774bd8"/>
+			</line>
+			<textField>
+				<reportElement x="127" y="77" width="290" height="20" uuid="6cf66f28-5687-4fe0-8ebf-56b82288f624"/>
+				<textFieldExpression><![CDATA[$P{deparment}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<summary>
+		<band height="156">
+			<crosstab>
+				<reportElement x="10" y="0" width="818" height="98" uuid="c96fbe00-10a2-4787-a396-d37c7f7e62dc"/>
+				<crosstabHeaderCell>
+					<cellContents>
+						<staticText>
+							<reportElement style="Crosstab Data Text" x="0" y="0" width="64" height="22" uuid="db6deaf8-cd28-4a49-a756-6849fb1f88eb"/>
+							<box leftPadding="2">
+								<topPen lineWidth="1.0"/>
+								<leftPen lineWidth="1.0"/>
+							</box>
+							<textElement textAlignment="Left" verticalAlignment="Middle"/>
+							<text><![CDATA[EPF No]]></text>
+						</staticText>
+						<staticText>
+							<reportElement style="Crosstab Data Text" x="64" y="0" width="174" height="22" uuid="9366e991-101c-48f8-90d9-b770cd2a5dec"/>
+							<box leftPadding="2">
+								<topPen lineWidth="1.0"/>
+								<leftPen lineWidth="1.0"/>
+							</box>
+							<textElement textAlignment="Left" verticalAlignment="Middle"/>
+							<text><![CDATA[Name]]></text>
+						</staticText>
+						<staticText>
+							<reportElement style="Crosstab Data Text" x="237" y="0" width="80" height="22" uuid="99da735e-4c41-4c9b-b5b6-c7c20c073956"/>
+							<box leftPadding="2">
+								<topPen lineWidth="1.0"/>
+								<leftPen lineWidth="1.0"/>
+							</box>
+							<textElement textAlignment="Left" verticalAlignment="Middle"/>
+							<text><![CDATA[NIC]]></text>
+						</staticText>
+						<staticText>
+							<reportElement style="Crosstab Data Text" x="317" y="0" width="83" height="22" uuid="1e2275de-e215-4b4e-9a92-f3d5e885719b"/>
+							<box leftPadding="2">
+								<topPen lineWidth="1.0"/>
+								<leftPen lineWidth="1.0"/>
+							</box>
+							<textElement textAlignment="Left" verticalAlignment="Middle"/>
+							<text><![CDATA[Bank Name]]></text>
+						</staticText>
+						<staticText>
+							<reportElement style="Crosstab Data Text" x="400" y="0" width="75" height="22" uuid="c39d8608-0caa-4656-b323-a842c67c58b7"/>
+							<box leftPadding="2">
+								<topPen lineWidth="1.0"/>
+								<leftPen lineWidth="1.0"/>
+							</box>
+							<textElement textAlignment="Left" verticalAlignment="Middle"/>
+							<text><![CDATA[Account]]></text>
+						</staticText>
+						<staticText>
+							<reportElement style="Crosstab Data Text" x="475" y="0" width="84" height="22" uuid="dca9d636-8d62-495b-80c4-e4fb7e3f748e"/>
+							<box rightPadding="2"/>
+							<textElement textAlignment="Right" verticalAlignment="Middle"/>
+							<text><![CDATA[Basic]]></text>
+						</staticText>
+					</cellContents>
+				</crosstabHeaderCell>
+				<rowGroup name="epfno" width="559">
+					<bucket class="java.lang.String">
+						<bucketExpression><![CDATA[$F{epfno}]]></bucketExpression>
+					</bucket>
+					<crosstabRowHeader>
+						<cellContents backcolor="#FFFFFF" mode="Opaque">
+							<box>
+								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<textField>
+								<reportElement style="Crosstab Data Text" x="0" y="0" width="64" height="25" uuid="dacc080e-a9b4-408f-9df4-5a4829305d66"/>
+								<box leftPadding="5"/>
+								<textElement textAlignment="Left" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$V{epfno}]]></textFieldExpression>
+							</textField>
+							<textField>
+								<reportElement style="Crosstab Data Text" x="64" y="1" width="174" height="25" uuid="53764454-558c-4dda-a6cc-322ac46aa612"/>
+								<textElement textAlignment="Left" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$V{measure1}]]></textFieldExpression>
+							</textField>
+							<textField>
+								<reportElement style="Crosstab Data Text" x="317" y="1" width="83" height="25" uuid="ab560538-83dc-4518-9c4a-e52f56d2744e"/>
+								<textElement textAlignment="Left" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$V{measure4}==null?"":$V{measure4}]]></textFieldExpression>
+							</textField>
+							<textField>
+								<reportElement style="Crosstab Data Text" x="400" y="2" width="75" height="25" uuid="32de2077-6f39-49a5-9cd1-dc8f63c21fa2"/>
+								<textElement textAlignment="Left" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$V{measure5}==null?"":$V{measure5}]]></textFieldExpression>
+							</textField>
+							<textField>
+								<reportElement style="Crosstab Data Text" x="237" y="2" width="80" height="25" uuid="fe7fc219-db3a-48ed-9b64-ba221df6e5a9"/>
+								<textElement textAlignment="Left" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$V{measure6}==null?"":$V{measure6}]]></textFieldExpression>
+							</textField>
+							<textField pattern="#,##0.00">
+								<reportElement style="Crosstab Data Text" x="475" y="1" width="84" height="25" uuid="f5355301-9659-40b1-9960-587b6d1eab43"/>
+								<box rightPadding="2"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$V{measure7}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabRowHeader>
+					<crosstabTotalRowHeader>
+						<cellContents/>
+					</crosstabTotalRowHeader>
+				</rowGroup>
+				<columnGroup name="type" height="25" totalPosition="End">
+					<bucket class="java.lang.String">
+						<bucketExpression><![CDATA[$F{type}]]></bucketExpression>
+					</bucket>
+					<crosstabColumnHeader>
+						<cellContents backcolor="#FFFFFF" mode="Opaque">
+							<box>
+								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<textField>
+								<reportElement style="Crosstab Data Text" x="0" y="0" width="50" height="22" uuid="847d9009-9a27-44c5-9051-55b4051002b3"/>
+								<box rightPadding="5"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$V{type}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabColumnHeader>
+					<crosstabTotalColumnHeader>
+						<cellContents backcolor="#FFFFFF" mode="Opaque">
+							<box>
+								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<staticText>
+								<reportElement x="0" y="0" width="84" height="22" uuid="3de58a53-4cb6-414a-9bcf-98728dfd5b3e"/>
+								<box rightPadding="5"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle"/>
+								<text><![CDATA[Total]]></text>
+							</staticText>
+						</cellContents>
+					</crosstabTotalColumnHeader>
+				</columnGroup>
+				<measure name="amountMeasure" class="java.lang.Double">
+					<measureExpression><![CDATA[$F{amount}]]></measureExpression>
+				</measure>
+				<measure name="measure8" class="java.lang.String">
+					<measureExpression><![CDATA[$F{nic}]]></measureExpression>
+				</measure>
+				<measure name="measure1" class="java.lang.String">
+					<measureExpression><![CDATA[$F{name}]]></measureExpression>
+				</measure>
+				<measure name="measure4" class="java.lang.String">
+					<measureExpression><![CDATA[$F{bankname}]]></measureExpression>
+				</measure>
+				<measure name="measure5" class="java.lang.String">
+					<measureExpression><![CDATA[$F{account}]]></measureExpression>
+				</measure>
+				<measure name="measure3" class="java.lang.Integer" calculation="Sum">
+					<measureExpression><![CDATA[$F{amount}]]></measureExpression>
+				</measure>
+				<measure name="measure6" class="java.lang.String">
+					<measureExpression><![CDATA[$F{nic}]]></measureExpression>
+				</measure>
+				<measure name="measure7" class="java.lang.Double">
+					<measureExpression><![CDATA[$F{basicsal}]]></measureExpression>
+				</measure>
+				<crosstabCell width="50" height="28">
+					<cellContents>
+						<box>
+							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+						<textField pattern="#,##0.00">
+							<reportElement style="Crosstab Data Text" x="0" y="1" width="50" height="25" uuid="20da0a34-e782-49d7-b051-a1ca594505ab"/>
+							<box rightPadding="5"/>
+							<textElement textAlignment="Right" verticalAlignment="Middle"/>
+							<textFieldExpression><![CDATA[$V{amountMeasure}==null?0.00:$V{amountMeasure}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell height="25" rowTotalGroup="epfno">
+					<cellContents backcolor="#BFE1FF" mode="Opaque">
+						<box>
+							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+						<textField>
+							<reportElement style="Crosstab Data Text" x="0" y="0" width="50" height="25" uuid="7f5e458a-842d-4fc3-bc64-809508695626"/>
+							<textFieldExpression><![CDATA[$V{amountMeasure}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="84" height="28" columnTotalGroup="type">
+					<cellContents backcolor="#FFFFFF" mode="Opaque">
+						<box>
+							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+						<textField pattern="#,##0.00">
+							<reportElement style="Crosstab Data Text" x="0" y="1" width="84" height="26" uuid="4009b2db-9632-41ae-9e18-e0bcc3eb59ed"/>
+							<box rightPadding="5"/>
+							<textElement textAlignment="Right" verticalAlignment="Middle"/>
+							<textFieldExpression><![CDATA[$V{measure3}+$V{measure7}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell rowTotalGroup="epfno" columnTotalGroup="type">
+					<cellContents backcolor="#BFE1FF" mode="Opaque">
+						<box>
+							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+						<textField>
+							<reportElement style="Crosstab Data Text" x="0" y="0" width="50" height="25" uuid="ee620501-8ea7-4e56-be91-bc2724578d03"/>
+							<textFieldExpression><![CDATA[$V{amountMeasure}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+			</crosstab>
+		</band>
+	</summary>
+</jasperReport>

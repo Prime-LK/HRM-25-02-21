@@ -173,6 +173,7 @@
 							
 							<li><a href="employeeContactListing"> <span class="sub-item">Employee Contact Listing</span></a></li>
 							<li><a href="employeeListingRpt"> <span class="sub-item">Employee Listing Report</span></a></li>
+							<li><a href="employeeSummaryReport"> <span class="sub-item">Employee Summary Report</span></a></li>
 							
 							<li><a href="leaveSummaryReport"> <span class="sub-item">Leave Summary Report</span></a></li>
 						</ul>

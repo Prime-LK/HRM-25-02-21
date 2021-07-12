@@ -18,8 +18,8 @@ public interface PayCodeRepository extends CrudRepository<PayCode, String>{
 	@Query(value = "SELECT (max(p.payCodeID)+1) FROM PayCode p")
 	public String payCodeForAG();
 	
-	@Query(value="SELECT p FROM PayCode p WHERE p.periodID.payPeriodID =:payPeriodID")
-	public List<PayCode> loadPayCodedata(@Param("payPeriodID") String payPeriodID);
+	@Query(value="SELECT p FROM PayCode p WHERE p.periodID.payPeriodID =:payPeriodID and p.company.comID=:comID ")
+	public List<PayCode> loadPayCodedata(@Param("payPeriodID") String payPeriodID,@Param("comID")String comID);
 	
 	@Query(value="SELECT p FROM PayCode p WHERE p.periodID.startDate =:startDate AND p.periodID.endDate=:endDate")
 	public List<PayCode> loadPayCodedataBySDAndED(@Param("startDate") String startDate,@Param("endDate") String endDate);
