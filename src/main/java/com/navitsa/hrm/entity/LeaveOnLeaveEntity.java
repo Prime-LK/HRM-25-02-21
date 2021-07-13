@@ -26,7 +26,7 @@ public class LeaveOnLeaveEntity {
 	
 	@ManyToOne(optional = false, fetch = FetchType.EAGER)
 	@JoinColumn(name = "LeaveType", referencedColumnName = "leaveCode")
-	private leaveClass leaveType;
+	private LeaveType leaveType;
 	
 	@ManyToOne(optional = false, fetch = FetchType.EAGER)
 	@JoinColumn(name = "Name", referencedColumnName = "Employee_ID")
@@ -70,11 +70,11 @@ public class LeaveOnLeaveEntity {
 		this.year = year;
 	}
 
-	public leaveClass getLeaveType() {
+	public LeaveType getLeaveType() {
 		return leaveType;
 	}
 
-	public void setLeaveType(leaveClass leaveType) {
+	public void setLeaveType(LeaveType leaveType) {
 		this.leaveType = leaveType;
 	}
 

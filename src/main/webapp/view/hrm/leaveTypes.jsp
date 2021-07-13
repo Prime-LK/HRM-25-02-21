@@ -63,9 +63,9 @@
 										  </div>
 										</c:if>
 					                
-											<form:form action="saveleave" method="post"
-												onSubmit="return validateForm()" id="leaves"
-												modelAttribute="leave">
+											<form:form action="saveLeaveType" method="POST"
+												onSubmit="return validateForm()" id="leaveTypeForm"
+												modelAttribute="leaveTypeForm">
 		
 													<div class="form-group row">
 														<div class="col-lg-8">
@@ -84,7 +84,7 @@
 													<div class="form-group row">
 														<div class="col-lg-8">
 															<input type="submit" class="btn btn-success btn-sm" value="Save">
-															<input type="reset" class="btn btn-warning btn-sm" value="Clear">
+															<input type="reset" class="btn btn-danger btn-sm" value="Reset">
 														</div>
 													</div>
 
@@ -103,11 +103,11 @@
 													</tr>
 												</thead>
 												<tbody>
-													<c:forEach items="${leaveAll}" var="lea">
+													<c:forEach items="${typeList}" var="type">
 														<tr>
-															<td>${lea.leaveCode}</td>															
-															<td>${lea.leaveType}</td>
-															<td><a href="editLeaveType?id=${lea.leaveCode}"><i
+															<td>${type.leaveCode}</td>															
+															<td>${type.leaveType}</td>
+															<td><a href="editLeaveType?id=${type.leaveCode}"><i
 																class="fas fa-pen"></i></a></td>
 														</tr>
 													</c:forEach>

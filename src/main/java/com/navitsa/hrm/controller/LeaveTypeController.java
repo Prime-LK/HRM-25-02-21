@@ -7,6 +7,7 @@ package com.navitsa.hrm.controller;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,47 +20,52 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.navitsa.hrm.entity.leaveClass;
-import com.navitsa.hrm.service.LeaveclassService;
+import com.navitsa.hrm.entity.CompanyMaster;
+import com.navitsa.hrm.entity.LeaveType;
+import com.navitsa.hrm.service.LeaveTypeService;
 
 
 @SuppressWarnings("unused")
 @Controller
-public class leaveController {
+public class LeaveTypeController {
 	
 	@Autowired
-	private LeaveclassService LeaveclassService;
+	private LeaveTypeService LeaveTypeService;
 	
 	@RequestMapping(value = "/leaveTypes", method = RequestMethod.GET)
-	public String createrNewUser(Map<String, Object> model) {
-		model.put("leave", new leaveClass());
-		model.put("leaveAll", LeaveclassService.getAllLeaves());
+	public String loadForm(Map<String, Object> model, HttpSession session) {
+		String companyId = (String) session.getAttribute("company.comID");
+		model.put("leaveTypeForm", new LeaveType());
+		model.put("typeList", LeaveTypeService.getLeaveTypesByCompany(companyId));
 		
-		return "hrm/leaves";
+		return "hrm/leaveTypes";
 	}
 
-	@RequestMapping(value = "/saveleave", method = RequestMethod.POST)
-	public String saveLeave(@ModelAttribute("leave") leaveClass leave,
-			RedirectAttributes redirectAttributes) {
+	@RequestMapping(value = "/saveLeaveType", method = RequestMethod.POST)
+	public String saveLeave(@ModelAttribute("leaveTypeForm") LeaveType leaveType,
+			RedirectAttributes redirectAttributes,HttpSession session) {
 		
+		String companyId = (String) session.getAttribute("company.comID");
+		CompanyMaster cm = new CompanyMaster();
+		cm.setComID(companyId);
 		try {
-			
-			LeaveclassService.saveLeave(leave);
+			leaveType.setCompany(cm);
+			LeaveTypeService.saveLeaveType(leaveType);;
 			redirectAttributes.addFlashAttribute("success", 1);
 			return "redirect:/leaveTypes";
 			
 		} catch (Exception e) {
 			System.out.println(e);
 		}
-		return "hrm/leaves";
+		return "hrm/leaveTypes";
 	}
 	
 	@RequestMapping(value="/editLeaveType", method= RequestMethod.GET)
 	public ModelAndView updatename(@RequestParam String id) {
-		ModelAndView mav = new ModelAndView("hrm/leaves");
+		ModelAndView mav = new ModelAndView("hrm/leaveTypes");
 		try {
-			leaveClass leave = LeaveclassService.getLeaveTypeByCode(id);
-			mav.addObject("leave", leave);
+			LeaveType leaveType = LeaveTypeService.getLeaveTypeByCode(id);
+			mav.addObject("leaveTypeForm", leaveType);
 		} catch (Exception e) {
 			System.out.println(e);
 		}

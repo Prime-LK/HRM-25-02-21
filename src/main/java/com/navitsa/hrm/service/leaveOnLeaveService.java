@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.navitsa.hrm.entity.LeaveOnLeaveEntity;
 import com.navitsa.hrm.repository.EmployeeDetailsRepository;
-import com.navitsa.hrm.repository.LeaveClassReository;
+import com.navitsa.hrm.repository.LeaveTypeRepository;
 import com.navitsa.hrm.repository.LeaveOnLeaveRepository;
 
 
@@ -21,7 +21,7 @@ public class leaveOnLeaveService {
 	private EmployeeDetailsRepository EmpRepo;
 
 	@Autowired
-	private LeaveClassReository leaveRepo;
+	private LeaveTypeRepository leaveRepo;
 
 	public Object getAll() {
 		return (List<LeaveOnLeaveEntity>) LoLRepo.findAll();

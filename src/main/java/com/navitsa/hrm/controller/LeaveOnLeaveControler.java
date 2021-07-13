@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.navitsa.hrm.entity.CalanderEntity;
 import com.navitsa.hrm.entity.LeaveOnLeaveEntity;
-import com.navitsa.hrm.entity.leaveClass;
-import com.navitsa.hrm.service.LeaveclassService;
+import com.navitsa.hrm.entity.LeaveType;
+import com.navitsa.hrm.service.LeaveTypeService;
 import com.navitsa.hrm.service.leaveOnLeaveService;
 
 @Controller
