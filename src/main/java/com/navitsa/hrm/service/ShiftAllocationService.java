@@ -85,8 +85,8 @@ public class ShiftAllocationService {
 		return shiftAllocationRepository.getAllShiftAllocationBy(startDate,endDate,employeeID);
 	}
 
-	public ShiftAllocation getShiftBy(String date, String employeeID) {
-		return shiftAllocationRepository.getShiftBy(date,employeeID);
+	public ShiftAllocation getShiftBy(String date, String employeeID, String companyID) {
+		return shiftAllocationRepository.getShiftBy(date,employeeID,companyID);
 	}
 	
 	public ShiftAllocation findShiftAllocationByCompany(String date, String shiftId, String employeeId,

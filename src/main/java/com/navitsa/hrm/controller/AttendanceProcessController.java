@@ -20,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.navitsa.hrm.entity.AttendanceSheet;
 import com.navitsa.hrm.entity.AttendanceTxtFileDetail;
+import com.navitsa.hrm.entity.AttendanceTxtFileHeader;
 import com.navitsa.hrm.entity.CalanderEntity;
 import com.navitsa.hrm.entity.CompanyMaster;
 import com.navitsa.hrm.entity.EmployeeDetails;
@@ -190,7 +191,8 @@ public class AttendanceProcessController {
 				sm = ed.getShiftmaster();
 			}
 			
-			List<AttendanceTxtFileDetail> attendanceRecords =  txtFileReadingService.getAttendanceRecords(payPeriod.getStartDate(),payPeriod.getEndDate(),ed.getEpfNo());
+			AttendanceTxtFileHeader txtFileHeader = txtFileReadingService.getTxtFileHeader(companyID);
+			List<AttendanceTxtFileDetail> attendanceRecords =  txtFileReadingService.getAttendanceRecords(payPeriod.getStartDate(),payPeriod.getEndDate(),ed.getEpfNo(),txtFileHeader.getHeaderId());
 			//List<EmployeeAttendance> manualAttendanceRecords = manulaAttendanceService.getAttendanceRecords(payPeriod.getStartDate(),payPeriod.getEndDate(),employeeID);
 			
 			/* -------------------------------------------- */
@@ -219,7 +221,7 @@ public class AttendanceProcessController {
 				}
 	*/			
 				if(ed.getShiftmaster() == null) {
-					ShiftAllocation shift = shiftAllocationService.getShiftBy(sdf.format(workingDay),employeeID);
+					ShiftAllocation shift = shiftAllocationService.getShiftBy(sdf.format(workingDay),ed.getEpfNo(),companyID);
 					if(shift !=null) {
 						shiftIn = shift.getShiftAllocationPK().getShiftmaster().getStartTime();
 						shiftOut = shift.getShiftAllocationPK().getShiftmaster().getEndTime();
