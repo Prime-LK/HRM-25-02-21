@@ -50,7 +50,7 @@ public class ApplyLeave_Entity {
 	
 	@ManyToOne(optional = false, fetch = FetchType.EAGER)
 	@JoinColumn(name = "leaveCode", referencedColumnName = "leaveCode")
-	private leaveClass leaveType;
+	private LeaveType leaveType;
 	
 	public String getLeaveID() {
 		return leaveID;
@@ -100,11 +100,11 @@ public class ApplyLeave_Entity {
 		this.employee = employee;
 	}
 
-	public leaveClass getLeaveType() {
+	public LeaveType getLeaveType() {
 		return leaveType;
 	}
 
-	public void setLeaveType(leaveClass leaveType) {
+	public void setLeaveType(LeaveType leaveType) {
 		this.leaveType = leaveType;
 	}
 
@@ -143,7 +143,7 @@ public class ApplyLeave_Entity {
 
 	public ApplyLeave_Entity(String leaveID, String type, int days, String dates, String desc, Boolean approved,
 			Date createTime, CompanyMaster company, DepartmentMaster department, Employee employee,
-			leaveClass leaveType) {
+			LeaveType leaveType) {
 		super();
 		this.leaveID = leaveID;
 		this.type = type;

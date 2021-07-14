@@ -26,7 +26,7 @@ public class EmpEntitlementsClass {
 
 	@ManyToOne(optional = false, fetch = FetchType.EAGER)
 	@JoinColumn(name = "LeaveType", referencedColumnName = "leaveCode")
-	private leaveClass leaveType;
+	private LeaveType leaveType;
 
 	public String getEnt_ID() {
 		return ent_ID;
@@ -52,11 +52,11 @@ public class EmpEntitlementsClass {
 		this.empCategory = empCategory;
 	}
 
-	public leaveClass getLeaveType() {
+	public LeaveType getLeaveType() {
 		return leaveType;
 	}
 
-	public void setLeaveType(leaveClass leaveType) {
+	public void setLeaveType(LeaveType leaveType) {
 		this.leaveType = leaveType;
 	}
 

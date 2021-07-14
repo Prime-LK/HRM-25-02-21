@@ -22,10 +22,10 @@ import com.navitsa.hrm.entity.Assestclass;
 import com.navitsa.hrm.entity.Depreciationgroup;
 import com.navitsa.hrm.entity.EmpEntitlementsClass;
 import com.navitsa.hrm.entity.EmployeeCategory;
-import com.navitsa.hrm.entity.leaveClass;
+import com.navitsa.hrm.entity.LeaveType;
 import com.navitsa.hrm.service.EmpEntitlementService;
 import com.navitsa.hrm.service.EmployeeLevelService;
-import com.navitsa.hrm.service.LeaveclassService;
+import com.navitsa.hrm.service.LeaveTypeService;
 
 @SuppressWarnings("unused")
 @Controller
@@ -35,7 +35,7 @@ public class EmpEntitlementController {
 	private EmpEntitlementService empEntService;
 
 	@Autowired
-	private LeaveclassService leaveClassService;
+	private LeaveTypeService leaveClassService;
 
 	@Autowired
 	private EmployeeLevelService employeeLevelService;
@@ -56,11 +56,11 @@ public class EmpEntitlementController {
 		return "hrm/EmpLeaves";
 	}
 
-	@ModelAttribute("leaveAll")
-	public List<leaveClass> showleaves() {
-		return leaveClassService.getAllLeaves();
-
-	}
+//	@ModelAttribute("leaveAll")
+//	public List<LeaveType> showleaves() {
+//		return leaveClassService.getAllLeaves();
+//
+//	}
 
 	@ModelAttribute("allCat")
 	public List<EmployeeCategory> getAllEmployeeCategoryByCompany(HttpSession session) {

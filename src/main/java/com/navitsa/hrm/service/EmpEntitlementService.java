@@ -7,10 +7,10 @@ import org.springframework.stereotype.Service;
 
 import com.navitsa.hrm.entity.EmpEntitlementsClass;
 import com.navitsa.hrm.entity.EmployeeCategory;
-import com.navitsa.hrm.entity.leaveClass;
+import com.navitsa.hrm.entity.LeaveType;
 import com.navitsa.hrm.repository.EmpEntitlementRepository;
 import com.navitsa.hrm.repository.EmployeeCategoryRepository;
-import com.navitsa.hrm.repository.LeaveClassReository;
+import com.navitsa.hrm.repository.LeaveTypeRepository;
 
 @Service
 public class EmpEntitlementService {
@@ -22,7 +22,7 @@ public class EmpEntitlementService {
 	private EmployeeCategoryRepository empCatRepo;
 
 	@Autowired
-	private LeaveClassReository leaveClassReository;
+	private LeaveTypeRepository leaveClassReository;
 
 	public EmpEntitlementsClass getAll(String ent_ID) {
 
@@ -47,8 +47,8 @@ public class EmpEntitlementService {
 		return empEntRepo.findById(leaveType).get();
 	}
 
-	public List<leaveClass> getAllLeaves() {
-		return (List<leaveClass>) leaveClassReository.findAll();
+	public List<LeaveType> getAllLeaves() {
+		return (List<LeaveType>) leaveClassReository.findAll();
 	}
 
 	public void saveentitlement(EmpEntitlementsClass empentitlements) {

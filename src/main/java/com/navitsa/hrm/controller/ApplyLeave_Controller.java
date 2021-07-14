@@ -20,12 +20,12 @@ import com.navitsa.hrm.entity.ApplyLeave_Entity;
 import com.navitsa.hrm.entity.CompanyMaster;
 import com.navitsa.hrm.entity.DepartmentMaster;
 import com.navitsa.hrm.entity.Employee;
-import com.navitsa.hrm.entity.leaveClass;
+import com.navitsa.hrm.entity.LeaveType;
 import com.navitsa.hrm.service.ApplyLeave_Service;
 import com.navitsa.hrm.service.DepartmentService;
 import com.navitsa.hrm.service.EmpEntitlementService;
 import com.navitsa.hrm.service.EmployeeService;
-import com.navitsa.hrm.service.LeaveclassService;
+import com.navitsa.hrm.service.LeaveTypeService;
 
 @Controller
 public class ApplyLeave_Controller {
@@ -34,7 +34,7 @@ public class ApplyLeave_Controller {
 	private ApplyLeave_Service ALService;
 	
 	@Autowired
-	private LeaveclassService leaveClassService;
+	private LeaveTypeService leaveClassService;
 	
 	@Autowired
 	private EmployeeService empService;
@@ -71,10 +71,10 @@ public class ApplyLeave_Controller {
 		return "hrm/ShortLeave";
 	}
 	
-	@ModelAttribute("leaveAll")
-	public List<leaveClass> findAllLeaves(){
-		return leaveClassService.getAllLeaves();
-	}
+//	@ModelAttribute("leaveAll")
+//	public List<LeaveType> findAllLeaves(){
+//		return leaveClassService.getAllLeaves();
+//	}
 	
 	@ModelAttribute("EmpAll")
 	public List<Employee> findAllEmp(){
