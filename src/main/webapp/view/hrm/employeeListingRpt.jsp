@@ -121,7 +121,7 @@
 	<div class="col-xl-3 col-lg-5" >			
 					<!-- Card -->
 			<form:form action="employeeListingPreview"  method="GET">		
-					<div class="card shadow mb-4" style="height:600px;">
+					<div class="card shadow mb-4" style="height:100%">
 						<div class="card border-left-primary shadow h-100 py-2" >
 						
 							<div class="card-body">
@@ -246,7 +246,7 @@
 <!-- 							</div> -->
 								
 							<br>	
-							<hr>								
+								<hr>						
 							<div class="form-group row">
 								
 									<div class="col-sm-12">

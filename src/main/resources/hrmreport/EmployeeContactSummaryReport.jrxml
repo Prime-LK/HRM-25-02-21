@@ -43,9 +43,9 @@
 	<title>
 		<band height="81" splitType="Stretch">
 			<staticText>
-				<reportElement x="0" y="33" width="700" height="48" forecolor="#333333" uuid="e1021c7a-d528-468b-a3fa-164aa5c21bf7"/>
-				<textElement>
-					<font size="24" isBold="true" isItalic="false" isUnderline="true" isStrikeThrough="false"/>
+				<reportElement x="139" y="33" width="500" height="48" forecolor="#000000" uuid="e1021c7a-d528-468b-a3fa-164aa5c21bf7"/>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="20" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 				</textElement>
 				<text><![CDATA[Emloyee Contact Information Report]]></text>
 			</staticText>
@@ -57,44 +57,44 @@
 	<columnHeader>
 		<band height="47" splitType="Stretch">
 			<staticText>
-				<reportElement mode="Opaque" x="199" y="2" width="164" height="36" backcolor="#F0F0F0" uuid="2a770650-9c3d-4552-81c9-08dafb9caaae"/>
+				<reportElement mode="Opaque" x="199" y="0" width="164" height="38" backcolor="#CC9900" uuid="2a770650-9c3d-4552-81c9-08dafb9caaae"/>
 				<textElement>
-					<font size="14" isBold="true"/>
+					<font fontName="Calibri" size="14" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Address]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="437" y="2" width="98" height="36" backcolor="#F0F0F0" uuid="8d67f9e6-571d-4302-9419-b3550212cea7"/>
+				<reportElement mode="Opaque" x="437" y="0" width="98" height="38" backcolor="#CC9900" uuid="8d67f9e6-571d-4302-9419-b3550212cea7"/>
 				<textElement>
-					<font size="14" isBold="true"/>
+					<font fontName="Calibri" size="14" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Cell Phone]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="363" y="2" width="74" height="36" backcolor="#F0F0F0" uuid="04b4308d-79fb-4c95-a9de-a61c4b97a444"/>
+				<reportElement mode="Opaque" x="363" y="1" width="74" height="37" backcolor="#CC9900" uuid="04b4308d-79fb-4c95-a9de-a61c4b97a444"/>
 				<textElement>
-					<font size="14" isBold="true"/>
+					<font fontName="Calibri" size="14" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Home Phone]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="74" y="1" width="125" height="37" forecolor="#333333" backcolor="#F0F0F0" uuid="6dfc9cd7-a6d7-43b8-b56a-146a053c95d6"/>
+				<reportElement mode="Opaque" x="74" y="1" width="125" height="37" forecolor="#000000" backcolor="#CC9900" uuid="6dfc9cd7-a6d7-43b8-b56a-146a053c95d6"/>
 				<textElement>
-					<font size="14" isBold="true"/>
+					<font fontName="Calibri" size="14" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Name]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="535" y="1" width="162" height="37" backcolor="#F0F0F0" uuid="46abadfa-137c-4e37-91c2-497e4c15291a"/>
+				<reportElement mode="Opaque" x="535" y="1" width="162" height="37" backcolor="#CC9900" uuid="46abadfa-137c-4e37-91c2-497e4c15291a"/>
 				<textElement>
-					<font size="14" isBold="true"/>
+					<font fontName="Calibri" size="14" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Email]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="14" y="1" width="60" height="37" backcolor="#F0F0F0" uuid="aa4f6074-d141-4868-9850-3b724a17ec75"/>
+				<reportElement mode="Opaque" x="14" y="1" width="60" height="37" backcolor="#CC9900" uuid="aa4f6074-d141-4868-9850-3b724a17ec75"/>
 				<textElement>
-					<font size="14" isBold="true"/>
+					<font fontName="Calibri" size="14" isBold="true"/>
 				</textElement>
 				<text><![CDATA[EmpID]]></text>
 			</staticText>
@@ -105,21 +105,21 @@
 			<textField>
 				<reportElement x="74" y="0" width="125" height="24" uuid="a5ae5fde-c1de-4bd7-9cda-cc64ce68b850"/>
 				<textElement>
-					<font size="12"/>
+					<font fontName="Calibri" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{fname}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="74" y="24" width="125" height="45" uuid="056f8c6d-c56a-4efa-a848-3f82624f29c4"/>
 				<textElement>
-					<font size="12"/>
+					<font fontName="Calibri" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{lname}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="437" y="0" width="98" height="68" uuid="60c8eb49-dbc0-4696-ab89-3341df9d63ea"/>
 				<textElement>
-					<font size="12"/>
+					<font fontName="Calibri" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{contact_c}]]></textFieldExpression>
 			</textField>
@@ -129,42 +129,42 @@
 			<textField>
 				<reportElement x="14" y="1" width="60" height="71" uuid="586fe328-cf95-4dfb-8109-852efb3d8081"/>
 				<textElement>
-					<font size="12"/>
+					<font fontName="Calibri" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{empid}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="199" y="24" width="164" height="21" uuid="6a6e8f3a-3bc5-4d54-95f8-cfe139c679f2"/>
 				<textElement>
-					<font size="12"/>
+					<font fontName="Calibri" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{empcity}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="363" y="3" width="74" height="69" uuid="514e937a-dc55-47c0-814c-eb226badb13a"/>
 				<textElement>
-					<font size="12"/>
+					<font fontName="Calibri" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{contact_h}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="199" y="47" width="164" height="24" uuid="23f0470e-edf1-4fa8-aca1-04be4833c611"/>
 				<textElement>
-					<font size="12"/>
+					<font fontName="Calibri" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{empstate}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="199" y="3" width="164" height="24" uuid="e3ed9ee2-2cf3-4e41-98ce-378ffb8e1271"/>
 				<textElement>
-					<font size="12"/>
+					<font fontName="Calibri" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{empAdd}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="535" y="3" width="162" height="69" uuid="13b97d35-899e-424c-b8b5-4144f55693f0"/>
 				<textElement>
-					<font size="12"/>
+					<font fontName="Calibri" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{empemail}]]></textFieldExpression>
 			</textField>
