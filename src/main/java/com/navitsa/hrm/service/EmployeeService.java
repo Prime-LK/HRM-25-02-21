@@ -340,5 +340,11 @@ public class EmployeeService {
 	public List<EmployeeDetails> getEmployeeDetailsByEmpid(String companyID,String empid){
 		return empDeRepo.getEmployeeDetailsByEmpid(companyID,empid);
 	}
+	
+	public String[][] employeeAllocateMonthlyAllowances(String companyId, String paytype,String paycod){
+		return naRepo.employeeAllocateMonthlyAllowances( companyId, paytype,paycod);
+		
+	}
+	
 }
 

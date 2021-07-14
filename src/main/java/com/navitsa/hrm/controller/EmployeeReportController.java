@@ -23,11 +23,15 @@ import com.navitsa.hrm.entity.CompanyMaster;
 import com.navitsa.hrm.entity.DepartmentMaster;
 import com.navitsa.hrm.entity.Employee;
 import com.navitsa.hrm.entity.EmployeeDetails;
+import com.navitsa.hrm.entity.PayAddDeductTypes;
+import com.navitsa.hrm.entity.PayPeriods;
 import com.navitsa.hrm.report.EmployeeReportBean;
 import com.navitsa.hrm.report.EmployeeSummaryReportBeen;
 import com.navitsa.hrm.service.CompanyService;
 import com.navitsa.hrm.service.DepartmentService;
 import com.navitsa.hrm.service.EmployeeService;
+import com.navitsa.hrm.service.PayAddDeductTypeService;
+import com.navitsa.hrm.service.PayService;
 import com.navitsa.hrm.utils.ReportViewe;
 
 @Controller("EmployeeReportController")
@@ -42,6 +46,11 @@ public class EmployeeReportController {
 	@Autowired
 	private CompanyService companyService;
 	
+	@Autowired
+	private PayAddDeductTypeService addDedService;
+	
+	@Autowired
+	PayService payService;
 	
 	@GetMapping("employeeReport")
 	public String loadPage() {
@@ -229,6 +238,60 @@ public class EmployeeReportController {
 	        return mav;
 	 }
 	 
-	 
-	 
+	 @GetMapping("/employeeMonthlyAllocate")
+	 public String employeeAllocateMonthlyAllRpt(HttpServletRequest request, HttpServletResponse response,HttpSession session)  {
+	
+	   
+	        return "hrm/employeeAllocateMonthlyAllRpt";
+	 }
+		@ModelAttribute("addDedTypeRpts")
+		public List<PayAddDeductTypes> getAddDed(HttpSession session) {
+			String comID = (String) session.getAttribute("company.comID");
+			return addDedService.getAllouncetypeMonthly(comID);
+		}
+		@ModelAttribute("payPerioadrpt")
+		public List<PayPeriods> getPayPeriods(HttpSession session){
+			String companyId=session.getAttribute("company.comID")+"";
+			List<PayPeriods> payPeriods = payService.getPayPeriodsBycompanyid(companyId);
+			return payPeriods;
+		}
+	 @GetMapping("/employeeAllocateMonthlyAllowances")
+	 public ModelAndView employeeAllocateMonthlyAllowances(@RequestParam("paycode") String paycode,@RequestParam("paytype") String paytype,HttpServletRequest request, HttpServletResponse response,HttpSession session) throws Exception {
+		
+		String companyId=session.getAttribute("company.comID")+"";	
+		String[][] result=empService.employeeAllocateMonthlyAllowances( companyId,  paytype,paycode);
+				
+		 List<EmployeeSummaryReportBeen> listemp = new ArrayList<>(); 
+		 
+		 for(int i=0; i<result.length;i++)
+		 {
+			 EmployeeSummaryReportBeen employeeSummaryReport=new EmployeeSummaryReportBeen();
+			employeeSummaryReport.setEpfno(result[i][0]);
+			employeeSummaryReport.setName(result[i][1]);
+			employeeSummaryReport.setNic(result[i][2]);
+			employeeSummaryReport.setBankname(result[i][3]);
+			employeeSummaryReport.setAccount(result[i][4]);
+			employeeSummaryReport.setBasicsal(Double.parseDouble(result[i][5]));
+			employeeSummaryReport.setType(result[i][6]);
+			employeeSummaryReport.setAmount(Double.parseDouble(result[i][7]));
+ 
+			 
+			listemp.add(employeeSummaryReport);
+
+		 }
+		 	//Map<String, Object> params = new HashMap<>();
+		 	//params.put("empID", empID);companny address
+			CompanyMaster companyMaster = companyService.findbyCompanyid(companyId);
+	      	Map<String,Object> params = new HashMap<>();
+
+	    	params.put("companny",companyMaster.getComName());
+	      	params.put("address",companyMaster.getConNo());
+		 	
+		 	
+		 	ReportViewe review=new ReportViewe();
+	        String report = review.pdfReportViewInlineSystemOpen("employeeAllocateMonthlyAllowance.jasper", "", listemp, params, response);
+	        ModelAndView mav = new ModelAndView("hrm/employeeAllocateMonthlyAllRpt");
+	        mav.addObject("pdfViewEq",report);
+	        return mav;
+	 }
 }

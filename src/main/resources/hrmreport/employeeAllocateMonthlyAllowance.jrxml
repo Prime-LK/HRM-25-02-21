@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="employeeAllocateMonthlyAllowance" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="842" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="3737c8f8-35e7-4ea0-bf9f-c557f6bbbdf3">
+	<property name="ireport.zoom" value="1.4641000000000006"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Crosstab Data Text" hAlign="Center"/>
+	<parameter name="companny" class="java.lang.String"/>
+	<parameter name="address" class="java.lang.String"/>
+	<parameter name="deparment" class="java.lang.String"/>
+	<parameter name="emptype" class="java.lang.String"/>
+	<parameter name="design" class="java.lang.String"/>
+	<parameter name="employee" class="java.lang.String"/>
+	<parameter name="costcenter" class="java.lang.String"/>
+	<parameter name="empcatP" class="java.lang.String"/>
+	<parameter name="religionP" class="java.lang.String"/>
+	<parameter name="civistaP" class="java.lang.String"/>
+	<field name="epfno" class="java.lang.String"/>
+	<field name="name" class="java.lang.String"/>
+	<field name="nic" class="java.lang.String"/>
+	<field name="bankname" class="java.lang.String"/>
+	<field name="account" class="java.lang.String"/>
+	<field name="basicsal" class="java.lang.Double"/>
+	<field name="type" class="java.lang.String"/>
+	<field name="amount" class="java.lang.Double"/>
+	<variable name="variable1" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{amount}]]></variableExpression>
+	</variable>
+	<pageHeader>
+		<band height="102">
+			<textField>
+				<reportElement x="97" y="36" width="656" height="20" uuid="6b49a67e-dc73-43a6-a53e-860b4ad24947"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{companny}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="97" y="56" width="656" height="20" uuid="e78af55c-a957-459f-9aae-c883000a5884"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{address}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="97" y="16" width="656" height="20" forecolor="#000000" uuid="2ace482a-5e4e-46a6-a753-ced9e680d33d"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Employee Allocate Monthly Allowance"]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="21">
+			<staticText>
+				<reportElement x="5" y="0" width="80" height="20" uuid="64961907-db9d-44cc-be51-27f39124e9ae"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[EPF NO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="85" y="0" width="283" height="20" uuid="bf417f66-df94-4a9e-97a8-ac19910a8418"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="368" y="0" width="196" height="20" uuid="4b30d2da-dd3b-4f1b-9598-85f4ae7190fe"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Bank Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="566" y="0" width="138" height="20" uuid="15a80c42-f09d-45d3-9bb0-d81987e89f89"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Account No]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="704" y="0" width="100" height="20" uuid="213efce1-44d8-4d3b-a4da-6c2d126f6db7"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Amount]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="22">
+			<textField>
+				<reportElement x="5" y="0" width="80" height="20" uuid="866d611c-ce61-46cf-b8ff-6c303febcd6e"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{epfno}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="85" y="0" width="283" height="20" uuid="7f878dc8-9e08-4cce-98f4-165ceed5a9a6"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="368" y="0" width="196" height="20" uuid="79567650-b6d0-4de4-959f-b7eb03ee5a97"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{bankname}==null ? "" : $F{bankname}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="566" y="0" width="138" height="20" uuid="dd83badf-f1ac-4f7c-b9e2-1e99fdd5488d"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{account}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="704" y="0" width="100" height="20" uuid="f0f0e727-1806-4082-81dd-ae8b0408545d"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{amount}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="3"/>
+	</columnFooter>
+	<summary>
+		<band height="29">
+			<textField pattern="#,##0.00">
+				<reportElement x="659" y="0" width="145" height="20" uuid="71dd9e63-0102-4e2d-8d16-7644220c18a3"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0" lineStyle="Double"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{variable1}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

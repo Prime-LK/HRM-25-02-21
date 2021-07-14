@@ -20,5 +20,7 @@ public interface NationalityMasterRepository extends CrudRepository<NationalityM
 	@Query(value = "CALL employeeSummaryReport(:companyId)",nativeQuery=true)
 	public String[][] getEmployeeSummaryReport(@Param("companyId") String companyId);
 	
-	
+	@Query(value = "CALL employeeAllocateMonthlyAllowances(:companyId,:paytype,:paycod)",nativeQuery=true)
+	public String[][] employeeAllocateMonthlyAllowances(@Param("companyId") String companyId,@Param("paytype") String paytype,@Param("paycod") String paycod);
+		
 }
