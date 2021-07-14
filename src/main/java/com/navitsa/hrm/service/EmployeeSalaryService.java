@@ -283,8 +283,8 @@ public class EmployeeSalaryService {
 		return empMoDeSaRepo.updateListDetails(deductTypeCode, payCodeID);
 	}
 	
-	public List<EmployeeMonthSalaryDetails> getAllMoSaDetails() {
-		return (List<EmployeeMonthSalaryDetails>) empMoDeSaRepo.findAll();
+	public List<EmployeeMonthSalaryDetails> loadAllEmployeeMonthSalaryDetailsBycompid(String Compid) {
+		return  empMoDeSaRepo.loadAllEmployeeMonthSalaryDetailsBycompid(Compid);
 	}
 	
 	public List<EmployeeSalaryDetail> getemployeeSalaryDetailsBycompid(String Compid) {

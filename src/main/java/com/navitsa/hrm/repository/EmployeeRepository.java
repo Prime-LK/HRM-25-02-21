@@ -48,8 +48,8 @@ public interface EmployeeRepository extends CrudRepository<Employee, String> {
 
 	// empMonth salary details load emps
 	@Query(value = "SELECT em.empID as empID, em.name as name, em.lastname as lastname,"
-			+ " em.contact_num1 as contact_num1, em.email as email, em.dob as dob FROM Employee em")
-	public String[][] getEmpsToEmpMoSaDetails();
+			+ " em.contact_num1 as contact_num1, em.email as email, em.dob as dob FROM Employee em WHERE em.company.comID = :companyId")
+	public String[][] getEmpsToEmpMoSaDetails(@Param("companyId") String companyId);
 
 	@Query(value = "SELECT a FROM Employee a")
 	public List<Employee> getSearchDetails();

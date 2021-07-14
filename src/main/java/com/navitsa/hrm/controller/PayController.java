@@ -1250,8 +1250,9 @@ public class PayController {
 
 	// load pay code
 	@GetMapping("/loadpayCodeID")
-	public @ResponseBody List<PayCode> loadDatatofield(@RequestParam("periodID") String periodID) {
-		List<PayCode> payPeriod = payService.getpayCodestopage(periodID);
+	public @ResponseBody List<PayCode> loadDatatofield(@RequestParam("periodID") String periodID,HttpSession session) {
+		String comID = (String) session.getAttribute("company.comID");
+		List<PayCode> payPeriod = payService.getpayCodestopage(periodID,comID);
 		return payPeriod;
 	}
 

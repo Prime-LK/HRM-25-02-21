@@ -30,4 +30,11 @@ public interface PayAddDeductTypesRepository extends CrudRepository<PayAddDeduct
 	
 	@Query(value="SELECT t FROM PayAddDeductTypes t WHERE t.company.comID=:compid and t.isActive='active'")
 	public List<PayAddDeductTypes> getAllActiveDetailsbyCompid(@Param("compid")String compid);
+		
+	@Query(value="SELECT t FROM PayAddDeductTypes t WHERE t.company.comID=:compid and t.isActive='active' and t.calculationMethod='N/A'"
+			+ " and t.addDeType='variableType' ")
+	public List<PayAddDeductTypes> getAllouncetypeMonthly(@Param("compid")String compid);
+	
+	
+	
 }

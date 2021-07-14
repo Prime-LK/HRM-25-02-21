@@ -41,4 +41,8 @@ public class PayAddDeductTypeService {
 	public List<PayAddDeductTypes> getAllActiveDetailsbyCompid(String compid){
 		return  deTypeRepo.getAllActiveDetailsbyCompid(compid);
 	}
+		
+	public List<PayAddDeductTypes> getAllouncetypeMonthly(String compid) {
+		return  deTypeRepo.getAllouncetypeMonthly(compid);
+	}
 }

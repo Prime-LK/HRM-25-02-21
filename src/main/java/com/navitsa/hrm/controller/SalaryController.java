@@ -124,7 +124,7 @@ public class SalaryController {
 	@GetMapping("/getEmpMonthSalaryDetailsPage")
 	public String loadPage(Map<String, Object> map) {
 		map.put("formMonthSalary", new EmployeeMonthSalaryDetails());
-		return "hrm/empMonthSalaryDetails";
+		return "hrm/empMonthAllowances";
 	}
 
 	// load locations
@@ -165,20 +165,28 @@ public class SalaryController {
 
 	@GetMapping("loadAllEmpInEmpDetails")
 	@ResponseBody
-	public List<EmployeeDetails> getAllEmpDetailsData() {
-		return employeeService.getAllEmpDeData();
+	public List<EmployeeDetails> getAllEmpDetailsData(HttpSession session) {
+		String comID = (String) session.getAttribute("company.comID");		
+		return employeeService.getEmployeeDetailsByCompanyID(comID);
 	}
 
 	@ModelAttribute("addDedTypes")
-	public List<PayAddDeductTypes> getAddDed() {
-		return addDedService.getAllDetails();
+	public List<PayAddDeductTypes> getAddDed(HttpSession session) {
+		String comID = (String) session.getAttribute("company.comID");
+		return addDedService.getAllDetailsbyCompid(comID);
 	}
 
 	@ModelAttribute("empMoMaAll")
 	public List<PayCode> getEmpMoMaAll() {
 		return payService.getpayCodes();
 	}
-
+	
+	@GetMapping("empMoMaAlComboList")
+	public  @ResponseBody List<PayCode> empMoMaAlComboList(@RequestParam("payPeriodID") String payPeriodID,HttpSession session) {
+		String comID = (String) session.getAttribute("company.comID");
+		
+		return payService.loadpayCodestoGrid(payPeriodID,comID);
+	}
 	// loadEmpRelatedDep
 	@GetMapping("/loadReDep")
 	public @ResponseBody List<EmployeeSalaryDetail> loadGrid(@RequestParam("dep") String dep,
@@ -209,8 +217,10 @@ public class SalaryController {
 	}
 
 	@GetMapping("/loadEmpTable")
-	public @ResponseBody List<Employee> loadEmpTable(@RequestParam("empID") String empID) {
-		List<Employee> emp = empService.loadEmpToTable(empID);
+	public @ResponseBody List<EmployeeDetails>  loadEmpTable(@RequestParam("empID") String empID,HttpSession session) {
+		String comID = (String) session.getAttribute("company.comID");
+		List<EmployeeDetails>  emp = empService.getEmployeeDetailsByEmpid(comID, empID);
+
 		return emp;
 	}
 
@@ -230,8 +240,9 @@ public class SalaryController {
 
 	@GetMapping("/getAllVTypes")
 	@ResponseBody
-	public List<PayAddDeductTypes> getVariableTypes() {
-		List<PayAddDeductTypes> vTypes = employeeSalaryService.getVariableType();
+	public List<PayAddDeductTypes> getVariableTypes(HttpSession session) {
+		String comID = (String) session.getAttribute("company.comID");
+		List<PayAddDeductTypes> vTypes = addDedService.getAllouncetypeMonthly(comID);
 		return vTypes;
 	}
 
@@ -258,8 +269,9 @@ public class SalaryController {
 	}
 
 	@GetMapping("/getPayCodesRelatedPeriod")
-	public @ResponseBody List<PayCode> getpayCodestopage(@RequestParam("periodID") String periodID) {
-		List<PayCode> pa = payService.getpayCodestopage(periodID);
+	public @ResponseBody List<PayCode> getpayCodestopage(@RequestParam("periodID") String periodID,HttpSession session) {
+		String comID = (String) session.getAttribute("company.comID");
+		List<PayCode> pa = payService.getpayCodestopage(periodID,comID);
 		return pa;
 	}
 
@@ -294,157 +306,157 @@ public class SalaryController {
 	}
 
 	// month salary save 01
-	@PostMapping("/saveEmpMoSaDetails01")
-	public String saveEmpMoSaDe01(@ModelAttribute("formMonthSalary") EmployeeMonthSalaryDetails empMoSaDe,
-			@RequestParam("monthDePk.empID.empID") ArrayList<String> empID,
-			@RequestParam("monthDePk.payType.deductTypeCode") String deductTypeCode,
-			@RequestParam("company.comID") String comID,
-			@RequestParam(value = "monthDePk.payCodeid.payCodeID", required = false) String payCode,
-			@RequestParam("pYear") String pYear, @RequestParam("pMonth") String pMonth,
-			@RequestParam(value = "amount", required = false) ArrayList<Integer> amount1, RedirectAttributes ra,
-			String empidTable, int amount) {
-
-		List<EmployeeMonthSalaryDetails> list = new ArrayList<>();
-
-		PayPeriods pp = new PayPeriods();
-		pp.setPayPeriodID("00000".substring(payService.maxpayPeriodID().length()) + payService.maxpayPeriodID());
-		pp.setStartDate(pYear);
-		pp.setEndDate(pMonth);
-		pp.setPayDate(pMonth);
-		pp.setStatus("Open");
-
-		PayCode pc = new PayCode();
-		pc.setPayCodeID("00000".substring(payService.maxpayCodeID().length()) + payService.maxpayCodeID());
-		pc.setPayCode("Generate Code " + "00000".substring(employeeSalaryService.payCodeForAG().length())
-				+ employeeSalaryService.payCodeForAG());
-		pc.setStartDate(pYear);
-		pc.setEndDate(pMonth);
-		pc.setRemarks("good");
-		pc.setStatus("Open");
-		pc.setPeriodID(pp);
-
-		if (payCode.contentEquals("undefined")) {
-			for (int i = 1, p = 0; i < empID.size() && p < amount1.size(); i++, p++) {
-				EmployeeMonthSalaryDetails h = new EmployeeMonthSalaryDetails();
-				EmployeeMonthSalaryDetailsPK j = new EmployeeMonthSalaryDetailsPK();
-
-				Employee emp = new Employee();
-				emp.setEmpID(empID.get(i));
-				j.setEmpID(emp);
-
-				PayAddDeductTypes k = new PayAddDeductTypes();
-				k.setDeductTypeCode(deductTypeCode);
-				j.setPayType(k);
-
-				CompanyMaster com = new CompanyMaster();
-				com.setComID(comID);
-
-				j.setPayCodeid(pc);
-
-				h.setMonthDePk(j);
-				h.setpYear(pYear);
-				h.setpMonth(pMonth);
-				h.setAmount(amount1.get(p));
-				h.setCompany(com);
-
-				list.add(h);
-
-			}
-
-		} else {
-			for (int i = 1, p = 0; i < empID.size() && p < amount1.size(); i++, p++) {
-				EmployeeMonthSalaryDetails h = new EmployeeMonthSalaryDetails();
-				EmployeeMonthSalaryDetailsPK j = new EmployeeMonthSalaryDetailsPK();
-
-				Employee emp = new Employee();
-				emp.setEmpID(empID.get(i));
-				j.setEmpID(emp);
-
-				PayAddDeductTypes k = new PayAddDeductTypes();
-				k.setDeductTypeCode(deductTypeCode);
-				j.setPayType(k);
-
-				PayCode payCodeObj = new PayCode();
-				payCodeObj.setPayCodeID(payCode);
-				j.setPayCodeid(payCodeObj);
-
-				CompanyMaster com = new CompanyMaster();
-				com.setComID(comID);
-
-				h.setMonthDePk(j);
-				h.setpYear(pYear);
-				h.setpMonth(pMonth);
-				h.setAmount(amount1.get(p));
-				h.setCompany(com);
-
-				list.add(h);
-
-			}
-		}
-
-		try {
-			if (list.isEmpty()) {
-				if (payCode.contentEquals("undefined")) {
-
-					ra.addFlashAttribute("success", 1);
-
-					Employee e = new Employee(empidTable);
-					PayAddDeductTypes q = new PayAddDeductTypes(deductTypeCode);
-					PayCode r = new PayCode(pc.getPayCodeID());
-					CompanyMaster c = new CompanyMaster(comID);
-
-					EmployeeMonthSalaryDetailsPK n = new EmployeeMonthSalaryDetailsPK(q, r, e);
-
-					EmployeeMonthSalaryDetails m = new EmployeeMonthSalaryDetails(n, pYear, pMonth, amount, c);
-
-					payService.savePayPeriods(pp);
-					payService.savePayCodes(pc);
-					employeeSalaryService.saveEmpMoDe(m);
-
-					return "redirect:/getEmpMonthSalaryDetailsPage";
-
-				} else {
-
-					ra.addFlashAttribute("success", 1);
-
-					Employee e = new Employee(empidTable);
-					PayAddDeductTypes q = new PayAddDeductTypes(deductTypeCode);
-					PayCode r = new PayCode(payCode);
-					CompanyMaster c = new CompanyMaster(comID);
-
-					EmployeeMonthSalaryDetailsPK n = new EmployeeMonthSalaryDetailsPK(q, r, e);
-
-					EmployeeMonthSalaryDetails m = new EmployeeMonthSalaryDetails(n, pYear, pMonth, amount, c);
-
-					employeeSalaryService.saveEmpMoDe(m);
-
-					return "redirect:/hrm/getEmpMonthSalaryDetailsPage";
-
-				}
-
-			} else {
-				if (payCode.contentEquals("undefined")) {
-
-					ra.addFlashAttribute("success", 1);
-					payService.savePayPeriods(pp);
-					payService.savePayCodes(pc);
-					employeeSalaryService.saveListEmpMoSaDe(list);
-					return "redirect:/hrm/getEmpMonthSalaryDetailsPage";
-
-				} else {
-
-					ra.addFlashAttribute("success", 1);
-					employeeSalaryService.saveListEmpMoSaDe(list);
-					return "redirect:/hrm/getEmpMonthSalaryDetailsPage";
-				}
-			}
-
-		} catch (Exception e) {
-			ra.addFlashAttribute("success", 0);
-			System.out.println(e);
-		}
-		return "redirect:/hrm/empMonthSalaryDetails";
-	}
+//	@PostMapping("/saveEmpMoSaDetails01")
+//	public String saveEmpMoSaDe01(@ModelAttribute("formMonthSalary") EmployeeMonthSalaryDetails empMoSaDe,
+//			@RequestParam("monthDePk.empID.empID") ArrayList<String> empID,
+//			@RequestParam("monthDePk.payType.deductTypeCode") String deductTypeCode,
+//			@RequestParam("company.comID") String comID,
+//			@RequestParam(value = "monthDePk.payCodeid.payCodeID", required = false) String payCode,
+//			@RequestParam("pYear") String pYear, @RequestParam("pMonth") String pMonth,
+//			@RequestParam(value = "amount", required = false) ArrayList<Integer> amount1, RedirectAttributes ra,
+//			String empidTable, int amount) {
+//
+//		List<EmployeeMonthSalaryDetails> list = new ArrayList<>();
+//
+//		PayPeriods pp = new PayPeriods();
+//		pp.setPayPeriodID("00000".substring(payService.maxpayPeriodID().length()) + payService.maxpayPeriodID());
+//		pp.setStartDate(pYear);
+//		pp.setEndDate(pMonth);
+//		pp.setPayDate(pMonth);
+//		pp.setStatus("Open");
+//
+//		PayCode pc = new PayCode();
+//		pc.setPayCodeID("00000".substring(payService.maxpayCodeID().length()) + payService.maxpayCodeID());
+//		pc.setPayCode("Generate Code " + "00000".substring(employeeSalaryService.payCodeForAG().length())
+//				+ employeeSalaryService.payCodeForAG());
+//		pc.setStartDate(pYear);
+//		pc.setEndDate(pMonth);
+//		pc.setRemarks("good");
+//		pc.setStatus("Open");
+//		pc.setPeriodID(pp);
+//
+//		if (payCode.contentEquals("undefined")) {
+//			for (int i = 1, p = 0; i < empID.size() && p < amount1.size(); i++, p++) {
+//				EmployeeMonthSalaryDetails h = new EmployeeMonthSalaryDetails();
+//				EmployeeMonthSalaryDetailsPK j = new EmployeeMonthSalaryDetailsPK();
+//
+//				Employee emp = new Employee();
+//				emp.setEmpID(empID.get(i));
+//				j.setEmpID(emp);
+//
+//				PayAddDeductTypes k = new PayAddDeductTypes();
+//				k.setDeductTypeCode(deductTypeCode);
+//				j.setPayType(k);
+//
+//				CompanyMaster com = new CompanyMaster();
+//				com.setComID(comID);
+//
+//				j.setPayCodeid(pc);
+//
+//				h.setMonthDePk(j);
+//				h.setpYear(pYear);
+//				h.setpMonth(pMonth);
+//				h.setAmount(Double.parseDouble(amount1.get(p));
+//				h.setCompany(com);
+//
+//				list.add(h);
+//
+//			}
+//
+//		} else {
+//			for (int i = 1, p = 0; i < empID.size() && p < amount1.size(); i++, p++) {
+//				EmployeeMonthSalaryDetails h = new EmployeeMonthSalaryDetails();
+//				EmployeeMonthSalaryDetailsPK j = new EmployeeMonthSalaryDetailsPK();
+//
+//				Employee emp = new Employee();
+//				emp.setEmpID(empID.get(i));
+//				j.setEmpID(emp);
+//
+//				PayAddDeductTypes k = new PayAddDeductTypes();
+//				k.setDeductTypeCode(deductTypeCode);
+//				j.setPayType(k);
+//
+//				PayCode payCodeObj = new PayCode();
+//				payCodeObj.setPayCodeID(payCode);
+//				j.setPayCodeid(payCodeObj);
+//
+//				CompanyMaster com = new CompanyMaster();
+//				com.setComID(comID);
+//
+//				h.setMonthDePk(j);
+//				h.setpYear(pYear);
+//				h.setpMonth(pMonth);
+//				h.setAmount(amount1.get(p));
+//				h.setCompany(com);
+//
+//				list.add(h);
+//
+//			}
+//		}
+//
+//		try {
+//			if (list.isEmpty()) {
+//				if (payCode.contentEquals("undefined")) {
+//
+//					ra.addFlashAttribute("success", 1);
+//
+//					Employee e = new Employee(empidTable);
+//					PayAddDeductTypes q = new PayAddDeductTypes(deductTypeCode);
+//					PayCode r = new PayCode(pc.getPayCodeID());
+//					CompanyMaster c = new CompanyMaster(comID);
+//
+//					EmployeeMonthSalaryDetailsPK n = new EmployeeMonthSalaryDetailsPK(q, r, e);
+//
+//					EmployeeMonthSalaryDetails m = new EmployeeMonthSalaryDetails(n, pYear, pMonth, amount, c);
+//
+//					payService.savePayPeriods(pp);
+//					payService.savePayCodes(pc);
+//					employeeSalaryService.saveEmpMoDe(m);
+//
+//					return "redirect:/getEmpMonthSalaryDetailsPage";
+//
+//				} else {
+//
+//					ra.addFlashAttribute("success", 1);
+//
+//					Employee e = new Employee(empidTable);
+//					PayAddDeductTypes q = new PayAddDeductTypes(deductTypeCode);
+//					PayCode r = new PayCode(payCode);
+//					CompanyMaster c = new CompanyMaster(comID);
+//
+//					EmployeeMonthSalaryDetailsPK n = new EmployeeMonthSalaryDetailsPK(q, r, e);
+//
+//					EmployeeMonthSalaryDetails m = new EmployeeMonthSalaryDetails(n, pYear, pMonth, amount, c);
+//
+//					employeeSalaryService.saveEmpMoDe(m);
+//
+//					return "redirect:/hrm/getEmpMonthSalaryDetailsPage";
+//
+//				}
+//
+//			} else {
+//				if (payCode.contentEquals("undefined")) {
+//
+//					ra.addFlashAttribute("success", 1);
+//					payService.savePayPeriods(pp);
+//					payService.savePayCodes(pc);
+//					employeeSalaryService.saveListEmpMoSaDe(list);
+//					return "redirect:/hrm/getEmpMonthSalaryDetailsPage";
+//
+//				} else {
+//
+//					ra.addFlashAttribute("success", 1);
+//					employeeSalaryService.saveListEmpMoSaDe(list);
+//					return "redirect:/hrm/getEmpMonthSalaryDetailsPage";
+//				}
+//			}
+//
+//		} catch (Exception e) {
+//			ra.addFlashAttribute("success", 0);
+//			System.out.println(e);
+//		}
+//		return "redirect:/hrm/empMonthSalaryDetails";
+//	}
 
 	// month salary getPage02
 	@GetMapping("/getEmpMonthSalaryDetailsPage02")
@@ -454,157 +466,157 @@ public class SalaryController {
 	}
 
 	// month salary save 02
-	@PostMapping("/saveEmpMoSaDetails02")
-	public String saveEmpMoSaDe02(@ModelAttribute("formMonthSalary02") EmployeeMonthSalaryDetails empMoSaDe,
-			@RequestParam("monthDePk.empID.empID") ArrayList<String> empID,
-			@RequestParam("monthDePk.payType.deductTypeCode") String deductTypeCode,
-			@RequestParam("company.comID") String comID,
-			@RequestParam(value = "monthDePk.payCodeid.payCodeID", required = false) String payCode,
-			@RequestParam("pYear") String pYear, @RequestParam("pMonth") String pMonth,
-			@RequestParam(value = "amount", required = false) ArrayList<Integer> amount1, RedirectAttributes ra,
-			String empidTable, int amount) {
-
-		List<EmployeeMonthSalaryDetails> list = new ArrayList<>();
-
-		PayPeriods pp = new PayPeriods();
-		pp.setPayPeriodID("00000".substring(payService.maxpayPeriodID().length()) + payService.maxpayPeriodID());
-		pp.setStartDate(pYear);
-		pp.setEndDate(pMonth);
-		pp.setPayDate(pMonth);
-		pp.setStatus("Open");
-
-		PayCode pc = new PayCode();
-		pc.setPayCodeID("00000".substring(payService.maxpayCodeID().length()) + payService.maxpayCodeID());
-		pc.setPayCode("Generate Code " + "00000".substring(employeeSalaryService.payCodeForAG().length())
-				+ employeeSalaryService.payCodeForAG());
-		pc.setStartDate(pYear);
-		pc.setEndDate(pMonth);
-		pc.setRemarks("good");
-		pc.setStatus("Open");
-		pc.setPeriodID(pp);
-
-		if (payCode.contentEquals("undefined")) {
-			for (int i = 1, p = 0; i < empID.size() && p < amount1.size(); i++, p++) {
-				EmployeeMonthSalaryDetails h = new EmployeeMonthSalaryDetails();
-				EmployeeMonthSalaryDetailsPK j = new EmployeeMonthSalaryDetailsPK();
-
-				Employee emp = new Employee();
-				emp.setEmpID(empID.get(i));
-				j.setEmpID(emp);
-
-				PayAddDeductTypes k = new PayAddDeductTypes();
-				k.setDeductTypeCode(deductTypeCode);
-				j.setPayType(k);
-
-				CompanyMaster com = new CompanyMaster();
-				com.setComID(comID);
-
-				j.setPayCodeid(pc);
-
-				h.setMonthDePk(j);
-				h.setpYear(pYear);
-				h.setpMonth(pMonth);
-				h.setAmount(amount1.get(p));
-				h.setCompany(com);
-
-				list.add(h);
-
-			}
-
-		} else {
-			for (int i = 1, p = 0; i < empID.size() && p < amount1.size(); i++, p++) {
-				EmployeeMonthSalaryDetails h = new EmployeeMonthSalaryDetails();
-				EmployeeMonthSalaryDetailsPK j = new EmployeeMonthSalaryDetailsPK();
-
-				Employee emp = new Employee();
-				emp.setEmpID(empID.get(i));
-				j.setEmpID(emp);
-
-				PayAddDeductTypes k = new PayAddDeductTypes();
-				k.setDeductTypeCode(deductTypeCode);
-				j.setPayType(k);
-
-				PayCode payCodeObj = new PayCode();
-				payCodeObj.setPayCodeID(payCode);
-				j.setPayCodeid(payCodeObj);
-
-				CompanyMaster com = new CompanyMaster();
-				com.setComID(comID);
-
-				h.setMonthDePk(j);
-				h.setpYear(pYear);
-				h.setpMonth(pMonth);
-				h.setAmount(amount1.get(p));
-				h.setCompany(com);
-
-				list.add(h);
-
-			}
-		}
-
-		try {
-			if (list.isEmpty()) {
-				if (payCode.contentEquals("undefined")) {
-
-					ra.addFlashAttribute("success", 1);
-
-					Employee e = new Employee(empidTable);
-					PayAddDeductTypes q = new PayAddDeductTypes(deductTypeCode);
-					PayCode r = new PayCode(pc.getPayCodeID());
-					CompanyMaster c = new CompanyMaster(comID);
-
-					EmployeeMonthSalaryDetailsPK n = new EmployeeMonthSalaryDetailsPK(q, r, e);
-
-					EmployeeMonthSalaryDetails m = new EmployeeMonthSalaryDetails(n, pYear, pMonth, amount, c);
-
-					payService.savePayPeriods(pp);
-					payService.savePayCodes(pc);
-					employeeSalaryService.saveEmpMoDe(m);
-
-					return "redirect:/hrm/getEmpMonthSalaryDetailsPage";
-
-				} else {
-
-					ra.addFlashAttribute("success", 1);
-
-					Employee e = new Employee(empidTable);
-					PayAddDeductTypes q = new PayAddDeductTypes(deductTypeCode);
-					PayCode r = new PayCode(payCode);
-					CompanyMaster c = new CompanyMaster(comID);
-
-					EmployeeMonthSalaryDetailsPK n = new EmployeeMonthSalaryDetailsPK(q, r, e);
-
-					EmployeeMonthSalaryDetails m = new EmployeeMonthSalaryDetails(n, pYear, pMonth, amount, c);
-
-					employeeSalaryService.saveEmpMoDe(m);
-
-					return "redirect:/hrm/getEmpMonthSalaryDetailsPage";
-
-				}
-
-			} else {
-				if (payCode.contentEquals("undefined")) {
-
-					ra.addFlashAttribute("success", 1);
-					payService.savePayPeriods(pp);
-					payService.savePayCodes(pc);
-					employeeSalaryService.saveListEmpMoSaDe(list);
-					return "redirect:/hrm/getEmpMonthSalaryDetailsPage";
-
-				} else {
-
-					ra.addFlashAttribute("success", 1);
-					employeeSalaryService.saveListEmpMoSaDe(list);
-					return "redirect:/hrm/getEmpMonthSalaryDetailsPage";
-				}
-			}
-
-		} catch (Exception e) {
-			ra.addFlashAttribute("success", 0);
-			System.out.println(e);
-		}
-		return "redirect:/hrm/empMonthSalaryDetails";
-	}
+//	@PostMapping("/saveEmpMoSaDetails02")
+//	public String saveEmpMoSaDe02(@ModelAttribute("formMonthSalary02") EmployeeMonthSalaryDetails empMoSaDe,
+//			@RequestParam("monthDePk.empID.empID") ArrayList<String> empID,
+//			@RequestParam("monthDePk.payType.deductTypeCode") String deductTypeCode,
+//			@RequestParam("company.comID") String comID,
+//			@RequestParam(value = "monthDePk.payCodeid.payCodeID", required = false) String payCode,
+//			@RequestParam("pYear") String pYear, @RequestParam("pMonth") String pMonth,
+//			@RequestParam(value = "amount", required = false) ArrayList<Integer> amount1, RedirectAttributes ra,
+//			String empidTable, int amount) {
+//
+//		List<EmployeeMonthSalaryDetails> list = new ArrayList<>();
+//
+//		PayPeriods pp = new PayPeriods();
+//		pp.setPayPeriodID("00000".substring(payService.maxpayPeriodID().length()) + payService.maxpayPeriodID());
+//		pp.setStartDate(pYear);
+//		pp.setEndDate(pMonth);
+//		pp.setPayDate(pMonth);
+//		pp.setStatus("Open");
+//
+//		PayCode pc = new PayCode();
+//		pc.setPayCodeID("00000".substring(payService.maxpayCodeID().length()) + payService.maxpayCodeID());
+//		pc.setPayCode("Generate Code " + "00000".substring(employeeSalaryService.payCodeForAG().length())
+//				+ employeeSalaryService.payCodeForAG());
+//		pc.setStartDate(pYear);
+//		pc.setEndDate(pMonth);
+//		pc.setRemarks("good");
+//		pc.setStatus("Open");
+//		pc.setPeriodID(pp);
+//
+//		if (payCode.contentEquals("undefined")) {
+//			for (int i = 1, p = 0; i < empID.size() && p < amount1.size(); i++, p++) {
+//				EmployeeMonthSalaryDetails h = new EmployeeMonthSalaryDetails();
+//				EmployeeMonthSalaryDetailsPK j = new EmployeeMonthSalaryDetailsPK();
+//
+//				Employee emp = new Employee();
+//				emp.setEmpID(empID.get(i));
+//				j.setEmpID(emp);
+//
+//				PayAddDeductTypes k = new PayAddDeductTypes();
+//				k.setDeductTypeCode(deductTypeCode);
+//				j.setPayType(k);
+//
+//				CompanyMaster com = new CompanyMaster();
+//				com.setComID(comID);
+//
+//				j.setPayCodeid(pc);
+//
+//				h.setMonthDePk(j);
+//				h.setpYear(pYear);
+//				h.setpMonth(pMonth);
+//				h.setAmount(amount1.get(p));
+//				h.setCompany(com);
+//
+//				list.add(h);
+//
+//			}
+//
+//		} else {
+//			for (int i = 1, p = 0; i < empID.size() && p < amount1.size(); i++, p++) {
+//				EmployeeMonthSalaryDetails h = new EmployeeMonthSalaryDetails();
+//				EmployeeMonthSalaryDetailsPK j = new EmployeeMonthSalaryDetailsPK();
+//
+//				Employee emp = new Employee();
+//				emp.setEmpID(empID.get(i));
+//				j.setEmpID(emp);
+//
+//				PayAddDeductTypes k = new PayAddDeductTypes();
+//				k.setDeductTypeCode(deductTypeCode);
+//				j.setPayType(k);
+//
+//				PayCode payCodeObj = new PayCode();
+//				payCodeObj.setPayCodeID(payCode);
+//				j.setPayCodeid(payCodeObj);
+//
+//				CompanyMaster com = new CompanyMaster();
+//				com.setComID(comID);
+//
+//				h.setMonthDePk(j);
+//				h.setpYear(pYear);
+//				h.setpMonth(pMonth);
+//				h.setAmount(amount1.get(p));
+//				h.setCompany(com);
+//
+//				list.add(h);
+//
+//			}
+//		}
+//
+//		try {
+//			if (list.isEmpty()) {
+//				if (payCode.contentEquals("undefined")) {
+//
+//					ra.addFlashAttribute("success", 1);
+//
+//					Employee e = new Employee(empidTable);
+//					PayAddDeductTypes q = new PayAddDeductTypes(deductTypeCode);
+//					PayCode r = new PayCode(pc.getPayCodeID());
+//					CompanyMaster c = new CompanyMaster(comID);
+//
+//					EmployeeMonthSalaryDetailsPK n = new EmployeeMonthSalaryDetailsPK(q, r, e);
+//
+//					EmployeeMonthSalaryDetails m = new EmployeeMonthSalaryDetails(n, pYear, pMonth, amount, c);
+//
+//					payService.savePayPeriods(pp);
+//					payService.savePayCodes(pc);
+//					employeeSalaryService.saveEmpMoDe(m);
+//
+//					return "redirect:/hrm/getEmpMonthSalaryDetailsPage";
+//
+//				} else {
+//
+//					ra.addFlashAttribute("success", 1);
+//
+//					Employee e = new Employee(empidTable);
+//					PayAddDeductTypes q = new PayAddDeductTypes(deductTypeCode);
+//					PayCode r = new PayCode(payCode);
+//					CompanyMaster c = new CompanyMaster(comID);
+//
+//					EmployeeMonthSalaryDetailsPK n = new EmployeeMonthSalaryDetailsPK(q, r, e);
+//
+//					EmployeeMonthSalaryDetails m = new EmployeeMonthSalaryDetails(n, pYear, pMonth, amount, c);
+//
+//					employeeSalaryService.saveEmpMoDe(m);
+//
+//					return "redirect:/hrm/getEmpMonthSalaryDetailsPage";
+//
+//				}
+//
+//			} else {
+//				if (payCode.contentEquals("undefined")) {
+//
+//					ra.addFlashAttribute("success", 1);
+//					payService.savePayPeriods(pp);
+//					payService.savePayCodes(pc);
+//					employeeSalaryService.saveListEmpMoSaDe(list);
+//					return "redirect:/hrm/getEmpMonthSalaryDetailsPage";
+//
+//				} else {
+//
+//					ra.addFlashAttribute("success", 1);
+//					employeeSalaryService.saveListEmpMoSaDe(list);
+//					return "redirect:/hrm/getEmpMonthSalaryDetailsPage";
+//				}
+//			}
+//
+//		} catch (Exception e) {
+//			ra.addFlashAttribute("success", 0);
+//			System.out.println(e);
+//		}
+//		return "redirect:/hrm/empMonthSalaryDetails";
+//	}
 
 	// month salary getPage03
 	@GetMapping("/getEmpMonthSalaryDetailsPage03")
@@ -613,158 +625,158 @@ public class SalaryController {
 		return "hrm/empMonthSalaryDetails03";
 	}
 
-	// month salary save 02
-	@PostMapping("/saveEmpMoSaDetails03")
-	public String saveEmpMoSaDe03(@ModelAttribute("formMonthSalary02") EmployeeMonthSalaryDetails empMoSaDe,
-			@RequestParam("monthDePk.empID.empID") ArrayList<String> empID,
-			@RequestParam("monthDePk.payType.deductTypeCode") String deductTypeCode,
-			@RequestParam("company.comID") String comID,
-			@RequestParam(value = "monthDePk.payCodeid.payCodeID", required = false) String payCode,
-			@RequestParam("pYear") String pYear, @RequestParam("pMonth") String pMonth,
-			@RequestParam(value = "amount", required = false) ArrayList<Integer> amount1, RedirectAttributes ra,
-			String empidTable, int amount) {
-
-		List<EmployeeMonthSalaryDetails> list = new ArrayList<>();
-
-		PayPeriods pp = new PayPeriods();
-		pp.setPayPeriodID("00000".substring(payService.maxpayPeriodID().length()) + payService.maxpayPeriodID());
-		pp.setStartDate(pYear);
-		pp.setEndDate(pMonth);
-		pp.setPayDate(pMonth);
-		pp.setStatus("Open");
-
-		PayCode pc = new PayCode();
-		pc.setPayCodeID("00000".substring(payService.maxpayCodeID().length()) + payService.maxpayCodeID());
-		pc.setPayCode("Generate Code " + "00000".substring(employeeSalaryService.payCodeForAG().length())
-				+ employeeSalaryService.payCodeForAG());
-		pc.setStartDate(pYear);
-		pc.setEndDate(pMonth);
-		pc.setRemarks("good");
-		pc.setStatus("Open");
-		pc.setPeriodID(pp);
-
-		if (payCode.contentEquals("undefined")) {
-			for (int i = 1, p = 0; i < empID.size() && p < amount1.size(); i++, p++) {
-				EmployeeMonthSalaryDetails h = new EmployeeMonthSalaryDetails();
-				EmployeeMonthSalaryDetailsPK j = new EmployeeMonthSalaryDetailsPK();
-
-				Employee emp = new Employee();
-				emp.setEmpID(empID.get(i));
-				j.setEmpID(emp);
-
-				PayAddDeductTypes k = new PayAddDeductTypes();
-				k.setDeductTypeCode(deductTypeCode);
-				j.setPayType(k);
-
-				CompanyMaster com = new CompanyMaster();
-				com.setComID(comID);
-
-				j.setPayCodeid(pc);
-
-				h.setMonthDePk(j);
-				h.setpYear(pYear);
-				h.setpMonth(pMonth);
-				h.setAmount(amount1.get(p));
-				h.setCompany(com);
-
-				list.add(h);
-
-			}
-
-		} else {
-			for (int i = 1, p = 0; i < empID.size() && p < amount1.size(); i++, p++) {
-				EmployeeMonthSalaryDetails h = new EmployeeMonthSalaryDetails();
-				EmployeeMonthSalaryDetailsPK j = new EmployeeMonthSalaryDetailsPK();
-
-				Employee emp = new Employee();
-				emp.setEmpID(empID.get(i));
-				j.setEmpID(emp);
-
-				PayAddDeductTypes k = new PayAddDeductTypes();
-				k.setDeductTypeCode(deductTypeCode);
-				j.setPayType(k);
-
-				PayCode payCodeObj = new PayCode();
-				payCodeObj.setPayCodeID(payCode);
-				j.setPayCodeid(payCodeObj);
-
-				CompanyMaster com = new CompanyMaster();
-				com.setComID(comID);
-
-				h.setMonthDePk(j);
-				h.setpYear(pYear);
-				h.setpMonth(pMonth);
-				h.setAmount(amount1.get(p));
-				h.setCompany(com);
-
-				list.add(h);
-
-			}
-		}
-
-		try {
-			if (list.isEmpty()) {
-				if (payCode.contentEquals("undefined")) {
-
-					ra.addFlashAttribute("success", 1);
-
-					Employee e = new Employee(empidTable);
-					PayAddDeductTypes q = new PayAddDeductTypes(deductTypeCode);
-					PayCode r = new PayCode(pc.getPayCodeID());
-					CompanyMaster c = new CompanyMaster(comID);
-
-					EmployeeMonthSalaryDetailsPK n = new EmployeeMonthSalaryDetailsPK(q, r, e);
-
-					EmployeeMonthSalaryDetails m = new EmployeeMonthSalaryDetails(n, pYear, pMonth, amount, c);
-
-					payService.savePayPeriods(pp);
-					payService.savePayCodes(pc);
-					employeeSalaryService.saveEmpMoDe(m);
-
-					return "redirect:/hrm/getEmpMonthSalaryDetailsPage";
-
-				} else {
-
-					ra.addFlashAttribute("success", 1);
-
-					Employee e = new Employee(empidTable);
-					PayAddDeductTypes q = new PayAddDeductTypes(deductTypeCode);
-					PayCode r = new PayCode(payCode);
-					CompanyMaster c = new CompanyMaster(comID);
-
-					EmployeeMonthSalaryDetailsPK n = new EmployeeMonthSalaryDetailsPK(q, r, e);
-
-					EmployeeMonthSalaryDetails m = new EmployeeMonthSalaryDetails(n, pYear, pMonth, amount, c);
-
-					employeeSalaryService.saveEmpMoDe(m);
-
-					return "redirect:/hrm/getEmpMonthSalaryDetailsPage";
-
-				}
-
-			} else {
-				if (payCode.contentEquals("undefined")) {
-
-					ra.addFlashAttribute("success", 1);
-					payService.savePayPeriods(pp);
-					payService.savePayCodes(pc);
-					employeeSalaryService.saveListEmpMoSaDe(list);
-					return "redirect:/hrm/getEmpMonthSalaryDetailsPage";
-
-				} else {
-
-					ra.addFlashAttribute("success", 1);
-					employeeSalaryService.saveListEmpMoSaDe(list);
-					return "redirect:/hrm/getEmpMonthSalaryDetailsPage";
-				}
-			}
-
-		} catch (Exception e) {
-			ra.addFlashAttribute("success", 0);
-			System.out.println(e);
-		}
-		return "redirect:/hrm/empMonthSalaryDetails";
-	}
+//	// month salary save 02
+//	@PostMapping("/saveEmpMoSaDetails03")
+//	public String saveEmpMoSaDe03(@ModelAttribute("formMonthSalary02") EmployeeMonthSalaryDetails empMoSaDe,
+//			@RequestParam("monthDePk.empID.empID") ArrayList<String> empID,
+//			@RequestParam("monthDePk.payType.deductTypeCode") String deductTypeCode,
+//			@RequestParam("company.comID") String comID,
+//			@RequestParam(value = "monthDePk.payCodeid.payCodeID", required = false) String payCode,
+//			@RequestParam("pYear") String pYear, @RequestParam("pMonth") String pMonth,
+//			@RequestParam(value = "amount", required = false) ArrayList<Integer> amount1, RedirectAttributes ra,
+//			String empidTable, int amount) {
+//
+//		List<EmployeeMonthSalaryDetails> list = new ArrayList<>();
+//
+//		PayPeriods pp = new PayPeriods();
+//		pp.setPayPeriodID("00000".substring(payService.maxpayPeriodID().length()) + payService.maxpayPeriodID());
+//		pp.setStartDate(pYear);
+//		pp.setEndDate(pMonth);
+//		pp.setPayDate(pMonth);
+//		pp.setStatus("Open");
+//
+//		PayCode pc = new PayCode();
+//		pc.setPayCodeID("00000".substring(payService.maxpayCodeID().length()) + payService.maxpayCodeID());
+//		pc.setPayCode("Generate Code " + "00000".substring(employeeSalaryService.payCodeForAG().length())
+//				+ employeeSalaryService.payCodeForAG());
+//		pc.setStartDate(pYear);
+//		pc.setEndDate(pMonth);
+//		pc.setRemarks("good");
+//		pc.setStatus("Open");
+//		pc.setPeriodID(pp);
+//
+//		if (payCode.contentEquals("undefined")) {
+//			for (int i = 1, p = 0; i < empID.size() && p < amount1.size(); i++, p++) {
+//				EmployeeMonthSalaryDetails h = new EmployeeMonthSalaryDetails();
+//				EmployeeMonthSalaryDetailsPK j = new EmployeeMonthSalaryDetailsPK();
+//
+//				Employee emp = new Employee();
+//				emp.setEmpID(empID.get(i));
+//				j.setEmpID(emp);
+//
+//				PayAddDeductTypes k = new PayAddDeductTypes();
+//				k.setDeductTypeCode(deductTypeCode);
+//				j.setPayType(k);
+//
+//				CompanyMaster com = new CompanyMaster();
+//				com.setComID(comID);
+//
+//				j.setPayCodeid(pc);
+//
+//				h.setMonthDePk(j);
+//				h.setpYear(pYear);
+//				h.setpMonth(pMonth);
+//				h.setAmount(amount1.get(p));
+//				h.setCompany(com);
+//
+//				list.add(h);
+//
+//			}
+//
+//		} else {
+//			for (int i = 1, p = 0; i < empID.size() && p < amount1.size(); i++, p++) {
+//				EmployeeMonthSalaryDetails h = new EmployeeMonthSalaryDetails();
+//				EmployeeMonthSalaryDetailsPK j = new EmployeeMonthSalaryDetailsPK();
+//
+//				Employee emp = new Employee();
+//				emp.setEmpID(empID.get(i));
+//				j.setEmpID(emp);
+//
+//				PayAddDeductTypes k = new PayAddDeductTypes();
+//				k.setDeductTypeCode(deductTypeCode);
+//				j.setPayType(k);
+//
+//				PayCode payCodeObj = new PayCode();
+//				payCodeObj.setPayCodeID(payCode);
+//				j.setPayCodeid(payCodeObj);
+//
+//				CompanyMaster com = new CompanyMaster();
+//				com.setComID(comID);
+//
+//				h.setMonthDePk(j);
+//				h.setpYear(pYear);
+//				h.setpMonth(pMonth);
+//				h.setAmount(amount1.get(p));
+//				h.setCompany(com);
+//
+//				list.add(h);
+//
+//			}
+//		}
+//
+//		try {
+//			if (list.isEmpty()) {
+//				if (payCode.contentEquals("undefined")) {
+//
+//					ra.addFlashAttribute("success", 1);
+//
+//					Employee e = new Employee(empidTable);
+//					PayAddDeductTypes q = new PayAddDeductTypes(deductTypeCode);
+//					PayCode r = new PayCode(pc.getPayCodeID());
+//					CompanyMaster c = new CompanyMaster(comID);
+//
+//					EmployeeMonthSalaryDetailsPK n = new EmployeeMonthSalaryDetailsPK(q, r, e);
+//
+//					EmployeeMonthSalaryDetails m = new EmployeeMonthSalaryDetails(n, pYear, pMonth, amount, c);
+//
+//					payService.savePayPeriods(pp);
+//					payService.savePayCodes(pc);
+//					employeeSalaryService.saveEmpMoDe(m);
+//
+//					return "redirect:/hrm/getEmpMonthSalaryDetailsPage";
+//
+//				} else {
+//
+//					ra.addFlashAttribute("success", 1);
+//
+//					Employee e = new Employee(empidTable);
+//					PayAddDeductTypes q = new PayAddDeductTypes(deductTypeCode);
+//					PayCode r = new PayCode(payCode);
+//					CompanyMaster c = new CompanyMaster(comID);
+//
+//					EmployeeMonthSalaryDetailsPK n = new EmployeeMonthSalaryDetailsPK(q, r, e);
+//
+//					EmployeeMonthSalaryDetails m = new EmployeeMonthSalaryDetails(n, pYear, pMonth, amount, c);
+//
+//					employeeSalaryService.saveEmpMoDe(m);
+//
+//					return "redirect:/hrm/getEmpMonthSalaryDetailsPage";
+//
+//				}
+//
+//			} else {
+//				if (payCode.contentEquals("undefined")) {
+//
+//					ra.addFlashAttribute("success", 1);
+//					payService.savePayPeriods(pp);
+//					payService.savePayCodes(pc);
+//					employeeSalaryService.saveListEmpMoSaDe(list);
+//					return "redirect:/hrm/getEmpMonthSalaryDetailsPage";
+//
+//				} else {
+//
+//					ra.addFlashAttribute("success", 1);
+//					employeeSalaryService.saveListEmpMoSaDe(list);
+//					return "redirect:/hrm/getEmpMonthSalaryDetailsPage";
+//				}
+//			}
+//
+//		} catch (Exception e) {
+//			ra.addFlashAttribute("success", 0);
+//			System.out.println(e);
+//		}
+//		return "redirect:/hrm/empMonthSalaryDetails";
+//	}
 
 	// month salary getPage04
 	@GetMapping("/getEmpMonthSalaryDetailsPage04")
@@ -773,183 +785,191 @@ public class SalaryController {
 		return "hrm/empMonthSalaryDetails04";
 	}
 
-	// month salary save 02
-	@PostMapping("/saveEmpMoSaDetails04")
-	public String saveEmpMoSaDe04(@ModelAttribute("formMonthSalary02") EmployeeMonthSalaryDetails empMoSaDe,
-			@RequestParam("monthDePk.empID.empID") ArrayList<String> empID,
-			@RequestParam("monthDePk.payType.deductTypeCode") String deductTypeCode,
-			@RequestParam("company.comID") String comID,
-			@RequestParam(value = "monthDePk.payCodeid.payCodeID", required = false) String payCode,
-			@RequestParam("pYear") String pYear, @RequestParam("pMonth") String pMonth,
-			@RequestParam(value = "amount", required = false) ArrayList<Integer> amount1, RedirectAttributes ra,
-			String empidTable, int amount) {
-
-		List<EmployeeMonthSalaryDetails> list = new ArrayList<>();
-
-		PayPeriods pp = new PayPeriods();
-		pp.setPayPeriodID("00000".substring(payService.maxpayPeriodID().length()) + payService.maxpayPeriodID());
-		pp.setStartDate(pYear);
-		pp.setEndDate(pMonth);
-		pp.setPayDate(pMonth);
-		pp.setStatus("Open");
-
-		PayCode pc = new PayCode();
-		pc.setPayCodeID("00000".substring(payService.maxpayCodeID().length()) + payService.maxpayCodeID());
-		pc.setPayCode("Generate Code " + "00000".substring(employeeSalaryService.payCodeForAG().length())
-				+ employeeSalaryService.payCodeForAG());
-		pc.setStartDate(pYear);
-		pc.setEndDate(pMonth);
-		pc.setRemarks("good");
-		pc.setStatus("Open");
-		pc.setPeriodID(pp);
-
-		if (payCode.contentEquals("undefined")) {
-			for (int i = 1, p = 0; i < empID.size() && p < amount1.size(); i++, p++) {
-				EmployeeMonthSalaryDetails h = new EmployeeMonthSalaryDetails();
-				EmployeeMonthSalaryDetailsPK j = new EmployeeMonthSalaryDetailsPK();
-
-				Employee emp = new Employee();
-				emp.setEmpID(empID.get(i));
-				j.setEmpID(emp);
-
-				PayAddDeductTypes k = new PayAddDeductTypes();
-				k.setDeductTypeCode(deductTypeCode);
-				j.setPayType(k);
-
-				CompanyMaster com = new CompanyMaster();
-				com.setComID(comID);
-
-				j.setPayCodeid(pc);
-
-				h.setMonthDePk(j);
-				h.setpYear(pYear);
-				h.setpMonth(pMonth);
-				h.setAmount(amount1.get(p));
-				h.setCompany(com);
-
-				list.add(h);
-
-			}
-
-		} else {
-			for (int i = 1, p = 0; i < empID.size() && p < amount1.size(); i++, p++) {
-				EmployeeMonthSalaryDetails h = new EmployeeMonthSalaryDetails();
-				EmployeeMonthSalaryDetailsPK j = new EmployeeMonthSalaryDetailsPK();
-
-				Employee emp = new Employee();
-				emp.setEmpID(empID.get(i));
-				j.setEmpID(emp);
-
-				PayAddDeductTypes k = new PayAddDeductTypes();
-				k.setDeductTypeCode(deductTypeCode);
-				j.setPayType(k);
-
-				PayCode payCodeObj = new PayCode();
-				payCodeObj.setPayCodeID(payCode);
-				j.setPayCodeid(payCodeObj);
-
-				CompanyMaster com = new CompanyMaster();
-				com.setComID(comID);
-
-				h.setMonthDePk(j);
-				h.setpYear(pYear);
-				h.setpMonth(pMonth);
-				h.setAmount(amount1.get(p));
-				h.setCompany(com);
-
-				list.add(h);
-
-			}
-		}
-
-		try {
-			if (list.isEmpty()) {
-				if (payCode.contentEquals("undefined")) {
-
-					ra.addFlashAttribute("success", 1);
-
-					Employee e = new Employee(empidTable);
-					PayAddDeductTypes q = new PayAddDeductTypes(deductTypeCode);
-					PayCode r = new PayCode(pc.getPayCodeID());
-					CompanyMaster c = new CompanyMaster(comID);
-
-					EmployeeMonthSalaryDetailsPK n = new EmployeeMonthSalaryDetailsPK(q, r, e);
-
-					EmployeeMonthSalaryDetails m = new EmployeeMonthSalaryDetails(n, pYear, pMonth, amount, c);
-
-					payService.savePayPeriods(pp);
-					payService.savePayCodes(pc);
-					employeeSalaryService.saveEmpMoDe(m);
-
-					return "redirect:/hrm/getEmpMonthSalaryDetailsPage";
-
-				} else {
-
-					ra.addFlashAttribute("success", 1);
-
-					Employee e = new Employee(empidTable);
-					PayAddDeductTypes q = new PayAddDeductTypes(deductTypeCode);
-					PayCode r = new PayCode(payCode);
-					CompanyMaster c = new CompanyMaster(comID);
-
-					EmployeeMonthSalaryDetailsPK n = new EmployeeMonthSalaryDetailsPK(q, r, e);
-
-					EmployeeMonthSalaryDetails m = new EmployeeMonthSalaryDetails(n, pYear, pMonth, amount, c);
-
-					employeeSalaryService.saveEmpMoDe(m);
-
-					return "redirect:/hrm/getEmpMonthSalaryDetailsPage";
-
-				}
-
-			} else {
-				if (payCode.contentEquals("undefined")) {
-
-					ra.addFlashAttribute("success", 1);
-					payService.savePayPeriods(pp);
-					payService.savePayCodes(pc);
-					employeeSalaryService.saveListEmpMoSaDe(list);
-					return "redirect:/hrm/getEmpMonthSalaryDetailsPage";
-
-				} else {
-
-					ra.addFlashAttribute("success", 1);
-					employeeSalaryService.saveListEmpMoSaDe(list);
-					return "redirect:/hrm/getEmpMonthSalaryDetailsPage";
-				}
-			}
-
-		} catch (Exception e) {
-			ra.addFlashAttribute("success", 0);
-			System.out.println(e);
-		}
-		return "redirect:/hrm/empMonthSalaryDetails";
-	}
+//	// month salary save 02
+//	@PostMapping("/saveEmpMoSaDetails04")
+//	public String saveEmpMoSaDe04(@ModelAttribute("formMonthSalary02") EmployeeMonthSalaryDetails empMoSaDe,
+//			@RequestParam("monthDePk.empID.empID") ArrayList<String> empID,
+//			@RequestParam("monthDePk.payType.deductTypeCode") String deductTypeCode,
+//			@RequestParam("company.comID") String comID,
+//			@RequestParam(value = "monthDePk.payCodeid.payCodeID", required = false) String payCode,
+//			@RequestParam("pYear") String pYear, @RequestParam("pMonth") String pMonth,
+//			@RequestParam(value = "amount", required = false) ArrayList<Integer> amount1, RedirectAttributes ra,
+//			String empidTable, int amount) {
+//
+//		List<EmployeeMonthSalaryDetails> list = new ArrayList<>();
+//
+//		PayPeriods pp = new PayPeriods();
+//		pp.setPayPeriodID("00000".substring(payService.maxpayPeriodID().length()) + payService.maxpayPeriodID());
+//		pp.setStartDate(pYear);
+//		pp.setEndDate(pMonth);
+//		pp.setPayDate(pMonth);
+//		pp.setStatus("Open");
+//
+//		PayCode pc = new PayCode();
+//		pc.setPayCodeID("00000".substring(payService.maxpayCodeID().length()) + payService.maxpayCodeID());
+//		pc.setPayCode("Generate Code " + "00000".substring(employeeSalaryService.payCodeForAG().length())
+//				+ employeeSalaryService.payCodeForAG());
+//		pc.setStartDate(pYear);
+//		pc.setEndDate(pMonth);
+//		pc.setRemarks("good");
+//		pc.setStatus("Open");
+//		pc.setPeriodID(pp);
+//
+//		if (payCode.contentEquals("undefined")) {
+//			for (int i = 1, p = 0; i < empID.size() && p < amount1.size(); i++, p++) {
+//				EmployeeMonthSalaryDetails h = new EmployeeMonthSalaryDetails();
+//				EmployeeMonthSalaryDetailsPK j = new EmployeeMonthSalaryDetailsPK();
+//
+//				Employee emp = new Employee();
+//				emp.setEmpID(empID.get(i));
+//				j.setEmpID(emp);
+//
+//				PayAddDeductTypes k = new PayAddDeductTypes();
+//				k.setDeductTypeCode(deductTypeCode);
+//				j.setPayType(k);
+//
+//				CompanyMaster com = new CompanyMaster();
+//				com.setComID(comID);
+//
+//				j.setPayCodeid(pc);
+//
+//				h.setMonthDePk(j);
+//				h.setpYear(pYear);
+//				h.setpMonth(pMonth);
+//				h.setAmount(amount1.get(p));
+//				h.setCompany(com);
+//
+//				list.add(h);
+//
+//			}
+//
+//		} else {
+//			for (int i = 1, p = 0; i < empID.size() && p < amount1.size(); i++, p++) {
+//				EmployeeMonthSalaryDetails h = new EmployeeMonthSalaryDetails();
+//				EmployeeMonthSalaryDetailsPK j = new EmployeeMonthSalaryDetailsPK();
+//
+//				Employee emp = new Employee();
+//				emp.setEmpID(empID.get(i));
+//				j.setEmpID(emp);
+//
+//				PayAddDeductTypes k = new PayAddDeductTypes();
+//				k.setDeductTypeCode(deductTypeCode);
+//				j.setPayType(k);
+//
+//				PayCode payCodeObj = new PayCode();
+//				payCodeObj.setPayCodeID(payCode);
+//				j.setPayCodeid(payCodeObj);
+//
+//				CompanyMaster com = new CompanyMaster();
+//				com.setComID(comID);
+//
+//				h.setMonthDePk(j);
+//				h.setpYear(pYear);
+//				h.setpMonth(pMonth);
+//				h.setAmount(amount1.get(p));
+//				h.setCompany(com);
+//
+//				list.add(h);
+//
+//			}
+//		}
+//
+//		try {
+//			if (list.isEmpty()) {
+//				if (payCode.contentEquals("undefined")) {
+//
+//					ra.addFlashAttribute("success", 1);
+//
+//					Employee e = new Employee(empidTable);
+//					PayAddDeductTypes q = new PayAddDeductTypes(deductTypeCode);
+//					PayCode r = new PayCode(pc.getPayCodeID());
+//					CompanyMaster c = new CompanyMaster(comID);
+//
+//					EmployeeMonthSalaryDetailsPK n = new EmployeeMonthSalaryDetailsPK(q, r, e);
+//
+//					EmployeeMonthSalaryDetails m = new EmployeeMonthSalaryDetails(n, pYear, pMonth, amount, c);
+//
+//					payService.savePayPeriods(pp);
+//					payService.savePayCodes(pc);
+//					employeeSalaryService.saveEmpMoDe(m);
+//
+//					return "redirect:/hrm/getEmpMonthSalaryDetailsPage";
+//
+//				} else {
+//
+//					ra.addFlashAttribute("success", 1);
+//
+//					Employee e = new Employee(empidTable);
+//					PayAddDeductTypes q = new PayAddDeductTypes(deductTypeCode);
+//					PayCode r = new PayCode(payCode);
+//					CompanyMaster c = new CompanyMaster(comID);
+//
+//					EmployeeMonthSalaryDetailsPK n = new EmployeeMonthSalaryDetailsPK(q, r, e);
+//
+//					EmployeeMonthSalaryDetails m = new EmployeeMonthSalaryDetails(n, pYear, pMonth, amount, c);
+//
+//					employeeSalaryService.saveEmpMoDe(m);
+//
+//					return "redirect:/hrm/getEmpMonthSalaryDetailsPage";
+//
+//				}
+//
+//			} else {
+//				if (payCode.contentEquals("undefined")) {
+//
+//					ra.addFlashAttribute("success", 1);
+//					payService.savePayPeriods(pp);
+//					payService.savePayCodes(pc);
+//					employeeSalaryService.saveListEmpMoSaDe(list);
+//					return "redirect:/hrm/getEmpMonthSalaryDetailsPage";
+//
+//				} else {
+//
+//					ra.addFlashAttribute("success", 1);
+//					employeeSalaryService.saveListEmpMoSaDe(list);
+//					return "redirect:/hrm/getEmpMonthSalaryDetailsPage";
+//				}
+//			}
+//
+//		} catch (Exception e) {
+//			ra.addFlashAttribute("success", 0);
+//			System.out.println(e);
+//		}
+//		return "redirect:/hrm/empMonthSalaryDetails";
+//	}
 
 	@ModelAttribute("findAllEmpMoSaDetails")
-	public List<EmployeeMonthSalaryDetails> getAllMoSaDetails() {
-		return employeeSalaryService.getAllMoSaDetails();
+	public List<EmployeeMonthSalaryDetails> getAllMoSaDetails(HttpSession session) {
+		String comID = (String) session.getAttribute("company.comID");
+		return employeeSalaryService.loadAllEmployeeMonthSalaryDetailsBycompid(comID);
 	}
-
+	@ModelAttribute("payPeriodalounce")
+	public List<PayPeriods> getPayPeriods(HttpSession session){
+		String companyId=session.getAttribute("company.comID")+"";
+		List<PayPeriods> payPeriods = payService.getPayPeriodsBycompanyid(companyId);
+		return payPeriods;
+	}
 	// begin of employee salary details functions
 	@GetMapping("/loadAllEmployeesToGrid")
-	public @ResponseBody List<Employee> getTodayForexRates() {
+	public @ResponseBody List<EmployeeDetails> getTodayForexRates(HttpSession session) {
+		String comID = (String) session.getAttribute("company.comID");
+		
 		// dummy rates
-		String[][] result = empService.getEmpsToEmpMoSaDetails();
-		List<Employee> empSummaryReportArray = new ArrayList<>();
-		for (int i = 0; i < result.length; i++) {
-			Employee emp = new Employee();
-			emp.setEmpID(result[i][0]);
-			emp.setName(result[i][1]);
-			emp.setLastname(result[i][2]);
-			emp.setContact_num1(result[i][3]);
-			emp.setEmail(result[i][4]);
-			emp.setDob(result[i][5]);
+		List<EmployeeDetails> result = empService.getEmployeeDetailsByCompanyID(comID);
+//		List<Employee> empSummaryReportArray = new ArrayList<>();
+//		for (int i = 0; i < result.length; i++) {
+//			Employee emp = new Employee();
+//			emp.setEmpID(result[i][0]);
+//			emp.setName(result[i][1]);
+//			emp.setLastname(result[i][2]);
+//			emp.setContact_num1(result[i][3]);
+//			emp.setEmail(result[i][4]);
+//			emp.setDob(result[i][5]);
+//
+//			empSummaryReportArray.add(emp);
+//		}
 
-			empSummaryReportArray.add(emp);
-		}
-
-		return empSummaryReportArray;
+		return result;
 	}
 
 	// load PAyAddDetuctType
@@ -1135,5 +1155,55 @@ public class SalaryController {
 		Setting s = employeeSalaryService.showOrDisablePayCode();
 		return s;
 	}
+	
+	@PostMapping("/saveEmpMoSaDetails01")
+	public String saveEmpMoSaDe(@ModelAttribute("formMonthSalary") EmployeeMonthSalaryDetails empMoSaDe,
+			@RequestParam("monthDePk.empID.empID") String[] empID,
+			@RequestParam(value = "amount", required = false) String[] amount1,	
+			 RedirectAttributes ra,HttpSession session) {
+			String companyId=session.getAttribute("company.comID")+"";
+			try {
+		List<EmployeeMonthSalaryDetails> list = new ArrayList<>();
 
+		for(int i=0;i<empID.length;i++) {
+			if(amount1[i].isEmpty()!=true) {
+			EmployeeMonthSalaryDetails employeeMonthSalaryDetails=new EmployeeMonthSalaryDetails();
+			employeeMonthSalaryDetails.setAmount(Double.parseDouble(amount1[i]));
+			
+			EmployeeMonthSalaryDetailsPK empmpk=new EmployeeMonthSalaryDetailsPK();
+			Employee emp=new Employee();			
+			emp.setEmpID(empID[i]);
+			empmpk.setEmpID(emp);
+			
+			empmpk.setPayCodeid(empMoSaDe.getMonthDePk().getPayCodeid());
+			
+			empmpk.setPayType(empMoSaDe.getMonthDePk().getPayType());
+			
+			CompanyMaster cm=new CompanyMaster();
+			cm.setComID(companyId);
+			employeeMonthSalaryDetails.setCompany(cm);
+		//	employeeMonthSalaryDetails.setpYear(empMoSaDe.getMonthDePk().getPayCodeid().getPeriodID().getStartDate());
+		//	employeeMonthSalaryDetails.setpMonth(empMoSaDe.getMonthDePk().getPayCodeid().getPeriodID().getEndDate());
+			employeeMonthSalaryDetails.setMonthDePk(empmpk);
+			
+			list.add(employeeMonthSalaryDetails);
+			}
+		}
+		ra.addFlashAttribute("success", 1);
+		employeeSalaryService.saveListEmpMoSaDe(list);
+		return "redirect:/getEmpMonthSalaryDetailsPage";
+		
+		
+		
+				
+
+		
+			
+
+		} catch (Exception e) {
+			ra.addFlashAttribute("success", 0);
+			System.out.println(e);
+		}
+		return "redirect:/hrm/empMonthSalaryDetails";
+	}
 }

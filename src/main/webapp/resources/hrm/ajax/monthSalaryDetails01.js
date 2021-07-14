@@ -142,6 +142,7 @@ function loadRelatedSelect() {
 				for (var i = 0; i < data.length; i++) {
 					option = option
 							+ "<option value='"+data[i].detailsPK.empID.empID + "'>"
+							+data[i].epfNo+" - "
 							+ data[i].detailsPK.empID.name +" "+ data[i].detailsPK.empID.lastname +"</option>";
 				}
 				slctSubcat.append(option);
@@ -405,11 +406,17 @@ function loadAllEmps() {
 			$("#tableMoSaDetails tbody").empty();
 			for (var i = 0; i < data.length; i++) {
 				var result = "<tr><td><input type='checkbox' id='cb1' name='cb1' value='inactive'>" +
-						"</td><td><input name='monthDePk.empID.empID' id='empidTable'" +
-						"value=" + data[i].empID + " readOnly='true'></td><td>"
-						+ data[i].name + " " + data[i].lastname
+						"</td>"
+						
+						+"<td>" + data[i].epfNo + "</td><td>"
+						
+						
+						+ data[i].detailsPK.empID.name + " " + data[i].detailsPK.empID.lastname
 						+ "</td><td><input id='amount' name='amount' autocomplete='off' placeholder='Amount'" +
-						" ></td></tr>";
+						" ></td>" +
+						"<td><input name='monthDePk.empID.empID' id='empidTable'" +
+							"value=" + data[i].detailsPK.empID.empID + " readOnly='true' type='hidden'></td><td>"
+						+"</tr>";
 				$("#tableMoSaDetails tbody").append(result);
 			
 			}
@@ -435,11 +442,17 @@ $.ajax({
 		$("#tableMoSaDetails tbody").empty();
 		for (var i = 0; i < data.length; i++) {
 			var result = "<tr><td><input type='checkbox' id='cb1' name='cb1' value='inactive'>" +
-					"</td><td><input name='empidTable' id='empidTable'" +
-					"value=" + data[i].empID
-					+ " readOnly></td><td>" + data[i].name + " " + data[i].lastname
+					"</td>"
+					
+					+"<td>" + data[i].epfNo + "</td><td>"
+					
+					
+					+ data[i].detailsPK.empID.name + " " + data[i].detailsPK.empID.lastname
 					+ "</td><td><input id='amount' name='amount' autocomplete='off' placeholder='Amount'" +
-					" ></td></tr>";
+					" ></td>" +
+					"<td><input name='monthDePk.empID.empID' id='empidTable'" +
+						"value=" + data[i].detailsPK.empID.empID + " readOnly='true' type='hidden'></td><td>"
+					+"</tr>";
 			$("#tableMoSaDetails tbody").append(result);
 			
 			 $("#tEmpID1").empty();

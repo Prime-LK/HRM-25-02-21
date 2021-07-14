@@ -25,4 +25,7 @@ public interface EmployeeMonthSalaryDetailsRepository extends CrudRepository<Emp
 	public List<EmployeeMonthSalaryDetails> updateListDetails(@Param("deductTypeCode")String deductTypeCode,
 			@Param("payCodeID")String payCodeID); 
 	
+	
+	@Query(value = "SELECT e FROM EmployeeMonthSalaryDetails e WHERE e.company.comID=:compid")
+	public List<EmployeeMonthSalaryDetails> loadAllEmployeeMonthSalaryDetailsBycompid(@Param("compid") String compid);
 }

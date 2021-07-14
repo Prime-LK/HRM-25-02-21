@@ -167,8 +167,8 @@ public class PayService {
 	}
 
 	// load paycode for combo box
-	public List<PayCode> getpayCodestopage(String periodID) {
-		return payCodeRepository.loadPayCode(periodID);
+	public List<PayCode> getpayCodestopage(String periodID,String comID) {
+		return payCodeRepository.loadPayCode(periodID,comID);
 	}	
 	
 	// load paycode for combo box

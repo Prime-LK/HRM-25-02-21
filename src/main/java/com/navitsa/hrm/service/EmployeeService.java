@@ -225,8 +225,8 @@ public class EmployeeService {
 	}
 
 	// empMonth salary details load emps
-	public String[][] getEmpsToEmpMoSaDetails() {
-		return empRepo.getEmpsToEmpMoSaDetails();
+	public String[][] getEmpsToEmpMoSaDetails(String companyId) {
+		return empRepo.getEmpsToEmpMoSaDetails(companyId);
 	}
 
 	public String[][] filterEemployee(String depID) {
@@ -336,6 +336,9 @@ public class EmployeeService {
 	public String[][] getEmployeeSummaryReport(String companyId){
 		return naRepo.getEmployeeSummaryReport(companyId);
 		
+	}
+	public List<EmployeeDetails> getEmployeeDetailsByEmpid(String companyID,String empid){
+		return empDeRepo.getEmployeeDetailsByEmpid(companyID,empid);
 	}
 }
 

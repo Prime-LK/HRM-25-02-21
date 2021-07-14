@@ -26,7 +26,7 @@ public class EmployeeMonthSalaryDetails {
 	private String pMonth;
 	
 	@Column(name="Amount")
-	private int amount;
+	private Double amount;
 	
 	@ManyToOne(optional=false, fetch = FetchType.EAGER)
 	@JoinColumn(name="Company_ID", referencedColumnName="Company_ID")
@@ -56,11 +56,11 @@ public class EmployeeMonthSalaryDetails {
 		this.pMonth = pMonth;
 	}
 	
-	public int getAmount() {
+	public Double getAmount() {
 		return amount;
 	}
 
-	public void setAmount(int amount) {
+	public void setAmount(Double amount) {
 		this.amount = amount;
 	}
 	
@@ -72,7 +72,7 @@ public class EmployeeMonthSalaryDetails {
 		this.company = company;
 	}
 
-	public EmployeeMonthSalaryDetails(EmployeeMonthSalaryDetailsPK monthDePk, String pYear, String pMonth, int amount,
+	public EmployeeMonthSalaryDetails(EmployeeMonthSalaryDetailsPK monthDePk, String pYear, String pMonth, Double amount,
 			CompanyMaster company) {
 		this.monthDePk = monthDePk;
 		this.pYear = pYear;
