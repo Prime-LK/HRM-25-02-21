@@ -66,7 +66,9 @@
 											<form:form action="saveLeaveType" method="POST"
 												onSubmit="return validateForm()" id="leaveTypeForm"
 												modelAttribute="leaveTypeForm">
-		
+												
+												<form:input type="hidden" path="leaveTypeID" />
+												
 													<div class="form-group row">
 														<div class="col-lg-8">
 															<label for="leaveCode">Leave Code</label>
@@ -83,7 +85,7 @@
 
 													<div class="form-group row">
 														<div class="col-lg-8">
-															<input type="submit" class="btn btn-success btn-sm" value="Save">
+															<input type="submit" class="btn btn-success btn-sm" value="Add Leave Type">
 															<input type="reset" class="btn btn-danger btn-sm" value="Reset">
 														</div>
 													</div>
@@ -94,12 +96,11 @@
 									<div class="col-xl col-md-6 mb-4">
 									
 										<div class="table-responsive">
-											<table class="table table-striped">
+											<table class="table table-sm table-bordered table-hover">
 												<thead>
 													<tr>
 														<th>Leave Code</th>													
 														<th>Leave Type</th>
-														<th></th>
 													</tr>
 												</thead>
 												<tbody>
@@ -107,7 +108,7 @@
 														<tr>
 															<td>${type.leaveCode}</td>															
 															<td>${type.leaveType}</td>
-															<td><a href="editLeaveType?id=${type.leaveCode}"><i
+															<td><a href="editLeaveType?id=${type.leaveTypeID}"><i
 																class="fas fa-pen"></i></a></td>
 														</tr>
 													</c:forEach>

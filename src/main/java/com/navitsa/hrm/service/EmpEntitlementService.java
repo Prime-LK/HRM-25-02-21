@@ -5,12 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.navitsa.hrm.entity.EmpEntitlementsClass;
-import com.navitsa.hrm.entity.EmployeeCategory;
-import com.navitsa.hrm.entity.LeaveType;
+import com.navitsa.hrm.entity.EmployeeEntitlement;
 import com.navitsa.hrm.repository.EmpEntitlementRepository;
-import com.navitsa.hrm.repository.EmployeeCategoryRepository;
-import com.navitsa.hrm.repository.LeaveTypeRepository;
 
 @Service
 public class EmpEntitlementService {
@@ -18,48 +14,37 @@ public class EmpEntitlementService {
 	@Autowired
 	private EmpEntitlementRepository empEntRepo;
 
-	@Autowired
-	private EmployeeCategoryRepository empCatRepo;
+	//@Autowired
+	//private EmployeeCategoryRepository empCatRepo;
 
-	@Autowired
-	private LeaveTypeRepository leaveClassReository;
+	//@Autowired
+	//private LeaveTypeRepository leaveTypeRepo;
 
-	public EmpEntitlementsClass getAll(String ent_ID) {
-
+	public EmployeeEntitlement getAll(String ent_ID) {
+		
 		return empEntRepo.findById(ent_ID).get();
-
+		
 	}
 
-	public List<EmpEntitlementsClass> getAll() {
-
-		return (List<EmpEntitlementsClass>) empEntRepo.findAll();
+	public List<EmployeeEntitlement> getAll() {
+		
+		return (List<EmployeeEntitlement>) empEntRepo.findAll();
 	}
 
-	public EmpEntitlementsClass getAlldata(String category) {
-		return empEntRepo.findById(category).get();
-	}
-
-	public List<EmployeeCategory> getAlldata() {
-		return (List<EmployeeCategory>) empCatRepo.findAll();
-	}
-
-	public EmpEntitlementsClass getAllLeaves(String leaveType) {
-		return empEntRepo.findById(leaveType).get();
-	}
-
-	public List<LeaveType> getAllLeaves() {
-		return (List<LeaveType>) leaveClassReository.findAll();
-	}
-
-	public void saveentitlement(EmpEntitlementsClass empentitlements) {
+	public void saveentitlement(EmployeeEntitlement empentitlements) {
 
 		empEntRepo.save(empentitlements);
 
 	}
 
-	public String findByIDs(String leaveTypeID, String employeeCategory) {
+	public String findByLeaveTypeEmployeeType(String leaveTypeID, String employeeType, String companyID) {
 		
-		return empEntRepo.findByIDs(leaveTypeID,employeeCategory);
+		return empEntRepo.findByLeaveTypeEmployeeType(leaveTypeID,employeeType, companyID);
+	}
+	
+	public List<EmployeeEntitlement> findAllByCompanyId(String companyID) {
+
+		return empEntRepo.findAllByCompanyId(companyID);
 	}
 
 }
