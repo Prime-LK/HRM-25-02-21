@@ -46,7 +46,7 @@ public class AttendanceTxtFileReadingService {
 		
 	}
 
-	public AttendanceTxtFileHeader getTxtFileHeader(String companyID) {
+	public List<AttendanceTxtFileHeader> getTxtFileHeader(String companyID) {
 		// TODO Auto-generated method stub
 		return repo.getTxtFileHeader(companyID);
 	}

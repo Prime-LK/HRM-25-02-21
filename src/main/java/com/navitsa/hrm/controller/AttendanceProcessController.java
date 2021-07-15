@@ -191,201 +191,208 @@ public class AttendanceProcessController {
 				sm = ed.getShiftmaster();
 			}
 			
-			AttendanceTxtFileHeader txtFileHeader = txtFileReadingService.getTxtFileHeader(companyID);
-			List<AttendanceTxtFileDetail> attendanceRecords =  txtFileReadingService.getAttendanceRecords(payPeriod.getStartDate(),payPeriod.getEndDate(),ed.getEpfNo(),txtFileHeader.getHeaderId());
-			//List<EmployeeAttendance> manualAttendanceRecords = manulaAttendanceService.getAttendanceRecords(payPeriod.getStartDate(),payPeriod.getEndDate(),employeeID);
-			
-			/* -------------------------------------------- */
 			
 			// this list use for save all data
 			List<AttendanceSheet> attendanceSheetlist = new ArrayList<AttendanceSheet>();
 			
-			for(Date workingDay : workingDays) {
-				
-				List<String> timeInOut = new ArrayList<String>();
-				timeInOut.clear();
-				
-				for(AttendanceTxtFileDetail txtFile : attendanceRecords) {
-					if(workingDay.compareTo(sdf.parse(txtFile.getInoutDate()))==0) {
+			List<AttendanceTxtFileHeader> txtFileHeaderList = txtFileReadingService.getTxtFileHeader(companyID);
+			b:for(AttendanceTxtFileHeader txtHeader : txtFileHeaderList) {
 
-						timeInOut.add(txtFile.getInoutTime());
-					}	
-				}
+				List<AttendanceTxtFileDetail> attendanceRecords =  txtFileReadingService.getAttendanceRecords(payPeriod.getStartDate(),payPeriod.getEndDate(),ed.getEpfNo(),txtHeader.getHeaderId());
+				//List<EmployeeAttendance> manualAttendanceRecords = manulaAttendanceService.getAttendanceRecords(payPeriod.getStartDate(),payPeriod.getEndDate(),employeeID);
 				
-	/*			for(EmployeeAttendance et : manualAttendanceRecords) {
-					if(workingDay.compareTo(sdf.parse(et.getDate()))==0) {
+				if(attendanceRecords.isEmpty())
+					continue b;
+				
+				
+				for(Date workingDay : workingDays) {
+					
+					List<String> timeInOut = new ArrayList<String>();
+					timeInOut.clear();
+					
+					for(AttendanceTxtFileDetail txtFile : attendanceRecords) {
+						if(workingDay.compareTo(sdf.parse(txtFile.getInoutDate()))==0) {
 
-						timeInOut.add(et.getOnTime());
-						timeInOut.add(et.getOffTime());
-					}	
-				}
-	*/			
-				if(ed.getShiftmaster() == null) {
-					ShiftAllocation shift = shiftAllocationService.getShiftBy(sdf.format(workingDay),ed.getEpfNo(),companyID);
-					if(shift !=null) {
-						shiftIn = shift.getShiftAllocationPK().getShiftmaster().getStartTime();
-						shiftOut = shift.getShiftAllocationPK().getShiftmaster().getEndTime();
-						continueShift = shift.getShiftAllocationPK().getShiftmaster().isContinuing();
-						sm = shift.getShiftAllocationPK().getShiftmaster();
-						
-					}else {
-						shiftIn = null;
-						shiftOut = null;
-						continueShift = false;
-						sm = null;
+							timeInOut.add(txtFile.getInoutTime());
+						}	
 					}
 					
-				}
-				
-				CalanderEntity isHoliday = null;
-				if(ed.getShiftmaster() != null) {
-					
-					isHoliday = calanderService.isHoliday(sdf.format(workingDay),companyID);
-					if(isHoliday  == null) {
-						// not a holiday
-						shiftIn = ed.getShiftmaster().getStartTime();
-						shiftOut =ed.getShiftmaster().getEndTime();
-						sm = ed.getShiftmaster();
-					}else {
-						
-						if(isHoliday.getType().equalsIgnoreCase("Half")) {
-							long difference = 0;				
-							difference = stf.parse(shiftOut).getTime() - stf.parse(shiftIn).getTime();
-							long diffMinutes = difference / 60000;
-							long halfDayMin = diffMinutes/2;
-							Calendar c1 = Calendar.getInstance();
-							c1.setTime(stf.parse(shiftIn));
-							c1.add(Calendar.MINUTE, (int) halfDayMin);
+		/*			for(EmployeeAttendance et : manualAttendanceRecords) {
+						if(workingDay.compareTo(sdf.parse(et.getDate()))==0) {
+
+							timeInOut.add(et.getOnTime());
+							timeInOut.add(et.getOffTime());
+						}	
+					}
+		*/			
+					if(ed.getShiftmaster() == null) {
+						ShiftAllocation shift = shiftAllocationService.getShiftBy(sdf.format(workingDay),ed.getEpfNo(),companyID);
+						if(shift !=null) {
+							shiftIn = shift.getShiftAllocationPK().getShiftmaster().getStartTime();
+							shiftOut = shift.getShiftAllocationPK().getShiftmaster().getEndTime();
+							continueShift = shift.getShiftAllocationPK().getShiftmaster().isContinuing();
+							sm = shift.getShiftAllocationPK().getShiftmaster();
 							
-							shiftOut = stf.format(c1.getTime());
-							shiftIn =ed.getShiftmaster().getStartTime();
-							sm = ed.getShiftmaster();
 						}else {
 							shiftIn = null;
 							shiftOut = null;
+							continueShift = false;
 							sm = null;
 						}
-					}			
-				}
-
-				
-				AttendanceSheet attendanceSheet = new AttendanceSheet();
-				attendanceSheet.setDate(sdf.format(workingDay));
-				attendanceSheet.setShift(sm);
-				attendanceSheet.setShiftIn(shiftIn);
-				attendanceSheet.setShiftOut(shiftOut);
-				
-				if(!timeInOut.isEmpty()) {
-					
-					Date time_in = null;
-					Date time_out = null;
-					String timeIn = null;
-					String timeOut = null;
-					
-					if(continueShift==true) {
-						timeIn = timeInOut.get(timeInOut.size()-1);
-						time_in = stf.parse(timeInOut.get(timeInOut.size()-1));
 						
-					    Calendar calendar = Calendar.getInstance();
-					    calendar.setTime(workingDay);
-					    calendar.add(Calendar.DATE, 1);
-
-						List<String> timeInOut1 = new ArrayList<String>();
-						timeInOut1.clear();
+					}
+					
+					CalanderEntity isHoliday = null;
+					if(ed.getShiftmaster() != null) {
 						
-						for(AttendanceTxtFileDetail txtFile : attendanceRecords) {
+						isHoliday = calanderService.isHoliday(sdf.format(workingDay),companyID);
+						if(isHoliday  == null) {
+							// not a holiday
+							shiftIn = ed.getShiftmaster().getStartTime();
+							shiftOut =ed.getShiftmaster().getEndTime();
+							sm = ed.getShiftmaster();
+						}else {
 							
-							if(calendar.getTime().compareTo(sdf.parse(txtFile.getInoutDate()))==0) {
-
-								timeInOut1.add(txtFile.getInoutTime());
-							}	
-						}
-						
-	/*					for(EmployeeAttendance et : manualAttendanceRecords) {
-							if(calendar.getTime().compareTo(sdf.parse(et.getDate()))==0) {
-
-								timeInOut1.add(et.getOnTime());
-								timeInOut1.add(et.getOffTime());
-							}	
-						}
-	*/					
-						if(!timeInOut1.isEmpty()) {
-							timeOut = timeInOut1.get(0);
-							time_out = stf.parse(timeInOut1.get(0));
+							if(isHoliday.getType().equalsIgnoreCase("Half")) {
+								long difference = 0;				
+								difference = stf.parse(shiftOut).getTime() - stf.parse(shiftIn).getTime();
+								long diffMinutes = difference / 60000;
+								long halfDayMin = diffMinutes/2;
+								Calendar c1 = Calendar.getInstance();
+								c1.setTime(stf.parse(shiftIn));
+								c1.add(Calendar.MINUTE, (int) halfDayMin);
+								
+								shiftOut = stf.format(c1.getTime());
+								shiftIn =ed.getShiftmaster().getStartTime();
+								sm = ed.getShiftmaster();
+							}else {
+								shiftIn = null;
+								shiftOut = null;
+								sm = null;
 							}
-					}else {
-						
-						timeIn = timeInOut.get(0);
-						timeOut = timeInOut.get(timeInOut.size()-1);
-						time_in = stf.parse(timeInOut.get(0));
-						time_out = stf.parse(timeInOut.get(timeInOut.size()-1));
+						}			
 					}
 
-					attendanceSheet.setTimeIn(timeIn);
-					attendanceSheet.setTimeOut(timeOut);
 					
-					if(shiftIn==null || shiftOut==null)
-					{
-						int ot_hours = 0;					
-						if(time_out !=null)
-							ot_hours = (int) ((time_out.getTime() - time_in.getTime())/60000);
-						
-						//if(ot_hours<0)
-							//attendanceSheet.setOtHrsExtra(Math.abs(ot_hours));
-						//else
-							attendanceSheet.setOtHrsExtra(ot_hours);
-						
-					}else {
-						Date shift_in = stf.parse(shiftIn);
-						Date shift_out = stf.parse(shiftOut);
-						
-						int LateMinIn = (int) ((time_in.getTime() - shift_in.getTime() )/ 60000);
-						int LateMinOut = 0;
-						if(time_out !=null)
-							LateMinOut = (int) ((shift_out.getTime() - time_out.getTime() )/ 60000);
-						
-						if(LateMinIn > 0)
-							attendanceSheet.setLateMinIn(LateMinIn);
-						else
-							attendanceSheet.setLateMinIn(0);
-						if(LateMinOut > 0)
-							attendanceSheet.setLateMinOut(LateMinOut);
-						else
-							attendanceSheet.setLateMinOut(0);
-						
-						int ot_normal = 0;
-						if(time_out !=null)
-							ot_normal =  (int) ((time_out.getTime() - shift_out.getTime() )/ 60000);
-						
-						if(ot_normal > 0)
-							attendanceSheet.setOtHrsNormal(ot_normal);
-						else
-							attendanceSheet.setOtHrsNormal(0);				
-					}				
-						
-				}else {
-					//No time in out in txt file
-				}
+					AttendanceSheet attendanceSheet = new AttendanceSheet();
+					attendanceSheet.setDate(sdf.format(workingDay));
+					attendanceSheet.setShift(sm);
+					attendanceSheet.setShiftIn(shiftIn);
+					attendanceSheet.setShiftOut(shiftOut);
 					
-				if(isHoliday  != null)
-					attendanceSheet.setDayType(isHoliday.getDescription());
-				else
-					attendanceSheet.setDayType("WORKDAY");
-			
-				
-				attendanceSheet.setCompany(cm);
-				attendanceSheet.setEmployee(ed.getDetailsPK().getEmpID());
-				attendanceSheet.setPayPeriod(payPeriod);
-				attendanceSheet.setSpcNSAEntitlement("No");
-				attendanceSheetlist.add(attendanceSheet);
+					if(!timeInOut.isEmpty()) {
+						
+						Date time_in = null;
+						Date time_out = null;
+						String timeIn = null;
+						String timeOut = null;
+						
+						if(continueShift==true) {
+							timeIn = timeInOut.get(timeInOut.size()-1);
+							time_in = stf.parse(timeInOut.get(timeInOut.size()-1));
+							
+						    Calendar calendar = Calendar.getInstance();
+						    calendar.setTime(workingDay);
+						    calendar.add(Calendar.DATE, 1);
 
-			}
+							List<String> timeInOut1 = new ArrayList<String>();
+							timeInOut1.clear();
+							
+							for(AttendanceTxtFileDetail txtFile : attendanceRecords) {
+								
+								if(calendar.getTime().compareTo(sdf.parse(txtFile.getInoutDate()))==0) {
+
+									timeInOut1.add(txtFile.getInoutTime());
+								}	
+							}
+							
+		/*					for(EmployeeAttendance et : manualAttendanceRecords) {
+								if(calendar.getTime().compareTo(sdf.parse(et.getDate()))==0) {
+
+									timeInOut1.add(et.getOnTime());
+									timeInOut1.add(et.getOffTime());
+								}	
+							}
+		*/					
+							if(!timeInOut1.isEmpty()) {
+								timeOut = timeInOut1.get(0);
+								time_out = stf.parse(timeInOut1.get(0));
+								}
+						}else {
+							
+							timeIn = timeInOut.get(0);
+							timeOut = timeInOut.get(timeInOut.size()-1);
+							time_in = stf.parse(timeInOut.get(0));
+							time_out = stf.parse(timeInOut.get(timeInOut.size()-1));
+						}
+
+						attendanceSheet.setTimeIn(timeIn);
+						attendanceSheet.setTimeOut(timeOut);
+						
+						if(shiftIn==null || shiftOut==null)
+						{
+							int ot_hours = 0;					
+							if(time_out !=null)
+								ot_hours = (int) ((time_out.getTime() - time_in.getTime())/60000);
+							
+							//if(ot_hours<0)
+								//attendanceSheet.setOtHrsExtra(Math.abs(ot_hours));
+							//else
+								attendanceSheet.setOtHrsExtra(ot_hours);
+							
+						}else {
+							Date shift_in = stf.parse(shiftIn);
+							Date shift_out = stf.parse(shiftOut);
+							
+							int LateMinIn = (int) ((time_in.getTime() - shift_in.getTime() )/ 60000);
+							int LateMinOut = 0;
+							if(time_out !=null)
+								LateMinOut = (int) ((shift_out.getTime() - time_out.getTime() )/ 60000);
+							
+							if(LateMinIn > 0)
+								attendanceSheet.setLateMinIn(LateMinIn);
+							else
+								attendanceSheet.setLateMinIn(0);
+							if(LateMinOut > 0)
+								attendanceSheet.setLateMinOut(LateMinOut);
+							else
+								attendanceSheet.setLateMinOut(0);
+							
+							int ot_normal = 0;
+							if(time_out !=null)
+								ot_normal =  (int) ((time_out.getTime() - shift_out.getTime() )/ 60000);
+							
+							if(ot_normal > 0)
+								attendanceSheet.setOtHrsNormal(ot_normal);
+							else
+								attendanceSheet.setOtHrsNormal(0);				
+						}				
+							
+					}else {
+						//No time in out in txt file
+					}
+						
+					if(isHoliday  != null)
+						attendanceSheet.setDayType(isHoliday.getDescription());
+					else
+						attendanceSheet.setDayType("WORKDAY");
+				
+					
+					attendanceSheet.setCompany(cm);
+					attendanceSheet.setEmployee(ed.getDetailsPK().getEmpID());
+					attendanceSheet.setPayPeriod(payPeriod);
+					attendanceSheet.setSpcNSAEntitlement("No");
+					attendanceSheetlist.add(attendanceSheet);
+
+				}
+				
+				
+			}// txt file header loop
 			
 			attendanceProcessService.saveAll(attendanceSheetlist);
-		}
 		
-	
-
+		}// employee loop
+		
 		return new ModelAndView("hrm/attendanceProcess","filesuccess","Attendance process successfully completed !");	
 		
 	}

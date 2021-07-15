@@ -105,9 +105,9 @@ public class AttendanceApprovalController {
 			String employee_id = ed.getDetailsPK().getEmpID().getEmpID();
 			double totalOTHr =0;
 			double totalLateHr = 0;
-			double totalOTMin = attendanceProcessService.getTotalOT(payPeriodID, employee_id,companyID);
+			double totalOTMin = Double.valueOf(attendanceProcessService.getTotalOT(payPeriodID, employee_id,companyID));
 			totalOTHr = totalOTMin/60;
-			int totalLateMn = attendanceProcessService.getTotalLate(payPeriodID,employee_id,companyID);
+			int totalLateMn = Integer.valueOf(attendanceProcessService.getTotalLate(payPeriodID,employee_id,companyID));
 			totalLateHr = totalLateMn/60;
 			
 			List<AttendanceSheet> leaveInfo = attendanceProcessService.getTotalLeave(payPeriodID, employee_id,companyID);
