@@ -157,7 +157,7 @@ public class ShiftAllocationController {
 							.isBefore(d2.toLocalDate().plusDays(1)); date = date.plusDays(1)) {
 						Date shiftDate = Date.valueOf(date);
 						CalanderEntity calander = calanderService.getCalenderByCompany(shiftDate.toString(), companyId);
-						if (includeHoliday == 0 && calander.getStatus().equals("Holiday")) {
+						if (includeHoliday == 0 && calander.getStatus().equals("Holiday") || includeHoliday == 0 && calander.getStatus().equals("Sunday")) {
 							continue;
 						}
 						ShiftAllocationPK shiftAllocationPK = new ShiftAllocationPK();
@@ -180,7 +180,7 @@ public class ShiftAllocationController {
 						.isBefore(d2.toLocalDate().plusDays(1)); date = date.plusDays(1)) {
 					Date shiftDate = Date.valueOf(date);
 					CalanderEntity calander = calanderService.getCalenderByCompany(shiftDate.toString(), companyId);
-					if (includeHoliday == 0 && calander.getStatus().equals("Holiday")) {
+					if (includeHoliday == 0 && calander.getStatus().equals("Holiday") || includeHoliday == 0 && calander.getStatus().equals("Sunday")) {
 						continue;
 					}
 					ShiftAllocationPK shiftAllocationPK = new ShiftAllocationPK();
