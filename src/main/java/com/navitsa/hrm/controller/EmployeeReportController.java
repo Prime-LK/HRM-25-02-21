@@ -1,6 +1,7 @@
 package com.navitsa.hrm.controller;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -289,8 +290,10 @@ public class EmployeeReportController {
 		 	
 		 	
 		 	ReportViewe review=new ReportViewe();
-	        String report = review.pdfReportViewInlineSystemOpen("employeeAllocateMonthlyAllowance.jasper", "", listemp, params, response);
-	        ModelAndView mav = new ModelAndView("hrm/employeeAllocateMonthlyAllRpt");
+	       String report = review.pdfReportViewInlineSystemOpen("employeeAllocateMonthlyAllowance.jasper", "", listemp, params, response);
+	      //  review.pdfReportViewfileDownload("employeeAllocateMonthlyAllowance.jasper","", listemp, params,  response);
+	        
+	       ModelAndView mav = new ModelAndView("hrm/employeeAllocateMonthlyAllRpt");
 	        mav.addObject("pdfViewEq",report);
 	        return mav;
 	 }
