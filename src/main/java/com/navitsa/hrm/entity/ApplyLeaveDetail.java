@@ -26,8 +26,8 @@ public class ApplyLeaveDetail {
 	private String approved;
 	
 	@ManyToOne(optional=false, fetch = FetchType.EAGER)
-	@JoinColumn(name="apply_leave_header_id", referencedColumnName="ID")
-	private ApplyLeave_Entity applyLeaveHeader;
+	@JoinColumn(name="apply_leave_header_id", referencedColumnName="apply_leave_id")
+	private ApplyLeave applyLeaveHeader;
 
 	public String getApplyLeaveDetailId() {
 		return applyLeaveDetailId;
@@ -53,11 +53,11 @@ public class ApplyLeaveDetail {
 		this.approved = approved;
 	}
 
-	public ApplyLeave_Entity getApplyLeaveHeader() {
+	public ApplyLeave getApplyLeaveHeader() {
 		return applyLeaveHeader;
 	}
 
-	public void setApplyLeaveHeader(ApplyLeave_Entity applyLeaveHeader) {
+	public void setApplyLeaveHeader(ApplyLeave applyLeaveHeader) {
 		this.applyLeaveHeader = applyLeaveHeader;
 	}
 	

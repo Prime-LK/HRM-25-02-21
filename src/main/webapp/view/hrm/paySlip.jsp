@@ -82,7 +82,6 @@
 * {
 	text-transform: capitalize;
 }
-
 </style>
 
 </head>
@@ -115,161 +114,162 @@
 						</div>
 					</div>
 				</div>
-				
-				
-			<div class="row">				
-	<div class="col-xl-3 col-lg-5" >			
-					<!-- Card -->
-			<form:form action="viewPaySlip"  method="POST">		
-					<div class="card shadow mb-4" style="height:600px;">
-						<div class="card border-left-primary shadow h-100 py-2" >
-						
-							<div class="card-body">
-								
 
-							<div class="form-group row">
-										<div class="col-sm-12">
-										<label class="l-fontst">Department</label>
-												<select class="custom-select custom-select-sm" id="dept" name="dept" onchange="getEmployee();"
-													 required>
-													<option value="%"> All Department</option>
+
+				<div class="row">
+					<div class="col-xl-3 col-lg-5">
+						<!-- Card -->
+						<form:form action="viewPaySlip" method="POST">
+							<div class="card shadow mb-4" style="height: 600px;">
+								<div class="card border-left-primary shadow h-100 py-2">
+
+									<div class="card-body">
+
+
+										<div class="form-group row">
+											<div class="col-sm-12">
+												<label class="l-fontst">Department</label> <select
+													class="custom-select custom-select-sm" id="dept"
+													name="dept" onchange="getEmployee();" required>
+													<option value="%">All Department</option>
 													<c:forEach items="${departmentPaySlipRpt}" var="dept">
 														<option value="${dept.depID}">${dept.department}</option>
 													</c:forEach>
-												</select>	
-										</div>
-									
-										
-							</div>
-					
-							
-	
-							
-							<div class="form-group row">
-										<div class="col-sm-12">
-										<label class="l-fontst">Employee</label>
-										<select class="custom-select custom-select-sm" id="empid" name="empID"
-													 required="true">
-													<option value="%"> All Employee</option>
-<%-- 													<c:forEach items="${designationMasterEmpLisRpt}" var="decma"> --%>
-<%-- 														<option value="${decma.did}">${decma.designation}</option> --%>
-<%-- 													</c:forEach> --%>
 												</select>
+											</div>
+
+
 										</div>
-									
-										
-							</div>
-							
-							<div class="form-group row">
-										<div class="col-sm-12">
-										<label class="l-fontst">Pay Period</label>
-												<select class="custom-select custom-select-sm" id="payperodid" name="payperodid" 
-													 required>
-													<option value=""> select Pay Period</option>
+
+
+
+
+										<div class="form-group row">
+											<div class="col-sm-12">
+												<label class="l-fontst">Employee</label> <select
+													class="custom-select custom-select-sm" id="empid"
+													name="empID" required="true">
+													<option value="%">All Employee</option>
+													<%-- 													<c:forEach items="${designationMasterEmpLisRpt}" var="decma"> --%>
+													<%-- 														<option value="${decma.did}">${decma.designation}</option> --%>
+													<%-- 													</c:forEach> --%>
+												</select>
+											</div>
+
+
+										</div>
+
+										<div class="form-group row">
+											<div class="col-sm-12">
+												<label class="l-fontst">Pay Period</label> <select
+													class="custom-select custom-select-sm" id="payperodid"
+													name="payperodid" required>
+													<option value="">select Pay Period</option>
 													<c:forEach items="${payPeriodPayShip}" var="pship">
-														<option value="${pship.payPeriodID}">${pship.desc} (${pship.startDate}-${pship.endDate})</option>
+														<option value="${pship.payPeriodID}">${pship.desc}
+															(${pship.startDate}-${pship.endDate})</option>
 													</c:forEach>
-												</select>	
+												</select>
+											</div>
 										</div>
-									
-										
-							</div>
-							
-							
-							
-							
-							
-<!-- 							<div class="form-group row"> -->
-<!-- 										<div class="col-sm-12"> -->
-<!-- 													<input type="checkbox" class="form-control custom-control-input fontst fontstc" id="withCheck" name="repStatu" value="INACTIVE" onclick="customerCredit()"> -->
-<!-- 								    				<label class="custom-control-label l-fontst fontstc" for="withCheck">With Cancel</label> -->
-<!-- 										</div> -->
-									
-										
-<!-- 							</div> -->
-								
-							<br>	
-							<hr>								
-							<div class="form-group row">
-								
-									<div class="col-sm-12">
-									<button type="submit" class="btn  btn-block btn-danger btn-rounded tabStyle" >Print Preview</button>
-<!-- 											<a href="#" class="btn btn-primary" onclick="runCancelInvoice();">Invoice Cancel</a>																 -->
-									</div>		
-							
+
+										<!-- 							<div class="form-group row"> -->
+										<!-- 										<div class="col-sm-12"> -->
+										<!-- 													<input type="checkbox" class="form-control custom-control-input fontst fontstc" id="withCheck" name="repStatu" value="INACTIVE" onclick="customerCredit()"> -->
+										<!-- 								    				<label class="custom-control-label l-fontst fontstc" for="withCheck">With Cancel</label> -->
+										<!-- 										</div> -->
+
+
+										<!-- 							</div> -->
+
+										<br>
+										<hr>
+										<div class="form-group row">
+
+											<div class="col-sm-12">
+												<button type="submit"
+													class="btn  btn-block btn-danger btn-rounded tabStyle">Print
+													Preview</button>
+												<!-- 											<a href="#" class="btn btn-primary" onclick="runCancelInvoice();">Invoice Cancel</a>																 -->
+											</div>
+
+										</div>
+
+
+									</div>
+									<!-- End of card body -->
 								</div>
-					
-
 							</div>
-							<!-- End of card body -->
-						</div>
+						</form:form>
 					</div>
-		</form:form>
-		</div>
 
-		<div class="col-xl-9 col-lg-5">			
-			<div class="col-sm-12">
-					<c:if test="${pdfViewEq != null }">
-									<embed type="application/pdf" src="data:application/pdf;base64,${pdfViewEq}"
-										style="height:600px; width:100%">
-										</embed>
-										</c:if>
-			</div>
-								
-		</div>
-</div>	
-				
-			
-				
-				
-				
+					<div class="col-xl-9 col-lg-5">
+						<div class="col-sm-12">
+							<c:if test="${pdfViewEq != null }">
+								<embed type="application/pdf"
+									src="data:application/pdf;base64,${pdfViewEq}"
+									style="height: 600px; width: 100%">
+								</embed>
+							</c:if>
+						</div>
+
+					</div>
+				</div>
+
+
+
+
+
 			</div>
 			<%@include file="../../WEB-INF/jsp/footer.jsp"%>
 		</div>
 	</div>
 	<%@include file="../../WEB-INF/jsp/commJs.jsp"%>
-	
-	
-		<script type="text/javascript">
+
+
+	<script type="text/javascript">
 		getEmployee();
-		
-		function getEmployee(){
-		
-			var dep=document.getElementById("dept").value;
+
+		function getEmployee() {
+
+			var dep = document.getElementById("dept").value;
 			//var dis=document.getElementById("dis").value;
 			//var emptyp=document.getElementById("emptyp").value;	
-			
-		//alert(dep);
-			
-			
-			$.ajax({
-		        type: 'GET',
-		        url: "getPaySlipdetails",
-		        data: {"dep" : dep},
-		        success: function(data){
-		        
-		            var slctSubcat=$('#empid'), option="";
-		            slctSubcat.empty();
-		            selected_option = "<option value='%'>All Employee</option>";
-		            slctSubcat.append(selected_option);
 
-		            for(var i=0; i<data.length; i++){
-		                option = option + "<option value='"+data[i].empID + "'>"+data[i].lastname + "</option>";
-		            }
-		            slctSubcat.append(option);
-		        },
-		        error:function(){
-		        	
-		           // alert("No return Model data for this Make ID");
-		        }
+			//alert(dep);
 
-		    });
+			$
+					.ajax({
+						type : 'GET',
+						url : "getPaySlipdetails",
+						data : {
+							"dep" : dep
+						},
+						success : function(data) {
+
+							var slctSubcat = $('#empid'), option = "";
+							slctSubcat.empty();
+							selected_option = "<option value='%'>All Employee</option>";
+							slctSubcat.append(selected_option);
+
+							for (var i = 0; i < data.length; i++) {
+								option = option
+										+ "<option value='"+data[i].empID + "'>"
+										+ data[i].lastname + "</option>";
+							}
+							slctSubcat.append(option);
+						},
+						error : function() {
+
+							// alert("No return Model data for this Make ID");
+						}
+
+					});
 		}
-			
-			</script>
-	
-	
-	
-	
+	</script>
+
+
+
+
 </body>
 </html>

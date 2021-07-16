@@ -113,6 +113,10 @@ public class AttendanceTxtFileReadingController {
 	    			String employeeNo = rs.substring(0, 9).replace(" ", "");
 	    			String inout_date = rs.substring(10, 20);
 	    			String inout_time = rs.substring(21, 29);
+					
+	    			//String employeeNo = rs.substring(0, 12).replace(" ", "");
+	    			//String inout_date = rs.substring(13, 23);
+	    			//String inout_time = rs.substring(24, 32);
 	    			
 	    			//System.out.println(machine+" "+employeeNo+" "+inout_date+" "+inout_time);
 	    			

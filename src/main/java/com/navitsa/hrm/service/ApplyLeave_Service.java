@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.navitsa.hrm.entity.ApplyLeaveDetail;
-import com.navitsa.hrm.entity.ApplyLeave_Entity;
+import com.navitsa.hrm.entity.ApplyLeave;
 import com.navitsa.hrm.repository.ApplyLeaveDetailRepository;
 import com.navitsa.hrm.repository.ApplyLeave_Repository;
 
@@ -20,66 +20,65 @@ public class ApplyLeave_Service {
 	@Autowired
 	private ApplyLeaveDetailRepository ALDRepo;
 
-	public ApplyLeave_Entity getAll(String leaveID) {
+	public ApplyLeave getAll(String leaveID) {
 
 		return ALRepo.findById(leaveID).get();
 
 	}
 
-	public List<ApplyLeave_Entity> getAll() {
+	public List<ApplyLeave> getAll() {
 
-		return (List<ApplyLeave_Entity>) ALRepo.findAll();
+		return (List<ApplyLeave>) ALRepo.findAll();
 	}
 	
-	public void applyLeave(ApplyLeave_Entity applyleave) {
+	public void applyLeave(ApplyLeave applyleave) {
 
 		ALRepo.save(applyleave);
 
 	}
 	
-	public String getMaxID() {
+/*	public String getMaxID() {
 		if(ALRepo.getMaxID() == null) {
 			return "1";
 		} else {
 			return ALRepo.getMaxID();
 		}
 	}
-	
-	public List<ApplyLeave_Entity> getappliedLeaves(String dep_id,String employee_id) {
+*/	
+	public List<ApplyLeave> getappliedLeaves(String dep_id,String employee_id) {
 		
 		return ALRepo.findAllByDepID(dep_id,employee_id);
 	}
 
-	public List<ApplyLeave_Entity> getappliedLeavesByEmployee(String employeeID) {
+	public List<ApplyLeave> getappliedLeaveByEmployee(String employeeID, String companyID) {
 
-		return ALRepo.findAllByEmployeeID(employeeID);
+		return ALRepo.findAllByEmployeeID(employeeID,companyID);
 	}
 
-	public int getSumOfApprovedLeaves(String employeeID,String leaveTypeID) {
+	public int getSumOfApprovedLeaves(String employeeID,String leaveTypeID, String companyID) {
 		
-		if(ALRepo.getSumOfApprovedLeaves(employeeID,leaveTypeID) == null) {
+		if(ALRepo.getSumOfApprovedLeaves(employeeID,leaveTypeID,companyID) == null) {
 			return 0;
 		} else {
-			return Integer.valueOf(ALRepo.getSumOfApprovedLeaves(employeeID,leaveTypeID));
+			return Integer.valueOf(ALRepo.getSumOfApprovedLeaves(employeeID,leaveTypeID,companyID));
 		}
 		
 	}
 	
-	public int getSumOfApprovedLeavesHalf(String employeeID,String leaveTypeID) {
+	public int getSumOfApprovedLeavesHalf(String employeeID,String leaveTypeID, String companyID) {
 		
-		if(ALRepo.getSumOfApprovedLeavesHalf(employeeID,leaveTypeID) == null) {
+		if(ALRepo.getSumOfApprovedLeavesHalf(employeeID,leaveTypeID,companyID) == null) {
 			return 0;
 		} else {
-			return Integer.valueOf(ALRepo.getSumOfApprovedLeavesHalf(employeeID,leaveTypeID));
+			return Integer.valueOf(ALRepo.getSumOfApprovedLeavesHalf(employeeID,leaveTypeID,companyID));
 		}
-
 	}
 
 	public void updateApprovedStatus(String applyLeaveID) {
 		ALRepo.updateApprovedStatus(applyLeaveID);	
 	}
 	
-	public ApplyLeave_Entity findAppliedLeaveByEmployee(String employeeID, String companyID) {
+	public ApplyLeave findAppliedLeaveByEmployee(String employeeID, String companyID) {
 
 		return ALRepo.getByEmployeeID(employeeID,companyID);
 	}

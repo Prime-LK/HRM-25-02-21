@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.navitsa.hrm.entity.ApplyLeave_Entity;
+import com.navitsa.hrm.entity.ApplyLeave;
 import com.navitsa.hrm.entity.DepartmentMaster;
 import com.navitsa.hrm.entity.Employee;
 import com.navitsa.hrm.service.ApplyLeave_Service;
@@ -66,9 +66,9 @@ public class LeaveReportController {
 		
 		System.out.println("Employee id "+employee_id);
 		
-		List<ApplyLeave_Entity> appliedLeaves = applyLeaveService.getappliedLeaves(dep_id,employee_id);
-		for(ApplyLeave_Entity x : appliedLeaves) {
-			System.out.println(x.getDesc());
+		List<ApplyLeave> appliedLeaves = applyLeaveService.getappliedLeaves(dep_id,employee_id);
+		for(ApplyLeave x : appliedLeaves) {
+			//System.out.println(x.getDesc());
 		}
 		
 		DepartmentMaster dm = departmentService.getID(dep_id);

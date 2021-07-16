@@ -16,12 +16,12 @@ public interface AttendanceSheetRepository extends CrudRepository<AttendanceShee
 			@Param("employeeID") String employeeID);
 
 	@Query(value = "SELECT SUM(late_min_time_in)+SUM(late_min_time_out) FROM attendance_sheet WHERE pay_period_id=:payPeriodID AND employee_id=:employeeID AND company_id=:companyID", nativeQuery = true)
-	public int getTotalLate(
+	public String getTotalLate(
 			@Param("payPeriodID") String payPeriodID,
 			@Param("employeeID") String employeeID, @Param("companyID") String companyID);
 	
 	@Query(value = "SELECT SUM(ot_hrs_normal)+SUM(ot_hrs_extra) FROM attendance_sheet WHERE pay_period_id=:payPeriodID AND employee_id=:employeeID AND company_id=:companyID", nativeQuery = true)
-	public double getTotalOT(
+	public String getTotalOT(
 			@Param("payPeriodID") String payPeriodID,
 			@Param("employeeID") String employeeID,@Param("companyID") String companyID);
 	

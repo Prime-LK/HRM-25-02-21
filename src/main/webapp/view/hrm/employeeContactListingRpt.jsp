@@ -250,7 +250,7 @@
 			var dis=document.getElementById("dis").value;
 			var emptyp=document.getElementById("emptyp").value;	
 			
-		alert(dep+" "+dis+" "+emptyp);
+		
 			
 			
 			$.ajax({

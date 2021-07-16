@@ -44,11 +44,11 @@
 				<div class="page-inner mt--5">	
 					<div class="container-fluid">
 
-			              <div class="card shadow mb-4 border-left-primary">
+			              <div class="card shadow">
 			                <div class="card-body">
 
 								<div class="row">
-									<div class="col-xl col-md-6 mb-4">
+									<div class="col-xl">
 
 					                	<c:if test = "${success ==1}">
 											<div class="alert alert-success alert-dismissible">
@@ -63,60 +63,55 @@
 										  </div>
 										</c:if>
 					                
-											<form:form action="saveentitlement" method="post"
+											<form:form action="saveEmpEntitlement" method="POST"
 												onSubmit="return validateForm()" id="entitlement"
 												modelAttribute="entitlement">
-		
+												
+											<form:input type="hidden" path="employeeEntitlementId" />
 					                		<div class="form-group row">
 												<div class="col-lg-8">
-													<label>Entitlement Code</label>
-													<form:input class="form-control form-control-sm" id="ent_ID" path="ent_ID" required="true" />
-												</div>
-											</div>
-					                		<div class="form-group row">
-												<div class="col-lg-8">
-													<label>Employee Category</label>
-													<form:select class="form-control form-control-sm" id="empCategory" path="empCategory.catgoryID" required="true" onchange="myFunction();">
+													<label for="empType">Employee Type</label>
+													<form:select class="form-control form-control-sm" id="empType" path="employeeType.tid" required="true">
 														<form:option value="" selected="true">--Select--</form:option>
-														<c:forEach items="${allCat}" var="cat">
-															<form:option value="${cat.catgoryID}">${cat.category}</form:option>
+														<c:forEach items="${allEmpTypes}" var="empType">
+															<form:option value="${empType.tid}">${empType.type}</form:option>
 														</c:forEach>
 													</form:select>
 												</div>
 											</div>
 											<div class="form-group row">
 												<div class="col-lg-8">
-													<label>Leave Type</label>
-													<form:select class="form-control form-control-sm" id="leaveType" path="leaveType.leaveCode" required="true">
+													<label for="leaveType">Leave Type</label>
+													<form:select class="form-control form-control-sm" id="leaveType" path="leaveType.leaveTypeID" required="true">
 														<form:option value="" selected="true">--Select--</form:option>
-														<c:forEach items="${leaveAll}" var="lea">
-															<form:option value="${lea.leaveCode}"> ${lea.leaveType}</form:option>
+														<c:forEach items="${allLeaveTypes}" var="leaveType">
+															<form:option value="${leaveType.leaveTypeID}"> ${leaveType.leaveType}</form:option>
 														</c:forEach>
 													</form:select>
 												</div>
 											</div>
 											<div class="form-group row">
-												<div class="col-lg-8">
-													<label>No of Days</label>
+												<div class="col-lg-4">
+													<label for="leaveAmount">No of Days</label>
 													<form:input path="leaveAmount" class="form-control form-control-sm" id="leaveAmount" required="true" />
 												</div>
 											</div>
 											<div class="form-group row">
-												<div class="col-lg-8">
-													<input type="submit" class="btn btn-success btn-sm" value="Save">
-													<input type="reset" class="btn btn-warning btn-sm" value="Clear">
+												<div class="col-lg">
+													<input type="submit" class="btn btn-success btn-sm" value="Add Employee Entitlement">
+													<input type="reset" class="btn btn-danger btn-sm" value="Reset">
 												</div>
 											</div>
 		
 											</form:form>
 										</div>
-										<div class="col-xl col-md-6 mb-4">
+										<div class="col-xl">
 										
-											<table class="table table-striped">
+											<div class="table-responsive">
+											<table class="table table-sm table-bordered table-hover">
 												<thead>
 													<tr>
-														<th scope="col">Code</th>
-														<th scope="col">Employee Category</th>
+														<th scope="col">Employee Type</th>
 														<th scope="col">Leave Type</th>
 														<th scope="col">No of Days</th>
 													</tr>
@@ -125,12 +120,11 @@
 												<tbody>
 													<c:forEach items="${entitlementAll}" var="et">
 														<tr>
-															<td id="trCode">${et.ent_ID}</td>
-															<td id="trCat">${et.empCategory.category}</td>
-															<td id="trType">${et.leaveType.leaveType}</td>
-															<td id="trAmou">${et.leaveAmount}</td>
+															<td>${et.employeeType.type}</td>
+															<td>${et.leaveType.leaveType}</td>
+															<td>${et.leaveAmount}</td>
 															<td>
-																<a href="UpdateEmp?id=${et.ent_ID}">
+																<a href="editEmpEntitlement?id=${et.employeeEntitlementId}">
 																	<i class="fas fa-pen"></i>
 																</a>
 															</td>
@@ -139,10 +133,12 @@
 												</tbody>
 
 											</table>
+											</div>
+											
 										</div>
-									</div>
-			                </div>
-			              </div>
+									</div> <!-- Row end -->
+			                </div><!-- Card body end -->
+			              </div><!-- Card end -->
 			            
 					</div>	
 				</div>

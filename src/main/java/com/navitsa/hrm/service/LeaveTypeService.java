@@ -26,9 +26,9 @@ public class LeaveTypeService {
 		leaveTypeRepo.save(leaveType);
 	}
 
-	public LeaveType getLeaveTypeByCode(String leaveCode) {
+	public LeaveType getLeaveTypeByCode(String leaveTypeID) {
 		
-		return leaveTypeRepo.findById(leaveCode).get();
+		return leaveTypeRepo.findById(leaveTypeID).get();
 		
 	}
 

@@ -22,12 +22,18 @@ public class AttendanceProcessService {
 		return attendanceSheetRepo.findBy(payPeriodID,employeeID);
 	}
 
-	public int getTotalLate(String payPeriodID, String employeeID, String companyID) {
-		return attendanceSheetRepo.getTotalLate(payPeriodID,employeeID,companyID);
+	public String getTotalLate(String payPeriodID, String employeeID, String companyID) {
+		if(attendanceSheetRepo.getTotalLate(payPeriodID,employeeID,companyID)==null)
+			return "0";
+		else
+			return attendanceSheetRepo.getTotalLate(payPeriodID,employeeID,companyID);
 	}
 	
-	public double getTotalOT(String payPeriodID, String employeeID, String companyID) {
-		return attendanceSheetRepo.getTotalOT(payPeriodID,employeeID,companyID);
+	public String getTotalOT(String payPeriodID, String employeeID, String companyID) {
+		if(attendanceSheetRepo.getTotalOT(payPeriodID,employeeID,companyID)==null)
+			return "0";
+		else
+			return attendanceSheetRepo.getTotalOT(payPeriodID,employeeID,companyID);
 	}
 	
 	public List<AttendanceSheet> getTotalLeave(String payPeriodID, String employeeID, String companyID) {

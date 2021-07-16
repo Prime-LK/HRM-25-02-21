@@ -19,8 +19,10 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.navitsa.hrm.entity.Assestclass;
+import com.navitsa.hrm.entity.CompanyMaster;
 import com.navitsa.hrm.entity.Depreciationgroup;
-import com.navitsa.hrm.entity.EmpEntitlementsClass;
+import com.navitsa.hrm.entity.EmployeeEntitlement;
+import com.navitsa.hrm.entity.EmployeeType;
 import com.navitsa.hrm.entity.EmployeeCategory;
 import com.navitsa.hrm.entity.LeaveType;
 import com.navitsa.hrm.service.EmpEntitlementService;
@@ -35,66 +37,66 @@ public class EmpEntitlementController {
 	private EmpEntitlementService empEntService;
 
 	@Autowired
-	private LeaveTypeService leaveClassService;
+	private LeaveTypeService leaveTypeService;
 
 	@Autowired
 	private EmployeeLevelService employeeLevelService;
 
+
+	@ModelAttribute("allEmpTypes")
+	public List<EmployeeType> findAllEmpTypes(HttpSession session) {
+		String companyId = (String) session.getAttribute("company.comID");
+		return employeeLevelService.getAllEmployeeTypeByCompany(companyId);
+
+	}
+	
+	@ModelAttribute("allLeaveTypes")
+	public List<LeaveType> findAllLeaveTypes(HttpSession session) {
+		String companyId = (String) session.getAttribute("company.comID");
+		return leaveTypeService.getLeaveTypesByCompany(companyId);
+
+	}
+	
 	@RequestMapping(value = "/employeeEntitlements", method = RequestMethod.GET)
-	public String openEmployeeEntitlements(Map<String, Object> model) {
-		model.put("entitlement", new EmpEntitlementsClass());
-		model.put("entitlementAll", empEntService.getAll());
-
-		return "hrm/EmployeeEntil";
-	}
-
-	@RequestMapping(value = "/EmpLeave", method = RequestMethod.GET)
-	public String empLeave(Map<String, Object> model) {
-		model.put("entitlement", new EmpEntitlementsClass());
-		model.put("entitlementAll", empEntService.getAll());
-
-		return "hrm/EmpLeaves";
-	}
-
-//	@ModelAttribute("leaveAll")
-//	public List<LeaveType> showleaves() {
-//		return leaveClassService.getAllLeaves();
-//
-//	}
-
-	@ModelAttribute("allCat")
-	public List<EmployeeCategory> getAllEmployeeCategoryByCompany(HttpSession session) {
-		String companyId = session.getAttribute("company.comID").toString();
-		return employeeLevelService.getAllEmployeeCategoryByCompany(companyId);
-
-	}
-
-	@ModelAttribute("EmpEntitlementsClass")
-	public List<EmpEntitlementsClass> getAll() {
-		return empEntService.getAll();
-	}
-
-	@RequestMapping(value = "/saveentitlement", method = RequestMethod.POST)
-	public String saveentitlement(@ModelAttribute("entitlement") EmpEntitlementsClass entitlement,
-			RedirectAttributes redirectAttributes) {
-
+	public String openEmployeeEntitlements(Map<String, Object> model, HttpSession session) {
+		
+		String companyID=(String) session.getAttribute("company.comID");
+		model.put("entitlement", new EmployeeEntitlement());
 		try {
+			model.put("entitlementAll", empEntService.findAllByCompanyId(companyID));
+		} catch (Exception e) {
+		}
+		
+		return "hrm/employeeEntitlements";
+	}
+	
+
+	@RequestMapping(value = "/saveEmpEntitlement", method = RequestMethod.POST)
+	public String saveEmpEntitlement(@ModelAttribute("entitlement") EmployeeEntitlement entitlement,
+			RedirectAttributes redirectAttributes,HttpSession session) {
+
+		String companyID=(String) session.getAttribute("company.comID");
+		CompanyMaster cm  = new CompanyMaster();
+		cm.setComID(companyID);
+		
+		try {
+			entitlement.setCompany(cm);
 			empEntService.saveentitlement(entitlement);
 			redirectAttributes.addFlashAttribute("success", 1);
 			return "redirect:/employeeEntitlements";
 		} catch (Exception e) {
 			System.out.println(e);
 		}
-		return "hrm/EmployeeEntil";
+		return "hrm/employeeEntitlements";
 
 	}
 
-	@RequestMapping(value = "/UpdateEmp", method = RequestMethod.GET)
-	public ModelAndView UpdateEmp(@RequestParam String id) {
-		ModelAndView mav = new ModelAndView("hrm/EmployeeEntil");
+	@RequestMapping(value = "/editEmpEntitlement", method = RequestMethod.GET)
+	public ModelAndView editEmpEntitlement(@RequestParam String id) {
+		ModelAndView mav = new ModelAndView("hrm/employeeEntitlements");
 		try {
-			EmpEntitlementsClass ef = empEntService.getAll(id);
-			mav.addObject("entitlement", ef);
+			EmployeeEntitlement obj = empEntService.getAll(id);
+			mav.addObject("entitlement", obj);
 		} catch (Exception e) {
 			System.out.println(e);
 		}

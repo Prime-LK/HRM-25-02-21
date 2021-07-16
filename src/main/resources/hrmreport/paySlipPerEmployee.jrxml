@@ -22,7 +22,7 @@
 	<group name="groupEmployee" isStartNewPage="true">
 		<groupExpression><![CDATA[$F{empID}]]></groupExpression>
 		<groupHeader>
-			<band height="60">
+			<band height="75">
 				<staticText>
 					<reportElement x="1" y="3" width="77" height="10" uuid="d40335b0-8ba0-4743-8773-b9fb00c3b9e3"/>
 					<textElement verticalAlignment="Middle">
@@ -31,35 +31,35 @@
 					<text><![CDATA[EMP NO.]]></text>
 				</staticText>
 				<textField>
-					<reportElement isPrintRepeatedValues="false" x="79" y="13" width="63" height="10" uuid="96852776-5080-4492-b0d6-fed0d838870a"/>
+					<reportElement isPrintRepeatedValues="false" x="218" y="3" width="63" height="10" uuid="96852776-5080-4492-b0d6-fed0d838870a"/>
 					<textElement verticalAlignment="Middle">
 						<font fontName="Arial" size="8"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{epfNo}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement x="272" y="0" width="39" height="10" uuid="f8b73054-34ab-4626-9d18-27aac99e912f"/>
+					<reportElement x="2" y="15" width="76" height="10" uuid="f8b73054-34ab-4626-9d18-27aac99e912f"/>
 					<textElement verticalAlignment="Middle">
 						<font fontName="Arial" size="8"/>
 					</textElement>
 					<text><![CDATA[YEAR]]></text>
 				</staticText>
 				<textField>
-					<reportElement x="311" y="0" width="70" height="10" uuid="64f2693f-4513-4ba5-90ac-bd0785b71e92"/>
+					<reportElement x="79" y="13" width="63" height="10" uuid="64f2693f-4513-4ba5-90ac-bd0785b71e92"/>
 					<textElement verticalAlignment="Middle">
 						<font fontName="Arial" size="8"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{year}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement x="272" y="12" width="39" height="10" uuid="6828be53-4af5-4b6a-85cf-6d29709dc62c"/>
+					<reportElement x="142" y="13" width="76" height="10" uuid="6828be53-4af5-4b6a-85cf-6d29709dc62c"/>
 					<textElement verticalAlignment="Middle">
 						<font fontName="Arial" size="8"/>
 					</textElement>
 					<text><![CDATA[MONTH]]></text>
 				</staticText>
 				<textField>
-					<reportElement x="311" y="12" width="69" height="10" uuid="18e0ebf9-c9ab-4097-be8d-c11caa48b4c6"/>
+					<reportElement x="218" y="13" width="63" height="10" uuid="18e0ebf9-c9ab-4097-be8d-c11caa48b4c6"/>
 					<textElement verticalAlignment="Middle">
 						<font fontName="Arial" size="8"/>
 					</textElement>
@@ -108,7 +108,7 @@
 					<textFieldExpression><![CDATA[$F{designation}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement x="2" y="13" width="76" height="10" uuid="8f874408-ac97-4315-8be1-abef8ad59755"/>
+					<reportElement x="142" y="3" width="76" height="10" uuid="8f874408-ac97-4315-8be1-abef8ad59755"/>
 					<textElement verticalAlignment="Middle">
 						<font fontName="Arial" size="8"/>
 					</textElement>
