@@ -188,7 +188,7 @@
 
 function getAppliedLeave(str)
 {
-	var companyID = document.getElementById("companyID").value;
+	//var companyID = document.getElementById("companyID").value;
 	
 	if (str=="" || companyID=="") {
        	$("#table1 tbody").empty();
@@ -198,7 +198,7 @@ function getAppliedLeave(str)
 			$.ajax({
 		    type: 'GET',
 		    url: "getAppliedLeaveByEmployee",
-		    data: {"employeeID" : str, "companyID":companyID},
+		    data: {"employeeID" : str},
 		    success: function(data){
 
 		    	$("#table1 tbody").empty();

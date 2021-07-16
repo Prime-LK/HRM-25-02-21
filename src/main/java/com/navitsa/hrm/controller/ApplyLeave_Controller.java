@@ -90,9 +90,9 @@ public class ApplyLeave_Controller {
 
 	@RequestMapping(value="/getAppliedLeaveByEmployee", method=RequestMethod.GET)
 	public @ResponseBody List<ApplyLeave> getAppliedLeaveByEmployee(
-			@RequestParam String employeeID, 
-			@RequestParam String companyID) {
+			@RequestParam String employeeID,HttpSession session) {
 		
+		String companyID=(String) session.getAttribute("company.comID");
 		List<ApplyLeave> ls = ALService.getappliedLeaveByEmployee(employeeID, companyID);
 		return ls;
 		
@@ -140,8 +140,14 @@ public class ApplyLeave_Controller {
 
 	
 	@GetMapping("/leaveApplied")
-	public String leaveApplied() {
-		
+	public String leaveApplied(Map<String, Object>model,HttpSession session) {
+
+		try {
+			String companyID=(String) session.getAttribute("company.comID");
+			model.put("allDepartment", depService.getAllDepartmentByCompany(companyID));
+		} catch (Exception e) {
+			
+		}
 		return "hrm/applyLeaveConfirmation";
 	}
 	

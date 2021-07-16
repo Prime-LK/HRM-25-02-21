@@ -69,9 +69,9 @@
 													<div class="col-lg">
 														<label>Department</label>
 														<select class="form-control form-control-sm" id="department"
-															name="departmentID" required onchange="">
+															name="departmentID" required onchange="loadEmployeeByDepartment()">
 															<option value="" selected>--Select--</option>
-															<c:forEach items="${DepAll}" var="dp">
+															<c:forEach items="${allDepartment}" var="dp">
 																<option value="${dp.depID}">${dp.department}</option>
 															</c:forEach>
 														</select>
@@ -111,7 +111,7 @@
 												<div class="form-group row">
 													<div class="col-lg">
 														<input type="submit" class="btn btn-success btn-sm" value="Save Approval">
-														<input type="reset" class="btn btn-warning btn-sm" value="Clear">
+														<input type="reset" class="btn btn-danger btn-sm" value="Reset">
 													</div>
 												</div>
 
@@ -123,12 +123,10 @@
 											<table class="table">
 												<thead>
 													<tr>
-														<td></td>
 														<th>Leave Type</th>													
 														<th>Full / Half</th>
-														<th>Day(s)</th>
-														<th>Date(s)</th>
-														<th>Remarks</th>
+														<th>Date</th>
+														<th>Remarks</th>														
 														<th>Approved</th>
 													</tr>
 												</thead>
@@ -154,43 +152,40 @@
 
 <script>
 
-function filterEmployee(str)
-{
-	//alert("Department ID "+str);
+function loadEmployeeByDepartment(){
+
+	var depID = document.getElementById("department").value;
 	
-	if (str=="") {
+	if (depID=="") {
 		var dropDown = $('#employeeSelect'), option="";
 		dropDown.empty();
-        selected_option = "<option value='' selected>--Select--</option>"
-        dropDown.append(selected_option);
-        
-       	return;
-       	
-	}else{
-			$.ajax({
-		    type: 'GET',
-		    url: "getEmployeeByDepartmentID",
-		    data: {"departmentID" : str},
-		    success: function(data){
-				
-				var dropDown=$('#employeeSelect'), option="";
-				dropDown.empty();
-				selected_option = "<option value=''>--Select--</option>"
-				dropDown.append(selected_option);
-	
-	            for(var i=0; i<data.length; i++){
-	                option = option + "<option value='"+data[i].empID+"'>"+data[i].name+"</option>";
-	            }
-	            dropDown.append(option);
+		return;
+	}
+	else{
+		$.ajax({
+        type: 'GET',
+        url: "getEmployeesByDepID",
+        data: {"depID" : depID},
+        success: function(data){
 
-		    },
-		    error:function(){
-		        alert("error");
-		    }
-		
-		});
+			var dropDown=$('#employeeSelect'), option="";
+			dropDown.empty();
+			selected_option = "<option>--Select--</option>"
+			dropDown.append(selected_option);
+
+            for(var i=0; i<data.length; i++){
+                option = option + "<option value='"+data[i].detailsPK.empID.empID+ "'>"+data[i].detailsPK.empID.name+" "+data[i].detailsPK.empID.lastname+ "</option>";
+            }
+            dropDown.append(option);
+        },
+        error:function(){
+            alert("System error, please try again later !");
+        }
+
+    	});
 	}
 }
+
 
 function getAppliedLeave(str)
 {
@@ -206,7 +201,7 @@ function getAppliedLeave(str)
 	}else{
 			$.ajax({
 		    type: 'GET',
-		    url: "getAppliedLeavesByEmployee",
+		    url: "getAppliedLeaveByEmployee",
 		    data: {"employeeID" : str},
 		    success: function(data){
 				
@@ -217,7 +212,7 @@ function getAppliedLeave(str)
 	
 	            for(var i=0; i<data.length; i++){
 	            	if(data[i].approved == false)
-	                	option = option + "<option value='"+data[i].leaveID+"'>"+data[i].leaveType.leaveType+" "+data[i].type+" "+data[i].days+" day(s)</option>";
+	                	option = option + "<option value='"+data[i].leaveID+"'>"+data[i].leaveType.leaveType+" "+data[i].fullHalf+" "+data[i].date+"</option>";
 	            }
 	            dropDown.append(option);
 	            
@@ -225,11 +220,10 @@ function getAppliedLeave(str)
 				for(var i=0; i<data.length; i++){
 					
 					if(data[i].approved == true)
-						var markup = "<tr class='table-success'><td>"+data[i].createTime+"</td><td>"+data[i].leaveType.leaveType+"</td><td>"+data[i].type+"</td><td>" + data[i].days + "</td><td>"+data[i].dates+"</td><td>"+data[i].desc+"</td><td>Yes</td></tr>";
+						var markup = "<tr class='table-success'><td>"+data[i].leaveType.leaveType+"</td><td>"+data[i].fullHalf+"</td><td>"+data[i].date+"</td><td>"+data[i].remark+"</td><td>Yes</td></tr>";
 					else
-						var markup = "<tr class='table-warning'><td>"+data[i].createTime+"</td><td>"+data[i].leaveType.leaveType+"</td><td>"+data[i].type+"</td><td>" + data[i].days + "</td><td>"+data[i].dates+"</td><td>"+data[i].desc+"</td><td>Pending</td></tr>";
-		       		 
-					
+						var markup = "<tr class='table-warning'><td>"+data[i].leaveType.leaveType+"</td><td>"+data[i].fullHalf+"</td><td>"+data[i].date+"</td><td>"+data[i].remark+"</td><td>Pending</td></tr>";
+		       		 				
 					$("table tbody").append(markup);
 		       	 }
 
