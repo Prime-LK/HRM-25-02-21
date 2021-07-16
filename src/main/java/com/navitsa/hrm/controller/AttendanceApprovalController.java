@@ -50,8 +50,7 @@ public class AttendanceApprovalController {
 	private PayService payService;
 	
 	@Autowired
-	private DepartmentService departmentService;
-	
+	private DepartmentService departmentService;	
 /*
 	@ModelAttribute("payPeriodsList")
 	public List<PayPeriods> getPeriods() {
