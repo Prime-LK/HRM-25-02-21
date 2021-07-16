@@ -23,7 +23,7 @@
 	<field name="type" class="java.lang.String"/>
 	<field name="amount" class="java.lang.Double"/>
 	<pageHeader>
-		<band height="99">
+		<band height="82">
 			<textField>
 				<reportElement x="97" y="36" width="656" height="20" uuid="6b49a67e-dc73-43a6-a53e-860b4ad24947"/>
 				<textElement textAlignment="Center">
@@ -45,24 +45,9 @@
 				</textElement>
 				<textFieldExpression><![CDATA["EMPLOYEE SUMMARY REPORT"]]></textFieldExpression>
 			</textField>
-			<staticText>
-				<reportElement x="10" y="77" width="117" height="19" uuid="a1f06462-0d2b-40cd-93e1-2022552123ce"/>
-				<box>
-					<topPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-				</box>
-				<textElement>
-					<font size="10" isBold="false"/>
-				</textElement>
-				<text><![CDATA[Department]]></text>
-			</staticText>
 			<line>
-				<reportElement x="10" y="76" width="818" height="1" uuid="85fa6316-5012-4d30-97b9-24515a774bd8"/>
+				<reportElement x="0" y="76" width="842" height="1" uuid="85fa6316-5012-4d30-97b9-24515a774bd8"/>
 			</line>
-			<textField>
-				<reportElement x="127" y="77" width="290" height="20" uuid="6cf66f28-5687-4fe0-8ebf-56b82288f624"/>
-				<textFieldExpression><![CDATA[$P{deparment}]]></textFieldExpression>
-			</textField>
 		</band>
 	</pageHeader>
 	<summary>
@@ -72,7 +57,7 @@
 				<crosstabHeaderCell>
 					<cellContents>
 						<staticText>
-							<reportElement style="Crosstab Data Text" x="0" y="0" width="64" height="22" uuid="db6deaf8-cd28-4a49-a756-6849fb1f88eb"/>
+							<reportElement style="Crosstab Data Text" x="0" y="0" width="37" height="22" uuid="db6deaf8-cd28-4a49-a756-6849fb1f88eb"/>
 							<box leftPadding="2">
 								<topPen lineWidth="1.0"/>
 								<leftPen lineWidth="1.0"/>
@@ -81,7 +66,7 @@
 							<text><![CDATA[EPF No]]></text>
 						</staticText>
 						<staticText>
-							<reportElement style="Crosstab Data Text" x="64" y="0" width="174" height="22" uuid="9366e991-101c-48f8-90d9-b770cd2a5dec"/>
+							<reportElement style="Crosstab Data Text" x="37" y="0" width="162" height="22" uuid="9366e991-101c-48f8-90d9-b770cd2a5dec"/>
 							<box leftPadding="2">
 								<topPen lineWidth="1.0"/>
 								<leftPen lineWidth="1.0"/>
@@ -90,7 +75,7 @@
 							<text><![CDATA[Name]]></text>
 						</staticText>
 						<staticText>
-							<reportElement style="Crosstab Data Text" x="237" y="0" width="80" height="22" uuid="99da735e-4c41-4c9b-b5b6-c7c20c073956"/>
+							<reportElement style="Crosstab Data Text" x="199" y="0" width="83" height="22" uuid="99da735e-4c41-4c9b-b5b6-c7c20c073956"/>
 							<box leftPadding="2">
 								<topPen lineWidth="1.0"/>
 								<leftPen lineWidth="1.0"/>
@@ -99,7 +84,7 @@
 							<text><![CDATA[NIC]]></text>
 						</staticText>
 						<staticText>
-							<reportElement style="Crosstab Data Text" x="317" y="0" width="83" height="22" uuid="1e2275de-e215-4b4e-9a92-f3d5e885719b"/>
+							<reportElement style="Crosstab Data Text" x="282" y="0" width="140" height="22" uuid="1e2275de-e215-4b4e-9a92-f3d5e885719b"/>
 							<box leftPadding="2">
 								<topPen lineWidth="1.0"/>
 								<leftPen lineWidth="1.0"/>
@@ -108,7 +93,7 @@
 							<text><![CDATA[Bank Name]]></text>
 						</staticText>
 						<staticText>
-							<reportElement style="Crosstab Data Text" x="400" y="0" width="75" height="22" uuid="c39d8608-0caa-4656-b323-a842c67c58b7"/>
+							<reportElement style="Crosstab Data Text" x="422" y="0" width="68" height="22" uuid="c39d8608-0caa-4656-b323-a842c67c58b7"/>
 							<box leftPadding="2">
 								<topPen lineWidth="1.0"/>
 								<leftPen lineWidth="1.0"/>
@@ -117,8 +102,11 @@
 							<text><![CDATA[Account]]></text>
 						</staticText>
 						<staticText>
-							<reportElement style="Crosstab Data Text" x="475" y="0" width="84" height="22" uuid="dca9d636-8d62-495b-80c4-e4fb7e3f748e"/>
-							<box rightPadding="2"/>
+							<reportElement style="Crosstab Data Text" x="490" y="0" width="69" height="22" uuid="dca9d636-8d62-495b-80c4-e4fb7e3f748e"/>
+							<box rightPadding="2">
+								<topPen lineWidth="1.0"/>
+								<leftPen lineWidth="1.0"/>
+							</box>
 							<textElement textAlignment="Right" verticalAlignment="Middle"/>
 							<text><![CDATA[Basic]]></text>
 						</staticText>
@@ -134,34 +122,36 @@
 								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 							</box>
 							<textField>
-								<reportElement style="Crosstab Data Text" x="0" y="0" width="64" height="25" uuid="dacc080e-a9b4-408f-9df4-5a4829305d66"/>
+								<reportElement style="Crosstab Data Text" x="0" y="0" width="37" height="25" uuid="dacc080e-a9b4-408f-9df4-5a4829305d66"/>
 								<box leftPadding="5"/>
 								<textElement textAlignment="Left" verticalAlignment="Middle"/>
 								<textFieldExpression><![CDATA[$V{epfno}]]></textFieldExpression>
 							</textField>
 							<textField>
-								<reportElement style="Crosstab Data Text" x="64" y="1" width="174" height="25" uuid="53764454-558c-4dda-a6cc-322ac46aa612"/>
+								<reportElement style="Crosstab Data Text" x="37" y="1" width="162" height="25" uuid="53764454-558c-4dda-a6cc-322ac46aa612"/>
 								<textElement textAlignment="Left" verticalAlignment="Middle"/>
 								<textFieldExpression><![CDATA[$V{measure1}]]></textFieldExpression>
 							</textField>
-							<textField>
-								<reportElement style="Crosstab Data Text" x="317" y="1" width="83" height="25" uuid="ab560538-83dc-4518-9c4a-e52f56d2744e"/>
+							<textField isStretchWithOverflow="true">
+								<reportElement style="Crosstab Data Text" x="282" y="1" width="140" height="25" isPrintWhenDetailOverflows="true" uuid="ab560538-83dc-4518-9c4a-e52f56d2744e"/>
 								<textElement textAlignment="Left" verticalAlignment="Middle"/>
 								<textFieldExpression><![CDATA[$V{measure4}==null?"":$V{measure4}]]></textFieldExpression>
 							</textField>
 							<textField>
-								<reportElement style="Crosstab Data Text" x="400" y="2" width="75" height="25" uuid="32de2077-6f39-49a5-9cd1-dc8f63c21fa2"/>
+								<reportElement style="Crosstab Data Text" x="422" y="2" width="68" height="25" uuid="32de2077-6f39-49a5-9cd1-dc8f63c21fa2"/>
 								<textElement textAlignment="Left" verticalAlignment="Middle"/>
 								<textFieldExpression><![CDATA[$V{measure5}==null?"":$V{measure5}]]></textFieldExpression>
 							</textField>
 							<textField>
-								<reportElement style="Crosstab Data Text" x="237" y="2" width="80" height="25" uuid="fe7fc219-db3a-48ed-9b64-ba221df6e5a9"/>
+								<reportElement style="Crosstab Data Text" x="199" y="2" width="83" height="25" uuid="fe7fc219-db3a-48ed-9b64-ba221df6e5a9"/>
 								<textElement textAlignment="Left" verticalAlignment="Middle"/>
 								<textFieldExpression><![CDATA[$V{measure6}==null?"":$V{measure6}]]></textFieldExpression>
 							</textField>
 							<textField pattern="#,##0.00">
-								<reportElement style="Crosstab Data Text" x="475" y="1" width="84" height="25" uuid="f5355301-9659-40b1-9960-587b6d1eab43"/>
-								<box rightPadding="2"/>
+								<reportElement style="Crosstab Data Text" x="490" y="1" width="69" height="25" uuid="f5355301-9659-40b1-9960-587b6d1eab43"/>
+								<box rightPadding="2">
+									<leftPen lineWidth="1.0"/>
+								</box>
 								<textElement textAlignment="Right" verticalAlignment="Middle"/>
 								<textFieldExpression><![CDATA[$V{measure7}]]></textFieldExpression>
 							</textField>
@@ -171,7 +161,7 @@
 						<cellContents/>
 					</crosstabTotalRowHeader>
 				</rowGroup>
-				<columnGroup name="type" height="25" totalPosition="End">
+				<columnGroup name="type" height="23" totalPosition="End">
 					<bucket class="java.lang.String">
 						<bucketExpression><![CDATA[$F{type}]]></bucketExpression>
 					</bucket>
@@ -226,7 +216,7 @@
 				<measure name="measure7" class="java.lang.Double">
 					<measureExpression><![CDATA[$F{basicsal}]]></measureExpression>
 				</measure>
-				<crosstabCell width="50" height="28">
+				<crosstabCell width="50" height="27">
 					<cellContents>
 						<box>
 							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
@@ -250,7 +240,7 @@
 						</textField>
 					</cellContents>
 				</crosstabCell>
-				<crosstabCell width="84" height="28" columnTotalGroup="type">
+				<crosstabCell width="84" height="27" columnTotalGroup="type">
 					<cellContents backcolor="#FFFFFF" mode="Opaque">
 						<box>
 							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
