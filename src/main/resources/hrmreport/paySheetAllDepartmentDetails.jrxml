@@ -46,6 +46,17 @@
 		<band height="319">
 			<crosstab>
 				<reportElement x="0" y="0" width="3368" height="319" uuid="41304755-bc5a-4945-a49a-0e52c05b204c"/>
+				<crosstabHeaderCell>
+					<cellContents>
+						<textField>
+							<reportElement style="Crosstab Data Text" x="0" y="0" width="203" height="114" uuid="b5716553-775b-4e30-88ff-554cc8b31317"/>
+							<box>
+								<topPen lineWidth="1.0"/>
+								<leftPen lineWidth="1.0"/>
+							</box>
+						</textField>
+					</cellContents>
+				</crosstabHeaderCell>
 				<rowGroup name="deptment" width="70" totalPosition="End" headerPosition="Middle">
 					<bucket class="java.lang.String">
 						<bucketExpression><![CDATA[$F{deptment}]]></bucketExpression>
