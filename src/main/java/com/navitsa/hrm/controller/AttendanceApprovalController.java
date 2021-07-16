@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.navitsa.hrm.entity.ApplyLeaveDetail;
-import com.navitsa.hrm.entity.ApplyLeave_Entity;
+import com.navitsa.hrm.entity.ApplyLeave;
 import com.navitsa.hrm.entity.AttendanceSheet;
 import com.navitsa.hrm.entity.AttendanceSummary;
 import com.navitsa.hrm.entity.AttendanceSummaryDetail;
@@ -114,7 +114,7 @@ public class AttendanceApprovalController {
 			int totalLeave = leaveInfo.size();
 			
 			PayPeriods payPeriod = payService.getPayPeriods(payPeriodID);
-			ApplyLeave_Entity leave = applyLeaveService.findAppliedLeaveByEmployee(employee_id,companyID);
+			ApplyLeave leave = applyLeaveService.findAppliedLeaveByEmployee(employee_id,companyID);
 			List<ApplyLeaveDetail> leaveApproved = null;
 			if(leave != null) {
 				leaveApproved =  applyLeaveService.getTotalApprovedLeaveBy(payPeriod.getStartDate(),payPeriod.getEndDate(),leave.getLeaveID());
