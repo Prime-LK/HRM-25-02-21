@@ -117,7 +117,7 @@
 
 
 				<div class="row">
-					<div class="col-xl-4 col-lg-5">
+					<div class="col-xl-3 col-lg-5">
 						<!-- Card -->
 						<form:form action="generatePaySheetDeperment" method="POST">
 							<div class="card shadow mb-4" style="height: 600px;">
