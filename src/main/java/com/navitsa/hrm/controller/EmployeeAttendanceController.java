@@ -5,11 +5,9 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -107,12 +105,18 @@ public class EmployeeAttendanceController {
 		String companyId = session.getAttribute("company.comID").toString();
 		EmployeeDetails ed = employeeService.findEmployeeDetailsByEmployeeIdAndCompany(employeeId, companyId);
 		ShiftAllocation sa = shiftAllocationService.findShiftAllocationByCompany(date, shiftId, employeeId, companyId);
-		System.out.println("SID = " + ed.getShiftmaster().getShiftId());
-		System.out.println(sa);
-		if (ed.getShiftmaster().getShiftId().equals(shiftId)) {
-			result = true;
+
+		if (!(ed.equals(null))) {
+			// System.out.println("SID = " + ed.getShiftmaster().getShiftId());
+			if (ed.getShiftmaster().getShiftId().equals(null)) {
+				result = false;
+			} else {
+				System.out.println("SID = " + ed.getShiftmaster().getShiftId());
+				result = true;
+			}
 		} else if (!(sa.equals(null))) {
 			result = true;
+			System.out.println(sa);
 		} else {
 			result = false;
 		}

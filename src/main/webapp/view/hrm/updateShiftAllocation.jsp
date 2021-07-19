@@ -14,7 +14,6 @@
 <head>
 <%@include file="../../WEB-INF/jsp/head.jsp"%>
 
-
 <style>
 .vidSty {
 	font-family: Arial, Helvetica, sans-serif;
@@ -92,9 +91,9 @@
 			<%@include file="../../WEB-INF/jsp/navbar.jsp"%>
 			<!-- End Navbar -->
 		</div>
-		<!-- Sidebar -->
+		<!-- slideBar -->
 		<%@include file="../../WEB-INF/jsp/slideBar.jsp"%>
-		<!-- End Sidebar -->
+		<!-- End slideBar -->
 		<div class="main-panel">
 			<div class="content">
 				<div class="panel-header bg-primary-gradient">
@@ -102,7 +101,7 @@
 						<div
 							class="d-flex align-items-left align-items-md-center flex-column flex-md-row">
 							<div class="col-xl-2 col-lg-2">
-								<h2 class="text-white pb-2 fw-bold">Allocated Shifts</h2>
+								<h2 class="text-white pb-2 fw-bold">Update Shift Allocation</h2>
 							</div>
 							<div class="col-xl-2 col-lg-2"></div>
 							<div class="ml-md-auto py-2 py-md-4"></div>
@@ -126,7 +125,7 @@
 										<c:if test="${success ==1}">
 											<div class="alert alert-success alert-dismissible">
 												<button type="button" class="close" data-dismiss="alert">&times;</button>
-												<strong>Success!</strong>
+												<strong>Success!</strong> Data Successfully Saved.
 											</div>
 										</c:if>
 										<c:if test="${success ==0}">
@@ -136,33 +135,70 @@
 												again!
 											</div>
 										</c:if>
-										<form:form action="loadAllocatedShifts"
-											modelAttribute="AllocatedShifts" method="get"
-											onsubmit="return validateForm()">
+										<form:form action="updateShiftAllocation" modelAttribute="updateShiftAllocation"
+											onsubmit="return validateForm()" method="post">
 											<div class=" row">
 												<div class="col-9">
 													<div class="form-group row">
 														<div class="col-sm-3">
-															<label>Start Date</label> <input id="startDate"
-																name="startDate" type="date"
-																class="form-control form-control-user col-12 foo text-capitalize"
-																value="" required /> <span id="div1"></span>
+															<label>Date</label>
+															<form:input id="date" path="shiftAllocationPK.date"
+																type="text" class="form-control" value=""
+																required="true" readonly="true" onchange="" />
+															<span id="div1"></span>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class=" row">
+												<div class="col-9">
+													<div class="form-group row">
+														<div class="col-sm-3">
+															<label>Department</label>
+															<form:input id="departmentId" path="departmentId"
+																type="text" class="form-control" value=""
+																required="true" readonly="true" onchange="" />
+															<span id="div1"></span>
 														</div>
 														<div class="col-sm-3">
-															<label>End Date</label> <input id="endDate"
-																name="endDate" type="date"
-																class="form-control form-control-user col-12 foo text-capitalize"
-																value="" required /> <span id="div2"></span>
+															<label>Employee</label>
+															<form:input id="employeeId"
+																path="shiftAllocationPK.employee.empID" type="text"
+																class="form-control" value=""
+																required="true" readonly="true" onchange="" />
+															<span id="div1"></span>
+														</div>
+														<div class="col-sm-1">
+															<form:input type="hidden" id="companyId"
+																path="company.comID"
+																value="" />
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class=" row">
+												<div class="col-9">
+													<div class="form-group row">
+														<div class="col-sm-3">
+															<label>Current Shift</label> <form:select id="shiftId"
+																path="shiftAllocationPK.shiftmaster.shiftId"
+																class="form-control text-capitalize" required="true"
+																readonly="true" onchange="">
+																<form:option value="" selected="true">SELECT</form:option>
+																<c:forEach items="${shiftList}" var="s">
+																	<form:option value="${s.shiftId}">${s.description}</form:option>
+																</c:forEach>
+															</form:select>
 														</div>
 														<div class="col-sm-3">
-															<label>Shift Name</label> <select id="shiftId"
+															<label>New Shift</label> <select id="newShiftId"
 																name="shiftId"
-																class="form-control form-control-user col-12 foo text-capitalize">
-																<option value="all" selected>ALL</option>
+																class="form-control text-capitalize" required onchange="">
+																<option value="" selected>SELECT</option>
 																<c:forEach items="${shiftList}" var="s">
 																	<option value="${s.shiftId}">${s.description}</option>
 																</c:forEach>
-															</select> <span id="div1"></span>
+															</select>
 														</div>
 													</div>
 												</div>
@@ -170,34 +206,10 @@
 											<div class=" row">
 												<div class="col-9">
 													<div class="form-group row">
-														<div class="col-sm-3">
-															<label>Department</label> <select id="selectDepartment"
-																name="departmentId"
-																class="form-control form-control-user col-12 foo text-capitalize"
-																onchange="loadEmployeesByDepartment()">
-																<option value="all" selected>ALL</option>
-																<c:forEach items="${depList}" var="d">
-																	<option value="${d.depID}">${d.department}</option>
-																</c:forEach>
-															</select> <span id="div1"></span>
-														</div>
-														<div class="col-sm-3">
-															<label>Employee Name</label> <select
-																id="selectEmployeeId" name="employeeId"
-																class="form-control form-control-user col-12 foo text-capitalize">
-																<option value="all" selected>ALL</option>
-															</select> <span id="div2"></span>
-														</div>
-													</div>
-												</div>
-											</div>
-											<div class=" row">
-												<div class="col-9">
-													<div class="form-group row">
-														<div class="col-sm-6">
+														<div class="col-sm-12">
 															<input type="submit"
 																class="btn btn-primary btn-sm-3 mr-3"
-																value="Load Shift Allocations" /> <input type="reset"
+																value="Update Shift" /> <input type="reset"
 																class="btn btn-danger btn-sm-3 mr-3" value="Reset" />
 														</div>
 													</div>
@@ -205,65 +217,6 @@
 											</div>
 
 										</form:form>
-
-										<br>
-
-										<!-- DataTables Example -->
-										<div class="table-responsive">
-											<table
-												class="display table table-striped table-hover table-bordered"
-												id="basic-datatables" width="100%" cellspacing="0">
-												<thead>
-													<tr>
-														<th>Date</th>
-														<!-- <th>Day Type</th> -->
-														<th>Employee Name</th>
-														<th>Department</th>
-														<th>Shift Name</th>
-														<th>Start Time</th>
-														<th>End Time</th>
-														<th></th>
-														<th></th>
-													</tr>
-												</thead>
-												<tfoot>
-													<tr>
-														<th>Date</th>
-														<!-- <th>Day Type</th> -->
-														<th>Employee Name</th>
-														<th>Department</th>
-														<th>Shift Name</th>
-														<th>Start Time</th>
-														<th>End Time</th>
-														<th></th>
-														<th></th>
-													</tr>
-												</tfoot>
-												<tbody>
-
-													<c:forEach items="${shiftAllocationList}" var="shifts">
-														<tr>
-															<td>${shifts.date}</td>
-															<%-- <td>${shifts.day_type}</td> --%>
-															<td>${shifts.employee}</td>
-															<td>${shifts.department}</td>
-															<td>${shifts.shift}</td>
-															<td>${shifts.startTime}</td>
-															<td>${shifts.endTime}</td>
-															<td width="25rem"><a
-																href="getShiftAllocation?date=${shifts.date}&employeeId=${shifts.employeeId}&shiftId=${shifts.shiftId}">
-																	<i class="far fa-edit"></i>
-															</a></td>
-															<td width="25rem"><a
-																href="deleteShiftAllocation?date=${shifts.date}&employeeId=${shifts.employeeId}&shiftId=${shifts.shiftId}">
-																	<i class="far fa-trash-alt"></i>
-															</a></td>
-														</tr>
-													</c:forEach>
-
-												</tbody>
-											</table>
-										</div>
 
 									</div>
 								</div>
@@ -282,7 +235,10 @@
 
 	<!-- Datatable -->
 	<script src="<c:url value='/resources/hrm/ajax/datatable.js'/>"></script>
-	<script src="<c:url value='/resources/hrm/ajax/shiftAllocation.js'/>"></script>
+
+	<!-- Page level custom scripts -->
 	<script src="<c:url value='resources/hrm/js/shiftAllocation.js'/>"></script>
+	<script src="<c:url value='resources/hrm/ajax/shiftAllocation.js'/>"></script>
+
 </body>
 </html>

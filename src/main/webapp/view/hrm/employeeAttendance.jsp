@@ -163,7 +163,8 @@
 														<div class="col-sm-3">
 															<label>Date</label> <input id="date" name="date"
 																placeholder="dd-mm-yyyy" type="date"
-																class="form-control" value="" onchange=""
+																class="form-control" value=""
+																onchange=""
 																required="true" />
 														</div>
 														<div class="col-sm-3">

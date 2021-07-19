@@ -9,6 +9,8 @@ public class ShiftAllocationBean {
 	private String endTime;
 	private String employee;
 	private String department;
+	private String shiftId;
+	private String employeeId;
 
 	public String getDate() {
 		return date;
@@ -64,5 +66,21 @@ public class ShiftAllocationBean {
 
 	public void setDepartment(String department) {
 		this.department = department;
+	}
+
+	public String getShiftId() {
+		return shiftId;
+	}
+
+	public void setShiftId(String shiftId) {
+		this.shiftId = shiftId;
+	}
+
+	public String getEmployeeId() {
+		return employeeId;
+	}
+
+	public void setEmployeeId(String employeeId) {
+		this.employeeId = employeeId;
 	}
 }

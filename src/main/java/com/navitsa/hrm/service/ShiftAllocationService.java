@@ -26,16 +26,20 @@ public class ShiftAllocationService {
 	}
 
 	/*
-	public List<String> loadShiftAllocationsByCompany(String companyId) {
-		return shiftAllocationRepository.loadShiftAllocationsByCompany(companyId);
-	}
-	*/
+	 * public List<String> loadShiftAllocationsByCompany(String companyId) { return
+	 * shiftAllocationRepository.loadShiftAllocationsByCompany(companyId); }
+	 */
+
 	public List<ShiftAllocation> saveShiftAllocations(List<ShiftAllocation> shiftAllocation) {
 		return (List<ShiftAllocation>) shiftAllocationRepository.saveAll(shiftAllocation);
 	}
 
 	public ShiftAllocation findShiftAllocationByDetails(String date, String shiftId, String employeeId) {
 		return shiftAllocationRepository.findShiftAllocationByDetails(date, shiftId, employeeId);
+	}
+
+	public ShiftAllocation findShiftAllocationById(String date, String shiftId, String employeeId, String companyId) {
+		return shiftAllocationRepository.findShiftAllocationById(date, shiftId, employeeId, companyId);
 	}
 
 	public ShiftAllocation findShiftAllocationByDetailsByCompany(String date, String shiftId, String employeeId,
@@ -75,33 +79,35 @@ public class ShiftAllocationService {
 	}
 
 	/*
-	public String[][] loadShiftsByDateRange(String startDate, String endDate, String shiftId, String companyId) {
-		return shiftAllocationRepository.loadShiftsByDateRange(startDate, endDate, shiftId, companyId);
-	}
-	*/
-	
+	 * public String[][] loadShiftsByDateRange(String startDate, String endDate,
+	 * String shiftId, String companyId) { return
+	 * shiftAllocationRepository.loadShiftsByDateRange(startDate, endDate, shiftId,
+	 * companyId); }
+	 */
+
 	public List<ShiftAllocation> getAllShiftAllocationBy(String startDate, String endDate, String employeeID) {
-		
-		return shiftAllocationRepository.getAllShiftAllocationBy(startDate,endDate,employeeID);
+
+		return shiftAllocationRepository.getAllShiftAllocationBy(startDate, endDate, employeeID);
 	}
 
 	public ShiftAllocation getShiftBy(String date, String employeeID, String companyID) {
-		return shiftAllocationRepository.getShiftBy(date,employeeID,companyID);
+		return shiftAllocationRepository.getShiftBy(date, employeeID, companyID);
 	}
-	
+
 	public ShiftAllocation findShiftAllocationByCompany(String date, String shiftId, String employeeId,
 			String companyId) {
 		return shiftAllocationRepository.findShiftAllocationByCompany(date, shiftId, employeeId, companyId);
 	}
-	
+
 	public List<ShiftAllocation> loadShiftAllocationsByCompany(String companyId) {
 		return shiftAllocationRepository.loadShiftAllocationsByCompany(companyId);
 	}
-	
-	public List<ShiftAllocation> loadShiftsByDateRange(String startDate, String endDate, String shiftId, String companyId) {
+
+	public List<ShiftAllocation> loadShiftsByDateRange(String startDate, String endDate, String shiftId,
+			String companyId) {
 		return shiftAllocationRepository.loadShiftsByDateRange(startDate, endDate, shiftId, companyId);
 	}
-	
+
 	public List<ShiftAllocation> loadAllocatedShiftsByDate(String startDate, String endDate, String companyId) {
 		return shiftAllocationRepository.loadAllocatedShiftsByDate(startDate, endDate, companyId);
 	}
@@ -132,5 +138,9 @@ public class ShiftAllocationService {
 			String departmentId, String employeeId, String shiftId, String companyId) {
 		return shiftAllocationRepository.loadAllocatedShiftsByEmployeeAndShift(startDate, endDate, departmentId,
 				employeeId, shiftId, companyId);
+	}
+
+	public void deleteShiftAllocation(String date, String employeeId, String shiftId) {
+		shiftAllocationRepository.deleteShiftAllocation(date, employeeId, shiftId);
 	}
 }

@@ -618,7 +618,7 @@ function checkEmployeeShiftAllocation() {
 	var date = document.getElementById('date').value;
 	var shiftId = document.getElementById('shiftId').value;
 	
-	if(employeeId == "All" || employeeId == "" || shiftId == "" || date == "") {
+	if(employeeId == "all" || employeeId == "" || shiftId == "" || date == "") {
 		return;
 	}
 	else {

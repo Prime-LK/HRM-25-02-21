@@ -10,6 +10,7 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -157,7 +158,8 @@ public class ShiftAllocationController {
 							.isBefore(d2.toLocalDate().plusDays(1)); date = date.plusDays(1)) {
 						Date shiftDate = Date.valueOf(date);
 						CalanderEntity calander = calanderService.getCalenderByCompany(shiftDate.toString(), companyId);
-						if (includeHoliday == 0 && calander.getStatus().equals("Holiday") || includeHoliday == 0 && calander.getStatus().equals("Sunday")) {
+						if (includeHoliday == 0 && calander.getStatus().equals("Holiday")
+								|| includeHoliday == 0 && calander.getStatus().equals("Sunday")) {
 							continue;
 						}
 						ShiftAllocationPK shiftAllocationPK = new ShiftAllocationPK();
@@ -180,7 +182,8 @@ public class ShiftAllocationController {
 						.isBefore(d2.toLocalDate().plusDays(1)); date = date.plusDays(1)) {
 					Date shiftDate = Date.valueOf(date);
 					CalanderEntity calander = calanderService.getCalenderByCompany(shiftDate.toString(), companyId);
-					if (includeHoliday == 0 && calander.getStatus().equals("Holiday") || includeHoliday == 0 && calander.getStatus().equals("Sunday")) {
+					if (includeHoliday == 0 && calander.getStatus().equals("Holiday")
+							|| includeHoliday == 0 && calander.getStatus().equals("Sunday")) {
 						continue;
 					}
 					ShiftAllocationPK shiftAllocationPK = new ShiftAllocationPK();
