@@ -35,8 +35,8 @@ public class Employee{
 	@Column(name="Material_Status")
 	private String mStatus;
 	
-	@Pattern(regexp="^[a-zA-Z ]+$",message="Please type characters only")
-	@NotEmpty(message = "Please enter Employee First Name")
+//	@Pattern(regexp="^[a-zA-Z ]+$",message="Please type characters only")
+//	@NotEmpty(message = "Please enter Employee First Name")
 	@Column(name="Name")
 	private String name;
 	
@@ -58,8 +58,8 @@ public class Employee{
 	@Column(name="State")
 	private String state;
 	
-	@Pattern(regexp="^[A-Za-z0-9 ]+$",message=" Please do not type Special  Characters")
-	@NotEmpty(message = "Please enter Employee ID Number")
+//	@Pattern(regexp="^[A-Za-z0-9 ]+$",message=" Please do not type Special  Characters")
+//	@NotEmpty(message = "Please enter Employee ID Number")
 	@Column(name="ID_Number")
 	private String id_Number ;
 	
@@ -91,23 +91,23 @@ public class Employee{
 	@Column(name="Bank_Account")
 	private String bank_Account;
 	
-	@Pattern(regexp="^[a-zA-Z ]+$",message="Please type characters only")
-	@NotEmpty(message = "Please enter Employee Lastname")
+//	@Pattern(regexp="^[a-zA-Z ]+$",message="Please type characters only")
+//	@NotEmpty(message = "Please enter Employee Lastname")
 	@Column(name="lastname")
 	private String lastname;
 	
-	@Pattern(regexp="^[0-9 ]+$",message=" Please do not type Special  Characters")
-	@NotEmpty(message = "Please enter Contact number")
+	//@Pattern(regexp="^[0-9 ]+$",message=" Please do not type Special  Characters")
+	//@NotEmpty(message = "Please enter Contact number")
 	@Column(name="contact_num1")
 	private String contact_num1;
 	
-	@Pattern(regexp="^[0-9 ]+$",message=" Please do not type Special  Characters")
-	@NotEmpty(message = "Please enter Contact number")
+	//@Pattern(regexp="^[0-9 ]+$",message=" Please do not type Special  Characters")
+	//@NotEmpty(message = "Please enter Contact number")
 	@Column(name="contact_num2")
 	private String contact_num2;
 	
-	@Pattern(regexp="^(.+)@(.+)$",message="@ sign is missing in email address")
-	@NotEmpty(message = "Please enter Employee Emial ")
+	//@Pattern(regexp="^(.+)@(.+)$",message="@ sign is missing in email address")
+	//@NotEmpty(message = "Please enter Employee Emial ")
 	@Column(name="email")
 	private String email;
 	

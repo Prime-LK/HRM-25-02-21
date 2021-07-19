@@ -106,7 +106,7 @@ public class EmployeeController {
 				System.out.println(er);
 			}
 		}
-		return "hrm/ShiftMaster";
+		return "hrm/register";
 	}
 
 	@ModelAttribute("allComMas")
