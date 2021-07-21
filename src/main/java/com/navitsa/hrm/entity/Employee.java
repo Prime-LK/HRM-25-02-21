@@ -10,118 +10,116 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Pattern;
 
 import org.springframework.web.multipart.MultipartFile;
 
 @Entity
-@Table(name="employee_master")
-public class Employee{
+@Table(name = "employee_master")
+public class Employee {
 
 	@Id
-	@Column(name="Employee_ID")
+	@Column(name = "Employee_ID")
 	private String empID;
-	
-	@ManyToOne(optional=false, fetch = FetchType.EAGER)
-	@JoinColumn(name="Nationality_ID", referencedColumnName ="Nationality_ID")
+
+	@ManyToOne(optional = false, fetch = FetchType.EAGER)
+	@JoinColumn(name = "Nationality_ID", referencedColumnName = "Nationality_ID")
 	private NationalityMaster nationality;
-	
-	@ManyToOne(optional=false, fetch = FetchType.EAGER)
-	@JoinColumn(name="Religion_ID", referencedColumnName ="Religion_ID")
-	//@Column(name="Religion_ID")
+
+	@ManyToOne(optional = false, fetch = FetchType.EAGER)
+	@JoinColumn(name = "Religion_ID", referencedColumnName = "Religion_ID")
+	// @Column(name="Religion_ID")
 	private ReligionMaster religion;
-	
-	@Column(name="Material_Status")
+
+	@Column(name = "Material_Status")
 	private String mStatus;
-	
+
 //	@Pattern(regexp="^[a-zA-Z ]+$",message="Please type characters only")
 //	@NotEmpty(message = "Please enter Employee First Name")
-	@Column(name="Name")
+	@Column(name = "Name")
 	private String name;
-	
-	@Column(name="DOB")
+
+	@Column(name = "DOB")
 	private String dob;
-	
-	@Column(name="Gender")
+
+	@Column(name = "Gender")
 	private String gender;
-	
-	@Column(name="Profile_Img")
+
+	@Column(name = "Profile_Img")
 	private byte[] profileImg;
-	
-	@Column(name="Address")
+
+	@Column(name = "Address")
 	private String address;
-	
-	@Column(name="City")
+
+	@Column(name = "City")
 	private String city;
-	
-	@Column(name="State")
+
+	@Column(name = "State")
 	private String state;
-	
+
 //	@Pattern(regexp="^[A-Za-z0-9 ]+$",message=" Please do not type Special  Characters")
 //	@NotEmpty(message = "Please enter Employee ID Number")
-	@Column(name="ID_Number")
-	private String id_Number ;
-	
+	@Column(name = "ID_Number")
+	private String id_Number;
+
 //	@Pattern(regexp="^[A-Za-z0-9 ]+$",message=" Please do not type Special  Characters")
-	
-	@Column(name="DL_Number")
+
+	@Column(name = "DL_Number")
 	private String dl_number;
-	
+
 //	@Pattern(regexp="^[A-Za-z0-9 ]+$",message=" Please do not type Special  Characters")
-	
-	@Column(name="Passport_Number")
+
+	@Column(name = "Passport_Number")
 	private String passport_Number;
-	
-	@Column(name="Emergency_Contact_No")
+
+	@Column(name = "Emergency_Contact_No")
 	private String emergency_Contact_No;
-	
-	@Column(name="Blood_Group")
+
+	@Column(name = "Blood_Group")
 	private String blood_Group;
-	
+
 //	@ManyToOne(optional=false, fetch = FetchType.EAGER)
 //	@JoinColumn(name="Bank_ID", referencedColumnName ="Bank_ID")
-	@Column(name="Bank_ID")
+	@Column(name = "Bank_ID")
 	private String bank_Code;
-	
-	@ManyToOne(optional=true, fetch = FetchType.EAGER)
-	@JoinColumn(name="Branch_ID", referencedColumnName ="Branch_ID")
+
+	@ManyToOne(optional = true, fetch = FetchType.EAGER)
+	@JoinColumn(name = "Branch_ID", referencedColumnName = "Branch_ID")
 	private Bank bankBranch_Code;
-	
-	@Column(name="Bank_Account")
+
+	@Column(name = "Bank_Account")
 	private String bank_Account;
-	
+
 //	@Pattern(regexp="^[a-zA-Z ]+$",message="Please type characters only")
 //	@NotEmpty(message = "Please enter Employee Lastname")
-	@Column(name="lastname")
+	@Column(name = "lastname")
 	private String lastname;
-	
-	//@Pattern(regexp="^[0-9 ]+$",message=" Please do not type Special  Characters")
-	//@NotEmpty(message = "Please enter Contact number")
-	@Column(name="contact_num1")
+
+	// @Pattern(regexp="^[0-9 ]+$",message=" Please do not type Special Characters")
+	// @NotEmpty(message = "Please enter Contact number")
+	@Column(name = "contact_num1")
 	private String contact_num1;
-	
-	//@Pattern(regexp="^[0-9 ]+$",message=" Please do not type Special  Characters")
-	//@NotEmpty(message = "Please enter Contact number")
-	@Column(name="contact_num2")
+
+	// @Pattern(regexp="^[0-9 ]+$",message=" Please do not type Special Characters")
+	// @NotEmpty(message = "Please enter Contact number")
+	@Column(name = "contact_num2")
 	private String contact_num2;
-	
-	//@Pattern(regexp="^(.+)@(.+)$",message="@ sign is missing in email address")
-	//@NotEmpty(message = "Please enter Employee Emial ")
-	@Column(name="email")
+
+	// @Pattern(regexp="^(.+)@(.+)$",message="@ sign is missing in email address")
+	// @NotEmpty(message = "Please enter Employee Emial ")
+	@Column(name = "email")
 	private String email;
-	
-	@ManyToOne(optional=false, fetch = FetchType.EAGER)
-	@JoinColumn(name="Company_ID", referencedColumnName="Company_ID")
+
+	@ManyToOne(optional = false, fetch = FetchType.EAGER)
+	@JoinColumn(name = "Company_ID", referencedColumnName = "Company_ID")
 	private CompanyMaster company;
-	
+
 //	@NotEmpty(message = "Please enter Employee Password ")
-	@Column(name="Emp_Password")
+	@Column(name = "Emp_Password")
 	private String password;
-	
-	@Column(name="EmpCateCode")
+
+	@Column(name = "EmpCateCode")
 	private String employeeCategory;
-	
+
 	public String getEmpID() {
 		return empID;
 	}
@@ -181,7 +179,7 @@ public class Employee{
 	public String getProfileImgView() {
 		return Base64.getEncoder().encodeToString(this.profileImg);
 	}
-	
+
 	public String getName() {
 		return name;
 	}
@@ -213,7 +211,7 @@ public class Employee{
 	public void setState(String state) {
 		this.state = state;
 	}
-	
+
 	public String getId_Number() {
 		return id_Number;
 	}
@@ -309,7 +307,7 @@ public class Employee{
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
+
 	public String getPassword() {
 		return password;
 	}
@@ -325,16 +323,13 @@ public class Employee{
 	public void setCompany(CompanyMaster company) {
 		this.company = company;
 	}
-	
-	public Employee(String empID,
-			NationalityMaster nationality, ReligionMaster religion,
-			String mStatus, String name, String dob, String gender, MultipartFile profileImg,
-			String address, String city, String state, String salaryGrade, String id_Number,
-			String dl_number, String passport_Number, String emergency_Contact_No, String blood_Group,
-			String bank_Code,
-			Bank bankBranch_Code, String bank_Account, String lastname, String contact_num1,
-			String contact_num2,
-			String email,String password,CompanyMaster company) throws IOException {
+
+	public Employee(String empID, NationalityMaster nationality, ReligionMaster religion, String mStatus, String name,
+			String dob, String gender, MultipartFile profileImg, String address, String city, String state,
+			String salaryGrade, String id_Number, String dl_number, String passport_Number, String emergency_Contact_No,
+			String blood_Group, String bank_Code, Bank bankBranch_Code, String bank_Account, String lastname,
+			String contact_num1, String contact_num2, String email, String password, CompanyMaster company)
+			throws IOException {
 		this.empID = empID;
 		this.nationality = nationality;
 		this.religion = religion;
@@ -363,12 +358,12 @@ public class Employee{
 	}
 
 	public Employee(String empID, NationalityMaster nationality, ReligionMaster religion, String mStatus, String name,
-			String dob, String gender,MultipartFile profileImg, String id_Number, String dl_number, String passport_Number,
-			String emergency_Contact_No, String blood_Group, String bank_Code, Bank bankBranch_Code, String bank_Account,
-		    String address, String city, String state, 
-			String lastname, String contact_num1, String contact_num2, String email,String password,
-			CompanyMaster company) throws IOException {
-		
+			String dob, String gender, MultipartFile profileImg, String id_Number, String dl_number,
+			String passport_Number, String emergency_Contact_No, String blood_Group, String bank_Code,
+			Bank bankBranch_Code, String bank_Account, String address, String city, String state, String lastname,
+			String contact_num1, String contact_num2, String email, String password, CompanyMaster company)
+			throws IOException {
+
 		this.empID = empID;
 		this.nationality = nationality;
 		this.religion = religion;
@@ -395,21 +390,20 @@ public class Employee{
 		this.password = password;
 		this.company = company;
 	}
-	
+
 	public Employee() {
 	}
 
 	public Employee(String empID) {
 		this.empID = empID;
 	}
-	
-	public Employee(String empID, NationalityMaster nationality, String mStatus, String name,
-			String dob, String gender,MultipartFile profileImg, String id_Number, String dl_number, String passport_Number,
-			String emergency_Contact_No, String blood_Group, String bank_Code, Bank bankBranch_Code, String bank_Account,
-		    String address, String city, String state, 
-			String lastname, String contact_num1, String contact_num2, String email,String password,
-			CompanyMaster company) throws IOException {
-		
+
+	public Employee(String empID, NationalityMaster nationality, String mStatus, String name, String dob, String gender,
+			MultipartFile profileImg, String id_Number, String dl_number, String passport_Number,
+			String emergency_Contact_No, String blood_Group, String bank_Code, Bank bankBranch_Code,
+			String bank_Account, String address, String city, String state, String lastname, String contact_num1,
+			String contact_num2, String email, String password, CompanyMaster company) throws IOException {
+
 		this.empID = empID;
 		this.nationality = nationality;
 		this.mStatus = mStatus;
@@ -443,6 +437,5 @@ public class Employee{
 	public void setEmployeeCategory(String employeeCategory) {
 		this.employeeCategory = employeeCategory;
 	}
-	
-	
+
 }

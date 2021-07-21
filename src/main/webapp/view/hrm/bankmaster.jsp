@@ -167,28 +167,33 @@
 											class="btn btn-danger btn-sm" value="Reset">
 									</div>
 								</form:form>
-								<div class="col-7">
-									<div class="scrollable">
-										<table class="table table-hover" width="100%" cellspacing="0"
-											id="tableNaMaster">
-											<thead>
-												<tr>
-												</tr>
-											</thead>
-											<tbody>
-												<c:forEach items="${bankmastertable}" var="na">
-													<tr>
+								<div class="col-8">
+									<table id="basic-datatables"
+										class="display table table-striped table-hover table-bordered"
+										width="100%" cellspacing="0" name="shiftList">
+										<thead>
+											<tr>
+												<th></th>
+												<th>Bank ID</th>
+												<th>Bank Name</th>
+											</tr>
 
-														<td><a href="UpdateBank?id=${na.bankid}"> <i
-																class="far fa-edit"></i>
-														</a></td>
-														<td id="tNid">${na.bankid}</td>
-														<td id="tNa">${na.bankName}</td>
-													</tr>
-												</c:forEach>
-											</tbody>
-										</table>
-									</div>
+										</thead>
+										<tbody>
+
+											<c:forEach items="${bankmastertable}" var="na">
+												<tr>
+
+													<td><a href="UpdateBank?id=${na.bankid}"> <i
+															class="far fa-edit"></i>
+													</a></td>
+													<td id="tNid">${na.bankid}</td>
+													<td id="tNa">${na.bankName}</td>
+												</tr>
+											</c:forEach>
+
+										</tbody>
+									</table>
 								</div>
 							</div>
 						</div>
@@ -201,7 +206,8 @@
 	</div>
 	<%@include file="../../WEB-INF/jsp/commJs.jsp"%>
 
-
+	<!-- Datatable -->
+	<script src="<c:url value='/resources/hrm/ajax/datatable.js'/>"></script>
 
 </body>
 </html>

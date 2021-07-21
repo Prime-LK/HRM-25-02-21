@@ -3,10 +3,7 @@ package com.navitsa.hrm.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.navitsa.hrm.entity.DesignationMaster;
 import com.navitsa.hrm.entity.Employee;
@@ -219,6 +216,10 @@ public class EmployeeService {
 		return empDeRepo.passEmpRelatedDep(depID);
 	}
 
+	public EmployeeDetails findEmployeeByEpfNo(String epfNo, String companyId) {
+		return empDeRepo.findEmployeeByEpfNo(epfNo, companyId);
+	}
+
 	// employee census report------------------------------------
 	public String[][] getData() {
 		return empDeRepo.getReportData();
@@ -297,54 +298,62 @@ public class EmployeeService {
 	public Employee getEmployeeByCompany(String employeeId, String companyId) {
 		return empRepo.getEmployeeByCompany(employeeId, companyId);
 	}
+
 	public List<EmployeeType> getAllTypesByCompanny(String companyId) {
 		return empTypeRepo.getAllTypesByCompanny(companyId);
 	}
-	
-	public List<Employee> getEmployeeListrpt(String dep,String dis,String emptyp, String empid,String empcat,String religion, String civista,String companyid){
-		return empRepo.getEmployeeListrpt(dep,dis,emptyp,empid,empcat,religion,civista,companyid);
+
+	public List<Employee> getEmployeeListrpt(String dep, String dis, String emptyp, String empid, String empcat,
+			String religion, String civista, String companyid) {
+		return empRepo.getEmployeeListrpt(dep, dis, emptyp, empid, empcat, religion, civista, companyid);
 	}
-	public String[][] getEmployeeListrptPrivew(String dep,String dis,String emptyp, String empid,String companyid){
-		return empDeRepo.getEmployeeListrptPrivew(dep,dis,emptyp,empid,companyid);
+
+	public String[][] getEmployeeListrptPrivew(String dep, String dis, String emptyp, String empid, String companyid) {
+		return empDeRepo.getEmployeeListrptPrivew(dep, dis, emptyp, empid, companyid);
 	}
+
 	public List<EmployeeCategory> getAllCategoriesBycompanyID(String companyId) {
 		return catRepo.getAllCategoriesBycompanyID(companyId);
 	}
+
 	public List<ReligionMaster> getAllReligionBycompanyID(String companyId) {
 		return religionRepo.getAllReligionBycompanyID(companyId);
 	}
-	public String[][] getEmployeeListrptPrivewbyreligion(String dep,String dis,String emptyp, String empid,String empcat, String religion, String civista,String companyid){
-		return empDeRepo.getEmployeeListrptPrivewbyreligion(dep,dis,emptyp,empid,empcat,religion,civista,companyid);
+
+	public String[][] getEmployeeListrptPrivewbyreligion(String dep, String dis, String emptyp, String empid,
+			String empcat, String religion, String civista, String companyid) {
+		return empDeRepo.getEmployeeListrptPrivewbyreligion(dep, dis, emptyp, empid, empcat, religion, civista,
+				companyid);
 	}
-	
+
 	public EmployeeDetails getEmployeeDetailsByEmployeeID(String employeeID) {
 		return empDeRepo.getEmployeeDetailsByEmployeeID(employeeID);
 	}
-	
+
 	public EmployeeDetails findEmployeeDetailsByEmployeeIdAndCompany(String employeeId, String companyId) {
 		return empDeRepo.findEmployeeDetailsByEmployeeIdAndCompany(employeeId, companyId);
 	}
-	
-	public List<Employee> getEmployeesByCompany(String companyId){
+
+	public List<Employee> getEmployeesByCompany(String companyId) {
 		return empRepo.getEmployeesByCompany(companyId);
 	}
 
 	public List<EmployeeDetails> getEmployeeDetailsByCompanyID(String companyID) {
 		return empDeRepo.getEmployeeDetailsByCompanyID(companyID);
 	}
-	
-	public String[][] getEmployeeSummaryReport(String companyId){
-		return naRepo.getEmployeeSummaryReport(companyId);
-		
-	}
-	public List<EmployeeDetails> getEmployeeDetailsByEmpid(String companyID,String empid){
-		return empDeRepo.getEmployeeDetailsByEmpid(companyID,empid);
-	}
-	
-	public String[][] employeeAllocateMonthlyAllowances(String companyId, String paytype,String paycod){
-		return naRepo.employeeAllocateMonthlyAllowances( companyId, paytype,paycod);
-		
-	}
-	
-}
 
+	public String[][] getEmployeeSummaryReport(String companyId) {
+		return naRepo.getEmployeeSummaryReport(companyId);
+
+	}
+
+	public List<EmployeeDetails> getEmployeeDetailsByEmpid(String companyID, String empid) {
+		return empDeRepo.getEmployeeDetailsByEmpid(companyID, empid);
+	}
+
+	public String[][] employeeAllocateMonthlyAllowances(String companyId, String paytype, String paycod) {
+		return naRepo.employeeAllocateMonthlyAllowances(companyId, paytype, paycod);
+
+	}
+
+}

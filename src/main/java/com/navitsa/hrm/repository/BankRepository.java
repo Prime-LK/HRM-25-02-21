@@ -30,4 +30,7 @@ public interface BankRepository extends CrudRepository<Bank, String> {
 	
 	@Query(value = "SELECT b FROM Bank b WHERE b.bankid.bankid = :bankId AND b.company.comID = :companyId")
 	public List<Bank> getAllBankBranchByBankAndCompany(@Param("bankId") String bankId, @Param("companyId") String companyId);
+	
+	@Query(value = "SELECT b FROM Bank b WHERE b.bankid.bankid = :bankId order by b.branch asc")
+	public List<Bank> getAllBankBranchByBank(@Param("bankId") String bankId);
 }

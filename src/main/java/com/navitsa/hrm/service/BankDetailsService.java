@@ -123,4 +123,8 @@ public class BankDetailsService {
 	public List<Bank> getAllBankBranchByBankAndCompany(String bankId, String companyId) {
 		return (List<Bank>) bankRepo.getAllBankBranchByBankAndCompany(bankId, companyId);
 	}
+	
+	public List<Bank> getAllBankBranchByBank(String bankId) {
+		return (List<Bank>) bankRepo.getAllBankBranchByBank(bankId);
+	}
 }

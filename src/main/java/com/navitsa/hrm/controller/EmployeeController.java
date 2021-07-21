@@ -179,22 +179,22 @@ public class EmployeeController {
 	// load bank
 	@ModelAttribute("bankmastertable")
 	public List<BankMaster> getAllBankByCompany(HttpSession session) {
-		String companyId = session.getAttribute("company.comID").toString();
-		return bankDetailsService.getAllBankByCompany(companyId);
+		//String companyId = session.getAttribute("company.comID").toString();
+		return bankDetailsService.getAllBankdata();
 	}
 
 	// load bank branch
 	@ModelAttribute("bankBranch")
 	public List<Bank> showBankBrsnch(HttpSession session) {
-		String companyId = session.getAttribute("company.comID").toString();
-		return bankDetailsService.getAllBankBranchByCompany(companyId);
+		//String companyId = session.getAttribute("company.comID").toString();
+		return bankDetailsService.getAllSavedBank();
 	}
 
-	@GetMapping("/getAllBankBranchByBankAndCompany")
+	@GetMapping("/getAllBankBranchByBank")
 	@ResponseBody
 	public List<Bank> getAllBankBranchByBankAndCompany(@RequestParam("bankId") String bankId, HttpSession session) {
-		String companyId = session.getAttribute("company.comID").toString();
-		return bankDetailsService.getAllBankBranchByBankAndCompany(bankId,companyId);
+		//String companyId = session.getAttribute("company.comID").toString();
+		return bankDetailsService.getAllBankBranchByBank(bankId);
 	}
 	
 	@ModelAttribute("locations")
@@ -207,7 +207,11 @@ public class EmployeeController {
 		ModelAndView mav = new ModelAndView("hrm/register");
 		Employee emp = null;
 		try {
-			emp = empService.getEmp(id);
+			//emp = empService.getEmp(id);
+			String companyId = session.getAttribute("company.comID").toString();
+			EmployeeDetails ed = empService.findEmployeeByEpfNo(id, companyId);
+			emp = ed.getDetailsPK().getEmpID();
+			List<Bank> branchList = bankDetailsService.getAllBankBranchByBank(emp.getBankBranch_Code().getBankid().getBankid());
 			session = request.getSession();
 			session.setAttribute("eid", emp.getEmpID());
 			session.setAttribute("ename", emp.getName());
@@ -215,6 +219,7 @@ public class EmployeeController {
 			session.setAttribute("lastName", emp.getLastname());
 			session.setAttribute("addLine01", emp.getAddress());
 			session.setAttribute("addLine02", emp.getCity());
+			mav.addObject("branchListByBank", branchList);
 			mav.addObject("saveRegister", emp);
 		} catch (Exception e) {
 			System.out.println("Employee Details Not Found");

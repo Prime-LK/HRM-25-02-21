@@ -128,7 +128,8 @@
 					<div class="container-fluid">
 						<div class="card">
 							<div class="card-body">
-								<form:form action="saveBankBranch" method="post" modelAttribute="bank">
+								<form:form action="saveBankBranch" method="post"
+									modelAttribute="bank">
 									<div class="form-group row">
 										<div class="col-sm-5">
 											<div class="col-sm-60 mb-1 mb-sm-3">
@@ -223,27 +224,37 @@
 									<!-- </div> -->
 
 								</form:form>
-								<div class="col-10">
-									<div class="scrollable">
-										<table class="table table-hover" width="100%" cellspacing="0"
-											id="tableEmpAdd">
-											<thead>
-											</thead>
-											<tbody>
-												<c:forEach items="${bankLists}" var="bank1">
-													<tr>
-														<td><a href="UpdateBankBranch?id=${bank1.branchID}"><i
-																class="far fa-edit"></i></a></td>
-														<td id="tNid">${bank1.bankid.bankName}</td>
-														<td id="tNa">${bank1.branch}</td>
-														<td id="tNa2">${bank1.address}</td>
-														<td id="tNa2">${bank1.contactNo}</td>
-														<td id="tNa2">${bank1.email}</td>
-													</tr>
-												</c:forEach>
-											</tbody>
-										</table>
-									</div>
+								<div class="col-12">
+									<table id="basic-datatables"
+										class="display table table-striped table-hover table-bordered"
+										width="100%" cellspacing="0" name="shiftList">
+										<thead>
+											<tr>
+												<th></th>
+												<th>Bank Name</th>
+												<th>Branch Name</th>
+												<th>Address</th>
+												<th>Contact No</th>
+												<th>Email</th>
+											</tr>
+
+										</thead>
+										<tbody>
+
+											<c:forEach items="${bankLists}" var="bank1">
+												<tr>
+													<td><a href="UpdateBankBranch?id=${bank1.branchID}"><i
+															class="far fa-edit"></i></a></td>
+													<td id="tNid">${bank1.bankid.bankName}</td>
+													<td id="tNa">${bank1.branch}</td>
+													<td id="tNa2">${bank1.address}</td>
+													<td id="tNa2">${bank1.contactNo}</td>
+													<td id="tNa2">${bank1.email}</td>
+												</tr>
+											</c:forEach>
+
+										</tbody>
+									</table>
 								</div>
 							</div>
 						</div>
@@ -256,7 +267,8 @@
 	</div>
 	<%@include file="../../WEB-INF/jsp/commJs.jsp"%>
 
-
+	<!-- Datatable -->
+	<script src="<c:url value='/resources/hrm/ajax/datatable.js'/>"></script>
 
 </body>
 </html>

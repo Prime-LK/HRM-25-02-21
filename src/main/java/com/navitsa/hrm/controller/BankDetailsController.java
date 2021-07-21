@@ -116,8 +116,8 @@ public class BankDetailsController {
 	// show all saved bank data
 	@ModelAttribute("bankLists")
 	public List<Bank> getAllBankBranchByCompany(HttpSession session) {
-		String companyId = session.getAttribute("company.comID").toString();
-		return baService.getAllBankBranchByCompany(companyId);
+		//String companyId = session.getAttribute("company.comID").toString();
+		return baService.getAllSavedBank();
 	}
 
 	// edit saved bank data
@@ -134,7 +134,7 @@ public class BankDetailsController {
 	public String loadBank(Map<String, Object> map) {
 		map.put("bankmaster", new BankMaster());
 		BankMaster bm = new BankMaster();
-		bm.setBankid("00000".substring(baService.getMaxBMID().length()) + baService.getMaxBMID());
+		//bm.setBankid("00000".substring(baService.getMaxBMID().length()) + baService.getMaxBMID());
 		map.put("bankmaster", bm);
 		return "hrm/bankmaster";
 
@@ -154,8 +154,8 @@ public class BankDetailsController {
 	// load saved bank master data
 	@ModelAttribute("bankmastertable")
 	public List<BankMaster> getAllBankByCompany(HttpSession session) {
-		String companyId = session.getAttribute("company.comID").toString();
-		return baService.getAllBankByCompany(companyId);
+		//String companyId = session.getAttribute("company.comID").toString();
+		return baService.getAllBankdata();
 	}
 
 	// update bank master data

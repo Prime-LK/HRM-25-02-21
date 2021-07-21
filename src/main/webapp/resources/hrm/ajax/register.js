@@ -45,7 +45,7 @@ function getbranchData(str) {
 	}
 }
 
-function loadBankBranchesByBankAndCompany() {
+function loadBankBranchesByBank() {
 
 	var bankId = document.getElementById("bank_Code").value;
 	if (bankId == "") {
@@ -57,7 +57,7 @@ function loadBankBranchesByBankAndCompany() {
 		$
 				.ajax({
 					type : 'GET',
-					url : "getAllBankBranchByBankAndCompany",
+					url : "getAllBankBranchByBank",
 					data : {
 						"bankId" : bankId
 					},

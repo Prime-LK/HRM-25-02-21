@@ -360,7 +360,7 @@
 											<div class="form-group row">
 												<label class="col-4">Bank</label>
 												<form:select class="form-control col-8"
-													onchange="loadBankBranchesByBankAndCompany();" id="bank_Code"
+													onchange="loadBankBranchesByBank();" id="bank_Code"
 													path="bank_Code">
 													<form:option value="" selected="true">--SELECT--</form:option>
 													<c:forEach items="${bankmastertable}" var="b">
@@ -397,7 +397,7 @@
 												<form:select class="form-control col-8" id="bankBranch_Code"
 													path="bankBranch_Code.branchID">
 													<form:option value="" selected="true">--SELECT--</form:option>
-													<c:forEach items="${bankBranch}" var="b">
+													<c:forEach items="${branchListByBank}" var="b">
 														<form:option value="${b.branchID}">${b.branch}</form:option>
 													</c:forEach>
 												</form:select>
