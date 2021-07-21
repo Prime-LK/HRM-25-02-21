@@ -199,7 +199,7 @@
 												<form:option value="OT Formula">OTFormula</form:option>
 												<form:option value="NoPayFormula">NoPay Formula</form:option>
 												<form:option value="ETFFormula">ETF Formula</form:option>
-												
+												<form:option value="StampFormula">Stamp Formula</form:option>
 											</form:select>				
 														
 														
@@ -464,7 +464,7 @@
 			    document.getElementById('checkHidden').disabled = true;
 			}
 			  }
-			} 
+			 
 			
 	
 			

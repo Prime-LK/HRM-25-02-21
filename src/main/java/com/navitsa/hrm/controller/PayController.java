@@ -163,7 +163,7 @@ public class PayController {
 		String comID = (String) session.getAttribute("company.comID");
 		String[][] table01Data = proPaMaService.getProcessPayroll(periodID,payCodeID,comID);
 		
-		return table01Data[0][0];
+		return "hrm/payrollProcess";
 	}
 	
 	// load saved PayCodes data based on StartDate and EndDate

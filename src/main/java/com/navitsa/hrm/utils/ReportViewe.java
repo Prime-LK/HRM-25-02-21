@@ -17,9 +17,11 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.export.HtmlExporter;
 import net.sf.jasperreports.engine.export.JRPdfExporter;
+import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
 import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleHtmlExporterOutput;
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
+import net.sf.jasperreports.export.SimpleXlsxReportConfiguration;
 
 public class ReportViewe {
 
@@ -37,21 +39,38 @@ public class ReportViewe {
 
 		}
 
-		JRPdfExporter pdfExporter = new JRPdfExporter();
-		pdfExporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-		ByteArrayOutputStream pdfReportStream = new ByteArrayOutputStream();
-		pdfExporter.setExporterOutput(new SimpleOutputStreamExporterOutput(pdfReportStream));
-		pdfExporter.exportReport();
-
-		response.setContentType("application/pdf");
-		response.setHeader("Content-Length", String.valueOf(pdfReportStream.size()));
-		response.addHeader("Content-Disposition", "inline; filename=jasper.pdf;");
-
-		OutputStream responseOutputStream = response.getOutputStream();
-
-		responseOutputStream.write(pdfReportStream.toByteArray());
-		responseOutputStream.close();
-		pdfReportStream.close();
+//		JRPdfExporter pdfExporter = new JRPdfExporter();
+//		pdfExporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+//		ByteArrayOutputStream pdfReportStream = new ByteArrayOutputStream();
+//		pdfExporter.setExporterOutput(new SimpleOutputStreamExporterOutput(pdfReportStream));
+//		pdfExporter.exportReport();
+//
+//		response.setContentType("application/pdf");
+//		response.setHeader("Content-Length", String.valueOf(pdfReportStream.size()));
+//		response.addHeader("Content-Disposition", "inline; filename=jasper.pdf;");
+//
+//		OutputStream responseOutputStream = response.getOutputStream();
+//
+//		responseOutputStream.write(pdfReportStream.toByteArray());
+//		responseOutputStream.close();
+//		pdfReportStream.close();
+		
+		
+		
+		
+		JRXlsxExporter exporter = new JRXlsxExporter();
+        SimpleXlsxReportConfiguration reportConfigXLS = new SimpleXlsxReportConfiguration();
+        reportConfigXLS.setSheetNames(new String[] { "sheet1" });
+        exporter.setConfiguration(reportConfigXLS);
+        exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+        exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(response.getOutputStream()));
+        response.setHeader("Content-Disposition", "attachment;filename=jasperReport.xlsx");
+        response.setContentType("application/octet-stream");
+        exporter.exportReport();
+		
+		
+		
+		
 
 	}
 
