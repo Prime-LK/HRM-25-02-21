@@ -67,4 +67,7 @@ public interface EmployeeRepository extends CrudRepository<Employee, String> {
 
 	@Query(value = "SELECT e FROM Employee e WHERE e.company.comID = :companyId")
 	public List<Employee> getEmployeesByCompany(@Param("companyId") String companyId);
+
+	@Query(value = "select max(convert(Employee_ID, signed)+1) from employee_master", nativeQuery = true)
+	public String getMaxEmployeeId();
 }

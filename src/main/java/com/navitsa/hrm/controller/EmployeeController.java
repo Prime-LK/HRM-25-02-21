@@ -80,9 +80,11 @@ public class EmployeeController {
 	// get register page
 	@RequestMapping(value = "/Register", method = RequestMethod.GET)
 	public String createrNewUser(Map<String, Object> model) {
-		model.put("saveRegister", new Employee());
 		Employee emp = new Employee();
-		model.put("maxEmpID", emp);
+		String employeeId = empService.getMaxEmployeeId().toString();
+		emp.setEmpID(employeeId);
+		model.put("saveRegister", emp);
+		//model.put("maxEmpID", emp);
 		return "hrm/register";
 	}
 
@@ -206,30 +208,47 @@ public class EmployeeController {
 	public ModelAndView updateEmp(@RequestParam String id, HttpSession session, HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView("hrm/register");
 		Employee emp = null;
+		Employee employee = new Employee();
 		try {
 			//emp = empService.getEmp(id);
 			String companyId = session.getAttribute("company.comID").toString();
 			EmployeeDetails ed = empService.findEmployeeByEpfNo(id, companyId);
-			emp = ed.getDetailsPK().getEmpID();
-			List<Bank> branchList = bankDetailsService.getAllBankBranchByBank(emp.getBankBranch_Code().getBankid().getBankid());
-			session = request.getSession();
-			session.setAttribute("eid", emp.getEmpID());
-			session.setAttribute("ename", emp.getName());
-			session.setAttribute("eImg", emp.getProfileImgView());
-			session.setAttribute("lastName", emp.getLastname());
-			session.setAttribute("addLine01", emp.getAddress());
-			session.setAttribute("addLine02", emp.getCity());
-			mav.addObject("branchListByBank", branchList);
-			mav.addObject("saveRegister", emp);
+			if(ed == null) {
+				System.out.println("New Employee");
+				String employeeId = empService.getMaxEmployeeId().toString();
+				System.out.println("Max Emp ID "+ employeeId);
+				employee.setEmpID(employeeId);
+				session.setAttribute("eid", employeeId);
+				session.setAttribute("ename", "");
+				session.setAttribute("eImg", "");
+				session.setAttribute("lastName", "");
+				session.setAttribute("addLine01", "");
+				session.setAttribute("addLine02", "");
+				mav.addObject("saveRegister", employee);
+			} else {
+				emp = ed.getDetailsPK().getEmpID();
+				List<Bank> branchList = bankDetailsService.getAllBankBranchByBank(emp.getBankBranch_Code().getBankid().getBankid());
+				session = request.getSession();
+				session.setAttribute("eid", emp.getEmpID());
+				session.setAttribute("ename", emp.getName());
+				session.setAttribute("eImg", emp.getProfileImgView());
+				session.setAttribute("lastName", emp.getLastname());
+				session.setAttribute("addLine01", emp.getAddress());
+				session.setAttribute("addLine02", emp.getCity());
+				mav.addObject("branchListByBank", branchList);
+				mav.addObject("saveRegister", emp);
+				try {
+					String empImg = emp.getProfileImgView();
+					mav.addObject("EImg", empImg);
+				} catch (Exception e) {
+					System.out.println("Employee Image Not Found");
+				}
+			}
+			
 		} catch (Exception e) {
 			System.out.println("Employee Details Not Found");
 		}
-		try {
-			String empImg = emp.getProfileImgView();
-			mav.addObject("EImg", empImg);
-		} catch (Exception e) {
-			System.out.println("Employee Image Not Found");
-		}
+		
 		return mav;
 	}
 
@@ -318,7 +337,12 @@ public class EmployeeController {
 		EmployeeDetails detail = null;
 		try {
 			detail = empService.updateDetails(empID);
-			mav.addObject("EmpDetails", detail);
+			//Employee Details Update code
+			if(detail == null) {
+				mav.addObject("EmpDetails", new EmployeeDetails());
+			} else {
+				mav.addObject("EmpDetails", detail);
+			}
 		} catch (Exception e) {
 			System.out.println("Employee ID Not Found");
 		}

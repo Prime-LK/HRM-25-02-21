@@ -112,6 +112,14 @@ public class EmployeeService {
 	public Employee getEmp(String id) {
 		return empRepo.findById(id).get();
 	}
+	
+	public String getMaxEmployeeId() {
+		if (empRepo.getMaxEmployeeId() == null || empRepo.getMaxEmployeeId() == "0") {
+			return "1";
+		} else {
+			return empRepo.getMaxEmployeeId();
+		}
+	}
 
 	// employee contact type-------------------------------------
 
@@ -355,5 +363,7 @@ public class EmployeeService {
 		return naRepo.employeeAllocateMonthlyAllowances(companyId, paytype, paycod);
 
 	}
+
+	
 
 }

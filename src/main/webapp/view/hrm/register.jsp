@@ -14,9 +14,9 @@
 <head>
 <%@include file="../../WEB-INF/jsp/head.jsp"%>
 <link href="<c:url value='/resources/hrm/css/userCommonDetails.css'/>"
-	rel="stylesheet"> 
+	rel="stylesheet">
 <link href="<c:url value='/resources/hrm/css/register.css'/>"
-	rel="stylesheet"> 
+	rel="stylesheet">
 <style>
 .vidSty {
 	font-family: Arial, Helvetica, sans-serif;
@@ -111,36 +111,44 @@
 										<div class="row">
 											<div class="col-sm mt-4">
 												<div class="row">
-													<div class="col-2">
+
+													<div class="col-md-2">
 														<input type="file" class="file" accept="image/*"
 															id="profileImg" name="profileImg">
 
 														<c:if test="${EImg != null}">
 															<img src="data:image/jpg;base64,${EImg}" id="preview"
 																class="border border-dark rounded-lg"
-																style="width: 80px; height: 80px;">
+																style="width: 100px; height: 100px;">
 														</c:if>
 														<c:if test="${EImg == null}">
 															<img src="resources/img/user-default.jpg" id="preview"
 																class="border border-dark rounded-lg"
-																style="width: 80px; height: 80px;">
+																style="width: 100px; height: 100px;">
 														</c:if>
 														<div class="input-group mt--2">
 															<div class="input-group-append mt-3">
-																<button type="button" id="button"
+																<button type="button" id="button" style="width:100px"
 																	class="browse btn btn-success btn-sm">Upload</button>
 															</div>
 														</div>
 													</div>
-													<div class="col-10 mt--3">
+													<div class="col-md-5">
 														<div class="row ml-3">
 															<div class="col-12">
 																<div class="form-group">
+																
 																	<span> <c:if test="${eid != null}">
 																			<div>
 																				<span id="comDeId"><%=session.getAttribute("eid")%></span><br>
 																			</div>
 																		</c:if>
+																		<c:if test="${eid == null}">
+																			<div>
+																				<br></div>
+																		</c:if>
+																		
+																		
 																	</span> <span> <c:if
 																			test="${ename != null || lastName != null }">
 																			<div>
@@ -150,35 +158,60 @@
 																				<span id="comDeId"><%=session.getAttribute("addLine02")%></span><br>
 																			</div>
 																		</c:if>
+																		 <c:if
+																			test="${ename == null || lastName == null }">
+																			<div>
+																				<br><br><br>
+																				</div>
+																		</c:if>
+																		
+																		
 																	</span>
+																	<div class="row">
+																		<input name="epfNo" type="text"
+																			class="form-control col-8"
+																			placeholder="Search by EPF No" id="empID"
+																			onchange="loadEmpDetails()" />
+																	</div>
 																</div>
 															</div>
 														</div>
 													</div>
-												</div>
-											</div>
-											<!-- <div class="col-sm">One of three columns</div> -->
-											<div class="col-sm mt-5">
-												<div class="container-fluid">
-													<div class="collapse" id="search-nav">
-														<form autocomplete="off"
-															class="navbar-left navbar-form nav-search mr-md-3">
-															<div class="input-group">
-																<input id="myInput" type="text"
-																	placeholder="Search Employee..." class="form-control"
-																	autocomplete="off" onkeyup="sample()">
-																<div class="input-group-append">
-																	<a class="btn btn-secondary btn-sm"
-																		onclick="getValue()"> <span class="btn-label">
-																			<i class="fa fa-search-plus mt-3" aria-hidden="true"></i>
-																	</span>
-																	</a>
+													<div class="col-md-5">
+														<br>
+														<br>
+														<br>
+														<br>
+														<div class="form-group row">
+															<div class="container-fluid">
+																<div class="collapse" id="search-nav">
+																	<form autocomplete="off"
+																		class="navbar-left navbar-form nav-search mr-md-3">
+																		<div class="input-group">
+																			<input id="myInput" type="text"
+																				placeholder="Search Employee..."
+																				class="form-control" autocomplete="off"
+																				onkeyup="sample()">
+																			<div class="input-group-append">
+																				<a class="btn btn-secondary btn-sm"
+																					onclick="getValue()"> <span class="btn-label">
+																						<i class="fa fa-search-plus mt-3"
+																						aria-hidden="true"></i>
+																				</span>
+																				</a>
+																			</div>
+																		</div>
+																	</form>
 																</div>
 															</div>
-														</form>
+														</div>
+
 													</div>
+
+
 												</div>
 											</div>
+
 										</div>
 									</div>
 								</div>
@@ -230,9 +263,9 @@
 										<div class="col-sm-4">
 											<div class="form-group row mb--2">
 												<label class="col-4">Employee ID</label>
-												<form:input path="empID" type="text"
+												<form:input path="empID" type="text" readonly="true"
 													class="form-control col-8" placeholder="Employee ID"
-													id="empID" onchange="loadEmpDetails()" />
+													id="empID1" onchange="loadEmpDetails()" value="" />
 												<p id="msg"></p>
 											</div>
 										</div>
@@ -352,14 +385,13 @@
 											<div class="form-group row">
 												<label class="col-4">ID Number</label>
 												<form:input path="id_Number" type="text"
-													placeholder="ID number"
-													class="form-control col-8" />
+													placeholder="ID number" class="form-control col-8" />
 											</div>
 										</div>
 										<div class="col-4">
 											<div class="form-group row">
 												<label class="col-4">Bank</label>
-												<form:select class="form-control col-8"
+												<form:select class="form-control col-8" required="true"
 													onchange="loadBankBranchesByBank();" id="bank_Code"
 													path="bank_Code">
 													<form:option value="" selected="true">--SELECT--</form:option>
@@ -374,8 +406,8 @@
 										<div class="col-4">
 											<div class="form-group row">
 												<label class="col-4">Gender</label>
-												<form:select class="form-control col-8"
-													path="gender" required="true">
+												<form:select class="form-control col-8" path="gender"
+													required="true">
 													<form:option value="" selected="true">--SELECT--</form:option>
 													<form:option value="male">Male</form:option>
 													<form:option value="female">Female</form:option>
@@ -394,7 +426,7 @@
 										<div class="col-4">
 											<div class="form-group row">
 												<label class="col-4">Branch </label>
-												<form:select class="form-control col-8" id="bankBranch_Code"
+												<form:select class="form-control col-8" id="bankBranch_Code" required="true"
 													path="bankBranch_Code.branchID">
 													<form:option value="" selected="true">--SELECT--</form:option>
 													<c:forEach items="${branchListByBank}" var="b">
@@ -408,8 +440,7 @@
 										<div class="col-4">
 											<div class="form-group row">
 												<label class="col-4">Nationality</label>
-												<form:select
-													class="form-control col-8"
+												<form:select class="form-control col-8"
 													path="nationality.nId" required="true">
 													<form:option value="">--SELECT--</form:option>
 													<c:forEach items="${nationalities}" var="na">
@@ -423,8 +454,7 @@
 											<div class="form-group row">
 												<label class="col-4">Pass. No.</label>
 												<form:input path="passport_Number" type="text"
-													placeholder="passport number"
-													class="form-control col-8" />
+													placeholder="passport number" class="form-control col-8" />
 											</div>
 										</div>
 										<div class="col-4">
@@ -440,8 +470,8 @@
 										<div class="col-4">
 											<div class="form-group row">
 												<label class="col-4">Religion</label>
-												<form:select class="form-control col-8"
-													path="religion.rid" required="true">
+												<form:select class="form-control col-8" path="religion.rid"
+													required="true">
 													<form:option value="">--SELECT--</form:option>
 													<c:forEach items="${religion}" var="r">
 														<form:option value="${r.rid}">${r.religion}</form:option>
@@ -454,8 +484,7 @@
 												<label class="col-4">Emerg. <i
 													class="fas fa-phone ml-2"></i></label>
 												<form:input path="emergency_Contact_No" type="text"
-													placeholder="emergency number"
-													class="form-control col-8" />
+													placeholder="emergency number" class="form-control col-8" />
 											</div>
 										</div>
 									</div>
@@ -463,8 +492,8 @@
 										<div class="col-4">
 											<div class="form-group row">
 												<label class="col-4">Marital status</label>
-												<form:select class="form-control col-8"
-													path="mStatus" required="true">
+												<form:select class="form-control col-8" path="mStatus"
+													required="true">
 													<form:option value="" selected="true">--SELECT--</form:option>
 													<form:option value="single">Single</form:option>
 													<form:option value="married">Married</form:option>
@@ -475,8 +504,7 @@
 										<div class="col-4">
 											<div class="form-group row">
 												<label class="col-4">Blood Group </label>
-												<form:select path="blood_Group"
-													class="form-control col-8">
+												<form:select path="blood_Group" class="form-control col-8">
 													<form:option value="" selected="true">--SELECT--</form:option>
 													<form:option value="a+">A+</form:option>
 													<form:option value="a-">A-</form:option>
