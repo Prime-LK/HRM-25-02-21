@@ -106,17 +106,14 @@ public class EmployeeAttendanceController {
 		EmployeeDetails ed = employeeService.findEmployeeDetailsByEmployeeIdAndCompany(employeeId, companyId);
 		ShiftAllocation sa = shiftAllocationService.findShiftAllocationByCompany(date, shiftId, employeeId, companyId);
 
-		if (!(ed.equals(null))) {
-			// System.out.println("SID = " + ed.getShiftmaster().getShiftId());
-			if (ed.getShiftmaster().getShiftId().equals(null)) {
-				result = false;
-			} else {
-				System.out.println("SID = " + ed.getShiftmaster().getShiftId());
-				result = true;
-			}
-		} else if (!(sa.equals(null))) {
+		if (sa != null) {
 			result = true;
-			System.out.println(sa);
+		} else if (ed != null) {
+			if (ed.getShiftmaster() != null) {
+				result = true;
+			} else {
+				result = false;
+			}
 		} else {
 			result = false;
 		}

@@ -156,7 +156,7 @@
 															<label>Employee Name</label> <select
 																id="selectEmployeeId" name="employeeId"
 																class="form-control text-capitalize" required="true"
-																onchange="">
+																onchange="checkEmployeeShiftAllocation()">
 																<option value="" selected>SELECT</option>
 															</select>
 														</div>
@@ -164,13 +164,13 @@
 															<label>Date</label> <input id="date" name="date"
 																placeholder="dd-mm-yyyy" type="date"
 																class="form-control" value=""
-																onchange=""
+																onchange="checkEmployeeShiftAllocation()"
 																required="true" />
 														</div>
 														<div class="col-sm-3">
 															<label>Shift</label> <select id="shiftId" name="shiftId"
 																class="form-control text-capitalize" required
-																onchange="">
+																onchange="checkEmployeeShiftAllocation()">
 																<option value="" selected>SELECT</option>
 																<c:forEach items="${shiftList}" var="s">
 																	<option value="${s.shiftId}">${s.description}</option>

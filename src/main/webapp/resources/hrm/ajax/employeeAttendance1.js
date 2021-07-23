@@ -637,22 +637,14 @@ function checkEmployeeShiftAllocation() {
 					if (data == true){
 						return true;
 					} else if (data == false){
-						swal({
-							  title: "This employee doesn't have a fixed shift or a shift allocated to selected date ",
-							  text: "Continue if you want to add as an OT or cancel if you don't want to add!",
-							  icon: "warning",
-							  buttons: true,
-							  dangerMode: true,
-							})
-							.then((willAdd) => {
-							  if (willAdd) {
-							    swal("This record will be added as an OT", {
-							      icon: "success",
-							    });
-							  } else {
-							    swal("Record won't be added!");
-							  }
-							});
+						swal("This employee doesn't have a fixed shift or a shift allocated to selected date", "Continue if you want to add as an OT!", {
+							icon : "warning",
+							buttons : {
+								confirm : {
+									className : 'btn btn-warning'
+								}
+							},
+						});
 					}
 				},
 				error : function() {
