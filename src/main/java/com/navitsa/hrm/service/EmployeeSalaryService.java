@@ -291,4 +291,11 @@ public class EmployeeSalaryService {
 		return (List<EmployeeSalaryDetail>) employeeSalaryDetailRepo.getemployeeSalaryDetailsBycompid(Compid);
 	}
 	
+	public List<EmployeeSalaryDetail> getEmployeeSalaryDetailByEmp(String empID,String adddedtype,String compid) {
+		return  employeeSalaryDetailRepo.getEmployeeSalaryDetailByEmp(empID,adddedtype,compid);
+	}
+	
+	
+	
+	
 }

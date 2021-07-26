@@ -155,7 +155,8 @@ public interface EmployeeSalaryDetailRepository extends CrudRepository<EmployeeS
 		@Query(value = "SELECT ed FROM EmployeeSalaryDetail ed WHERE ed.company.comID=:comID")
 		public List<EmployeeSalaryDetail> getemployeeSalaryDetailsBycompid(@Param("comID") String comID);
 		
-		
+		@Query(value = "SELECT ed FROM EmployeeSalaryDetail ed WHERE ed.company.comID=:comID and ed.empdetailPK.empID.empID like :empID and ed.empdetailPK.payAddeductTypes.deductTypeCode like :adddedtype")
+		public List<EmployeeSalaryDetail> getEmployeeSalaryDetailByEmp(@Param("empID") String empID,@Param("adddedtype") String adddedtype,@Param("comID") String comID);
 }
 
 

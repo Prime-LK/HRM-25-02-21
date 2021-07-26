@@ -1,6 +1,9 @@
 package com.navitsa.hrm.controller;
 
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -21,6 +24,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.ibm.icu.text.SimpleDateFormat;
 import com.navitsa.hrm.entity.CompanyMaster;
 import com.navitsa.hrm.entity.DepartmentMaster;
 import com.navitsa.hrm.entity.Employee;
@@ -174,6 +178,12 @@ public class SalaryController {
 	public List<PayAddDeductTypes> getAddDed(HttpSession session) {
 		String comID = (String) session.getAttribute("company.comID");
 		return addDedService.getAllDetailsbyCompid(comID);
+	}
+	
+	@ModelAttribute("addAllDedTypes")
+	public List<PayAddDeductTypes> getAllActiveDetailsbyCompid(HttpSession session) {
+		String comID = (String) session.getAttribute("company.comID");
+		return addDedService.getAllActiveDetailsbyCompid(comID);
 	}
 
 	@ModelAttribute("empMoMaAll")
@@ -983,64 +993,96 @@ public class SalaryController {
 	@RequestMapping(value = "/getEmployeeSalaryDetailsPage", method = RequestMethod.GET)
 	public String getemployeeSalaryDetailsPage(Map<String, Object> map) {
 		map.put("SalaryDetail", new EmployeeSalaryDetail());
-		return "hrm/employeeSalaryDetails";
+		return "hrm/empAllowances";
 	}
 
 	// save employee salary details
 	@RequestMapping(value = "/saveEmpSalaryDetails", method = RequestMethod.POST)
-	public String saveEmpSalaryDetails(@ModelAttribute("SalaryDetail") EmployeeSalaryDetail emp,
-			@RequestParam("empdetailPK.payAddeductTypes.deductTypeCode") String DeductType,
-			@RequestParam("effective_Date") String effective_Date,
-			@RequestParam(value = "added_Date", required = false) String added_Date,
-			@RequestParam(value = "inactive_User", required = false) String inactive_User,
-			@RequestParam(value = "inactive_From", required = false) String inactive_From,
-			@RequestParam("isActive") String isActive,
-			@RequestParam(value = "added_User", required = false) String added_User,
-			@RequestParam("empdetailPK.empID.empID") ArrayList<String> empID,
-			@RequestParam("company.comID") String comID, RedirectAttributes ra) {
+	public String saveEmpSalaryDetails(@ModelAttribute("SalaryDetail") EmployeeSalaryDetail empClass,
+			@RequestParam("empdetailPK.payAddeductTypes.deductTypeCode") String DeductType
+			,	@RequestParam("empID") String[] empID,
+			@RequestParam(value = "amount", required = false) String[] amount1,		
+			RedirectAttributes ra,HttpSession session) {
+		
+		String companyId=session.getAttribute("company.comID")+"";
+		
 
-			List<EmployeeSalaryDetail> list = new ArrayList<>();
-			for (int i = 0; i < empID.size(); i++) {
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		Date date = new Date();
+		DateTimeFormatter formattertime = DateTimeFormatter.ofPattern("HH:mm");
+		LocalTime time = LocalTime.now();
+
+		//time.format(formattertime);
+		//formatter.format(date);
+		
+		
+		
+		
+		List<EmployeeSalaryDetail> list = new ArrayList<>();
+		for(int i=0;i<empID.length;i++) {
+			if(amount1[i].isEmpty()!=true) {
 				EmployeeSalaryDetail empSalaryDetails = new EmployeeSalaryDetail();
-				EmployeeSalaryDetailPK eSpk = new EmployeeSalaryDetailPK();
+				
+				
+			//	empSalaryDetails.setEmpdetailPK(empClass.getEmpdetailPK().getPayAddeductTypes());
+				
+				EmployeeSalaryDetailPK employeeSalaryDetailPK=new EmployeeSalaryDetailPK();
+				Employee emp=new Employee();			
+				emp.setEmpID(empID[i]);
+				employeeSalaryDetailPK.setEmpID(emp);
+				employeeSalaryDetailPK.setPayAddeductTypes(empClass.getEmpdetailPK().getPayAddeductTypes());
 
-				Employee empObj = new Employee();
-				empObj.setEmpID(empID.get(i));
-
+				empSalaryDetails.setAmount(amount1[i]);
+				
+				empSalaryDetails.setEmpdetailPK(employeeSalaryDetailPK);
+				empSalaryDetails.setEffective_Date(empClass.getEffective_Date());
+				empSalaryDetails.setIsActive(empClass.getIsActive());
 				CompanyMaster company = new CompanyMaster();
-				company.setComID(comID);
-
-				eSpk.setEmpID(empObj);
-				PayAddDeductTypes payObj = new PayAddDeductTypes();
-				payObj.setDeductTypeCode(DeductType);
-
-				eSpk.setPayAddeductTypes(payObj);
-
-				empSalaryDetails.setEmpdetailPK(eSpk);
-				empSalaryDetails.setAdded_User(added_User);
-
-				empSalaryDetails.setEffective_Date(effective_Date);
-				empSalaryDetails.setAdded_Date(added_Date);
-				empSalaryDetails.setInactive_User(inactive_User);
-				empSalaryDetails.setInactive_From(inactive_From);
-				empSalaryDetails.setIsActive(isActive);
+				company.setComID(companyId);
+				empSalaryDetails.setAdded_Date(formatter.format(date));
+				
 				empSalaryDetails.setCompany(company);
-
+				
 				list.add(empSalaryDetails);
-
 			}
+			
+		}
+		
+	
 
 			try {
 				ra.addFlashAttribute("success", 1);
 				employeeSalaryService.savelistOFEmpSalaryDetails(list);
-				return "redirect:/hrm/getEmployeeSalaryDetailsPage";
+				return "redirect:/getEmployeeSalaryDetailsPage";
 			} catch (Exception e) {
 				ra.addFlashAttribute("success", 0);
 				System.out.println(e);
+				return "hrm/empAllowances";
 			}
-			return "hrm/employeeSalaryDetails";
+			
 		}
 
+	
+	
+	// load employee salary details data
+	@RequestMapping(value = "/getEmpAllowancesGrid", method = RequestMethod.GET)
+	public @ResponseBody List<EmployeeSalaryDetail> loadrelevantsalaryDetails(@RequestParam("type") String type,@RequestParam("empid") String empID,@RequestParam("adddedtype") String adddedtype,HttpSession session) {
+		String companyId=session.getAttribute("company.comID")+"";	
+	//	type,
+		System.out.println("ffffff="+empID+"="+adddedtype+"="+type);
+		if(type.equals("allEmployee")||type.equals("")) {
+			empID="%";
+		}			
+		if(adddedtype.equals("")) {
+			adddedtype="%";
+		}				
+		List<EmployeeSalaryDetail> sm = employeeSalaryService.getEmployeeSalaryDetailByEmp(empID,adddedtype,companyId);		
+	//	System.out.println("cdeta="+sm);
+		return sm;
+	}
+	
+	
+	
 	// load employee salary details data
 	@RequestMapping(value = "/loadrelavantsalaryData", method = RequestMethod.GET)
 	public @ResponseBody List<EmployeeSalaryDetail> loadrelevantsalaryDetails(@RequestParam("empID") String empID) {

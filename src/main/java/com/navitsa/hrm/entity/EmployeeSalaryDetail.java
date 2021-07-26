@@ -15,7 +15,7 @@ import javax.persistence.Table;
 public class EmployeeSalaryDetail {
 	
 	@EmbeddedId
-	EmployeeSalaryDetailPK empdetailPK;
+	private EmployeeSalaryDetailPK empdetailPK;
 	
 	@Column(name="Amount")
 	private String amount;
