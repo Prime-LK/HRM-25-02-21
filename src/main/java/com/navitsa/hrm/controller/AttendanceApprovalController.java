@@ -16,19 +16,20 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.navitsa.hrm.entity.ApplyLeaveDetail;
 import com.navitsa.hrm.entity.ApplyLeave;
 import com.navitsa.hrm.entity.AttendanceSheet;
 import com.navitsa.hrm.entity.AttendanceSummary;
 import com.navitsa.hrm.entity.AttendanceSummaryDetail;
 import com.navitsa.hrm.entity.CompanyMaster;
 import com.navitsa.hrm.entity.EmployeeDetails;
+import com.navitsa.hrm.entity.OtType;
 import com.navitsa.hrm.entity.PayPeriods;
 import com.navitsa.hrm.service.ApplyLeave_Service;
 import com.navitsa.hrm.service.AttendanceProcessService;
 import com.navitsa.hrm.service.AttendanceSummaryService;
 import com.navitsa.hrm.service.DepartmentService;
 import com.navitsa.hrm.service.EmployeeService;
+import com.navitsa.hrm.service.OtTypeService;
 import com.navitsa.hrm.service.PayService;
 
 @Controller
@@ -50,7 +51,12 @@ public class AttendanceApprovalController {
 	private PayService payService;
 	
 	@Autowired
-	private DepartmentService departmentService;	
+	private DepartmentService departmentService;
+	
+	@Autowired
+	private OtTypeService otTypeService;
+	
+	
 /*
 	@ModelAttribute("payPeriodsList")
 	public List<PayPeriods> getPeriods() {
@@ -106,19 +112,14 @@ public class AttendanceApprovalController {
 			double totalLateHr = 0;
 			double totalOTMin = Double.valueOf(attendanceProcessService.getTotalOT(payPeriodID, employee_id,companyID));
 			totalOTHr = totalOTMin/60;
-			int totalLateMn = Integer.valueOf(attendanceProcessService.getTotalLate(payPeriodID,employee_id,companyID));
+			double totalLateMn = Double.valueOf(attendanceProcessService.getTotalLate(payPeriodID,employee_id,companyID));
 			totalLateHr = totalLateMn/60;
 			
 			List<AttendanceSheet> leaveInfo = attendanceProcessService.getTotalLeave(payPeriodID, employee_id,companyID);
 			int totalLeave = leaveInfo.size();
 			
 			PayPeriods payPeriod = payService.getPayPeriods(payPeriodID);
-			ApplyLeave leave = applyLeaveService.findAppliedLeaveByEmployee(employee_id,companyID);
-			List<ApplyLeaveDetail> leaveApproved = null;
-			if(leave != null) {
-				leaveApproved =  applyLeaveService.getTotalApprovedLeaveBy(payPeriod.getStartDate(),payPeriod.getEndDate(),leave.getLeaveID());
-				
-			}
+			List<ApplyLeave> leaveApproved = applyLeaveService.findAppliedLeaveByEmployee(employee_id,companyID,payPeriod.getStartDate(),payPeriod.getEndDate());
 		
 			SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
 			SimpleDateFormat stf = new SimpleDateFormat("HH:mm:ss");
@@ -129,13 +130,10 @@ public class AttendanceApprovalController {
 				Date leaveDate = df.parse(a.getDate());
 				boolean flag = false;
 				
-				if(leave != null) {
-					for(ApplyLeaveDetail b :leaveApproved) {
-						System.out.println("apply leave detail loop");
-						Date requestedDate = df.parse(b.getDate());				
-						if(leaveDate.compareTo(requestedDate)==0) {
-							flag = true;
-						}
+				for(ApplyLeave b :leaveApproved) {
+					Date requestedDate = df.parse(b.getDate());				
+					if(leaveDate.compareTo(requestedDate)==0) {
+						flag = true;
 					}
 				}
 				
@@ -144,11 +142,13 @@ public class AttendanceApprovalController {
 					long difference = 0;
 					difference  = stf.parse(a.getShiftOut()).getTime() - stf.parse(a.getShiftIn()).getTime();
 					long diffMinutes = difference / 60000;
-					noPayHrs = (noPayHrs + diffMinutes)/60;
+					noPayHrs = noPayHrs + diffMinutes;
 				}
 				
 
 			}
+			
+			noPayHrs = noPayHrs/60;
 			
 			AttendanceSummary summary = new AttendanceSummary();
 			//summary.setAttendanceSummaryId("00000".substring(attendanceSummaryService.getMaxID().length()) + attendanceSummaryService.getMaxID());
@@ -162,18 +162,36 @@ public class AttendanceApprovalController {
 			summary.setCompany(cm);
 			summary = attendanceSummaryService.saveSummary(summary);
 			
-			String dayTypes[]={"SUNDAY","HOLIDAY","SAT","WORKDAY"};
-			
+			String dayTypes[]={"SUNDAY","HOLIDAY","SAT","WORKDAY"};		
 			List<AttendanceSummaryDetail> ls = new ArrayList<AttendanceSummaryDetail>();
 			
 			for(int i=0;i<dayTypes.length;i++) {
-
-				String otHours =  attendanceProcessService.getTotalOTByDayType(dayTypes[i], payPeriodID, employee_id,companyID);
-				AttendanceSummaryDetail summaryDetail = new AttendanceSummaryDetail();
-				summaryDetail.setAttendanceSummaryHeaderId(summary);
-				summaryDetail.setDayType(dayTypes[i]);
-				summaryDetail.setOtHours(Double.valueOf(otHours)/60);
-				ls.add(summaryDetail);
+				
+				//String otTypes[] = {"5","6"}; 
+				List<OtType> otTypes = otTypeService.findByDayType(dayTypes[i],companyID);
+				
+				List<AttendanceSheet> otlist =  attendanceProcessService.getOTByDayType(dayTypes[i], payPeriodID, employee_id,companyID);
+				int otCount = otlist.size();
+				String totalOtMin = attendanceProcessService.getTotalOTByDayType(dayTypes[i], payPeriodID, employee_id,companyID);
+				double totalOtHrs = Double.valueOf(totalOtMin)/60;
+				
+				for (OtType otType : otTypes) {
+					
+					AttendanceSummaryDetail summaryDetail = new AttendanceSummaryDetail();
+					summaryDetail.setAttendanceSummaryHeaderId(summary);
+					summaryDetail.setDayType(dayTypes[i]);
+					summaryDetail.setOtType(otType);
+					
+					if(otType.getCondition().equals("<=8"))
+						summaryDetail.setOtHours(8*otCount);
+					else if(otType.getCondition().equals(">8"))
+						summaryDetail.setOtHours(totalOtHrs - (8*otCount));
+					else
+						summaryDetail.setOtHours(totalOtHrs);
+					
+					ls.add(summaryDetail);
+				}
+			
 			}
 			
 			attendanceSummaryService.saveSummaryDetail(ls);

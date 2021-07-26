@@ -22,6 +22,10 @@ public class AttendanceSummaryDetail {
 	@Column(name = "day_type")
 	private String dayType;
 	
+	@ManyToOne(optional = false, fetch = FetchType.EAGER)
+	@JoinColumn(name = "ot_type_id", referencedColumnName = "ot_type_id")
+	private OtType otType;
+	
 	@Column(name = "ot_hours")
 	private double otHours;
 	
@@ -45,6 +49,14 @@ public class AttendanceSummaryDetail {
 		this.dayType = dayType;
 	}
 
+	public OtType getOtType() {
+		return otType;
+	}
+
+	public void setOtType(OtType otType) {
+		this.otType = otType;
+	}
+
 	public double getOtHours() {
 		return otHours;
 	}
@@ -61,20 +73,21 @@ public class AttendanceSummaryDetail {
 		this.attendanceSummaryHeaderId = attendanceSummaryHeaderId;
 	}
 
-	public AttendanceSummaryDetail() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
-	public AttendanceSummaryDetail(int attendanceSummaryDetailId, String dayType, double otHours,
+	public AttendanceSummaryDetail(int attendanceSummaryDetailId, String dayType, OtType otType, double otHours,
 			AttendanceSummary attendanceSummaryHeaderId) {
 		super();
 		this.attendanceSummaryDetailId = attendanceSummaryDetailId;
 		this.dayType = dayType;
+		this.otType = otType;
 		this.otHours = otHours;
 		this.attendanceSummaryHeaderId = attendanceSummaryHeaderId;
 	}
 
+	public AttendanceSummaryDetail() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	
 
 	
 }

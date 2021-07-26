@@ -35,5 +35,11 @@ public interface AttendanceSheetRepository extends CrudRepository<AttendanceShee
 			@Param("dayType") String dayType,
 			@Param("payPeriodID") String payPeriodID,
 			@Param("employeeID") String employeeID, @Param("companyID") String companyID);
+	
+	@Query(value = "SELECT * FROM attendance_sheet WHERE (ot_hrs_normal>0 OR ot_hrs_extra >0) AND day_type=:dayType AND pay_period_id=:payPeriodID AND employee_id=:employeeID AND company_id=:companyID", nativeQuery = true)
+	public List<AttendanceSheet> getOTByDayType(
+			@Param("dayType") String dayType,
+			@Param("payPeriodID") String payPeriodID,
+			@Param("employeeID") String employeeID, @Param("companyID") String companyID);
 
 }

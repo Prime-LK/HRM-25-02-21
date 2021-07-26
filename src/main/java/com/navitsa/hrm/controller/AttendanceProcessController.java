@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.navitsa.hrm.entity.ApplyLeave;
 import com.navitsa.hrm.entity.AttendanceSheet;
 import com.navitsa.hrm.entity.AttendanceTxtFileDetail;
 import com.navitsa.hrm.entity.AttendanceTxtFileHeader;
@@ -27,6 +28,7 @@ import com.navitsa.hrm.entity.EmployeeDetails;
 import com.navitsa.hrm.entity.PayPeriods;
 import com.navitsa.hrm.entity.ShiftAllocation;
 import com.navitsa.hrm.entity.ShiftMaster;
+import com.navitsa.hrm.service.ApplyLeave_Service;
 import com.navitsa.hrm.service.AttendanceProcessService;
 import com.navitsa.hrm.service.AttendanceTxtFileReadingService;
 import com.navitsa.hrm.service.CalanderService;
@@ -65,6 +67,9 @@ public class AttendanceProcessController {
 	
 	@Autowired
 	private EmployeeAttendanceService manulaAttendanceService;
+	
+	@Autowired
+	private ApplyLeave_Service applyLeaveService;
 	
 /*
 	@ModelAttribute("payPeriodsList")
@@ -190,32 +195,40 @@ public class AttendanceProcessController {
 				continueShift = ed.getShiftmaster().isContinuing();
 				sm = ed.getShiftmaster();
 			}
-			
+					
+			List<AttendanceTxtFileHeader> txtFileHeaderList = txtFileReadingService.getTxtFileHeader(companyID);
+			List<AttendanceTxtFileDetail> allAttendanceRecords = new ArrayList<AttendanceTxtFileDetail>();			
+			for(AttendanceTxtFileHeader txtHeader : txtFileHeaderList) {
+				List<AttendanceTxtFileDetail> attendanceRecords =  txtFileReadingService.getAttendanceRecords(payPeriod.getStartDate(),payPeriod.getEndDate(),ed.getEpfNo(),txtHeader.getHeaderId());
+				if(!attendanceRecords.isEmpty())
+					allAttendanceRecords.addAll(attendanceRecords);
+				
+				//List<EmployeeAttendance> manualAttendanceRecords = manulaAttendanceService.getAttendanceRecords(payPeriod.getStartDate(),payPeriod.getEndDate(),employeeID);
+			}
 			
 			// this list use for save all data
 			List<AttendanceSheet> attendanceSheetlist = new ArrayList<AttendanceSheet>();
-			
-			List<AttendanceTxtFileHeader> txtFileHeaderList = txtFileReadingService.getTxtFileHeader(companyID);
-			b:for(AttendanceTxtFileHeader txtHeader : txtFileHeaderList) {
-
-				List<AttendanceTxtFileDetail> attendanceRecords =  txtFileReadingService.getAttendanceRecords(payPeriod.getStartDate(),payPeriod.getEndDate(),ed.getEpfNo(),txtHeader.getHeaderId());
-				//List<EmployeeAttendance> manualAttendanceRecords = manulaAttendanceService.getAttendanceRecords(payPeriod.getStartDate(),payPeriod.getEndDate(),employeeID);
-				
-				if(attendanceRecords.isEmpty())
-					continue b;
-				
 				
 				for(Date workingDay : workingDays) {
 					
 					List<String> timeInOut = new ArrayList<String>();
 					timeInOut.clear();
 					
-					for(AttendanceTxtFileDetail txtFile : attendanceRecords) {
+					for(AttendanceTxtFileDetail txtFile : allAttendanceRecords) {
 						if(workingDay.compareTo(sdf.parse(txtFile.getInoutDate()))==0) {
 
 							timeInOut.add(txtFile.getInoutTime());
 						}	
 					}
+					
+					if(!timeInOut.isEmpty()) {
+						long inOutDiff = 0;
+						inOutDiff = stf.parse(timeInOut.get(timeInOut.size()-1)).getTime() - stf.parse(timeInOut.get(0)).getTime();
+						long inOutDiffMin = inOutDiff/60000;
+						if(inOutDiffMin<30)
+							timeInOut.clear();
+					}
+					
 					
 		/*			for(EmployeeAttendance et : manualAttendanceRecords) {
 						if(workingDay.compareTo(sdf.parse(et.getDate()))==0) {
@@ -243,9 +256,8 @@ public class AttendanceProcessController {
 					}
 					
 					CalanderEntity isHoliday = null;
-					if(ed.getShiftmaster() != null) {
-						
-						isHoliday = calanderService.isHoliday(sdf.format(workingDay),companyID);
+					isHoliday = calanderService.isHoliday(sdf.format(workingDay),companyID);
+					if(ed.getShiftmaster() != null) {					
 						if(isHoliday  == null) {
 							// not a holiday
 							shiftIn = ed.getShiftmaster().getStartTime();
@@ -298,7 +310,7 @@ public class AttendanceProcessController {
 							List<String> timeInOut1 = new ArrayList<String>();
 							timeInOut1.clear();
 							
-							for(AttendanceTxtFileDetail txtFile : attendanceRecords) {
+							for(AttendanceTxtFileDetail txtFile : allAttendanceRecords) {
 								
 								if(calendar.getTime().compareTo(sdf.parse(txtFile.getInoutDate()))==0) {
 
@@ -329,55 +341,60 @@ public class AttendanceProcessController {
 						attendanceSheet.setTimeIn(timeIn);
 						attendanceSheet.setTimeOut(timeOut);
 						
-						if(shiftIn==null || shiftOut==null)
-						{
-							int ot_hours = 0;					
-							if(time_out !=null)
-								ot_hours = (int) ((time_out.getTime() - time_in.getTime())/60000);
-							
-							//if(ot_hours<0)
-								//attendanceSheet.setOtHrsExtra(Math.abs(ot_hours));
-							//else
-								attendanceSheet.setOtHrsExtra(ot_hours);
-							
-						}else {
-							Date shift_in = stf.parse(shiftIn);
-							Date shift_out = stf.parse(shiftOut);
-							
-							int LateMinIn = (int) ((time_in.getTime() - shift_in.getTime() )/ 60000);
-							int LateMinOut = 0;
-							if(time_out !=null)
-								LateMinOut = (int) ((shift_out.getTime() - time_out.getTime() )/ 60000);
-							
-							if(LateMinIn > 0)
-								attendanceSheet.setLateMinIn(LateMinIn);
-							else
-								attendanceSheet.setLateMinIn(0);
-							if(LateMinOut > 0)
-								attendanceSheet.setLateMinOut(LateMinOut);
-							else
-								attendanceSheet.setLateMinOut(0);
-							
-							int ot_normal = 0;
-							if(time_out !=null)
-								ot_normal =  (int) ((time_out.getTime() - shift_out.getTime() )/ 60000);
-							
-							if(ot_normal > 0)
-								attendanceSheet.setOtHrsNormal(ot_normal);
-							else
-								attendanceSheet.setOtHrsNormal(0);				
-						}				
+						ApplyLeave leave = applyLeaveService.findLeaveBy(ed.getEpfNo(),companyID,sdf.format(workingDay));
+						if(leave ==null){
+							if(shiftIn==null || shiftOut==null)
+							{
+								int ot_hours = 0;					
+								if(time_out !=null)
+									ot_hours = (int) ((time_out.getTime() - time_in.getTime())/60000);
+								
+								//if(ot_hours<0)
+									//attendanceSheet.setOtHrsExtra(Math.abs(ot_hours));
+								//else
+									attendanceSheet.setOtHrsExtra(ot_hours);
+								
+							}else {
+								Date shift_in = stf.parse(shiftIn);
+								Date shift_out = stf.parse(shiftOut);
+								
+								int LateMinIn = (int) ((time_in.getTime() - shift_in.getTime() )/ 60000);
+								int LateMinOut = 0;
+								if(time_out !=null)
+									LateMinOut = (int) ((shift_out.getTime() - time_out.getTime() )/ 60000);
+								
+								if(LateMinIn > 0)
+									attendanceSheet.setLateMinIn(LateMinIn);
+								else
+									attendanceSheet.setLateMinIn(0);
+								if(LateMinOut > 0)
+									attendanceSheet.setLateMinOut(LateMinOut);
+								else
+									attendanceSheet.setLateMinOut(0);
+								
+								int ot_normal = 0;
+								if(time_out !=null)
+									ot_normal =  (int) ((time_out.getTime() - shift_out.getTime() )/ 60000);
+								
+								if(ot_normal > 0)
+									attendanceSheet.setOtHrsNormal(ot_normal);
+								else
+									attendanceSheet.setOtHrsNormal(0);				
+							}
+						}
+				
 							
 					}else {
 						//No time in out in txt file
 					}
 						
-					if(isHoliday  != null)
+					if(isHoliday != null) {
 						attendanceSheet.setDayType(isHoliday.getDescription());
+						//System.out.println(isHoliday.getDescription());
+						}
 					else
 						attendanceSheet.setDayType("WORKDAY");
 				
-					
 					attendanceSheet.setCompany(cm);
 					attendanceSheet.setEmployee(ed.getDetailsPK().getEmpID());
 					attendanceSheet.setPayPeriod(payPeriod);
@@ -387,7 +404,7 @@ public class AttendanceProcessController {
 				}
 				
 				
-			}// txt file header loop
+			// txt file header loop
 			
 			attendanceProcessService.saveAll(attendanceSheetlist);
 		

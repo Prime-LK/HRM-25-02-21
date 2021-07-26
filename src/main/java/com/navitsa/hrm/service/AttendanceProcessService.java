@@ -46,4 +46,8 @@ public class AttendanceProcessService {
 		else
 			return attendanceSheetRepo.getTotalOTByDayType(dayType, payPeriodID,employeeID,companyID);
 	}
+	
+	public List<AttendanceSheet> getOTByDayType(String dayType, String payPeriodID, String employeeID, String companyID) {
+		return attendanceSheetRepo.getOTByDayType(dayType, payPeriodID,employeeID,companyID);
+	}
 }

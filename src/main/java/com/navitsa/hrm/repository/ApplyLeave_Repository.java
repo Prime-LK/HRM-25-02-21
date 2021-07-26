@@ -51,8 +51,18 @@ public interface ApplyLeave_Repository extends CrudRepository<ApplyLeave, String
 	@Query(value = "UPDATE ApplyLeave l SET l.approved=true WHERE l.leaveID=:applyLeaveID")
 	public void updateApprovedStatus(@Param("applyLeaveID") String applyLeaveID);
 	
-	@Query(value="SELECT l FROM ApplyLeave l WHERE l.employee.empID =:employeeID AND l.company.comID=:companyID")
-	public ApplyLeave getByEmployeeID(@Param("employeeID") String employeeID, @Param("companyID") String companyID);
+	@Query(value="SELECT * FROM apply_leave WHERE date(date) >:fromDate AND date(date)<=:toDate AND approved=true AND employee_id=:employeeID AND company_id=:companyID",nativeQuery = true)
+	public List<ApplyLeave> getByEmployeeID(
+			@Param("employeeID") String employeeID, 
+			@Param("companyID") String companyID,
+			@Param("fromDate") String fromDate,
+			@Param("toDate") String toDate);
+	
+	@Query(value="SELECT * FROM apply_leave WHERE date=:date AND approved=true AND employee_id=:employeeID AND company_id=:companyID",nativeQuery = true)
+	public ApplyLeave getLeaveBy(
+			@Param("employeeID") String employeeID, 
+			@Param("companyID") String companyID,
+			@Param("date") String date);
 
 	//@Query(value="SELECT * FROM apply_leave_detail WHERE date(date) >:startDate AND date(date) <=:endDate AND apply_leave_header_id=:leaveID AND approved=true",nativeQuery = true)
 	//public List<ApplyLeaveDetail> getTotalApprovedLeaveBy(@Param("startDate") String startDate,@Param("endDate") String endDate,@Param("leaveID") String leaveID);

@@ -78,14 +78,18 @@ public class ApplyLeave_Service {
 		ALRepo.updateApprovedStatus(applyLeaveID);	
 	}
 	
-	public ApplyLeave findAppliedLeaveByEmployee(String employeeID, String companyID) {
+	public List<ApplyLeave> findAppliedLeaveByEmployee(String employeeID, String companyID, String fromDate, String toDate) {
 
-		return ALRepo.getByEmployeeID(employeeID,companyID);
+		return ALRepo.getByEmployeeID(employeeID,companyID,fromDate,toDate);
+	}
+	
+	public ApplyLeave findLeaveBy(String employeeID, String companyID, String date) {
+
+		return ALRepo.getLeaveBy(employeeID,companyID,date);
 	}
 
-	public List<ApplyLeaveDetail> getTotalApprovedLeaveBy(String startDate, String endDate, String leaveID) {
-		// TODO Auto-generated method stub
-		return ALDRepo.getTotalApprovedLeaveBy(startDate,endDate,leaveID);
-	}
+//	public List<ApplyLeaveDetail> getTotalApprovedLeaveBy(String startDate, String endDate, String leaveID) {
+//		return ALDRepo.getTotalApprovedLeaveBy(startDate,endDate,leaveID);
+//	}
 
 }
