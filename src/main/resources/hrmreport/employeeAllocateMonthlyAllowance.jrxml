@@ -26,7 +26,7 @@
 		<variableExpression><![CDATA[$F{amount}]]></variableExpression>
 	</variable>
 	<pageHeader>
-		<band height="81">
+		<band height="102">
 			<textField>
 				<reportElement x="5" y="36" width="580" height="20" uuid="6b49a67e-dc73-43a6-a53e-860b4ad24947"/>
 				<textElement textAlignment="Center">
@@ -47,6 +47,14 @@
 					<font fontName="Arial" size="14" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Employee Allocate Monthly Allowance"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="76" width="82" height="26" uuid="a340ad8d-084a-4268-9021-07500fc39f89"/>
+				<text><![CDATA[Deduction Type :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="92" y="76" width="100" height="26" uuid="cea82c81-cc7e-496f-89e0-811a03ab8eeb"/>
+				<textFieldExpression><![CDATA[$F{type}]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageHeader>
