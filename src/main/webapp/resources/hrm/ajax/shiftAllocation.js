@@ -7,6 +7,7 @@ function loadEmployeesByDepartment() {
 		return;
 	} else {
 
+		/*
 		$
 				.ajax({
 					type : 'GET',
@@ -53,6 +54,53 @@ function loadEmployeesByDepartment() {
 					}
 
 				});
+				*/
+		
+		$
+		.ajax({
+			type : 'GET',
+			url : "loadEmployeesByDepartment",
+			data : {
+				"depID" : selectDepartment
+			},
+			success : function(data) {
+				if (data.length == 0) {
+					swal(
+							"No data is available for the selected parameters!",
+							"", {
+								icon : "info",
+								buttons : {
+									confirm : {
+										className : 'btn btn-primary'
+									}
+								},
+							});
+				}
+				var selectEmployee = $("#selectEmployeeId"), option = "";
+				selectEmployee.empty();
+				selected_option = "<option value='all' selected>ALL</option>";
+				selectEmployee.append(selected_option);
+
+				for (var i = 0; i < data.length; i++) {
+					option = option + "<option value='"
+							+ data[i].detailsPK.empID.empID + "'>"
+							+ data[i].epfNo
+							+ "</option>";
+				}
+				selectEmployee.append(option);
+			},
+			error : function() {
+				swal("Error!", "", {
+					icon : "error",
+					buttons : {
+						confirm : {
+							className : 'btn btn-danger'
+						}
+					},
+				});
+			}
+
+		});
 
 	}
 
