@@ -206,17 +206,17 @@ public class EmployeeController {
 
 	@RequestMapping(value = "/updateEmp", method = RequestMethod.GET)
 	public ModelAndView updateEmp(@RequestParam String id, HttpSession session, HttpServletRequest request) {
+		String companyId = session.getAttribute("company.comID").toString();
 		ModelAndView mav = new ModelAndView("hrm/register");
 		Employee emp = null;
 		Employee employee = new Employee();
 		try {
 			//emp = empService.getEmp(id);
-			String companyId = session.getAttribute("company.comID").toString();
+			
+			
 			EmployeeDetails ed = empService.findEmployeeByEpfNo(id, companyId);
 			if(ed == null) {
-				System.out.println("New Employee");
 				String employeeId = empService.getMaxEmployeeId().toString();
-				System.out.println("Max Emp ID "+ employeeId);
 				employee.setEmpID(employeeId);
 				session.setAttribute("eid", employeeId);
 				session.setAttribute("ename", "");
@@ -227,7 +227,10 @@ public class EmployeeController {
 				mav.addObject("saveRegister", employee);
 			} else {
 				emp = ed.getDetailsPK().getEmpID();
-				List<Bank> branchList = bankDetailsService.getAllBankBranchByBank(emp.getBankBranch_Code().getBankid().getBankid());
+				if(emp.getBankBranch_Code() != null) {
+					List<Bank> branchList = bankDetailsService.getAllBankBranchByBank(emp.getBankBranch_Code().getBankid().getBankid());
+					mav.addObject("branchListByBank", branchList);
+				}
 				session = request.getSession();
 				session.setAttribute("eid", emp.getEmpID());
 				session.setAttribute("ename", emp.getName());
@@ -235,7 +238,7 @@ public class EmployeeController {
 				session.setAttribute("lastName", emp.getLastname());
 				session.setAttribute("addLine01", emp.getAddress());
 				session.setAttribute("addLine02", emp.getCity());
-				mav.addObject("branchListByBank", branchList);
+				
 				mav.addObject("saveRegister", emp);
 				try {
 					String empImg = emp.getProfileImgView();
@@ -246,7 +249,7 @@ public class EmployeeController {
 			}
 			
 		} catch (Exception e) {
-			System.out.println("Employee Details Not Found");
+			System.out.println("Employee Details Not Found" + e);
 		}
 		
 		return mav;

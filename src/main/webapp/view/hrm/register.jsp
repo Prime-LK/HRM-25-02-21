@@ -265,7 +265,7 @@
 												<label class="col-4">Employee ID</label>
 												<form:input path="empID" type="text" readonly="true"
 													class="form-control col-8" placeholder="Employee ID"
-													id="empID1" onchange="loadEmpDetails()" value="" />
+													id="empID1" onchange="" value="" />
 												<p id="msg"></p>
 											</div>
 										</div>

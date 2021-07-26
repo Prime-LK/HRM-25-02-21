@@ -132,7 +132,7 @@ public class ShiftAllocationController {
 			@RequestParam(value = "includeHolidays", required = false) String includeHolidays,
 			@RequestParam(value = "companyId", required = false) String companyId,
 			RedirectAttributes redirectAttributes) {
-
+		
 		int includeHoliday = Integer.valueOf(includeHolidays);
 		CompanyMaster company = companyService.findbyCompanyid(companyId);
 		ShiftMaster shift = shiftMasterService.findShiftByIdAndCompany(shiftId, companyId);

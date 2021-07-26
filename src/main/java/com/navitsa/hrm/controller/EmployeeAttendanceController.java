@@ -110,6 +110,11 @@ public class EmployeeAttendanceController {
 			result = true;
 		} else if (ed != null) {
 			if (ed.getShiftmaster() != null) {
+				if(ed.getShiftmaster().getShiftId() != shiftId) {
+					result = false;
+				} else {
+					result = true;
+				}
 				result = true;
 			} else {
 				result = false;
