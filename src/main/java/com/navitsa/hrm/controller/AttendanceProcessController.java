@@ -24,6 +24,7 @@ import com.navitsa.hrm.entity.AttendanceTxtFileDetail;
 import com.navitsa.hrm.entity.AttendanceTxtFileHeader;
 import com.navitsa.hrm.entity.CalanderEntity;
 import com.navitsa.hrm.entity.CompanyMaster;
+import com.navitsa.hrm.entity.EmployeeAttendance;
 import com.navitsa.hrm.entity.EmployeeDetails;
 import com.navitsa.hrm.entity.PayPeriods;
 import com.navitsa.hrm.entity.ShiftAllocation;
@@ -202,9 +203,9 @@ public class AttendanceProcessController {
 				List<AttendanceTxtFileDetail> attendanceRecords =  txtFileReadingService.getAttendanceRecords(payPeriod.getStartDate(),payPeriod.getEndDate(),ed.getEpfNo(),txtHeader.getHeaderId());
 				if(!attendanceRecords.isEmpty())
 					allAttendanceRecords.addAll(attendanceRecords);
-				
-				//List<EmployeeAttendance> manualAttendanceRecords = manulaAttendanceService.getAttendanceRecords(payPeriod.getStartDate(),payPeriod.getEndDate(),employeeID);
 			}
+			
+			List<EmployeeAttendance> manualAttendanceRecords = manulaAttendanceService.getAttendanceRecords(payPeriod.getStartDate(),payPeriod.getEndDate(),ed.getDetailsPK().getEmpID().getEmpID(),companyID);
 			
 			// this list use for save all data
 			List<AttendanceSheet> attendanceSheetlist = new ArrayList<AttendanceSheet>();
@@ -220,6 +221,14 @@ public class AttendanceProcessController {
 							timeInOut.add(txtFile.getInoutTime());
 						}	
 					}
+
+					for(EmployeeAttendance et : manualAttendanceRecords) {
+						if(workingDay.compareTo(sdf.parse(et.getDate()))==0) {
+
+							timeInOut.add(et.getOnTime());
+							timeInOut.add(et.getOffTime());
+						}	
+					}
 					
 					if(!timeInOut.isEmpty()) {
 						long inOutDiff = 0;
@@ -228,16 +237,7 @@ public class AttendanceProcessController {
 						if(inOutDiffMin<30)
 							timeInOut.clear();
 					}
-					
-					
-		/*			for(EmployeeAttendance et : manualAttendanceRecords) {
-						if(workingDay.compareTo(sdf.parse(et.getDate()))==0) {
-
-							timeInOut.add(et.getOnTime());
-							timeInOut.add(et.getOffTime());
-						}	
-					}
-		*/			
+			
 					if(ed.getShiftmaster() == null) {
 						ShiftAllocation shift = shiftAllocationService.getShiftBy(sdf.format(workingDay),ed.getEpfNo(),companyID);
 						if(shift !=null) {
@@ -341,7 +341,7 @@ public class AttendanceProcessController {
 						attendanceSheet.setTimeIn(timeIn);
 						attendanceSheet.setTimeOut(timeOut);
 						
-						ApplyLeave leave = applyLeaveService.findLeaveBy(ed.getEpfNo(),companyID,sdf.format(workingDay));
+						ApplyLeave leave = applyLeaveService.findLeaveBy(ed.getDetailsPK().getEmpID().getEmpID(),companyID,sdf.format(workingDay));
 						if(leave ==null){
 							if(shiftIn==null || shiftOut==null)
 							{

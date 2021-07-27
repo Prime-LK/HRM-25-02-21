@@ -308,7 +308,7 @@ $('#dateTimePicker').datepicker({
     todayBtn: "linked",
     multidate: true,
     multidateSeparator: ",",
-    daysOfWeekDisabled: "0,6",
+    //daysOfWeekDisabled: "0,6",
     daysOfWeekHighlighted: "0,6",
     todayHighlight: true
 });

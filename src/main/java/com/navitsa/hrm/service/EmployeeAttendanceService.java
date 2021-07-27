@@ -212,8 +212,8 @@ public class EmployeeAttendanceService {
 				departmentId, employeeId, shiftId, approvalStatus, companyId);
 	}
 
-	public List<EmployeeAttendance> getAttendanceRecords(String startDate, String endDate, String employeeID) {
+	public List<EmployeeAttendance> getAttendanceRecords(String startDate, String endDate, String employeeID, String companyID) {
 		// TODO Auto-generated method stub
-		return employeeAttendanceRepository.getAttendanceRecords(startDate,endDate,employeeID);
+		return employeeAttendanceRepository.getAttendanceRecords(startDate,endDate,employeeID,companyID);
 	}
 }
