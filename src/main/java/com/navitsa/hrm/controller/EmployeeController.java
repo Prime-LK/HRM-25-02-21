@@ -290,17 +290,17 @@ public class EmployeeController {
 	}
 
 	// delete session attribute using in emp edit
-	@RequestMapping("/logout")
-	public String logout(Employee emp, WebRequest request, HttpSession session, HttpServletRequest r) {
-		// ModelAndView mav=new ModelAndView("login");
-		session.setAttribute("eid", "empty");
-		session.removeAttribute("eid");
-		session.setAttribute("ename", "empty");
-		session.removeAttribute("ename");
-		session.setAttribute("eImg", "empty");
-		session.removeAttribute("eImg");
-		return "redirect:/";
-	}
+//	@RequestMapping("/logout")
+//	public String logout(Employee emp, WebRequest request, HttpSession session, HttpServletRequest r) {
+//		// ModelAndView mav=new ModelAndView("login");
+//		session.setAttribute("eid", "empty");
+//		session.removeAttribute("eid");
+//		session.setAttribute("ename", "empty");
+//		session.removeAttribute("ename");
+//		session.setAttribute("eImg", "empty");
+//		session.removeAttribute("eImg");
+//		return "redirect:/";
+//	}
 
 	// employee details
 	// operation----------------------------------------------------
