@@ -12,7 +12,9 @@
 					
 					
 					<ul class="navbar-nav topbar-nav ml-md-auto align-items-center">
-					
+					<li class="nav-item fw-bold"  style="color: #ffffff; font-size: 20px; " >
+							<a href="#" data-toggle="modal"data-target="#logoutModal"><img src="resources/assets/img/logout.png" alt="navbar brand" class="navbar-brand" style="width: 40px;"></a>
+						</li>
 											<li class="nav-item fw-bold"  style="color: #ffffff; font-size: 20px; " >
 <!-- 							<a href="#" data-toggle="modal"data-target="#logoutModal"><img src="resources/assets/img/logout.png" alt="navbar brand" class="navbar-brand" style="width: 40px;"></a> -->
 						</li>

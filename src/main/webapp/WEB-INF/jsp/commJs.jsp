@@ -59,53 +59,30 @@
 
 
  
-	<script type="text/javascript">
+<script type="text/javascript">
 
 	
-//         $(document).ready(  
-//         		function() { 
+        $(document).ready(  
+        		function() { 
         			
-<%--         			var str='<%=session.getAttribute("userId")%>'; --%>
-<%--         			if(<%=session.getAttribute("userId")%>==null){ --%>
+        
+        			if(<%=session.getAttribute("company.comID")%>==null){
 
-// 		        		swal("Oops...", "Session Expired", {
-// 							icon : "error",
-// 							buttons: {        			
-// 								confirm: {
-// 									className : 'btn btn-danger'
-// 								}
-// 							},
-// 						});
+		        		swal("Oops...", "Session Expired", {
+							icon : "error",
+							buttons: {        			
+								confirm: {
+									className : 'btn btn-danger'
+								}
+							},
+						});
 		        		
-//         			window.location.href = "logout";
-//         			}else{
-        				
-// 					$.ajax({
-// 			        type: 'GET',
-// 			        url: "getUserIdRoles",
-// 			        data: {"userid" : str},
-// 			        success: function(data){
-			        
-						
-// 			            for(var i=0; i<data.length+1; i++){
-// 			            	if(data[i].levelManagePK.roleID.roleID!="000"){
-// 			            document.getElementById(data[i].levelManagePK.roleID.desc.split("-")[0]).hidden = false;
-// 			            document.getElementById(data[i].levelManagePK.roleID.desc.split("-")[1]).hidden = false;
-// 			            	}
-// 			            }
-
-// 			        },
-// 			        error:function(){
-// 			            alert("User Not Assign");
-// 			        }
-			
-// 			    });
-        			 			
-//         		}
+        			window.location.href = "logout";
+        			}
         			
-//         	}
+        	}
         		
-//         );	
+        );	
 	  	
 
 
