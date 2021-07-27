@@ -317,5 +317,5 @@ public interface EmployeeDetailsRepository extends CrudRepository<EmployeeDetail
 			@Param("empno") String empno);
 
 	@Query(value = "SELECT ed FROM EmployeeDetails ed WHERE ed.epfNo = :epfNo AND ed.company.comID = :companyId")
-	public EmployeeDetails findEmployeeByEpfNo(@Param("epfNo") String epfNo, @Param("companyId") String companyId);
+	public EmployeeDetails findEmployeeByEpfNo02(@Param("epfNo") String epfNo, @Param("companyId") String companyId);
 }

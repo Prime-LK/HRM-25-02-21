@@ -293,7 +293,7 @@
 												<div class="form-group row">
 													<label>EPF No</label>
 													<form:input path="epfNo" type="text" class="form-control"
-														placeholder="Enter EPF Number" id="epfNo" />
+														placeholder="Enter EPF Number" id="epfNo" value="${epfNo}"/>
 
 												</div>
 											</div>
@@ -322,8 +322,7 @@
 												<div class="form-group row">
 													<label>Employee Status</label>
 													<form:select class="form-control" path="status">
-														<form:option value="" selected="true">--SELECT--</form:option>
-														<form:option value="active">Active</form:option>
+														<form:option value="active" >Active</form:option>
 														<form:option value="inactive">Inactive</form:option>
 													</form:select>
 

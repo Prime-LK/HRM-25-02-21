@@ -80,7 +80,9 @@ function loadEmployeesByDepartment() {
 				for (var i = 0; i < data.length; i++) {
 					option = option + "<option value='"
 							+ data[i].detailsPK.empID.empID + "'>"
-							+ data[i].epfNo
+							+ data[i].detailsPK.empID.epfNo + " - "
+							+ data[i].detailsPK.empID.name + " "
+							+ data[i].detailsPK.empID.lastname
 							+ "</option>";
 				}
 				selectEmployee.append(option);

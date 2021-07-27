@@ -128,7 +128,7 @@
 														</c:if>
 														<div class="input-group mt--2">
 															<div class="input-group-append mt-3">
-																<button type="button" id="button" style="width:100px"
+																<button type="button" id="button" style="width: 100px"
 																	class="browse btn btn-success btn-sm">Upload</button>
 															</div>
 														</div>
@@ -137,18 +137,18 @@
 														<div class="row ml-3">
 															<div class="col-12">
 																<div class="form-group">
-																
+
 																	<span> <c:if test="${eid != null}">
 																			<div>
 																				<span id="comDeId"><%=session.getAttribute("eid")%></span><br>
 																			</div>
-																		</c:if>
-																		<c:if test="${eid == null}">
+																		</c:if> <c:if test="${eid == null}">
 																			<div>
-																				<br></div>
+																				<br>
+																			</div>
 																		</c:if>
-																		
-																		
+
+
 																	</span> <span> <c:if
 																			test="${ename != null || lastName != null }">
 																			<div>
@@ -157,15 +157,15 @@
 																				<span id="comDeId"><%=session.getAttribute("addLine01")%></span><br>
 																				<span id="comDeId"><%=session.getAttribute("addLine02")%></span><br>
 																			</div>
-																		</c:if>
-																		 <c:if
-																			test="${ename == null || lastName == null }">
+																		</c:if> <c:if test="${ename == null || lastName == null }">
 																			<div>
-																				<br><br><br>
-																				</div>
+																				<br>
+																				<br>
+																				<br>
+																			</div>
 																		</c:if>
-																		
-																		
+
+
 																	</span>
 																	<div class="row">
 																		<input name="epfNo" type="text"
@@ -178,10 +178,7 @@
 														</div>
 													</div>
 													<div class="col-md-5">
-														<br>
-														<br>
-														<br>
-														<br>
+														<br> <br> <br> <br>
 														<div class="form-group row">
 															<div class="container-fluid">
 																<div class="collapse" id="search-nav">
@@ -359,6 +356,14 @@
 													class="form-control col-8" placeholder="Password" />
 											</div>
 										</div>
+										<div class="col-4">
+											<div class="form-group row">
+												<label class="col-4">EPF No</label>
+												<form:input path="epfNo" type="text" required="true"
+													class="form-control col-8" placeholder="EPF No" id="epfNo"
+													onchange="" value="" />
+											</div>
+										</div>
 									</div>
 									<div class="row mt--2">
 										<div class="col-4" id="comDiv">
@@ -391,7 +396,7 @@
 										<div class="col-4">
 											<div class="form-group row">
 												<label class="col-4">Bank</label>
-												<form:select class="form-control col-8" required="true"
+												<form:select class="form-control col-8"
 													onchange="loadBankBranchesByBank();" id="bank_Code"
 													path="bank_Code">
 													<form:option value="" selected="true">--SELECT--</form:option>
@@ -426,7 +431,7 @@
 										<div class="col-4">
 											<div class="form-group row">
 												<label class="col-4">Branch </label>
-												<form:select class="form-control col-8" id="bankBranch_Code" required="true"
+												<form:select class="form-control col-8" id="bankBranch_Code"
 													path="bankBranch_Code.branchID">
 													<form:option value="" selected="true">--SELECT--</form:option>
 													<c:forEach items="${branchListByBank}" var="b">

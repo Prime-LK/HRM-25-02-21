@@ -70,10 +70,10 @@ public class EmployeeController {
 
 	@Autowired
 	private ShiftMasterService shiftMasterService;
-	
+
 	@Autowired
-	private EthnicService ethService; 
-	
+	private EthnicService ethService;
+
 	@Autowired
 	private EmployeeLevelService employeeLevelService;
 
@@ -84,7 +84,7 @@ public class EmployeeController {
 		String employeeId = empService.getMaxEmployeeId().toString();
 		emp.setEmpID(employeeId);
 		model.put("saveRegister", emp);
-		//model.put("maxEmpID", emp);
+		// model.put("maxEmpID", emp);
 		return "hrm/register";
 	}
 
@@ -97,7 +97,7 @@ public class EmployeeController {
 			try {
 				empService.saveEmp(e);
 				session = request.getSession();
-				session.setAttribute("eid", e.getEmpID());
+				session.setAttribute("eid", e.getEpfNo());
 				session.setAttribute("ename", e.getName());
 				session.setAttribute("eImg", e.getProfileImgView());
 				session.setAttribute("lastName", e.getLastname());
@@ -134,12 +134,13 @@ public class EmployeeController {
 		String companyId = session.getAttribute("company.comID").toString();
 		return jobService.getAllSalaryRangeByCompany(companyId);
 	}
-	
+
 	@GetMapping("/getAllSalaryRangeByGradeAndCompany")
 	@ResponseBody
-	public List<SalaryRange> getAllSalaryRangeByGradeAndCompany(@RequestParam("gradeId") String gradeId, HttpSession session) {
+	public List<SalaryRange> getAllSalaryRangeByGradeAndCompany(@RequestParam("gradeId") String gradeId,
+			HttpSession session) {
 		String companyId = session.getAttribute("company.comID").toString();
-		return jobService.getAllSalaryRangeByGradeAndCompany(gradeId,companyId);
+		return jobService.getAllSalaryRangeByGradeAndCompany(gradeId, companyId);
 	}
 
 	@ModelAttribute("nationalities")
@@ -181,24 +182,24 @@ public class EmployeeController {
 	// load bank
 	@ModelAttribute("bankmastertable")
 	public List<BankMaster> getAllBankByCompany(HttpSession session) {
-		//String companyId = session.getAttribute("company.comID").toString();
+		// String companyId = session.getAttribute("company.comID").toString();
 		return bankDetailsService.getAllBankdata();
 	}
 
 	// load bank branch
 	@ModelAttribute("bankBranch")
 	public List<Bank> showBankBrsnch(HttpSession session) {
-		//String companyId = session.getAttribute("company.comID").toString();
+		// String companyId = session.getAttribute("company.comID").toString();
 		return bankDetailsService.getAllSavedBank();
 	}
 
 	@GetMapping("/getAllBankBranchByBank")
 	@ResponseBody
 	public List<Bank> getAllBankBranchByBankAndCompany(@RequestParam("bankId") String bankId, HttpSession session) {
-		//String companyId = session.getAttribute("company.comID").toString();
+		// String companyId = session.getAttribute("company.comID").toString();
 		return bankDetailsService.getAllBankBranchByBank(bankId);
 	}
-	
+
 	@ModelAttribute("locations")
 	public List<LocationMaster> getAlllocs() {
 		return locService.getAllLocations();
@@ -211,11 +212,10 @@ public class EmployeeController {
 		Employee emp = null;
 		Employee employee = new Employee();
 		try {
-			//emp = empService.getEmp(id);
-			
-			
-			EmployeeDetails ed = empService.findEmployeeByEpfNo(id, companyId);
-			if(ed == null) {
+			// emp = empService.getEmp(id);
+
+			Employee e = empService.findEmployeeByEpfNo(id, companyId);
+			if (e == null) {
 				String employeeId = empService.getMaxEmployeeId().toString();
 				employee.setEmpID(employeeId);
 				session.setAttribute("eid", employeeId);
@@ -226,32 +226,33 @@ public class EmployeeController {
 				session.setAttribute("addLine02", "");
 				mav.addObject("saveRegister", employee);
 			} else {
-				emp = ed.getDetailsPK().getEmpID();
-				if(emp.getBankBranch_Code() != null) {
-					List<Bank> branchList = bankDetailsService.getAllBankBranchByBank(emp.getBankBranch_Code().getBankid().getBankid());
+				emp = e;
+				if (emp.getBankBranch_Code() != null) {
+					List<Bank> branchList = bankDetailsService
+							.getAllBankBranchByBank(emp.getBankBranch_Code().getBankid().getBankid());
 					mav.addObject("branchListByBank", branchList);
 				}
 				session = request.getSession();
-				session.setAttribute("eid", emp.getEmpID());
+				session.setAttribute("eid", emp.getEpfNo());
 				session.setAttribute("ename", emp.getName());
 				session.setAttribute("eImg", emp.getProfileImgView());
 				session.setAttribute("lastName", emp.getLastname());
 				session.setAttribute("addLine01", emp.getAddress());
 				session.setAttribute("addLine02", emp.getCity());
-				
+
 				mav.addObject("saveRegister", emp);
 				try {
 					String empImg = emp.getProfileImgView();
 					mav.addObject("EImg", empImg);
-				} catch (Exception e) {
+				} catch (Exception ex) {
 					System.out.println("Employee Image Not Found");
 				}
 			}
-			
-		} catch (Exception e) {
-			System.out.println("Employee Details Not Found" + e);
+
+		} catch (Exception ex) {
+			System.out.println("Employee Details Not Found" + ex);
 		}
-		
+
 		return mav;
 	}
 
@@ -262,7 +263,7 @@ public class EmployeeController {
 		try {
 			emp = empService.updateDetailsUsingEmpName(name);
 			session = request.getSession();
-			session.setAttribute("eid", emp.getEmpID());
+			session.setAttribute("eid", emp.getEpfNo());
 			session.setAttribute("ename", emp.getName());
 			session.setAttribute("eImg", emp.getProfileImgView());
 			session.setAttribute("lastName", emp.getLastname());
@@ -306,11 +307,13 @@ public class EmployeeController {
 
 	// get
 	@RequestMapping(value = "/EmployeeDetails", method = RequestMethod.GET)
-	public String getEmpDetailsPage(Map<String, Object> map) {
+	public String getEmpDetailsPage(Map<String, Object> map, HttpSession session) {
+		Employee emp = empService.getEmp(session.getAttribute("eid").toString());
 		map.put("EmpDetails", new EmployeeDetails());
 		EmployeeDetailsPK empDe = new EmployeeDetailsPK();
 		empDe.setDetailID("00000".substring(empService.getID().length()) + empService.getID());
 		map.put("id", empDe);
+		map.put("epfNo", emp.getEpfNo());
 		return "hrm/employeeDetails";
 	}
 
@@ -337,14 +340,16 @@ public class EmployeeController {
 	@GetMapping("/updateDetails")
 	public ModelAndView updateDetails(@RequestParam("empID") String empID) {
 		ModelAndView mav = new ModelAndView("hrm/employeeDetails");
+		Employee emp = empService.getEmp(empID);
 		EmployeeDetails detail = null;
 		try {
 			detail = empService.updateDetails(empID);
-			//Employee Details Update code
-			if(detail == null) {
+			// Employee Details Update code
+			if (detail == null) {
 				mav.addObject("EmpDetails", new EmployeeDetails());
 			} else {
 				mav.addObject("EmpDetails", detail);
+				mav.addObject("epfNo", emp.getEpfNo());
 			}
 		} catch (Exception e) {
 			System.out.println("Employee ID Not Found");

@@ -119,6 +119,9 @@ public class Employee {
 
 	@Column(name = "EmpCateCode")
 	private String employeeCategory;
+	
+	@Column(name = "EPF_No")
+	private String epfNo;
 
 	public String getEmpID() {
 		return empID;
@@ -328,7 +331,7 @@ public class Employee {
 			String dob, String gender, MultipartFile profileImg, String address, String city, String state,
 			String salaryGrade, String id_Number, String dl_number, String passport_Number, String emergency_Contact_No,
 			String blood_Group, String bank_Code, Bank bankBranch_Code, String bank_Account, String lastname,
-			String contact_num1, String contact_num2, String email, String password, CompanyMaster company)
+			String contact_num1, String contact_num2, String email, String password, CompanyMaster company, String epfNo)
 			throws IOException {
 		this.empID = empID;
 		this.nationality = nationality;
@@ -355,13 +358,14 @@ public class Employee {
 		this.email = email;
 		this.password = password;
 		this.company = company;
+		this.epfNo = epfNo;
 	}
 
 	public Employee(String empID, NationalityMaster nationality, ReligionMaster religion, String mStatus, String name,
 			String dob, String gender, MultipartFile profileImg, String id_Number, String dl_number,
 			String passport_Number, String emergency_Contact_No, String blood_Group, String bank_Code,
 			Bank bankBranch_Code, String bank_Account, String address, String city, String state, String lastname,
-			String contact_num1, String contact_num2, String email, String password, CompanyMaster company)
+			String contact_num1, String contact_num2, String email, String password, CompanyMaster company, String epfNo)
 			throws IOException {
 
 		this.empID = empID;
@@ -389,6 +393,7 @@ public class Employee {
 		this.email = email;
 		this.password = password;
 		this.company = company;
+		this.epfNo = epfNo;
 	}
 
 	public Employee() {
@@ -402,7 +407,7 @@ public class Employee {
 			MultipartFile profileImg, String id_Number, String dl_number, String passport_Number,
 			String emergency_Contact_No, String blood_Group, String bank_Code, Bank bankBranch_Code,
 			String bank_Account, String address, String city, String state, String lastname, String contact_num1,
-			String contact_num2, String email, String password, CompanyMaster company) throws IOException {
+			String contact_num2, String email, String password, CompanyMaster company, String epfNo) throws IOException {
 
 		this.empID = empID;
 		this.nationality = nationality;
@@ -428,6 +433,7 @@ public class Employee {
 		this.email = email;
 		this.password = password;
 		this.company = company;
+		this.epfNo = epfNo;
 	}
 
 	public String getEmployeeCategory() {
@@ -438,4 +444,11 @@ public class Employee {
 		this.employeeCategory = employeeCategory;
 	}
 
+	public String getEpfNo() {
+		return epfNo;
+	}
+
+	public void setEpfNo(String epfNo) {
+		this.epfNo = epfNo;
+	}
 }

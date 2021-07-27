@@ -120,6 +120,10 @@ public class EmployeeService {
 			return empRepo.getMaxEmployeeId();
 		}
 	}
+	
+	public Employee findEmployeeByEpfNo(String epfNo, String companyId) {
+		return empRepo.findEmployeeByEpfNo(epfNo, companyId);
+	}
 
 	// employee contact type-------------------------------------
 
@@ -224,8 +228,8 @@ public class EmployeeService {
 		return empDeRepo.passEmpRelatedDep(depID);
 	}
 
-	public EmployeeDetails findEmployeeByEpfNo(String epfNo, String companyId) {
-		return empDeRepo.findEmployeeByEpfNo(epfNo, companyId);
+	public EmployeeDetails findEmployeeByEpfNo02(String epfNo, String companyId) {
+		return empDeRepo.findEmployeeByEpfNo02(epfNo, companyId);
 	}
 
 	// employee census report------------------------------------
@@ -363,7 +367,4 @@ public class EmployeeService {
 		return naRepo.employeeAllocateMonthlyAllowances(companyId, paytype, paycod);
 
 	}
-
-	
-
 }
