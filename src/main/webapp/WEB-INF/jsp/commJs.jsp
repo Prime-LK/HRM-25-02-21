@@ -62,27 +62,27 @@
 <script type="text/javascript">
 
 	
-        $(document).ready(  
-        		function() { 
+//         $(document).ready(  
+//         		function() { 
         			
         
-        			if(<%=session.getAttribute("company.comID")%>==null){
+<%--         			if(<%=session.getAttribute("name")%>==null){ --%>
 
-		        		swal("Oops...", "Session Expired", {
-							icon : "error",
-							buttons: {        			
-								confirm: {
-									className : 'btn btn-danger'
-								}
-							},
-						});
+// 		        		swal("Oops...", "Session Expired", {
+// 							icon : "error",
+// 							buttons: {        			
+// 								confirm: {
+// 									className : 'btn btn-danger'
+// 								}
+// 							},
+// 						});
 		        		
-        			window.location.href = "logout";
-        			}
+//         			window.location.href = "logout";
+//         			}
         			
-        	}
+//         	}
         		
-        );	
+//         );	
 	  	
 
 

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.navitsa.hrm.entity.CompanyMaster;
@@ -35,7 +36,19 @@ public class LoginController {
 		mav.addObject("allComMas", companyList);
 	return mav;
 	}
-	
+	// delete session attribute using in emp edit
+	@RequestMapping("/logout")
+	public String logout(Employee emp, WebRequest request, HttpSession session, HttpServletRequest r) {
+		// ModelAndView mav=new ModelAndView("login");
+		session.invalidate();
+//		session.setAttribute("eid", "empty");
+//		session.removeAttribute("eid");
+//		session.setAttribute("ename", "empty");
+//		session.removeAttribute("ename");
+//		session.setAttribute("eImg", "empty");
+//		session.removeAttribute("eImg");
+		return "redirect:/";
+	}
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public ModelAndView validateEmp(@RequestParam("name") String name, @RequestParam("password") String password,
 			@RequestParam("company.comID") String comID, HttpSession session, HttpServletRequest request,
