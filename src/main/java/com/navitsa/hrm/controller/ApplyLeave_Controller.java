@@ -39,7 +39,7 @@ public class ApplyLeave_Controller {
 	private EmpEntitlementService empEntitlementService;
 	
 	
-	@RequestMapping(value = "/applyLeaves", method = RequestMethod.GET)
+	@RequestMapping(value = "/applyLeave", method = RequestMethod.GET)
 	public String openForm(Map<String, Object>model,HttpSession session) {
 		
 		String companyID=(String) session.getAttribute("company.comID");
@@ -52,6 +52,7 @@ public class ApplyLeave_Controller {
 		try {
 			model.put("allDepartment", depService.getAllDepartmentByCompany(companyID));
 			model.put("allLeaveType", leaveTypeService.getLeaveTypesByCompany(companyID));
+			model.put("allEmployee",empService.getEmployeeDetailsByCompanyID(companyID));
 		} catch (Exception e) {
 			
 		}
@@ -59,8 +60,8 @@ public class ApplyLeave_Controller {
 		return "hrm/applyLeaves";
 	}
 	
-	@RequestMapping(value = "/applyLeave", method = RequestMethod.POST)
-	public String applyLeave(@ModelAttribute("applyleave") ApplyLeave applyleave, 
+	@RequestMapping(value = "/saveLeave", method = RequestMethod.POST)
+	public String saveLeave(@ModelAttribute("applyleave") ApplyLeave applyleave, 
 			RedirectAttributes ra) {
 		
 		String[] dates;
@@ -77,7 +78,7 @@ public class ApplyLeave_Controller {
 				}
 						
 				ra.addFlashAttribute("success", 1);
-				return "redirect:/applyLeaves";	
+				return "redirect:/applyLeave";	
 			} catch (Exception e) {
 				System.out.println(e); 
 			}
@@ -95,6 +96,16 @@ public class ApplyLeave_Controller {
 		String companyID=(String) session.getAttribute("company.comID");
 		List<ApplyLeave> ls = ALService.getappliedLeaveByEmployee(employeeID, companyID);
 		return ls;
+		
+	}
+	
+	@RequestMapping(value="/getEmployeeByEPFNo", method=RequestMethod.GET)
+	public @ResponseBody EmployeeDetails getEmployeeByEPFNo(
+			@RequestParam String epfNo,HttpSession session) {
+
+		String companyId=(String) session.getAttribute("company.comID");
+		EmployeeDetails ed = empService.findEmployeeByEpfNo02(epfNo, companyId);
+		return ed;
 		
 	}
 	

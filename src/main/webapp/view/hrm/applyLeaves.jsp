@@ -31,12 +31,19 @@
 		<div class="main-panel">
 			<div class="content">
 				<div class="panel-header bg-primary-gradient">
-					<div class="page-inner py-3">
+					<div class="page-inner py-4">
 						<div class="d-flex align-items-left align-items-md-center flex-column flex-md-row">
-							<div class="col-xl col-lg">
-								 <h2 class="text-white pb-2 fw-bold">Apply for Leave</h2>
+							<div class="row">
+								<div class="col-lg">
+									 <h2 class="text-white pb-2 fw-bold">Apply for Leave</h2>
+								</div>
+								<div class="col-lg">
+									<input name="epfNo" id="epfNo" type="text" 
+									class="form-control form-control-sm" 
+									placeholder="Search by EPF No" 
+									onchange="loadEmployeeByEPFNo()" />
+								</div>
 							</div>
-
 						</div>
 					</div>
 				</div>
@@ -63,7 +70,7 @@
 										  </div>
 										</c:if>
 										
-										<form:form action="applyLeave" method="post" modelAttribute="applyleave" id="form1">
+										<form:form action="saveLeave" method="post" modelAttribute="applyleave" id="form1">
 										
 											<form:input type="hidden" path="leaveID"/>
 											<form:input type="hidden" path="company.comID" id="companyID"/>
@@ -87,8 +94,11 @@
 												<div class="col-lg">
 													<label for="employee">Employee</label>
 													<form:select class="form-control form-control-sm" id="employee"
-														path="employee.empID" required="" onchange="getAppliedLeave(this.value);getBalanceLeaveMsg();getBalanceLeaveSum()">
+														path="employee.empID" required="" onchange="getAppliedLeave();getBalanceLeaveMsg();getBalanceLeaveSum()">
 														<form:option value="">--Select--</form:option>
+														<c:forEach items="${allEmployee}" var="em">
+															<form:option value="${em.detailsPK.empID.empID}">${em.epfNo} - ${em.detailsPK.empID.name} ${em.detailsPK.empID.lastname}</form:option>
+														</c:forEach>
 													</form:select>
 												</div>
 											</div>
@@ -186,11 +196,11 @@
 
 <script>
 
-function getAppliedLeave(str)
+function getAppliedLeave()
 {
-	//var companyID = document.getElementById("companyID").value;
+	var employeeId = document.getElementById("employee").value;
 	
-	if (str=="" || companyID=="") {
+	if (employeeId=="") {
        	$("#table1 tbody").empty();
        	return;
        	
@@ -198,7 +208,7 @@ function getAppliedLeave(str)
 			$.ajax({
 		    type: 'GET',
 		    url: "getAppliedLeaveByEmployee",
-		    data: {"employeeID" : str},
+		    data: {"employeeID" : employeeId},
 		    success: function(data){
 
 		    	$("#table1 tbody").empty();
@@ -284,7 +294,7 @@ function getBalanceLeaveSum() {
 		    			    todayBtn: "linked",
 		    			    multidate: data,
 		    			    multidateSeparator: ",",
-		    			    daysOfWeekDisabled: "0,6",
+		    			    //daysOfWeekDisabled: "0,6",
 		    			    daysOfWeekHighlighted: "0,6",
 		    			    todayHighlight: true
 		    			  }
@@ -339,11 +349,11 @@ function loadEmployeeByDepartment(){
 
 			var dropDown=$('#employee'), option="";
 			dropDown.empty();
-			selected_option = "<option>--Select--</option>"
+			selected_option = "<option value=''>--Select--</option>"
 			dropDown.append(selected_option);
 
             for(var i=0; i<data.length; i++){
-                option = option + "<option value='"+data[i].detailsPK.empID.empID+ "'>"+data[i].detailsPK.empID.name+" "+data[i].detailsPK.empID.lastname+ "</option>";
+                option = option + "<option value='"+data[i].detailsPK.empID.empID+ "'>"+data[i].epfNo+ " - " +data[i].detailsPK.empID.name+" "+data[i].detailsPK.empID.lastname+"</option>";
             }
             dropDown.append(option);
         },
@@ -355,7 +365,29 @@ function loadEmployeeByDepartment(){
 	}
 }
 
+function loadEmployeeByEPFNo() {
+	var epfNo = document.getElementById("epfNo").value;	
+ 	$.ajax({
+		type : "GET",
+		url : "getEmployeeByEPFNo",
+		data : {"epfNo" : epfNo},
+		success : function(data) {
+			//alert("success "+data.detailsPK.empID.empID);
+			document.getElementById("department").value = data.department.depID;
+			//loadEmployeeByDepartment();
+			document.getElementById("employee").value = data.detailsPK.empID.empID;
+			getAppliedLeave();
+			getBalanceLeaveMsg();
+			getBalanceLeaveSum();
+		},
+		error : function() {
+			alert("error");
+		}
+	});
+}
 </script>
+
+
 
 
 
