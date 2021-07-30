@@ -129,12 +129,25 @@
 													<div class="row ml-3">
 														<div class="col-12">
 															<div class="form-group">
-																<span> <c:if test="${eid != null}">
+															
+															<span> <c:if test="${epfNo != null}">
+																			<div>
+																				<span id="comDeId"><%=session.getAttribute("epfNo")%></span><br>
+																			</div>
+																		</c:if> <c:if test="${epfNo == null}">
+																			<div>
+																				<br>
+																			</div>
+																		</c:if>
+
+
+																	</span>
+																<%-- <span> <c:if test="${eid != null}">
 																		<div>
 																			<span id="comDeId"><%=session.getAttribute("eid")%></span>
 																		</div>
 																	</c:if>
-																</span> <span> <c:if
+																</span> --%> <span> <c:if
 																		test="${ename != null || lastName != null }">
 																		<div>
 																			<span id="comDeId"><%=session.getAttribute("ename")%></span>

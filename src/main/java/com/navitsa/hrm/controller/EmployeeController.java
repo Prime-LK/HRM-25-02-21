@@ -95,6 +95,7 @@ public class EmployeeController {
 			return "hrm/register";
 		} else {
 			try {
+				System.out.println("EPF No : " + e.getEpfNo());
 				empService.saveEmp(e);
 				session = request.getSession();
 				session.setAttribute("eid", e.getEpfNo());
@@ -233,7 +234,8 @@ public class EmployeeController {
 					mav.addObject("branchListByBank", branchList);
 				}
 				session = request.getSession();
-				session.setAttribute("eid", emp.getEpfNo());
+				session.setAttribute("eid", emp.getEmpID());
+				session.setAttribute("epfNo", emp.getEpfNo());
 				session.setAttribute("ename", emp.getName());
 				session.setAttribute("eImg", emp.getProfileImgView());
 				session.setAttribute("lastName", emp.getLastname());
@@ -263,7 +265,8 @@ public class EmployeeController {
 		try {
 			emp = empService.updateDetailsUsingEmpName(name);
 			session = request.getSession();
-			session.setAttribute("eid", emp.getEpfNo());
+			session.setAttribute("eid", emp.getEmpID());
+			session.setAttribute("epfNo", emp.getEpfNo());
 			session.setAttribute("ename", emp.getName());
 			session.setAttribute("eImg", emp.getProfileImgView());
 			session.setAttribute("lastName", emp.getLastname());

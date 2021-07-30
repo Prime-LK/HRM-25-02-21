@@ -138,11 +138,11 @@
 															<div class="col-12">
 																<div class="form-group">
 
-																	<span> <c:if test="${eid != null}">
+																	<span> <c:if test="${epfNo != null}">
 																			<div>
-																				<span id="comDeId"><%=session.getAttribute("eid")%></span><br>
+																				<span id="comDeId"><%=session.getAttribute("epfNo")%></span><br>
 																			</div>
-																		</c:if> <c:if test="${eid == null}">
+																		</c:if> <c:if test="${epfNo == null}">
 																			<div>
 																				<br>
 																			</div>
@@ -168,7 +168,7 @@
 
 																	</span>
 																	<div class="row">
-																		<input name="epfNo" type="text"
+																		<input name="searchEpfNo" type="text"
 																			class="form-control col-8"
 																			placeholder="Search by EPF No" id="empID"
 																			onchange="loadEmpDetails()" />
@@ -361,7 +361,7 @@
 												<label class="col-4">EPF No</label>
 												<form:input path="epfNo" type="text" required="true"
 													class="form-control col-8" placeholder="EPF No" id="epfNo"
-													onchange="" value="" />
+													onchange=""/>
 											</div>
 										</div>
 									</div>

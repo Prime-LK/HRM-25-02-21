@@ -287,7 +287,7 @@ public interface EmployeeDetailsRepository extends CrudRepository<EmployeeDetail
 			+ "group by c.Employee_ID order by c.Employee_ID", nativeQuery = true)
 	public String[][] newPayrollReport();
 
-	@Query(value = "SELECT er FROM EmployeeDetails er WHERE er.department.depID=:departmentId AND er.company.comID=:companyId")
+	@Query(value = "SELECT er FROM EmployeeDetails er WHERE er.department.depID=:departmentId AND er.company.comID=:companyId AND er.status = 'ACTIVE'")
 	public List<EmployeeDetails> filterEmployeesByDepartmentAndCompany(@Param("departmentId") String departmentId,
 			@Param("companyId") String companyId);
 

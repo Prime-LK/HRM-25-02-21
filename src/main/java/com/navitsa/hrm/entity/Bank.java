@@ -21,15 +21,15 @@ public class Bank {
 	@JoinColumn(name="Bank_ID", referencedColumnName ="Bank_ID")
 	private BankMaster bankid;
 	
-	@NotEmpty(message="required")
+	//@NotEmpty(message="required")
 	@Column(name="Branch")
 	private String branch;
 	
-	@NotEmpty(message="required")
+	//@NotEmpty(message="required")
 	@Column(name="Address")
 	private String address;
 	
-	@NotEmpty(message="required")
+	//@NotEmpty(message="required")
 	@Column(name="Contact_No")
 	private String contactNo;
 	
