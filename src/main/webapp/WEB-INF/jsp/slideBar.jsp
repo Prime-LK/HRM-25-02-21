@@ -120,9 +120,6 @@
 							<li><a href="AttendanceLog"> <span class="sub-item">Manual Attendance Log</span></a></li>
 							<li><a href="EmployeeAttendanceApproval"> <span class="sub-item">Manual Attendance Approval</span></a></li>
 							<li><a href="AttendanceReport"> <span class="sub-item">Attendance Report</span></a></li>
-							<li><a href="AttendanceRevise"> <span class="sub-item">Attendance Revise</span></a></li>
-							<li><a href="AttendanceReviseApproval"> <span class="sub-item">Attendance Revise Approval</span></a></li>
-							<li><a href="ShiftDetailReport"> <span class="sub-item">Shift Detail Report</span></a></li>
 							<li class="dropdown-divider"></li>
 							<li><a href="readAttedanceTxtFiles"> <span class="sub-item">Import Attendance Files</span></a></li>
 							<li><a href="attendanceProcess"> <span class="sub-item">Attendance Process</span></a></li>

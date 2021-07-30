@@ -216,4 +216,8 @@ public class EmployeeAttendanceService {
 		// TODO Auto-generated method stub
 		return employeeAttendanceRepository.getAttendanceRecords(startDate,endDate,employeeID,companyID);
 	}
+
+	public void deleteEmployeeAttendance(String date, String employeeId, String shiftId) {
+		employeeAttendanceRepository.deleteEmployeeAttendance(date, employeeId, shiftId);
+	}
 }
