@@ -50,4 +50,14 @@ public class AttendanceProcessService {
 	public List<AttendanceSheet> getOTByDayType(String dayType, String payPeriodID, String employeeID, String companyID) {
 		return attendanceSheetRepo.getOTByDayType(dayType, payPeriodID,employeeID,companyID);
 	}
+	
+	public List<AttendanceSheet> getAttendanceReportBy(String payPeriod,String employeeId,String companyId) {
+		return attendanceSheetRepo.getAttendanceReportBy(payPeriod, employeeId, companyId);
+	}
+	
+	public List<AttendanceSheet> getAttendanceReportByPayPeriod(String payPeriod,String companyId) {
+		return attendanceSheetRepo.getAttendanceReportByPayPeriod(payPeriod, companyId);
+	}
+	
+	
 }
