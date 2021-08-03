@@ -57,7 +57,7 @@
 												<label class="l-fontst">Pay Period</label> <select
 													class="custom-select custom-select-sm" id="payperodid" 
 													name="payPeriod" required onchange="getEmployee();" >
-													<option value="">select Pay Period</option>
+													<option value="">Select Pay Period</option>
 													<c:forEach items="${payPeriodPayShip}" var="payPeriodPayShip" >
 														<option value="${payPeriodPayShip.payPeriodID}">${pship.desc}
 															(${payPeriodPayShip.startDate}-${payPeriodPayShip.endDate})</option>

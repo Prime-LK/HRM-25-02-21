@@ -472,6 +472,7 @@ public class AttendanceProcessController {
 				AttendanceSheetBeen empconLisbe = new AttendanceSheetBeen();
 				empconLisbe.setAttendanceSheetId(result.getAttendanceSheetId()+"");
 				empconLisbe.setDate(result.getDate());
+				empconLisbe.setType(result.getDayType());
 				empconLisbe.setShift(result.getShift()+"");
 				empconLisbe.setShiftIn(result.getShiftIn());
 				empconLisbe.setShiftOut(result.getShiftOut());
@@ -487,6 +488,7 @@ public class AttendanceProcessController {
 				empconLisbe.setOtHrsNormal(result.getOtHrsNormal()+"");
 				empconLisbe.setOtHrsExtra(result.getOtHrsExtra()+"");
 				empconLisbe.setSpcNSAEntitlement(result.getSpcNSAEntitlement());
+				empconLisbe.setPayPeriod(result.getPayPeriod().getDesc());
 				empconLisbe.setEpf(result.getEmployee().getEpfNo());
 				empconLisbe.setEmployee(result.getEmployee().getName()+"."+result.getEmployee().getLastname());
 //	

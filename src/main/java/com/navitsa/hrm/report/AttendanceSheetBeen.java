@@ -5,6 +5,7 @@ public class AttendanceSheetBeen {
 	private String attendanceSheetId;	
 	private String date;
 	private String shift;
+	private String type;
 	private String shiftIn;
 	private String shiftOut;
 	private String timeIn;
@@ -28,6 +29,12 @@ public class AttendanceSheetBeen {
 	
 	
 	
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
 	public String getEpf() {
 		return epf;
 	}

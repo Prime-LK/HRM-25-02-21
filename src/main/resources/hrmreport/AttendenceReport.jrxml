@@ -29,6 +29,8 @@
 	<field name="spcNSAEntitlement" class="java.lang.String"/>
 	<field name="company.comID" class="java.lang.String"/>
 	<field name="epf" class="java.lang.String"/>
+	<field name="payPeriod" class="java.lang.String"/>
+	<field name="type" class="java.lang.String"/>
 	<group name="employ" isStartNewPage="true">
 		<groupExpression><![CDATA[$F{employee}]]></groupExpression>
 		<groupHeader>
@@ -76,6 +78,18 @@
 				</textElement>
 				<text><![CDATA[EPF No:]]></text>
 			</staticText>
+			<textField>
+				<reportElement x="736" y="9" width="81" height="20" uuid="e38929c2-0d03-4237-ba3c-cc910d3eecd4"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{payPeriod}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="651" y="9" width="85" height="20" uuid="ea9010a4-2aed-42a8-801e-7c67f575315d"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Pay period :]]></text>
+			</staticText>
 		</band>
 	</pageHeader>
 	<columnHeader>
@@ -92,7 +106,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
 					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[ID]]></text>
+				<text><![CDATA[Type]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Opaque" x="172" y="17" width="57" height="18" backcolor="#CCCCFF" uuid="761fb171-d9d4-4917-b711-c9c7e125cdd9"/>
@@ -329,7 +343,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[OT (hrs)]]></text>
+				<text><![CDATA[OT (min)]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Opaque" x="21" y="0" width="72" height="35" backcolor="#CCCCFF" uuid="7ccdf0e1-ad24-4953-8436-ab8a07a7473d"/>
@@ -353,11 +367,6 @@
 				<reportElement x="21" y="0" width="72" height="17" uuid="dd671cc1-0703-4bf7-ac0a-9e509ce39be3"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{date}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="93" y="0" width="79" height="17" uuid="5db08ac2-f987-45a0-a2e6-1260c40d40b7"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{shift}=="null"||$F{shift}==null?"---":$F{shift}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="172" y="0" width="56" height="17" uuid="d419be18-e5ee-4fb3-9f38-efd8bd81b1cb"/>
@@ -423,6 +432,11 @@
 				<reportElement x="768" y="0" width="52" height="17" uuid="0b7f8ab9-9920-4efd-8f02-95c4b9c70ce0"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{otHrsExtra}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="93" y="0" width="79" height="17" uuid="9ef2dda0-1ad5-42fe-8214-6bc322927cdd"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{type}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
