@@ -65,7 +65,7 @@
 												</select>
 											</div></div>
 											
-											<div class="form-group row">
+											<div class="form-group row" hidden="true">
 										<div class="col-sm-12">
 										<label class="l-fontst">Department</label>
 												<select class="custom-select custom-select-sm" name="dep" id="dept"
