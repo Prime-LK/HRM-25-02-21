@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="attendance_report" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="842" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="44db66c6-da37-40f8-b8b4-1328c05fede1">
-	<property name="ireport.zoom" value="3.0"/>
+	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="employee" class="java.lang.String"/>
@@ -55,8 +55,8 @@
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="23" y="3" width="798" height="14" forecolor="#0099FF" uuid="51e08214-6564-4c68-a710-ed045530699d"/>
-				<textElement textAlignment="Center">
+				<reportElement x="23" y="3" width="798" height="26" forecolor="#0099FF" uuid="51e08214-6564-4c68-a710-ed045530699d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{companny}]]></textFieldExpression>
