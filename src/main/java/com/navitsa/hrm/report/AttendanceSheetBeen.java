@@ -23,8 +23,17 @@ public class AttendanceSheetBeen {
 	private String employee;
 	private String lastName;
 	private String payPeriod;
+	private String epf;
 	
 	
+	
+	
+	public String getEpf() {
+		return epf;
+	}
+	public void setEpf(String epf) {
+		this.epf = epf;
+	}
 	public String getLastName() {
 		return lastName;
 	}

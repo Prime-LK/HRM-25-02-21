@@ -487,6 +487,7 @@ public class AttendanceProcessController {
 				empconLisbe.setOtHrsNormal(result.getOtHrsNormal()+"");
 				empconLisbe.setOtHrsExtra(result.getOtHrsExtra()+"");
 				empconLisbe.setSpcNSAEntitlement(result.getSpcNSAEntitlement());
+				empconLisbe.setEpf(result.getEmployee().getEpfNo());
 				empconLisbe.setEmployee(result.getEmployee().getName()+"."+result.getEmployee().getLastname());
 //	
 				attendanceSheetBeen.add(empconLisbe);
