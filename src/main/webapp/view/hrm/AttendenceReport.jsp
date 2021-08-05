@@ -206,13 +206,18 @@
 										
 							</div>
 							<div class="form-group row">
-										<div class="col-sm-12">
+								<div class="col-sm-7">
 							
-							<input class="form-check-input form-check-input-sm" name="empgroup" type="checkbox" value="yes" id="empgroup" >
-							<label class="l-fontst">one sheet per Employee</label>
+									<label class="l-fontst">one sheet per Employee</label>
 							
 								</div>
+								<div class="col-sm-5">	
+									<select class="custom-select custom-select-sm" name="empgroup" id="empgroup" required >
+										<option value="Yes">YES</option>
+										<option value="No">No</option>
+									</select>
 									
+								</div>
 										
 							</div>
 							

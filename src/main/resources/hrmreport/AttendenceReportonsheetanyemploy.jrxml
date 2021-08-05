@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="attendance_report" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="842" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="44db66c6-da37-40f8-b8b4-1328c05fede1">
-	<property name="ireport.zoom" value="1.3310000000000004"/>
-	<property name="ireport.x" value="31"/>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="attendancereport" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="842" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="44db66c6-da37-40f8-b8b4-1328c05fede1">
+	<property name="ireport.zoom" value="1.0000000000000007"/>
+	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="employee" class="java.lang.String"/>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
@@ -31,17 +31,51 @@
 	<field name="epf" class="java.lang.String"/>
 	<field name="payPeriod" class="java.lang.String"/>
 	<field name="type" class="java.lang.String"/>
-	<group name="employ" isStartNewPage="true">
+	<group name="employ">
 		<groupExpression><![CDATA[$F{employee}]]></groupExpression>
 		<groupHeader>
-			<band/>
+			<band height="14">
+				<textField>
+					<reportElement x="151" y="0" width="668" height="14" uuid="cf2dd6c5-6f70-4500-bd3b-3a2937878917"/>
+					<box>
+						<topPen lineWidth="1.0" lineStyle="Dotted"/>
+						<bottomPen lineWidth="1.0" lineStyle="Dotted"/>
+					</box>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{employee}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="21" y="0" width="54" height="14" uuid="97c16597-ef3f-49be-a534-dbadbb31e99f"/>
+					<box>
+						<topPen lineWidth="1.0" lineStyle="Dotted"/>
+						<bottomPen lineWidth="1.0" lineStyle="Dotted"/>
+					</box>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[EPF No:]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="75" y="0" width="76" height="14" uuid="2368824c-4c60-41fd-a8b0-117467837bfc"/>
+					<box>
+						<topPen lineWidth="1.0" lineStyle="Dotted"/>
+						<bottomPen lineWidth="1.0" lineStyle="Dotted"/>
+					</box>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{epf}]]></textFieldExpression>
+				</textField>
+			</band>
 		</groupHeader>
 	</group>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<pageHeader>
-		<band height="29" splitType="Stretch">
+		<band height="18" splitType="Stretch">
 			<staticText>
 				<reportElement x="23" y="1" width="259" height="16" uuid="e56ed5fd-ee5b-433c-b585-0f7be6250ea6"/>
 				<textElement textAlignment="Left" verticalAlignment="Bottom">
@@ -57,34 +91,19 @@
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="23" y="3" width="798" height="14" forecolor="#0099FF" uuid="51e08214-6564-4c68-a710-ed045530699d"/>
+				<reportElement x="21" y="3" width="798" height="14" forecolor="#0099FF" uuid="51e08214-6564-4c68-a710-ed045530699d"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{companny}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="140" y="15" width="351" height="14" uuid="cf2dd6c5-6f70-4500-bd3b-3a2937878917"/>
-				<textFieldExpression><![CDATA[$F{employee}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="72" y="15" width="68" height="14" uuid="2368824c-4c60-41fd-a8b0-117467837bfc"/>
-				<textFieldExpression><![CDATA[$F{epf}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="23" y="15" width="49" height="14" uuid="97c16597-ef3f-49be-a534-dbadbb31e99f"/>
-				<textElement>
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[EPF No:]]></text>
-			</staticText>
-			<textField>
-				<reportElement x="736" y="9" width="81" height="20" uuid="e38929c2-0d03-4237-ba3c-cc910d3eecd4"/>
+				<reportElement x="736" y="0" width="81" height="16" uuid="e38929c2-0d03-4237-ba3c-cc910d3eecd4"/>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA[$F{payPeriod}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="651" y="9" width="85" height="20" uuid="ea9010a4-2aed-42a8-801e-7c67f575315d"/>
+				<reportElement x="651" y="3" width="85" height="14" uuid="ea9010a4-2aed-42a8-801e-7c67f575315d"/>
 				<textElement textAlignment="Right">
 					<font isBold="true"/>
 				</textElement>
@@ -93,7 +112,7 @@
 		</band>
 	</pageHeader>
 	<columnHeader>
-		<band height="35">
+		<band height="36">
 			<staticText>
 				<reportElement mode="Opaque" x="93" y="17" width="79" height="18" backcolor="#CCCCFF" uuid="9e8c84c9-ee42-423b-8ed4-a43c66cccc7d"/>
 				<box>

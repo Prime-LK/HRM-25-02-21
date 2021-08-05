@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="employeeAllocateMonthlyAllowance" pageWidth="595" pageHeight="842" columnWidth="595" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="3737c8f8-35e7-4ea0-bf9f-c557f6bbbdf3">
-	<property name="ireport.zoom" value="1.7715610000000015"/>
+	<property name="ireport.zoom" value="1.3310000000000008"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<style name="Crosstab Data Text" hAlign="Center"/>
@@ -14,6 +14,7 @@
 	<parameter name="empcatP" class="java.lang.String"/>
 	<parameter name="religionP" class="java.lang.String"/>
 	<parameter name="civistaP" class="java.lang.String"/>
+	<parameter name="paydate" class="java.lang.String"/>
 	<field name="epfno" class="java.lang.String"/>
 	<field name="name" class="java.lang.String"/>
 	<field name="nic" class="java.lang.String"/>
@@ -22,40 +23,40 @@
 	<field name="basicsal" class="java.lang.Double"/>
 	<field name="type" class="java.lang.String"/>
 	<field name="amount" class="java.lang.Double"/>
+	<field name="addedstatus" class="java.lang.String"/>
 	<variable name="variable1" class="java.lang.Double" calculation="Sum">
 		<variableExpression><![CDATA[$F{amount}]]></variableExpression>
 	</variable>
 	<pageHeader>
-		<band height="102">
+		<band height="74">
 			<textField>
 				<reportElement x="5" y="36" width="580" height="20" uuid="6b49a67e-dc73-43a6-a53e-860b4ad24947"/>
 				<textElement textAlignment="Center">
-					<font fontName="Arial" size="14" isBold="true"/>
+					<font fontName="Arial" size="13" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{companny}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="5" y="56" width="580" height="20" uuid="e78af55c-a957-459f-9aae-c883000a5884"/>
+				<reportElement x="5" y="14" width="580" height="22" uuid="cea82c81-cc7e-496f-89e0-811a03ab8eeb"/>
 				<textElement textAlignment="Center">
-					<font fontName="Arial" size="14" isBold="true"/>
+					<font fontName="Arial" size="13" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{address}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{addedstatus}+" Analysis For the Pay Date "+$P{paydate}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="5" y="16" width="580" height="20" forecolor="#000000" uuid="2ace482a-5e4e-46a6-a753-ced9e680d33d"/>
-				<textElement textAlignment="Center">
-					<font fontName="Arial" size="14" isBold="true"/>
+				<reportElement x="104" y="57" width="321" height="16" uuid="2ef1a31b-d7b0-4797-9e82-56fb79545fde"/>
+				<textElement>
+					<font fontName="Arial" size="10" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA["Employee Allocate Monthly Allowance"]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="10" y="76" width="82" height="26" uuid="a340ad8d-084a-4268-9021-07500fc39f89"/>
-				<text><![CDATA[Deduction Type :]]></text>
-			</staticText>
-			<textField>
-				<reportElement x="92" y="76" width="100" height="26" uuid="cea82c81-cc7e-496f-89e0-811a03ab8eeb"/>
 				<textFieldExpression><![CDATA[$F{type}]]></textFieldExpression>
 			</textField>
+			<staticText>
+				<reportElement x="4" y="57" width="100" height="16" uuid="b20f7408-17a6-42f5-835b-27436f1182f0"/>
+				<textElement>
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Deduction Code  : ]]></text>
+			</staticText>
 		</band>
 	</pageHeader>
 	<columnHeader>
@@ -150,7 +151,7 @@
 		<band/>
 	</columnFooter>
 	<summary>
-		<band height="31">
+		<band height="26">
 			<textField pattern="#,##0.00">
 				<reportElement x="463" y="0" width="122" height="20" uuid="71dd9e63-0102-4e2d-8d16-7644220c18a3"/>
 				<box>

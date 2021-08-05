@@ -49,7 +49,7 @@ public interface AttendanceSheetRepository extends CrudRepository<AttendanceShee
 	
 	
 	
-	@Query(value = "SELECT a FROM AttendanceSheet a WHERE a.payPeriod.payPeriodID=:payPeriod AND a.company.comID =:companyId")
-	public List<AttendanceSheet> getAttendanceReportByPayPeriod(@Param("payPeriod")String payPeriod, @Param("companyId")String companyId);
+	@Query(value = "call attendanceSheetReport(:payPeriod,:dep,:dis,:employeeId,:fromdate,:todate,:companyId)",nativeQuery = true)
+	public List<AttendanceSheet> getAttendanceReportByPayPeriod(@Param("payPeriod")String payPeriod,@Param("dep")String dep,@Param("dis")String dis,@Param("employeeId")String employeeId,@Param("fromdate")String fromdate,@Param("todate")String todate, @Param("companyId")String companyId);
 
 }

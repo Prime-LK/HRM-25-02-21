@@ -10,6 +10,7 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -315,6 +316,13 @@ public class SalaryController {
 		return "hrm/empMonthSalaryDetails01";
 	}
 
+	@GetMapping("/getEmpmonthowancesGrid")
+	public @ResponseBody List<EmployeeMonthSalaryDetails> getEmpmonthowancesGrid(@RequestParam("payCode") String payCode,@RequestParam("adddedtype") String adddedtype,HttpSession session) {
+		String comID = (String) session.getAttribute("company.comID");		
+		List<EmployeeMonthSalaryDetails> pa=payService.getEmpmonthowancesGrid(payCode,adddedtype,comID);
+		return pa;
+	}
+	
 	// month salary save 01
 //	@PostMapping("/saveEmpMoSaDetails01")
 //	public String saveEmpMoSaDe01(@ModelAttribute("formMonthSalary") EmployeeMonthSalaryDetails empMoSaDe,

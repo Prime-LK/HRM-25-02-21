@@ -509,8 +509,20 @@ public class AttendanceProcessController {
 			params.put("address", companyMaster.getAddress());
 			
 			
+			String reportname="";
+			System.out.println("empgroup="+empgroup);
+			if(empgroup.equals("Yes")) {
+				reportname="AttendenceReport.jasper";
+			}
+			else {
+				reportname="AttendenceReportonsheetanyemploy.jasper";
+			}
+			
+			
+			
+			
 			ReportViewe review = new ReportViewe();
-			String report = review.pdfReportViewInlineSystemOpen("AttendenceReport.jasper", "", attendanceSheetBeen, params, response);
+			String report = review.pdfReportViewInlineSystemOpen(reportname, "", attendanceSheetBeen, params, response);
 			ModelAndView mav = new ModelAndView("hrm/AttendenceReport");
 			mav.addObject("pdfViewEq", report);
 			return mav;

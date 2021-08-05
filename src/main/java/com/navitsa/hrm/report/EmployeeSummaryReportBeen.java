@@ -17,6 +17,8 @@ public class EmployeeSummaryReportBeen {
 	private String type;
 
 	private double amount;
+	
+	private String addedstatus;
 
 	public String getEpfno() {
 		return epfno;
@@ -80,6 +82,14 @@ public class EmployeeSummaryReportBeen {
 
 	public void setAmount(double amount) {
 		this.amount = amount;
+	}
+
+	public String getAddedstatus() {
+		return addedstatus;
+	}
+
+	public void setAddedstatus(String addedstatus) {
+		this.addedstatus = addedstatus;
 	}
 	
 	

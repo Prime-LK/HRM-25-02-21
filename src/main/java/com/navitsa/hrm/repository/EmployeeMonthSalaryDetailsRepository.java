@@ -28,4 +28,8 @@ public interface EmployeeMonthSalaryDetailsRepository extends CrudRepository<Emp
 	
 	@Query(value = "SELECT e FROM EmployeeMonthSalaryDetails e WHERE e.company.comID=:compid")
 	public List<EmployeeMonthSalaryDetails> loadAllEmployeeMonthSalaryDetailsBycompid(@Param("compid") String compid);
+
+	@Query(value = "SELECT e FROM EmployeeMonthSalaryDetails e WHERE e.company.comID=:compid and e.monthDePk.payType.deductTypeCode like :adddedtype and e.monthDePk.payCodeid.payCodeID=:payCode ")
+	public List<EmployeeMonthSalaryDetails> getEmpmonthowancesGrid(@Param("payCode") String payCode,@Param("adddedtype") String adddedtype,@Param("compid") String comID);
+
 }
