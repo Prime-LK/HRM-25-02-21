@@ -30,6 +30,7 @@ import com.navitsa.hrm.entity.AttendanceTxtFileHeader;
 import com.navitsa.hrm.entity.CalanderEntity;
 import com.navitsa.hrm.entity.CompanyMaster;
 import com.navitsa.hrm.entity.DepartmentMaster;
+import com.navitsa.hrm.entity.DesignationMaster;
 import com.navitsa.hrm.entity.Employee;
 import com.navitsa.hrm.entity.EmployeeAttendance;
 import com.navitsa.hrm.entity.EmployeeDetails;
@@ -441,31 +442,37 @@ public class AttendanceProcessController {
 		return payPeriods;
 	}
 
-	@ModelAttribute("departmentEmpLisRpt")
+	@ModelAttribute("departmentEmpAttLisRpt")
 	public List<DepartmentMaster> getDepartment(HttpSession session) {
 		String companyId = session.getAttribute("company.comID") + "";
 		List<DepartmentMaster> listDept = departmentService.getDepartmentsByCompany(companyId);
 		return listDept;
 	}
+	@ModelAttribute("designationAttenEmpLisRpt")
+	public List<DesignationMaster> getDesignationMaster(HttpSession session){
+		String companyId=session.getAttribute("company.comID")+"";
 
+		List<DesignationMaster> listdec = employeeService.getAllDesignationsByCompany(companyId);
+		return listdec;
+	}
 	@RequestMapping(value = "/getEmployeeListrptAttnds", method = RequestMethod.GET)
-	public @ResponseBody List<Employee> getEmployeeListrpt(@RequestParam String dep,String payperodid, HttpSession session) {
+	public @ResponseBody List<Employee> getEmployeeListrpt(@RequestParam String dep,@RequestParam String dis, HttpSession session) {
 		String companyId = session.getAttribute("company.comID") + "";
-		List<Employee> listallemploy = employeeService.getEmployeeListrpt(dep, payperodid, "%", "%", "%", "%", "%", companyId);
+		List<Employee> listallemploy = employeeService.getEmployeeListrpt(dep, dis, "%", "%", "%", "%", "%", companyId);
 		return listallemploy;
 	}
 		
 		 @RequestMapping(value="/attendenceSheet", method=RequestMethod.GET)
-			public ModelAndView attendenceSheet(@RequestParam String dep,@RequestParam String employeeId,@RequestParam String payPeriod, HttpServletRequest request,
+			public ModelAndView attendenceSheet(@RequestParam String dep,@RequestParam String dis,@RequestParam String employeeId,@RequestParam String payPeriod,@RequestParam String fromdate,@RequestParam String todate,@RequestParam String empgroup,HttpServletRequest request,
 					HttpServletResponse response,HttpSession session) throws Exception {
 		
 					
 				String companyId=session.getAttribute("company.comID")+"";
 				CompanyMaster companyMaster=companyService.findbyCompanyid(companyId);
+					
 			
 			
-			
-				List<AttendanceSheet> result1 = attendanceProcessService.getAttendanceReportByPayPeriod(payPeriod, companyId);
+				List<AttendanceSheet> result1 = attendanceProcessService.getAttendanceReportByPayPeriod(payPeriod,dep,dis,employeeId,fromdate,todate, companyId);
 
 			List<AttendanceSheetBeen> attendanceSheetBeen = new ArrayList<AttendanceSheetBeen>();
 			for (AttendanceSheet result: result1) {
@@ -501,13 +508,16 @@ public class AttendanceProcessController {
 			params.put("companny", companyMaster.getComName());
 			params.put("address", companyMaster.getAddress());
 			
-			System.out.println(attendanceSheetBeen.size());
+			
 			ReportViewe review = new ReportViewe();
 			String report = review.pdfReportViewInlineSystemOpen("AttendenceReport.jasper", "", attendanceSheetBeen, params, response);
 			ModelAndView mav = new ModelAndView("hrm/AttendenceReport");
 			mav.addObject("pdfViewEq", report);
 			return mav;
 		} 
-	
-
+		 @RequestMapping(value = "/getpayperoideAttends", method = RequestMethod.GET)
+		 public @ResponseBody PayPeriods loadPayPeriodsbypayPeriodID(@RequestParam String payPeriodID) {
+			 
+			 return payService.loadPayPeriodsbypayPeriodID(payPeriodID);
+		 }
 }

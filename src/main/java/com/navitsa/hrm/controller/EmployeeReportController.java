@@ -259,11 +259,15 @@ public class EmployeeReportController {
 	 @GetMapping("/employeeAllocateMonthlyAllowances")
 	 public ModelAndView employeeAllocateMonthlyAllowances(@RequestParam("paycode") String paycode,@RequestParam("paytype") String paytype,HttpServletRequest request, HttpServletResponse response,HttpSession session) throws Exception {
 		
+		 PayPeriods payPeriods=payService.loadPayPeriodsbypayPeriodID(paycode);
+		 
+		 
+		 
 		String companyId=session.getAttribute("company.comID")+"";	
 		String[][] result=empService.employeeAllocateMonthlyAllowances( companyId,  paytype,paycode);
 				
 		 List<EmployeeSummaryReportBeen> listemp = new ArrayList<>(); 
-		 
+	 
 		 for(int i=0; i<result.length;i++)
 		 {
 			 EmployeeSummaryReportBeen employeeSummaryReport=new EmployeeSummaryReportBeen();
@@ -275,7 +279,7 @@ public class EmployeeReportController {
 			employeeSummaryReport.setBasicsal(Double.parseDouble(result[i][5]));
 			employeeSummaryReport.setType(result[i][6]);
 			employeeSummaryReport.setAmount(Double.parseDouble(result[i][7]));
- 
+			employeeSummaryReport.setAddedstatus(result[i][8]);
 			 
 			listemp.add(employeeSummaryReport);
 
@@ -287,7 +291,7 @@ public class EmployeeReportController {
 
 	    	params.put("companny",companyMaster.getComName());
 	      	params.put("address",companyMaster.getConNo());
-		 	
+	      	params.put("paydate",payPeriods.getPayDate());
 		 	
 		 	ReportViewe review=new ReportViewe();
 	       String report = review.pdfReportViewInlineSystemOpen("employeeAllocateMonthlyAllowance.jasper", "", listemp, params, response);

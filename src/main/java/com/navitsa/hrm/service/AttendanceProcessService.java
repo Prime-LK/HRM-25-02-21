@@ -55,8 +55,8 @@ public class AttendanceProcessService {
 		return attendanceSheetRepo.getAttendanceReportBy(payPeriod, employeeId, companyId);
 	}
 	
-	public List<AttendanceSheet> getAttendanceReportByPayPeriod(String payPeriod,String companyId) {
-		return attendanceSheetRepo.getAttendanceReportByPayPeriod(payPeriod, companyId);
+	public List<AttendanceSheet> getAttendanceReportByPayPeriod(String payPeriod,String dep,String dis,String employeeId,String fromdate,String todate, String companyId) {
+		return attendanceSheetRepo.getAttendanceReportByPayPeriod(payPeriod,dep,dis,employeeId,fromdate,todate, companyId);
 	}
 	
 	

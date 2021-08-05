@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.navitsa.hrm.entity.EmployeeMonthSalaryDetails;
 import com.navitsa.hrm.entity.PayAddDeductTypes;
 import com.navitsa.hrm.entity.PayCode;
 import com.navitsa.hrm.entity.PayPeriods;
@@ -16,6 +17,7 @@ import com.navitsa.hrm.entity.SalaryHistoryDetails;
 import com.navitsa.hrm.entity.SalaryHistoryMaster;
 import com.navitsa.hrm.entity.Setting;
 import com.navitsa.hrm.repository.EmployeeDetailsRepository;
+import com.navitsa.hrm.repository.EmployeeMonthSalaryDetailsRepository;
 import com.navitsa.hrm.repository.PayAddDeductTypesRepository;
 import com.navitsa.hrm.repository.PayCodeRepository;
 import com.navitsa.hrm.repository.PayPeriodsRepository;
@@ -68,6 +70,9 @@ public class PayService {
 	
 	@Autowired
 	private EntityManager em;
+	
+	@Autowired
+	EmployeeMonthSalaryDetailsRepository employeeMonthSalaryDetailsRepository;
 	
 	// get maxid for payPeriod
 	public String maxpayPeriodID() {
@@ -330,5 +335,7 @@ public class PayService {
 		return payPeriodsRepository.getPayPeriodsBycompanyid(companyid);
 	}
 	// end of fixed transactional details report
-	
+	public List<EmployeeMonthSalaryDetails> getEmpmonthowancesGrid(String payCode,String adddedtype,String comID){
+		return employeeMonthSalaryDetailsRepository.getEmpmonthowancesGrid(payCode,adddedtype,comID);
+	}
 }
