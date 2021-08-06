@@ -204,11 +204,17 @@ public class AttendanceProcessController {
 				sm = ed.getShiftmaster();
 			}
 
+			int fingerID=0;
+			if(ed.getDetailsPK().getEmpID().getFingerPrintId() !=null)
+				fingerID = Integer.valueOf(ed.getDetailsPK().getEmpID().getFingerPrintId());
+			
+			System.out.println("finger id "+fingerID);
+			
 			List<AttendanceTxtFileHeader> txtFileHeaderList = txtFileReadingService.getTxtFileHeader(companyID);
 			List<AttendanceTxtFileDetail> allAttendanceRecords = new ArrayList<AttendanceTxtFileDetail>();
 			for (AttendanceTxtFileHeader txtHeader : txtFileHeaderList) {
 				List<AttendanceTxtFileDetail> attendanceRecords = txtFileReadingService.getAttendanceRecords(
-						payPeriod.getStartDate(), payPeriod.getEndDate(), ed.getDetailsPK().getEmpID().getFingerPrintId(), txtHeader.getHeaderId());
+						payPeriod.getStartDate(), payPeriod.getEndDate(), fingerID, txtHeader.getHeaderId());
 				if (!attendanceRecords.isEmpty())
 					allAttendanceRecords.addAll(attendanceRecords);
 			}

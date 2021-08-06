@@ -17,7 +17,7 @@ public interface AttendanceTxtFileDetailRepo extends CrudRepository<AttendanceTx
 	public List<AttendanceTxtFileDetail> getAttendanceRecords(
 			@Param("startDate") String startDate,
 			@Param("endDate") String endDate,
-			@Param("employeeID") String employeeID,
+			@Param("employeeID") int employeeID,
 			@Param("txtFileHeaderID") String txtFileHeaderID);
 
 }
