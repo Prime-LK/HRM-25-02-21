@@ -122,6 +122,9 @@ public class Employee {
 	
 	@Column(name = "EPF_No")
 	private String epfNo;
+	
+	@Column(name = "Finger_Print_ID")
+	private String fingerPrintId;
 
 	public String getEmpID() {
 		return empID;
@@ -450,5 +453,13 @@ public class Employee {
 
 	public void setEpfNo(String epfNo) {
 		this.epfNo = epfNo;
+	}
+
+	public String getFingerPrintId() {
+		return fingerPrintId;
+	}
+
+	public void setFingerPrintId(String fingerPrintId) {
+		this.fingerPrintId = fingerPrintId;
 	}
 }

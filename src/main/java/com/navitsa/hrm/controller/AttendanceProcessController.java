@@ -208,7 +208,7 @@ public class AttendanceProcessController {
 			List<AttendanceTxtFileDetail> allAttendanceRecords = new ArrayList<AttendanceTxtFileDetail>();
 			for (AttendanceTxtFileHeader txtHeader : txtFileHeaderList) {
 				List<AttendanceTxtFileDetail> attendanceRecords = txtFileReadingService.getAttendanceRecords(
-						payPeriod.getStartDate(), payPeriod.getEndDate(), ed.getEpfNo(), txtHeader.getHeaderId());
+						payPeriod.getStartDate(), payPeriod.getEndDate(), ed.getDetailsPK().getEmpID().getFingerPrintId(), txtHeader.getHeaderId());
 				if (!attendanceRecords.isEmpty())
 					allAttendanceRecords.addAll(attendanceRecords);
 			}
@@ -532,4 +532,45 @@ public class AttendanceProcessController {
 			 
 			 return payService.loadPayPeriodsbypayPeriodID(payPeriodID);
 		 }
+		 
+		 @RequestMapping(value="/attendanceSheetSummaryReport", method=RequestMethod.GET)
+		 public ModelAndView attendanceSheetSummaryReport(@RequestParam String payPeriodID, 
+				 HttpServletResponse response,HttpSession session) {
+			 
+			 ModelAndView mav = new ModelAndView("hrm/attendanceSheetSummaryReport");
+			 
+			 String companyId=(String) session.getAttribute("company.comID");
+			 CompanyMaster cm = null;
+			 PayPeriods pp =null;
+			 
+			 List<AttendanceSheet> rs = null;
+			 try {
+				 cm =companyService.findbyCompanyid(companyId);
+				 //rs = attendanceProcessService.getAttendanceReportByPayPeriod(payPeriodID, companyId);
+				 pp = payService.getPayPeriods(payPeriodID);
+			} catch (Exception e) {
+			}
+			 
+			 String fromDate = null;
+			 String toDate = null;
+			 fromDate = pp.getStartDate();
+			 toDate = pp.getEndDate();
+
+			Map<String, Object> params = new HashMap<>();
+			params.put("company", cm.getComName());
+			params.put("address", cm.getAddress());
+			params.put("payPeriod", fromDate+" - "+toDate);
+
+			ReportViewe review = new ReportViewe();
+			String pdf_result = null;
+			
+			try {
+				pdf_result = review.pdfReportViewInlineSystemOpen("attendanceSheetSummaryReport.jasper", "attendanceSheetSummaryReport", rs, params, response);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			mav.addObject("pdfViewEq", pdf_result);
+			return mav;
+		}
 }
