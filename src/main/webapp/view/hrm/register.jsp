@@ -395,16 +395,19 @@
 										</div>
 										<div class="col-4">
 											<div class="form-group row">
-												<label class="col-4">Bank</label>
-												<form:select class="form-control col-8"
-													onchange="loadBankBranchesByBank();" id="bank_Code"
-													path="bank_Code">
-													<form:option value="" selected="true">--SELECT--</form:option>
-													<c:forEach items="${bankmastertable}" var="b">
-														<form:option value="${b.bankid}">${b.bankName}</form:option>
-													</c:forEach>
-												</form:select>
-											</div>
+													<div id="div1">
+														<label class="col-4">Payment Type</label>&emsp;
+														<form:radiobutton path="payType" onclick="showBankDetails()"
+															value="BANK" checked="checked" />
+														Bank
+														<form:radiobutton path="payType" onclick="hideBankDetails()" class="ml-4" 
+														value="CASH"/>
+														Cash
+														<form:radiobutton path="payType" onclick="hideBankDetails()" class="ml-4"
+															value="CHEQUE" />
+														Cheque
+													</div>
+												</div>
 										</div>
 									</div>
 									<div class="row mt--2">
@@ -430,12 +433,13 @@
 										</div>
 										<div class="col-4">
 											<div class="form-group row">
-												<label class="col-4">Branch </label>
-												<form:select class="form-control col-8" id="bankBranch_Code"
-													path="bankBranch_Code.branchID">
+												<label class="col-4">Bank</label>
+												<form:select class="form-control col-8"
+													onchange="loadBankBranchesByBank();" id="bank_Code"
+													path="bank_Code">
 													<form:option value="" selected="true">--SELECT--</form:option>
-													<c:forEach items="${branchListByBank}" var="b">
-														<form:option value="${b.branchID}">${b.branch}</form:option>
+													<c:forEach items="${bankmastertable}" var="b">
+														<form:option value="${b.bankid}">${b.bankName}</form:option>
 													</c:forEach>
 												</form:select>
 											</div>
@@ -464,10 +468,14 @@
 										</div>
 										<div class="col-4">
 											<div class="form-group row">
-												<label class="col-4">Account No.</label>
-												<form:input path="bank_Account" type="text"
-													class="form-control col-8" id="name"
-													placeholder="Account number" />
+												<label class="col-4">Branch </label>
+												<form:select class="form-control col-8" id="bankBranch_Code"
+													path="bankBranch_Code.branchID">
+													<form:option value="" selected="true">--SELECT--</form:option>
+													<c:forEach items="${branchListByBank}" var="b">
+														<form:option value="${b.branchID}">${b.branch}</form:option>
+													</c:forEach>
+												</form:select>
 											</div>
 										</div>
 									</div>
@@ -490,6 +498,14 @@
 													class="fas fa-phone ml-2"></i></label>
 												<form:input path="emergency_Contact_No" type="text"
 													placeholder="emergency number" class="form-control col-8" />
+											</div>
+										</div>
+											<div class="col-4">
+											<div class="form-group row">
+												<label class="col-4">Account No.</label>
+												<form:input path="bank_Account" type="text"
+													class="form-control col-8" id="name"
+													placeholder="Account number" />
 											</div>
 										</div>
 									</div>
@@ -524,6 +540,16 @@
 										</div>
 										<div class="col-4">
 											<div class="form-group row">
+												<label class="col-4">Finger Print ID</label>
+												<form:input path="fingerPrintId" type="text" required="true"
+													class="form-control col-8" placeholder="Finger Print ID" id="fingerPrintId"
+													onchange=""/>
+											</div>
+										</div>
+									</div>
+									<div class="row mt--2">
+										<div class="col-4">
+											<div class="form-group row">
 												<!-- <label class="col-2"></label> -->
 												<div class="col-12">
 													<button type="submit" id="submitBtn"
@@ -537,6 +563,12 @@
 													</button>
 												</div>
 											</div>
+										</div>
+										<div class="col-4">
+											
+										</div>
+										<div class="col-4">
+											
 										</div>
 									</div>
 
@@ -576,5 +608,16 @@
 		// read the image file as a data URL.
 		reader.readAsDataURL(this.files[0]);
 	})
+	
+	function showBankDetails() {
+			document.getElementById("bank_Code").style.display = 'block';
+			document.getElementById("bankBranch_Code").style.display = 'block';
+			document.getElementById("name").style.display = 'block';
+		}
+		function hideBankDetails() {
+			document.getElementById("bank_Code").style.display = 'none';
+			document.getElementById("bankBranch_Code").style.display = 'none'
+				document.getElementById("name").style.display = 'none';
+		}
 </script>
 </html>

@@ -11,6 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 import org.springframework.web.multipart.MultipartFile;
 
 @Entity
@@ -21,11 +23,13 @@ public class Employee {
 	@Column(name = "Employee_ID")
 	private String empID;
 
-	@ManyToOne(optional = false, fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
+	@NotFound(action = NotFoundAction.IGNORE)
 	@JoinColumn(name = "Nationality_ID", referencedColumnName = "Nationality_ID")
 	private NationalityMaster nationality;
 
-	@ManyToOne(optional = false, fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
+	@NotFound(action = NotFoundAction.IGNORE)
 	@JoinColumn(name = "Religion_ID", referencedColumnName = "Religion_ID")
 	// @Column(name="Religion_ID")
 	private ReligionMaster religion;
@@ -82,7 +86,8 @@ public class Employee {
 	@Column(name = "Bank_ID")
 	private String bank_Code;
 
-	@ManyToOne(optional = true, fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
+	@NotFound(action = NotFoundAction.IGNORE)
 	@JoinColumn(name = "Branch_ID", referencedColumnName = "Branch_ID")
 	private Bank bankBranch_Code;
 
@@ -125,6 +130,9 @@ public class Employee {
 	
 	@Column(name = "Finger_Print_ID")
 	private String fingerPrintId;
+	
+	@Column(name = "pay_type")
+	private String payType;
 
 	public String getEmpID() {
 		return empID;
@@ -334,7 +342,7 @@ public class Employee {
 			String dob, String gender, MultipartFile profileImg, String address, String city, String state,
 			String salaryGrade, String id_Number, String dl_number, String passport_Number, String emergency_Contact_No,
 			String blood_Group, String bank_Code, Bank bankBranch_Code, String bank_Account, String lastname,
-			String contact_num1, String contact_num2, String email, String password, CompanyMaster company, String epfNo)
+			String contact_num1, String contact_num2, String email, String password, CompanyMaster company, String epfNo, String fingerPrintId, String payType)
 			throws IOException {
 		this.empID = empID;
 		this.nationality = nationality;
@@ -362,13 +370,15 @@ public class Employee {
 		this.password = password;
 		this.company = company;
 		this.epfNo = epfNo;
+		this.fingerPrintId = fingerPrintId;
+		this.payType = payType;
 	}
 
 	public Employee(String empID, NationalityMaster nationality, ReligionMaster religion, String mStatus, String name,
 			String dob, String gender, MultipartFile profileImg, String id_Number, String dl_number,
 			String passport_Number, String emergency_Contact_No, String blood_Group, String bank_Code,
 			Bank bankBranch_Code, String bank_Account, String address, String city, String state, String lastname,
-			String contact_num1, String contact_num2, String email, String password, CompanyMaster company, String epfNo)
+			String contact_num1, String contact_num2, String email, String password, CompanyMaster company, String epfNo, String fingerPrintId, String payType)
 			throws IOException {
 
 		this.empID = empID;
@@ -397,6 +407,8 @@ public class Employee {
 		this.password = password;
 		this.company = company;
 		this.epfNo = epfNo;
+		this.fingerPrintId = fingerPrintId;
+		this.payType = payType;
 	}
 
 	public Employee() {
@@ -410,7 +422,7 @@ public class Employee {
 			MultipartFile profileImg, String id_Number, String dl_number, String passport_Number,
 			String emergency_Contact_No, String blood_Group, String bank_Code, Bank bankBranch_Code,
 			String bank_Account, String address, String city, String state, String lastname, String contact_num1,
-			String contact_num2, String email, String password, CompanyMaster company, String epfNo) throws IOException {
+			String contact_num2, String email, String password, CompanyMaster company, String epfNo, String fingerPrintId, String payType) throws IOException {
 
 		this.empID = empID;
 		this.nationality = nationality;
@@ -437,6 +449,8 @@ public class Employee {
 		this.password = password;
 		this.company = company;
 		this.epfNo = epfNo;
+		this.fingerPrintId = fingerPrintId;
+		this.payType = payType;
 	}
 
 	public String getEmployeeCategory() {
@@ -461,5 +475,13 @@ public class Employee {
 
 	public void setFingerPrintId(String fingerPrintId) {
 		this.fingerPrintId = fingerPrintId;
+	}
+
+	public String getPayType() {
+		return payType;
+	}
+
+	public void setPayType(String payType) {
+		this.payType = payType;
 	}
 }

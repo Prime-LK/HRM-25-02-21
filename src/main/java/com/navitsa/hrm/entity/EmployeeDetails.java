@@ -7,6 +7,10 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
+
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
 @Entity
 @Table(name = "employee_details")
@@ -15,38 +19,46 @@ public class EmployeeDetails {
 	@EmbeddedId
 	private EmployeeDetailsPK detailsPK;
 
-	@ManyToOne(optional = false, fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
+	@NotFound(action = NotFoundAction.IGNORE)
 	@JoinColumn(name = "Emp_Category_ID", referencedColumnName = "Emp_Category_ID")
 	private EmployeeCategory category;
 
-	@ManyToOne(optional = false, fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
+	@NotFound(action = NotFoundAction.IGNORE)
 	@JoinColumn(name = "Emp_Type_ID", referencedColumnName = "Emp_Type_ID")
 	private EmployeeType empType;
 
-	@ManyToOne(optional = false, fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
+	@NotFound(action = NotFoundAction.IGNORE)
 	@JoinColumn(name = "Salary_Range_ID", referencedColumnName = "Salary_Range_ID")
 	private SalaryRange salaryRange;
 
-	@ManyToOne(optional = false, fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
+	@NotFound(action = NotFoundAction.IGNORE)
 	@JoinColumn(name = "Salary_Grade_ID", referencedColumnName = "Salary_Grade_ID")
 	private SalaryGrade salaryGrade;
 
-	@ManyToOne(optional = false, fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
+	@NotFound(action = NotFoundAction.IGNORE)
 	@JoinColumn(name = "Designation_ID", referencedColumnName = "Designation_ID")
 	private DesignationMaster designation;
 
-	@ManyToOne(optional = false, fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
+	@NotFound(action = NotFoundAction.IGNORE)
 	@JoinColumn(name = "Job_Profile_ID", referencedColumnName = "Job_Profile_ID")
 	private JobProfileMaster jobProfile;
 
-	@ManyToOne(optional = false, fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
+	@NotFound(action = NotFoundAction.IGNORE)
 	@JoinColumn(name = "Department_ID", referencedColumnName = "Department_ID")
 	private DepartmentMaster department;
 
 	@Column(name = "Joined_Date")
 	private String joinedDate;
 
-	@ManyToOne(optional = false, fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
+	@NotFound(action = NotFoundAction.IGNORE)
 	@JoinColumn(name = "Location", referencedColumnName = "Location_ID")
 	private LocationMaster location;
 
@@ -65,7 +77,9 @@ public class EmployeeDetails {
 	@Column(name = "EPF_No")
 	private String epfNo;
 
-	@ManyToOne(optional = false, fetch = FetchType.EAGER)
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@NotFound(action = NotFoundAction.IGNORE)
 	@JoinColumn(name = "shift_id", referencedColumnName = "shift_id")
 	private ShiftMaster shiftmaster;
 

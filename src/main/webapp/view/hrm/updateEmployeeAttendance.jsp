@@ -147,6 +147,13 @@
 																required="true" readonly="true" onchange="" />
 															<span id="div1"></span>
 														</div>
+														<div class="col-sm-3">
+															<label>Attendance ID</label>
+															<form:input id="attendanceId" path="attendanceId"
+																type="text" class="form-control" value=""
+																required="true" readonly="true" onchange="" />
+															<span id="div1"></span>
+														</div>
 													</div>
 												</div>
 											</div>

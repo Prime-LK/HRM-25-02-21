@@ -207,6 +207,8 @@
 														<th>On Time</th>
 														<th>Off Time</th>
 														<th>Approved</th>
+														<th></th>
+														<th></th>
 													</tr>
 												</thead>
 												<tfoot>
@@ -218,6 +220,8 @@
 														<th>On Time</th>
 														<th>Off Time</th>
 														<th>Approved</th>
+														<th></th>
+														<th></th>
 													</tr>
 												</tfoot>
 												<tbody>
@@ -231,6 +235,14 @@
 															<td>${attendance.onTime}</td>
 															<td>${attendance.offTime}</td>
 															<td>${attendance.approvalStatus}</td>
+															<td width="25rem"><a
+																href="getEmployeeAttendance?attendanceId=${attendance.attendanceId}">
+																	<i class="far fa-edit"></i>
+															</a></td>
+															<td width="25rem"><a
+																href="deleteEmployeeAttendance?attendanceId=${attendance.attendanceId}">
+																	<i class="far fa-trash-alt"></i>
+															</a></td>
 														</tr>
 													</c:forEach>
 
@@ -255,7 +267,7 @@
 
 	<!-- Datatable -->
 	<script src="<c:url value='/resources/hrm/ajax/datatable.js'/>"></script>
-	<script	src="<c:url value='/resources/hrm/ajax/shiftAllocation.js'/>"></script>
-	<script	src="<c:url value='/resources/hrm/js/shiftAllocation.js'/>"></script>
+	<script src="<c:url value='/resources/hrm/ajax/shiftAllocation.js'/>"></script>
+	<script src="<c:url value='/resources/hrm/js/shiftAllocation.js'/>"></script>
 </body>
 </html>

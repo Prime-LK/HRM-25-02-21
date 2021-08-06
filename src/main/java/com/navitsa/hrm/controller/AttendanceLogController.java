@@ -134,10 +134,11 @@ public class AttendanceLogController {
 	}
 
 	@GetMapping("/deleteEmployeeAttendance")
-	public String deleteEmployeeAttendance(@RequestParam("date") String date, @RequestParam("shiftId") String shiftId,
-			@RequestParam("employeeId") String employeeId, RedirectAttributes redirectAttributes) {
+	public String deleteEmployeeAttendance(@RequestParam("attendanceId") String attendanceId/*, @RequestParam("shiftId") String shiftId,
+			@RequestParam("employeeId") String employeeId*/, RedirectAttributes redirectAttributes, HttpSession session) {
+		String companyId = session.getAttribute("company.comID").toString();
 		try {
-			employeeAttendanceService.deleteEmployeeAttendance(date, employeeId, shiftId);
+			employeeAttendanceService.deleteEmployeeAttendance(attendanceId, companyId);
 			redirectAttributes.addFlashAttribute("success", 1);
 			return "redirect:/AllocatedShifts";
 		} catch (Exception e) {
@@ -150,18 +151,20 @@ public class AttendanceLogController {
 	@PostMapping("/updateEmployeeAttendance")
 	public String saveEmployeeAttendance(
 			@Valid @ModelAttribute("updateEmployeeAttendance") EmployeeAttendance employeeAttendance, BindingResult br,
-			RedirectAttributes redirectAttributes) {
-
+			RedirectAttributes redirectAttributes, HttpSession session) {
+		String companyId = session.getAttribute("company.comID").toString();
 		if (br.hasErrors()) {
 			return "hrm/updateEmployeeAttendance";
 		} else {
 			try {
-				EmployeeAttendance attendance = employeeAttendance;
-				employeeAttendanceService.deleteEmployeeAttendance(employeeAttendance.getDate(),
-						employeeAttendance.getEmployee().getEmpID(), employeeAttendance.getShiftmaster().getShiftId());
+				EmployeeAttendance attendance = employeeAttendanceService.findAttendanceByIdAndCompany(employeeAttendance.getAttendanceId(), companyId);
+				attendance.setOnTime(employeeAttendance.getOnTime());
+				attendance.setOffTime(employeeAttendance.getOffTime());
+				employeeAttendanceService.deleteEmployeeAttendance(employeeAttendance.getAttendanceId(),
+						companyId);
 				employeeAttendanceService.saveEmployeeAttendance(attendance);
 				redirectAttributes.addFlashAttribute("success", 1);
-				return "redirect:/AllocatedShifts";
+				return "redirect:/AttendanceLog";
 			} catch (Exception e) {
 				redirectAttributes.addFlashAttribute("success", 0);
 				System.out.println(e);

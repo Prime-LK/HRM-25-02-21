@@ -313,9 +313,16 @@ public interface EmployeeAttendanceRepository extends CrudRepository<EmployeeAtt
 			@Param("endDate") String endDate, @Param("employeeID") String employeeID,
 			@Param("companyID") String companyID);
 
+	/*
 	@Transactional
 	@Modifying
 	@Query(value = "DELETE FROM EmployeeAttendance WHERE employee.empID = :employeeId AND shiftmaster.shiftId = :shiftId AND date = :date")
 	public void deleteEmployeeAttendance(@Param("date") String date, @Param("employeeId") String employeeId,
 			@Param("shiftId") String shiftId);
+	*/
+
+	@Transactional
+	@Modifying
+	@Query(value = "DELETE FROM EmployeeAttendance WHERE attendanceId = :attendanceId AND company.comID = :companyId")
+	public void deleteEmployeeAttendance(@Param("attendanceId") String attendanceId, @Param("companyId") String companyId);
 }

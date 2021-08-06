@@ -217,7 +217,13 @@ public class EmployeeAttendanceService {
 		return employeeAttendanceRepository.getAttendanceRecords(startDate,endDate,employeeID,companyID);
 	}
 
+	/*
 	public void deleteEmployeeAttendance(String date, String employeeId, String shiftId) {
 		employeeAttendanceRepository.deleteEmployeeAttendance(date, employeeId, shiftId);
+	}
+	*/
+	
+	public void deleteEmployeeAttendance(String attendanceId, String companyId) {
+		employeeAttendanceRepository.deleteEmployeeAttendance(attendanceId, companyId);
 	}
 }
