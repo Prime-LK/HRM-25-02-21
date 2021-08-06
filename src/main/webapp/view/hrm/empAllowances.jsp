@@ -334,7 +334,7 @@
 
 getEmpAllowances("-1");
 function getEmpAllowances(empid) {
-	
+
 	var type = document.getElementById("sepSelect").value;
 	var adddedtype = document.getElementById("deductTypeCode").value;
 
@@ -348,27 +348,27 @@ function getEmpAllowances(empid) {
 		},success : function(data) {
 			$("#empsaldetail tbody").empty();
 			for (var i = 0; i < data.length; i++) {
-			//	alert("----"+data[i].empdetailPK.empID.lastname);
+			//alert("----"+data[i].empdetailPK.empID.lastname);
 				
 				
-// 				var result1 ="<td>"+data[i].empdetailPK.empID.empID+"</td>"+						
-// 				"<td>"+data[i].empdetailPK.empID.name+' '+data[i].empdetailPK.empID.lastname+"</td>"+
-// 				"<td>"+data[i].empdetailPK.payAddeductTypes.desc+"</td>"+
-// 				"<td>"+data[i].effective_Date+"</td>"+
-// 				"<td>"+data[i].amount+"</td>"+
-// 				"<td>"+data[i].isActive+"</td>";
-// 				var result ="";
+				var result1 ="<td>"+data[i].empdetailPK.empID.empID+"</td>"+						
+				"<td>"+data[i].empdetailPK.empID.name+' '+data[i].empdetailPK.empID.lastname+"</td>"+
+				"<td>"+data[i].empdetailPK.payAddeductTypes.desc+"</td>"+
+				"<td>"+data[i].effective_Date+"</td>"+
+				"<td>"+data[i].amount+"</td>"+
+				"<td>"+data[i].isActive+"</td>";
+				var result ="";
 				
-// 				if(data[i].isActive=="Active"){
-// 				 result = "<tr>"+result1+"</tr>";
-// 				}else{
-// 					 result = "<tr style='background-color: #bd0202; color:black;'>"+result1+"</tr>";
+				if(data[i].isActive=="Active"){
+				 result = "<tr>"+result1+"</tr>";
+				}else{
+					 result = "<tr style='background-color: #bd0202; color:black;'>"+result1+"</tr>";
 					
-// 				}			
+				}			
 								
 								
 								
-				$("#empsaldetail tbody").append("");
+				$("#empsaldetail tbody").append(result);
 			
 			}
 		

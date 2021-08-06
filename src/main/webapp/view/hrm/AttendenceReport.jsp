@@ -208,7 +208,7 @@
 							<div class="form-group row">
 								<div class="col-sm-7">
 							
-									<label class="l-fontst">one sheet per Employee</label>
+									<label class="l-fontst">One sheet per Employee</label>
 							
 								</div>
 								<div class="col-sm-5">	
