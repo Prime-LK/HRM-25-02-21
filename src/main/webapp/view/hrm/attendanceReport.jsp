@@ -100,8 +100,9 @@
 					<div class="page-inner py-3">
 						<div
 							class="d-flex align-items-left align-items-md-center flex-column flex-md-row">
-							<div class="col-xl-4 col-lg-4">
-								<h2 class="text-white pb-2 fw-bold">Attendance Report</h2>
+							<div class="col-xl-4 col-lg-2">
+								<h2 class="text-white pb-2 fw-bold">Manual Attendance
+									Report</h2>
 							</div>
 							<div class="col-xl-2 col-lg-2"></div>
 							<div class="ml-md-auto py-2 py-md-4"></div>
@@ -114,128 +115,92 @@
 				<div class="page-inner mt--5">
 					<div class="container-fluid">
 
-
 						<div class="row">
-							<div class="col-md-12">
+							<div class="col-sm-3">
 								<div class="card">
 									<div class="card-body">
 
 										<!-- Page Heading -->
 										<h1 class="h3 mb-4 text-gray-800"></h1>
-										<form:form action="generateReport"
-											modelAttribute="AttendanceReport" method="get"
+										<form:form action="generateAttendanceReport"
+											modelAttribute="" method="get"
 											onsubmit="return validateForm()">
-											<div class=" row">
-												<div class="col-9">
-													<div class="form-group row">
-														<div class="col-sm-4">
-															<label>Start Date</label><input id="startDate"
-																name="startDate" type="date" class="form-control"
-																value="" required onchange="" required="true" />
-														</div>
-														<div class="col-sm-4">
-															<label>End Date</label><input id="endDate" name="endDate"
-																type="date" class="form-control" value="" required
-																onchange="" required="true" />
-														</div>
-													</div>
+											<div class="form-group row">
+												<div class="col-sm-12">
+													<label>Start Date</label> <input id="startDate"
+														name="startDate" type="date"
+														class="form-control form-control-user col-12 foo text-capitalize"
+														value="" required /> <span id="div1"></span>
 												</div>
 											</div>
-											<div class=" row">
-												<div class="col-9">
-													<div class="form-group row">
-														<div class="col-sm-4">
-															<label>Department</label> <select id="selectDepartment"
-																name="departmentId"
-																class="form-control form-control-user col-12 foo text-capitalize"
-																onchange="loadEmployeesByDepartment()">
-																<option value="" disabled selected>- Select
-																	Department -</option>
-																<c:forEach items="${depList}" var="d">
-																	<option value="${d.depID}">${d.department}</option>
-																</c:forEach>
-															</select>
-														</div>
-														<div class="col-sm-4">
-															<label>Employee Name</label> <select
-																id="selectEmployeeId" name="employeeId"
-																class="form-control form-control-user col-12 foo text-capitalize"
-																required="true" onchange="">
-																<option value="" disabled selected>- Select
-																	Employee -</option>
-															</select>
-														</div>
-													</div>
+											<div class="form-group row">
+												<div class="col-sm-12">
+													<label>End Date</label> <input id="endDate" name="endDate"
+														type="date"
+														class="form-control form-control-user col-12 foo text-capitalize"
+														value="" required /> <span id="div2"></span>
 												</div>
 											</div>
-											<div class=" row">
-												<div class="col-9">
-													<div class="form-group row">
-														<div class="col-sm-9">
-															<input type="button"
-																class="btn btn-primary btn-sm-3 mr-3"
-																value="Load Attenance Sheet"
-																onclick="loadAttendanceSheet()" /> <input type="submit"
-																class="btn btn-success btn-sm-3 mr-3"
-																value="Generate Attendance Report" /> <input
-																type="reset" class="btn btn-danger btn-sm-3 mr-3"
-																value="Reset" onclick="resetEmployeeList()" />
-														</div>
-														<div class="col-sm-4"></div>
-													</div>
+											<div class="form-group row">
+												<div class="col-sm-12">
+													<label>Shift Name</label> <select id="shiftId"
+														name="shiftId"
+														class="form-control form-control-user col-12 foo text-capitalize">
+														<option value="all" selected>ALL</option>
+														<c:forEach items="${shiftList}" var="s">
+															<option value="${s.shiftId}">${s.description}</option>
+														</c:forEach>
+													</select> <span id="div1"></span>
 												</div>
 											</div>
+											<div class="form-group row">
+												<div class="col-sm-12">
+													<label>Department</label> <select id="selectDepartment"
+														name="departmentId"
+														class="form-control form-control-user col-12 foo text-capitalize"
+														onchange="loadEmployeesByDepartment()">
+														<option value="all" selected>ALL</option>
+														<c:forEach items="${depList}" var="d">
+															<option value="${d.depID}">${d.department}</option>
+														</c:forEach>
+													</select> <span id="div1"></span>
+												</div>
+											</div>
+											<div class="form-group row">
+												<div class="col-sm-12">
+													<label>Employee Name</label> <select id="selectEmployeeId"
+														name="employeeId"
+														class="form-control form-control-user col-12 foo text-capitalize">
+														<option value="all" selected>ALL</option>
+													</select> <span id="div2"></span>
+												</div>
+											</div>
+											<br>
+											<div class="form-group row">
+												<div class="col-sm-12">
+													<input type="submit" class="btn btn-primary btn-sm-6"
+														value="Generate Attendance Report" />
+												</div>
+											</div>
+
 
 										</form:form>
 
-
-										<!-- DataTables Example -->
-										<div class="card shadow mb-4">
-											<div class="card-header py-3">
-												<h6 class="m-0 font-weight-bold text-primary">Attendance
-													Sheet</h6>
-											</div>
-											<div class="card-body">
-												<div class="table-responsive" style="max-height: 500px">
-													<table class="table table-sm table-hover table-bordered"
-														id="dataTable" style="width:100%;">
-														<thead>
-															<tr>
-																<th>Date</th>
-																<th>Weekday</th>
-																<th>Day Type</th>
-																<th>On Time</th>
-																<th>Off Time</th>
-																<th>Worked Time</th>
-																<th>Over Time</th>
-																<th>Short Time</th>
-																<th>Description</th>
-															</tr>
-														</thead>
-														<tfoot>
-															<tr>
-																<th>Date</th>
-																<th>Weekday</th>
-																<th>Day Type</th>
-																<th>On Time</th>
-																<th>Off Time</th>
-																<th>Worked Time</th>
-																<th>Over Time</th>
-																<th>Short Time</th>
-																<th>Description</th>
-															</tr>
-														</tfoot>
-														<tbody>
-
-														</tbody>
-													</table>
-												</div>
-											</div>
-										</div>
+										<br>
 
 									</div>
 								</div>
 							</div>
+							<div class="col-sm-9">
+
+								<c:if test="${pdfViewEq != null }">
+									<embed type="application/pdf"
+										src="data:application/pdf;base64,${pdfViewEq}"
+										style="height: 70vh; width: 100%">
+									</embed>
+								</c:if>
+							</div>
+
 						</div>
 
 
@@ -248,13 +213,9 @@
 	</div>
 	<%@include file="../../WEB-INF/jsp/commJs.jsp"%>
 
-	<!-- Page level custom scripts -->
-
-	<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/jquery-ui.min.js"></script>
-	<script src="<c:url value='/resources/hrm/js/employeeAttendance.js'/>"></script>
-	<script src="<c:url value='/resources/hrm/ajax/employeeAttendance.js'/>"></script>
-	<script src="<c:url value='/resources/hrm/ajax/attendanceReport.js'/>"></script>
-	<script src="<c:url value='/resources/hrm/js/attendanceReport.js'/>"></script>
-
+	<!-- Datatable -->
+	<script src="<c:url value='/resources/hrm/ajax/datatable.js'/>"></script>
+	<script src="<c:url value='/resources/hrm/ajax/shiftAllocation.js'/>"></script>
+	<script src="<c:url value='/resources/hrm/js/shiftAllocation.js'/>"></script>
 </body>
 </html>

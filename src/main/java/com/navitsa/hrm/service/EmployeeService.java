@@ -112,7 +112,7 @@ public class EmployeeService {
 	public Employee getEmp(String id) {
 		return empRepo.findById(id).get();
 	}
-	
+
 	public String getMaxEmployeeId() {
 		if (empRepo.getMaxEmployeeId() == null || empRepo.getMaxEmployeeId() == "0") {
 			return "1";
@@ -120,7 +120,7 @@ public class EmployeeService {
 			return empRepo.getMaxEmployeeId();
 		}
 	}
-	
+
 	public Employee findEmployeeByEpfNo(String epfNo, String companyId) {
 		return empRepo.findEmployeeByEpfNo(epfNo, companyId);
 	}

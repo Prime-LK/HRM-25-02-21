@@ -1,16 +1,10 @@
 package com.navitsa.hrm.controller;
 
-import java.io.InputStream;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -19,25 +13,18 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.navitsa.hrm.entity.DepartmentMaster;
 import com.navitsa.hrm.entity.Employee;
-import com.navitsa.hrm.entity.EmployeeDetails;
+import com.navitsa.hrm.entity.EmployeeAttendance;
 import com.navitsa.hrm.entity.ShiftMaster;
-import com.navitsa.hrm.report.AttendanceMainReportBean;
-import com.navitsa.hrm.report.AttendanceMainSheetBean;
-import com.navitsa.hrm.report.AttendanceSubReportBean;
-import com.navitsa.hrm.report.AttendanceSubSheetBean;
+import com.navitsa.hrm.report.AttendanceRecordBean;
 import com.navitsa.hrm.service.DepartmentService;
 import com.navitsa.hrm.service.EmployeeAttendanceService;
 import com.navitsa.hrm.service.EmployeeService;
 import com.navitsa.hrm.service.ShiftMasterService;
-import com.navitsa.hrm.utils.GenerateJasperReport;
 import com.navitsa.hrm.utils.ReportViewe;
-
-import net.sf.jasperreports.engine.JasperReport;
 
 @Controller
 public class AttendanceReportController {
@@ -71,97 +58,111 @@ public class AttendanceReportController {
 		return shiftMasterService.loadAllShifts(companyId);
 	}
 
-	@GetMapping("/loadAttendanceSheet")
-	@ResponseBody
-	public List<AttendanceSubReportBean> loadAttendanceSheet(@RequestParam("startDate") String startDate,
-			@RequestParam("endDate") String endDate, @RequestParam("employeeId") String employeeId,
-			Map<String, Object> model, HttpSession session) {
-		List<AttendanceSubReportBean> list = new ArrayList<>();
+	@GetMapping("/generateAttendanceReport")
+	public ModelAndView generateAttendanceReport(@RequestParam("startDate") String startDate,
+			@RequestParam("endDate") String endDate,
+			@RequestParam(value = "departmentId", required = false) String departmentId,
+			@RequestParam(value = "employeeId", required = false) String employeeId,
+			@RequestParam(value = "shiftId", required = false) String shiftId, Map<String, Object> model,
+			HttpServletResponse response, HttpSession session) {
+
 		String companyId = session.getAttribute("company.comID").toString();
-		String[][] result = employeeAttendanceService.loadAttendanceSubReportDetails(startDate, endDate, employeeId,
-				companyId);
-		for (int i = 0; i < result.length; i++) {
-			AttendanceSubReportBean subattendance = new AttendanceSubReportBean();
-			subattendance.setDate(result[i][0]);
-			subattendance.setWeekday(result[i][1]);
-			subattendance.setDay_type(result[i][2]);
-			subattendance.setOn_time(result[i][3]);
-			subattendance.setOff_time(result[i][4]);
-			subattendance.setWorked_time(result[i][5]);
-			subattendance.setOver_time(result[i][6]);
-			subattendance.setShort_time(result[i][7]);
-			subattendance.setAttendance_description(result[i][8]);
-			list.add(subattendance);
+		String shiftName, departmentName, employeeName;
+		List<EmployeeAttendance> attendances;
+		if (shiftId.equals("all")) {
+			shiftName = "ALL";
+		} else {
+			shiftName = shiftMasterService.findShiftByIdAndCompany(shiftId, companyId).getDescription();
 		}
-		return list;
-	}
 
-	@GetMapping("/generateReport")
-	public ModelAndView generateReport(@RequestParam("startDate") String startDate, @RequestParam("endDate") String endDate, 
-			@RequestParam("departmentId") String departmentId, @RequestParam("employeeId") String employeeId,
-			HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
-		
-		String fileName = "Attendance Sheet: " + employeeId + "-" + startDate + "-" + endDate;
-		List<AttendanceMainSheetBean> list = new ArrayList<>();
-		List<AttendanceSubSheetBean> list2 = new ArrayList<>();
-		String companyId = session.getAttribute("company.comID").toString();
+		if (departmentId.equals("all")) {
+			departmentName = "ALL";
+		} else {
+			departmentName = departmentService.getDepartmentByIdAndCompany(departmentId, companyId).getDepartment();
+		}
 
-		String department = employeeAttendanceService.getDepartmentByIdAndCompany(departmentId,
-				companyId);
-		System.out.println("Department : " + department);
-		Employee employee = employeeService.getEmployeeByCompany(employeeId, companyId);
-		String employeeName = employee.getName() + " " + employee.getLastname();
-		System.out.println("Employee Name : " + employeeName);
-		
-		DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-		DateFormat formatter1 = new SimpleDateFormat("dd.MM.yyyy");
-		HashMap<String, Object> params = new HashMap<String, Object>();
-		params.put("start_date", formatter1.format(formatter.parse(startDate)));
-		params.put("end_date", formatter1.format(formatter.parse(endDate)));
-		params.put("department", department);
-		params.put("employee_id", employeeId);
-		params.put("employee_name", employeeName);
-		
-		
-		
-		String[][] result = employeeAttendanceService.loadAttendanceMainSheet(startDate, endDate, employeeId,
-				companyId);
-		for (int i = 0; i < result.length; i++) {
-			AttendanceMainSheetBean attendance = new AttendanceMainSheetBean();
-			attendance.setTotal_over_time(result[i][0]);
-			attendance.setTotal_short_time(result[i][1]);
-			attendance.setTotal_worked_days(result[i][2]);
-			attendance.setTotal_absent_days(result[i][3]);
-			attendance.setTotal_holidays(result[i][4]);
-			attendance.setTotal_rest_days(result[i][5]);
-			String[][] result2 = employeeAttendanceService.loadAttendanceSubSheet(startDate, endDate,
-					employeeId, companyId);
-			for (int j = 0; j < result2.length; j++) {
-				AttendanceSubSheetBean subattendance = new AttendanceSubSheetBean();
-				subattendance.setDate(result2[j][0]);
-				subattendance.setWeekday(result2[j][1]);
-				subattendance.setDay_type(result2[j][2]);
-				subattendance.setShift(result2[j][3]);
-				subattendance.setStart_time(result2[j][4]);
-				subattendance.setEnd_time(result2[j][5]);
-				subattendance.setOn_time(result2[j][6]);
-				subattendance.setOff_time(result2[j][7]);
-				subattendance.setWorked_time(result2[j][8]);
-				subattendance.setOver_time(result2[j][9]);
-				subattendance.setShort_time(result2[j][10]);
-				subattendance.setAttendance_description(result2[j][11]);
-				list2.add(subattendance);
+		if (employeeId.equals("all")) {
+			employeeName = "ALL";
+		} else {
+			Employee emp = employeeService.getEmployeeByCompany(employeeId, companyId);
+			employeeName = emp.getName() + " " + emp.getLastname();
+		}
+
+		if ((departmentId.equals("all") || departmentId == null) && (employeeId.equals("all") || employeeId == null)
+				&& (shiftId.equals("all") || shiftId == null)) {
+			// Dates
+			attendances = employeeAttendanceService.loadAttendancesByDate(startDate, endDate, companyId);
+		} else if ((employeeId.equals("all") || employeeId == null) && (shiftId.equals("all") || shiftId == null)) {
+			// Department
+			attendances = employeeAttendanceService.loadAttendancesByDepartment(startDate, endDate, departmentId,
+					companyId);
+		} else if ((departmentId.equals("all") || departmentId == null)
+				&& (employeeId.equals("all") || employeeId == null)) {
+			// Shift
+			attendances = employeeAttendanceService.loadAttendancesByShift(startDate, endDate, shiftId, companyId);
+		} else if ((employeeId.equals("all") || employeeId == null)) {
+			// Department + Shift
+			attendances = employeeAttendanceService.loadAttendancesByDepartmentAndShift(startDate, endDate,
+					departmentId, shiftId, companyId);
+		} else if ((shiftId.equals("all") || shiftId == null)) {
+
+			if (!employeeId.equals("all") && !(employeeId == null)) {
+				// Employee
+				attendances = employeeAttendanceService.loadAttendancesByEmployee(startDate, endDate, departmentId,
+						employeeId, companyId);
+			} else {
+				// Department
+				System.out.println("Employee ID is all");
+				attendances = employeeAttendanceService.loadAttendancesByDepartment(startDate, endDate, departmentId,
+						companyId);
 			}
-			attendance.setSubReportBeanList(list2);
-			list.add(attendance);
+		} else {
+			// Employee + Shift
+			attendances = employeeAttendanceService.loadAttendancesByEmployeeAndShift(startDate, endDate, departmentId,
+					employeeId, shiftId, companyId);
 		}
-		
+		List<AttendanceRecordBean> list = new ArrayList<>();
+		for (int i = 0; i < attendances.size(); i++) {
+			AttendanceRecordBean arb = new AttendanceRecordBean();
+			DepartmentMaster department = departmentService
+					.getDepartmentByIdAndCompany(attendances.get(i).getDepartmentId(), companyId);
+			arb.setDate(attendances.get(i).getDate());
+			arb.setEmployeeName(
+					attendances.get(i).getEmployee().getName() + " " + attendances.get(i).getEmployee().getLastname());
+			arb.setDepartment(department.getDepartment());
+			arb.setShift(attendances.get(i).getShiftmaster().getDescription());
+			arb.setOnTime(attendances.get(i).getOnTime());
+			arb.setOffTime(attendances.get(i).getOffTime());
+			arb.setEmployeeId(attendances.get(i).getEmployee().getEmpID());
+			arb.setShiftId(attendances.get(i).getShiftmaster().getShiftId());
+			arb.setAttendanceId(attendances.get(i).getAttendanceId());
+			arb.setEpfNo(attendances.get(i).getEmployee().getEpfNo());
+			boolean a = attendances.get(i).isApproved();
+			if (a == true) {
+				arb.setApproved("Yes");
+			} else {
+				arb.setApproved("No");
+			}
+			list.add(arb);
+		}
 
-		ReportViewe review = new ReportViewe();
-		String report = review.pdfReportViewInlineSystemOpen("attendance_sheet.jasper", fileName, list, params,
-				response);
-		ModelAndView mav = new ModelAndView("hrm/attendanceReportPreview");
-		mav.addObject("pdfViewEq", report);
+		ModelAndView mav = new ModelAndView("hrm/attendanceReport");
+
+		String pdf_result = null;
+		ReportViewe view = new ReportViewe();
+		Map<String, Object> params = new HashMap<>();
+		params.put("fromDate", startDate);
+		params.put("toDate", endDate);
+		params.put("shift", shiftName);
+		params.put("department", departmentName);
+		params.put("employeeName", employeeName);
+		try {
+			pdf_result = view.pdfReportViewInlineSystemOpen("manual_attendance_report.jasper",
+					"Manual Attendance Report", list, params, response);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		mav.addObject("pdfViewEq", pdf_result);
 		return mav;
 	}
 }

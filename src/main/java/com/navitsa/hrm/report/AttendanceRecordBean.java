@@ -17,6 +17,9 @@ public class AttendanceRecordBean {
 	private String approvalStatus;
 	private boolean status;
 	private String companyId;
+	private String epfNo;
+	private String employeeName;
+	private String approved;
 
 	public String getAttendanceId() {
 		return attendanceId;
@@ -121,7 +124,7 @@ public class AttendanceRecordBean {
 	public void setApprovalStatus(String approvalStatus) {
 		this.approvalStatus = approvalStatus;
 	}
-	
+
 	public boolean isStatus() {
 		return status;
 	}
@@ -136,5 +139,29 @@ public class AttendanceRecordBean {
 
 	public void setCompanyId(String companyId) {
 		this.companyId = companyId;
+	}
+
+	public String getEpfNo() {
+		return epfNo;
+	}
+
+	public void setEpfNo(String epfNo) {
+		this.epfNo = epfNo;
+	}
+
+	public String getEmployeeName() {
+		return employeeName;
+	}
+
+	public void setEmployeeName(String employeeName) {
+		this.employeeName = employeeName;
+	}
+
+	public String getApproved() {
+		return approved;
+	}
+
+	public void setApproved(String approved) {
+		this.approved = approved;
 	}
 }
