@@ -174,6 +174,7 @@
 							<li><a href="employeeMonthlyAllocate"> <span class="sub-item">Employee Allocate Monthly Allowances</span></a></li>
 							<li><a href="leaveSummaryReport"> <span class="sub-item">Leave Summary Report</span></a></li>
 							<li><a href="AttendenceReport"> <span class="sub-item">Attendance Report</span></a></li>
+								<li><a href="MonthlyETFStatementReport"> <span class="sub-item">ETF Statement</span></a></li>
 						</ul>
 					</div></li>
 			</ul>

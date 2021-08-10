@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="employeeSummaryReport" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="842" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="3737c8f8-35e7-4ea0-bf9f-c557f6bbbdf3">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Crosstab Data Text" hAlign="Center"/>
+	<parameter name="companny" class="java.lang.String"/>
+	<parameter name="address" class="java.lang.String"/>
+	<parameter name="deparment" class="java.lang.String"/>
+	<parameter name="emptype" class="java.lang.String"/>
+	<parameter name="design" class="java.lang.String"/>
+	<parameter name="employee" class="java.lang.String"/>
+	<parameter name="costcenter" class="java.lang.String"/>
+	<parameter name="empcatP" class="java.lang.String"/>
+	<parameter name="religionP" class="java.lang.String"/>
+	<parameter name="civistaP" class="java.lang.String"/>
+	<field name="monthBasicSalaryPK.employeeID.epfNo" class="java.lang.String"/>
+	<field name="monthBasicSalaryPK.employeeID.name" class="java.lang.String"/>
+	<field name="totalEpfSal" class="java.lang.Double"/>
+	<field name="monthBasicSalaryPK.employeeID.lastname" class="java.lang.String"/>
+	<variable name="contributiontot" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{totalEpfSal}*3/100]]></variableExpression>
+	</variable>
+	<variable name="etfsal" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{totalEpfSal}]]></variableExpression>
+	</variable>
+	<pageHeader>
+		<band height="82">
+			<textField>
+				<reportElement x="97" y="36" width="656" height="20" uuid="6b49a67e-dc73-43a6-a53e-860b4ad24947"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{companny}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="97" y="56" width="656" height="20" uuid="e78af55c-a957-459f-9aae-c883000a5884"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{address}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="97" y="16" width="656" height="20" forecolor="#000000" uuid="2ace482a-5e4e-46a6-a753-ced9e680d33d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["MONTHLY E.T.F STATEMENT"]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="24">
+			<staticText>
+				<reportElement x="82" y="2" width="415" height="20" uuid="5b513fed-f67f-499b-b3d7-0ab62e8e6d29"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Dashed"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dashed"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="497" y="2" width="190" height="20" uuid="d1aac5d2-5ef9-45cc-a89c-bdcad1926bcc"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Dashed"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dashed"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[E.P.F Salary]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="17" y="2" width="65" height="20" uuid="7fa443b5-772c-40ce-8ac5-2e334a3c5db7"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Dashed"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dashed"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[EPF No]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="687" y="2" width="139" height="20" uuid="6573de05-c6be-469f-86b5-fcccc3ecc7e9"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Dashed"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dashed"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[E.T.F Contribution]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20">
+			<textField>
+				<reportElement x="17" y="0" width="65" height="20" uuid="76171577-e666-422c-997d-90cc71ebe5a5"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{monthBasicSalaryPK.employeeID.epfNo}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="497" y="0" width="190" height="20" uuid="83d9374b-8f82-4ed2-a03b-5311d03068bb"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{totalEpfSal}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="82" y="0" width="415" height="20" uuid="95bc8aeb-2cd5-4c42-b55e-8f5b4ee97058"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{monthBasicSalaryPK.employeeID.lastname}+" "+$F{monthBasicSalaryPK.employeeID.name}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="687" y="0" width="139" height="20" uuid="34f3b969-0ea3-4fb1-a824-5674bbbe5c32"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{totalEpfSal}*3/100]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="50">
+			<textField pattern="#,##0.00">
+				<reportElement x="497" y="6" width="190" height="20" uuid="14fc0bfd-ab4b-49be-b180-3ad6638e1068"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid"/>
+					<bottomPen lineWidth="1.0" lineStyle="Double"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{etfsal}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="687" y="6" width="139" height="20" uuid="2449f58d-2f6b-4ff8-8e34-01d595af61ef"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid"/>
+					<bottomPen lineWidth="1.0" lineStyle="Double"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{contributiontot}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="17" y="6" width="480" height="20" uuid="dc356b35-c19c-4679-9059-881fa519a105"/>
+				<box rightPadding="10"/>
+				<textElement textAlignment="Right">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Grand Total]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>
