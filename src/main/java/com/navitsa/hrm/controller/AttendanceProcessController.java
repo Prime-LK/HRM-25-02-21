@@ -384,7 +384,7 @@ public class AttendanceProcessController {
 							if (time_out != null)
 								ot_normal = (int) ((time_out.getTime() - shift_out.getTime()) / 60000);
 
-							if (ot_normal > 0)
+							if (ot_normal > 30)
 								attendanceSheet.setOtHrsNormal(ot_normal);
 							else
 								attendanceSheet.setOtHrsNormal(0);
