@@ -69,7 +69,7 @@
 		<label>Department</label>
 		<select class="form-control form-control-sm" id="department"
 			name="depID" onchange="getEmployees(this.value)">
-			<option value="" selected>--Select--</option>
+			<option value="" selected>All Departments</option>
 			<c:forEach items="${DepAll}" var="dp">
 				<option value="${dp.depID}">${dp.department}</option>
 			</c:forEach>
@@ -80,10 +80,7 @@
 		<label for="employee">Employee</label>
 		<select class="form-control form-control-sm" id="employee"
 			name="employeeID">
-			<option value="" selected>--Select--</option>
-			<c:forEach items="${EmpAll}" var="emp">
-				<option value="${emp.empID}">${emp.name} ${emp.lastname}</option>
-			</c:forEach>
+			<option value="" selected>All Employees</option>
 		</select>
 	</div>
 </div>
@@ -116,11 +113,43 @@
 <%@include file="../../WEB-INF/jsp/commJs.jsp"%>
 
 <script>
+function confirmMsg() {
+	
+	swal({
+		title: 'Are you sure?',
+		text: 'You can not undo after approval !',
+		type: 'warning',
+		buttons:{
+			confirm: {
+				text : 'Yes',
+				className : 'btn btn-success'
+			},
+			cancel: {
+				visible: true,
+				className: 'btn btn-danger'
+			}
+		}
+	}).then((value) => {
+		if (value) {
+			
+		    swal("Successfully Approved !", {
+		        icon: "success",
+		      });
+		    
+		} else {
+			swal.close();
+		}
+	});
+	
+}
 
 function getEmployees(str) {
 	if (str=="") {
 		var dropDown = $('#employee'), option="";
 		dropDown.empty();
+		selected_option = "<option>All Employees</option>"
+		dropDown.append(selected_option);
+
 		return;
 	}
 	else{
@@ -132,7 +161,7 @@ function getEmployees(str) {
 
 			var dropDown=$('#employee'), option="";
 			dropDown.empty();
-			selected_option = "<option>--Select--</option>"
+			selected_option = "<option>All Employees</option>"
 			dropDown.append(selected_option);
 
             for(var i=0; i<data.length; i++){
