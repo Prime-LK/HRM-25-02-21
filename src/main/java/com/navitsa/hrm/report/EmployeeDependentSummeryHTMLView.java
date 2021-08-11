@@ -22,7 +22,7 @@ import net.sf.jasperreports.engine.export.HtmlExporter;
 import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleHtmlExporterOutput;
 
-@Component("abc")
+@Component("reportComponent")
 public class EmployeeDependentSummeryHTMLView extends AbstractView{
 
 	  private JasperReport currencyRatesReport;

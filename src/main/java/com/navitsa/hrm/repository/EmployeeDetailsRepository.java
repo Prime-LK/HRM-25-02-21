@@ -309,7 +309,7 @@ public interface EmployeeDetailsRepository extends CrudRepository<EmployeeDetail
 	public EmployeeDetails findEmployeeDetailsByEmployeeIdAndCompany(@Param("employeeId") String employeeId,
 			@Param("companyId") String companyId);
 
-	@Query(value = "SELECT * FROM employee_details WHERE Company_ID=:companyID", nativeQuery = true)
+	@Query(value = "SELECT * FROM employee_details WHERE Company_ID=:companyID AND Status='ACTIVE'", nativeQuery = true)
 	public List<EmployeeDetails> getEmployeeDetailsByCompanyID(@Param("companyID") String companyID);
 
 	@Query(value = "SELECT er FROM EmployeeDetails er WHERE er.company.comID=:companyID and detailsPK.empID.empID=:empno")

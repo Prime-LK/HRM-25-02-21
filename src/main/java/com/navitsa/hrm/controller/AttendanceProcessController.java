@@ -38,8 +38,6 @@ import com.navitsa.hrm.entity.PayPeriods;
 import com.navitsa.hrm.entity.ShiftAllocation;
 import com.navitsa.hrm.entity.ShiftMaster;
 import com.navitsa.hrm.report.AttendanceSheetBeen;
-import com.navitsa.hrm.report.EmployeeContactListingReportBeen;
-import com.navitsa.hrm.report.EmployeeListingReportBeen;
 import com.navitsa.hrm.service.ApplyLeave_Service;
 import com.navitsa.hrm.service.AttendanceProcessService;
 import com.navitsa.hrm.service.AttendanceTxtFileReadingService;
@@ -156,8 +154,9 @@ public class AttendanceProcessController {
 		return dates;
 	}
 
+
 	@RequestMapping(value = "/saveAttendanceProcess", method = RequestMethod.POST)
-	public ModelAndView getDatesBetweenPayPeriod(@RequestParam String payPeriodID, @RequestParam String employeeID,
+	public ModelAndView saveAttendanceProcess(@RequestParam String payPeriodID, @RequestParam String employeeID,
 			HttpSession session) throws ParseException {
 
 		String companyID = (String) session.getAttribute("company.comID");
@@ -179,15 +178,10 @@ public class AttendanceProcessController {
 		from_date = sdf.parse(fromDate);
 		to_date = sdf.parse(toDate);
 
-		// List<Date> holidays =
-		// calanderService.getHolidays(payPeriod.getStartDate(),payPeriod.getEndDate());
-		// List<Date> calendarDates = removeHolidays(d1, d2, holidays);
 		List<Date> workingDays = getDaysBetweenDates(from_date, to_date);
 
 		/* -------------------------------------------- */
 
-		// empService.getEmp(employeeID);
-		// EmployeeDetails ed = empService.getEmployeeDetailsByEmployeeID(employeeID);
 		List<EmployeeDetails> edList = empService.getEmployeeDetailsByCompanyID(companyID);
 		for (EmployeeDetails ed : edList) {
 
@@ -207,8 +201,7 @@ public class AttendanceProcessController {
 			int fingerID=0;
 			if(ed.getDetailsPK().getEmpID().getFingerPrintId() !=null)
 				fingerID = Integer.valueOf(ed.getDetailsPK().getEmpID().getFingerPrintId());
-			
-			System.out.println("finger id "+fingerID);
+	
 			
 			List<AttendanceTxtFileHeader> txtFileHeaderList = txtFileReadingService.getTxtFileHeader(companyID);
 			List<AttendanceTxtFileDetail> allAttendanceRecords = new ArrayList<AttendanceTxtFileDetail>();
@@ -246,7 +239,7 @@ public class AttendanceProcessController {
 					}
 				}
 
-				if (!timeInOut.isEmpty()) {
+/*				if (!timeInOut.isEmpty()) {
 					long inOutDiff = 0;
 					inOutDiff = stf.parse(timeInOut.get(timeInOut.size() - 1)).getTime()
 							- stf.parse(timeInOut.get(0)).getTime();
@@ -254,9 +247,9 @@ public class AttendanceProcessController {
 					if (inOutDiffMin < 30)
 						timeInOut.clear();
 				}
-
+*/
 				if (ed.getShiftmaster() == null) {
-					ShiftAllocation shift = shiftAllocationService.getShiftBy(sdf.format(workingDay), ed.getEpfNo(),
+					ShiftAllocation shift = shiftAllocationService.getShiftBy(sdf.format(workingDay), ed.getDetailsPK().getEmpID().getEmpID(),
 							companyID);
 					if (shift != null) {
 						shiftIn = shift.getShiftAllocationPK().getShiftmaster().getStartTime();
@@ -416,7 +409,7 @@ public class AttendanceProcessController {
 
 			}
 
-			// txt file header loop
+			// working days loop
 
 			attendanceProcessService.saveAll(attendanceSheetlist);
 
