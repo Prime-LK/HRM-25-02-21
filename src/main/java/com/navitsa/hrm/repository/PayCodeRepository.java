@@ -57,4 +57,6 @@ public interface PayCodeRepository extends CrudRepository<PayCode, String>{
 			"where YEAR(m.Start_Date) =:Start_Date and MONTH(m.End_Date) =:End_Date",nativeQuery=true)
 	public PayCode getDates2(@Param("Start_Date") String startDate,@Param("End_Date") String endDate);
 
+	@Query(value="SELECT p FROM PayCode p WHERE p.company.comID=:comID ")
+	public List<PayCode> loadPAllayCodeBycomp(@Param("comID")String comID);
 }

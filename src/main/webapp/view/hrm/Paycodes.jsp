@@ -89,7 +89,7 @@
 </style>
 
 </head>
-<body onload="checkStatusofDropdowns();">
+<body >
 	<div class="wrapper">
 		<div class="main-header">
 			<!-- Logo Header -->
@@ -124,30 +124,21 @@
 								<form:form action="savePaycodes" method="post"
 									modelAttribute="Paycodes">
 									<blockquote class="text-danger">${mesg}</blockquote>
-									<div class="form-group row">
-										<div class="col-3" id="payPeriodIDDiv">
-											<label>Pay Period</label>
-											<form:input path="PeriodID.payPeriodID" type="text"
-												onChange="loadPeriodData();loadSavedData();"
-												class="form-control " id="payPeriodID" readOnly="true"/>
-											<span id="div1"></span>
-										</div>
-										<div class="col-3">
-											<label>Start Date</label>
-											<form:input path="startDate" type="date"
-												class="form-control " placeholder="Enter Date Of Birth"
-												id="startDate" />
-
-											<span id="div2"></span>
-										</div>
-										<div class="col-3">
-											<label>End Date</label>
-											<form:input path="endDate" type="date"
-												onchange="loadpayperiodfromdates();" class="form-control "
-												placeholder="Enter Date Of Birth" id="endDate" />
-											<span id="div3"></span>
-										</div>
-									</div>
+									
+																				
+								<div class="form-group row">
+										<div class="col-sm-6">
+										<label class="l-fontst">Pay Period</label>
+												<form:select class="custom-select custom-select-mb" path="PeriodID.payPeriodID"  >
+													<form:option value=""> select Pay Period</form:option>
+													<c:forEach items="${payPeriodProcess}" var="pship">
+														<form:option value="${pship.payPeriodID}">${pship.desc} (${pship.startDate}-${pship.endDate})</form:option>
+													</c:forEach>
+												</form:select>	
+										</div>									
+										
+								</div>
+																	
 									<div class="form-group row">
 										<div class="col-3">
 											<label>Pay Code</label>
@@ -161,16 +152,8 @@
 												id="remarks" placeholder="Remark"/>
 											<span id="div5"></span>
 										</div>
-										<div class="col-4 ">
-											<form:input path="payCodeID" type="hidden" readOnly="true"
-												class="form-control " id="payPeriodID" />
-										</div>
-										<div class="col-4 ">
-											<input type="hidden" name="company.comID"
-												class="form-control" id="comID"
-												value="<%=session.getAttribute("company.comID")%>"
-												placeholder="Company ID" />
-										</div>
+										
+										
 									</div>
 									<div class="form-group row">
 										<div class="col-3">
@@ -202,15 +185,29 @@
 											id="tablePayCode">
 											<thead>
 												<tr>
+													<th>Pay Period</th>
 													<th>PayCode</th>
-													<th>Start Date</th>
-													<th>End Date</th>
+													
 													<th>Remark</th>
 													<th>Status</th>
-													<th>Action</th>
+													
 												</tr>
 											</thead>
 											<tbody>
+											<c:forEach items="${loadPayCodeBycompany}" var="payco">
+														
+												<tr>
+													<td> ${payco.periodID.startDate}    ${payco.periodID.endDate}</td>
+												<td> ${payco.payCode} </td>
+												<td> ${payco.remarks} </td>
+												<td> ${payco.status} </td>
+												
+												
+												</tr>
+											
+											</c:forEach>
+											
+											
 											</tbody>
 										</table>
 									</div>
@@ -225,7 +222,7 @@
 		</div>
 	</div>
 	<%@include file="../../WEB-INF/jsp/commJs.jsp"%>
-	<script src="<c:url value='resources/hrm/ajax/payCode.js'/>"></script>
+<%-- 	<script src="<c:url value='resources/hrm/ajax/payCode.js'/>"></script> --%>
 
 
 </body>

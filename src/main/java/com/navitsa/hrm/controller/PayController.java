@@ -117,9 +117,6 @@ public class PayController {
 	@RequestMapping(value = "/Paycodes", method = RequestMethod.GET)
 	public String gePaycodesPage(Map<String, Object> map) {
 		map.put("Paycodes", new PayCode());
-		PayCode p = new PayCode();
-		p.setPayCodeID("00000".substring(payService.maxpayCodeID().length()) + payService.maxpayCodeID());
-		map.put("Paycodes", p);
 		return "hrm/Paycodes";
 	}
 
@@ -133,21 +130,46 @@ public class PayController {
 
 	// save paycodes
 	@RequestMapping(value = "/savePaycodes", method = RequestMethod.POST)
-	public String savePaycode(@ModelAttribute("Paycodes") PayCode payCode, RedirectAttributes redirectAttrs, Model m) {
-
-		List<Setting> sl = payService.getSettingl();
-		String yes = sl.get(0).getMultipaycode().toString();
-
-		if (yes.equalsIgnoreCase("Yes")) {
-			payService.savePayCodes(payCode);
+	public String savePaycode(@ModelAttribute("Paycodes") PayCode payCode, RedirectAttributes redirectAttrs, Model m,HttpSession session) {
+		
+		try {
+			
+		String comID = (String) session.getAttribute("company.comID");
+		PayPeriods payPer=payService.getPayPeriods(payCode.getPeriodID().getPayPeriodID());
+		
+		CompanyMaster cm=new CompanyMaster();
+		cm.setComID(comID);
+		payCode.setStartDate(payPer.getStartDate());
+		payCode.setEndDate(payPer.getEndDate());
+		
+		payCode.setCompany(cm);
+		payCode.setPayCodeID("00000".substring(payService.maxpayCodeID().length()) + payService.maxpayCodeID());
+		
+		PayCode resul=payService.savePayCodes(payCode);
+		
+		
+		m.addAttribute("mesg", resul.getPayCode() +" is Created");
+		}catch (Exception e) {
+			m.addAttribute("mesg", "Not Create Paycode");
+		}
+		
+		
+//		List<Setting> sl = payService.getSettingl();
+//		String yes = sl.get(0).getMultipaycode().toString();
+		
+		
+		
+		
+		//if (yes.equalsIgnoreCase("Yes")) {
+			
 
 			return "redirect:/Paycodes";
 
-		} else {
-
-			m.addAttribute("mesg", "Dont allowed to Create multiple PayCodes ");
-			return "hrm/Paycodes";
-		}
+//		} else {
+//
+//			m.addAttribute("mesg", "Dont allowed to Create multiple PayCodes ");
+//			return "hrm/Paycodes";
+//		}
 	}
 
 	// load saved PayCodes data based on payPeriodID
@@ -2144,6 +2166,20 @@ public class PayController {
 		return "redirect:/hrm/getSalaryMonthEnd";
 
 	}
+	
+	@ModelAttribute("loadPayCodeBycompany")
+	public List<PayCode> loadPayCodeBycompany(HttpSession session) {
+		String comID = (String) session.getAttribute("company.comID");
+		List<PayCode> PayCodesbypayPeriodID = payService.loadPAllayCodeBycomp(comID);
+		return PayCodesbypayPeriodID;
+	}
+	
+	
+//	@GetMapping("/getPeriodEnd")
+//	public String getPage() {
+//		return "hrm/periodEnd";
+//	}
+	
 	// end of salary month end functions
 
 }

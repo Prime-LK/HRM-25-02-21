@@ -833,7 +833,7 @@ function getEmpAllowances(empid) {
 	}
 	//onclick='activePerson() getEmpMonthSalaryDetailsPage01
 	function activePerson() {
-		$("#empidTable").prop("disabled", (_, val) => !val);
+		$("#empidTable").prop("disabled", (_, val) >= !val);
 	}
 
 	function loadRelatedType() {

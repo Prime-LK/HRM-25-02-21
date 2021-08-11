@@ -113,8 +113,8 @@ public class PayService {
 	}
 
 	// save payCodes
-	public void savePayCodes(PayCode payCode) {
-		payCodeRepository.save(payCode);
+	public PayCode savePayCodes(PayCode payCode) {
+		return payCodeRepository.save(payCode);
 	}
 
 	// get saved payCodes
@@ -175,7 +175,10 @@ public class PayService {
 	public List<PayCode> getpayCodestopage(String periodID,String comID) {
 		return payCodeRepository.loadPayCode(periodID,comID);
 	}	
-	
+	public List<PayCode> loadPAllayCodeBycomp(String comID){
+		return payCodeRepository.loadPAllayCodeBycomp(comID);
+	}
+
 	// load paycode for combo box
 	public PayCode getPayCodeUsingPeriond(String periodID) {
 		return payCodeRepository.getPayCodeUsingPeriond(periodID);
@@ -338,4 +341,6 @@ public class PayService {
 	public List<EmployeeMonthSalaryDetails> getEmpmonthowancesGrid(String payCode,String adddedtype,String comID){
 		return employeeMonthSalaryDetailsRepository.getEmpmonthowancesGrid(payCode,adddedtype,comID);
 	}
+	
+
 }
