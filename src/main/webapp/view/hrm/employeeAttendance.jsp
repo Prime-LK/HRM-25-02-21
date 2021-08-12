@@ -169,7 +169,7 @@
 														</div>
 														<div class="col-sm-3">
 															<label>Shift</label> <select id="shiftId" name="shiftId"
-																class="form-control text-capitalize" required
+																class="form-control text-capitalize" 
 																onchange="checkEmployeeShiftAllocation()">
 																<option value="" selected>SELECT</option>
 																<c:forEach items="${shiftList}" var="s">

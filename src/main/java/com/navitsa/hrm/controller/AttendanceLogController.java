@@ -106,11 +106,17 @@ public class AttendanceLogController {
 			arb.setEmployee(
 					attendances.get(i).getEmployee().getName() + " " + attendances.get(i).getEmployee().getLastname());
 			arb.setDepartment(department.getDepartment());
-			arb.setShift(attendances.get(i).getShiftmaster().getDescription());
+			if(attendances.get(i).getShiftmaster() != null) {
+				arb.setShift(attendances.get(i).getShiftmaster().getDescription());
+				arb.setShiftId(attendances.get(i).getShiftmaster().getShiftId());
+			} else {
+				arb.setShift("");
+				arb.setShiftId("");
+			}
 			arb.setOnTime(attendances.get(i).getOnTime());
 			arb.setOffTime(attendances.get(i).getOffTime());
 			arb.setEmployeeId(attendances.get(i).getEmployee().getEmpID());
-			arb.setShiftId(attendances.get(i).getShiftmaster().getShiftId());
+			
 			arb.setAttendanceId(attendances.get(i).getAttendanceId());
 			boolean a = attendances.get(i).isApproved();
 			if (a == true) {

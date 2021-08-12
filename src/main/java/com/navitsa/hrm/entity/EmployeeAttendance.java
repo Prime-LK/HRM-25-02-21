@@ -8,6 +8,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
+
 @Entity
 @Table(name = "employee_attendance")
 public class EmployeeAttendance {
@@ -20,7 +23,8 @@ public class EmployeeAttendance {
 	@JoinColumn(name = "employee_id", referencedColumnName = "Employee_ID")
 	private Employee employee;
 
-	@ManyToOne(optional = false, fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
+	@NotFound(action = NotFoundAction.IGNORE)
 	@JoinColumn(name = "shift_id", referencedColumnName = "shift_id")
 	private ShiftMaster shiftmaster;
 

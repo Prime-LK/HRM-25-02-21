@@ -26,7 +26,7 @@ function validateForm() {
 				},
 			});
 			return false;
-		}  else if(shiftId == "") {
+		}  /*else if(shiftId == "") {
 			swal("Please select a shift!", "", {
 				icon : "warning",
 				buttons : {
@@ -35,8 +35,8 @@ function validateForm() {
 					}
 				},
 			});
-			return false;
-		} else if(onTime == "") {
+			return true;
+		}*/ else if(onTime == "") {
 			swal("Please select a on time!", "", {
 				icon : "warning",
 				buttons : {

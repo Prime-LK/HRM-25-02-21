@@ -128,7 +128,7 @@ public class EmployeeAttendanceController {
 	@PostMapping("/saveAttendance")
 	public String saveAttendance(@RequestParam("attendanceId") String attendanceId,
 			@RequestParam("departmentId") String departmentId, @RequestParam("employeeId") String employeeId,
-			@RequestParam("shiftId") String shiftId, @RequestParam("date") String date,
+			@RequestParam(value = "shiftId", required = false) String shiftId, @RequestParam("date") String date,
 			@RequestParam("onTime") String onTime, @RequestParam("offTime") String offTime,
 			@RequestParam("approved") boolean approved,
 			@RequestParam(value = "companyId", required = false) String companyId,
@@ -141,7 +141,8 @@ public class EmployeeAttendanceController {
 
 		try {
 
-			attendance.setAttendanceId(attendanceId);
+			attendance.setAttendanceId("0000000000".substring(employeeAttendanceService.getMaxAttendanceId().length())
+					+ employeeAttendanceService.getMaxAttendanceId());
 			attendance.setEmployee(employee);
 			attendance.setShiftmaster(shift);
 			attendance.setDate(date);
