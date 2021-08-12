@@ -102,22 +102,19 @@ public class AttendanceTxtFileReadingController {
 				while (myReader.hasNextLine()) {
 					
 					String rs = myReader.nextLine();
-	    			//rs = rs.replace(" ","");
-	    			//rs = rs.replace("	","");
+					String employeeNo = null;
+					String inout_date = null;
+					String inout_time = null;
+					if(companyID.equals("00007")) {
+		    			employeeNo = rs.substring(0, 12).replace(" ", "");
+		    			inout_date = rs.substring(13, 23);
+		    			inout_time = rs.substring(24, 32);										
+					}else {   			
+		    			employeeNo = rs.substring(0, 9).replace(" ", "");
+		    			inout_date = rs.substring(10, 20);
+		    			inout_time = rs.substring(21, 29);						
+					}
 
-	    			//machine = rs.charAt(6);
-	    			//String employeeNo = rs.substring(7, 17);
-	    			//String inout_date = rs.substring(19, 29);
-	    			//String inout_time = rs.substring(29, 37);
-	    			
-	    			String employeeNo = rs.substring(0, 9).replace(" ", "");
-	    			String inout_date = rs.substring(10, 20);
-	    			String inout_time = rs.substring(21, 29);
-					
-	    			//String employeeNo = rs.substring(0, 12).replace(" ", "");
-	    			//String inout_date = rs.substring(13, 23);
-	    			//String inout_time = rs.substring(24, 32);
-	    			
 	    			//System.out.println(machine+" "+employeeNo+" "+inout_date+" "+inout_time);
 	    			
 	    			AttendanceTxtFileDetail objDetail = new AttendanceTxtFileDetail();
