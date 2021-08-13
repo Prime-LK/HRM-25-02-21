@@ -266,6 +266,24 @@ public class AttendanceProcessController {
 
 				}
 
+				if (ed.getShiftmaster() != null) {
+				ShiftAllocation shift = shiftAllocationService.getShiftBy(sdf.format(workingDay), ed.getDetailsPK().getEmpID().getEmpID(),
+						companyID);
+					if (shift != null) {
+						shiftIn = shift.getShiftAllocationPK().getShiftmaster().getStartTime();
+						shiftOut = shift.getShiftAllocationPK().getShiftmaster().getEndTime();
+						continueShift = shift.getShiftAllocationPK().getShiftmaster().isContinuing();
+						sm = shift.getShiftAllocationPK().getShiftmaster();
+	
+					}else {
+						shiftIn = ed.getShiftmaster().getStartTime();
+						shiftOut = ed.getShiftmaster().getEndTime();
+						continueShift = ed.getShiftmaster().isContinuing();
+						sm = ed.getShiftmaster();
+						
+					}
+				}
+				
 				CalanderEntity isHoliday = null;
 				isHoliday = calanderService.isHoliday(sdf.format(workingDay), companyID);
 				if (ed.getShiftmaster() != null) {
