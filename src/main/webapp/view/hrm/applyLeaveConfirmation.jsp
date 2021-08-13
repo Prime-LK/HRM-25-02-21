@@ -174,7 +174,7 @@ function loadEmployeeByDepartment(){
 			dropDown.append(selected_option);
 
             for(var i=0; i<data.length; i++){
-                option = option + "<option value='"+data[i].detailsPK.empID.empID+ "'>"+data[i].detailsPK.empID.name+" "+data[i].detailsPK.empID.lastname+ "</option>";
+            	option = option + "<option value='"+data[i].detailsPK.empID.empID+ "'>"+data[i].epfNo+ " - " +data[i].detailsPK.empID.name+" "+data[i].detailsPK.empID.lastname+"</option>";
             }
             dropDown.append(option);
         },
