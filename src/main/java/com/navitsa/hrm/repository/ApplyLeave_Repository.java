@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.navitsa.hrm.entity.ApplyLeave;
 import com.navitsa.hrm.entity.CalanderEntity;
+import com.navitsa.hrm.entity.LeaveType;
 
 public interface ApplyLeave_Repository extends CrudRepository<ApplyLeave, String> {
 
@@ -66,5 +67,11 @@ public interface ApplyLeave_Repository extends CrudRepository<ApplyLeave, String
 
 	//@Query(value="SELECT * FROM apply_leave_detail WHERE date(date) >:startDate AND date(date) <=:endDate AND apply_leave_header_id=:leaveID AND approved=true",nativeQuery = true)
 	//public List<ApplyLeaveDetail> getTotalApprovedLeaveBy(@Param("startDate") String startDate,@Param("endDate") String endDate,@Param("leaveID") String leaveID);
+	
+	@Query(value="SELECT m FROM ApplyLeave m WHERE m.employee.empID like :employeeId and m.company.comID=:comid and m.approved like :approve order by m.leaveType.leaveTypeID,m.employee.empID,m.date ")
+	public List<ApplyLeave> getleavefreport(@Param("employeeId")String employeeId,@Param("comid")String comid,@Param("approve")boolean approve);
+	
+
+
 	
 }

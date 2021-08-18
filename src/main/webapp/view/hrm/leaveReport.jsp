@@ -50,33 +50,67 @@
 				              <div class="card shadow mb-4 border-left-primary">
 				                <div class="card-body">
 				                
-				                <form action="leaveReport"  method="GET">
+				                <form action="leaveReport"  method="POST">
 				                
-			                		<div class="form-group row">
-										<div class="col-lg">
-											<label>Department</label>
-											<select class="form-control form-control-sm" id="department"
-												name="dep_id" required>
-												<option value="" selected>--Select--</option>
-												<c:forEach items="${DepAll}" var="dp">
-													<option value="${dp.depID}">${dp.department}</option>
-												</c:forEach>
-											</select>
-		
+			 
+			 						<div class="form-group row">
+										<div class="col-sm-12">
+										<label class="l-fontst">Department</label>
+												<select class="custom-select custom-select-sm" id="dept" name="dep" onchange="getEmployee();"
+													 required>
+													<option value="%"> All Department</option>
+													<c:forEach items="${departmentETFAttLisRpt}" var="dept">
+														<option value="${dept.depID}">${dept.department}</option>
+													</c:forEach>
+												</select>	
 										</div>
+									</div>
+									
+									<div class="form-group row">
+										<div class="col-sm-12">
+										<label class="l-fontst">Designation</label>
+												<select class="custom-select custom-select-sm" name="dis" id="dis"
+													required onchange="getEmployee();" >
+													<option value="%"> All Designation</option>
+													<c:forEach items="${designationAttenETFLisRpt}" var="decma">
+														<option value="${decma.did}">${decma.designation}</option>
+													</c:forEach>
+												</select>
+										</div>
+									
+										
+							</div>
+									
+									<div class="form-group row">
+										<div class="col-sm-12">
+										<label class="l-fontst">Employee</label>
+										<select class="custom-select custom-select-sm" id="empid" name="employeeId"
+													 required>
+ 													<option value=""> All Employee</option> 
+ 													<c:forEach items="${designationMasterEmpLisRpt}" var="decma"> 
+														<option value="${decma.did}">${decma.designation}</option> 
+													</c:forEach> 
+												</select>
+										</div>					
 									</div>
 									<div class="form-group row">
-										<div class="col-lg">
-											<label>Employee</label>
-											<select class="form-control form-control-sm" id="employee"
-												name="employee_id">
-												<option value="" selected>--Select--</option>
-												<c:forEach items="${EmpAll}" var="emp">
-													<option value="${emp.empID}">${emp.name} ${emp.lastname}</option>
-												</c:forEach>
-											</select>
-										</div>
-									</div>
+								<div class="col-sm-7">
+							
+									<label class="l-fontst">Approve Status</label>
+							
+								</div>
+								<div class="col-sm-5">	
+									<select class="custom-select custom-select-sm" name="empgroup" id="empgroup" required >
+										<option value="0,1" >All</option>										
+										<option value="1">YES</option>
+										<option value="0">NO</option>
+									</select>
+									
+								</div>
+										
+							</div>
+			 
+			 
 											
 			                		<div class="form-group row">
 										<div class="col-lg">
@@ -115,6 +149,48 @@
 		</div>
 	</div>
 <%@include file="../../WEB-INF/jsp/commJs.jsp"%>
+
+<script type="text/javascript">
+		
+		
+		function getEmployee(){
+		
+			var dep=document.getElementById("dept").value;
+			var dis=document.getElementById("dis").value;
+			
+			
+		
+			
+			
+			$.ajax({
+		        type: 'GET',
+		        url: " getEmployeeListETFRpt",
+		        data: {"dep" : dep, "dis" : dis},
+		        success: function(data){
+		        
+		            var slctSubcat=$('#empid'), option="";
+		            slctSubcat.empty();
+		            selected_option = "<option value='%'>All Employee</option>";
+		            slctSubcat.append(selected_option);
+
+		            for(var i=0; i<data.length; i++){
+		                option = option + "<option value='"+data[i].empID + "'>"+data[i].epfNo +" - "+data[i].lastname + "</option>";
+		            }
+		            slctSubcat.append(option);
+		        },
+		        error:function(){
+		        	
+		           // alert("No return Model data for this Make ID");
+		        }
+
+		    });
+		}
+
+	
+		
+		
+			</script>
+	
 
 </body>
 </html>

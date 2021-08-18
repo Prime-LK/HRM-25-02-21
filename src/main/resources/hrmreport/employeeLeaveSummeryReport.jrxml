@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="employeeLeaveSummeryReport" pageWidth="595" pageHeight="842" columnWidth="595" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="79d16f4a-4db3-4648-9268-92d21bc2a8e0">
+	<property name="ireport.zoom" value="1.610510000000001"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="approverow">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$F{approved}.equals( true )]]></conditionExpression>
+			<style forecolor="#00CC00">
+				<pen lineStyle="Dashed"/>
+			</style>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$F{approved}.equals( false )]]></conditionExpression>
+			<style forecolor="#FF0000">
+				<pen lineStyle="Dashed"/>
+			</style>
+		</conditionalStyle>
+	</style>
+	<parameter name="companny" class="java.lang.String"/>
+	<parameter name="address" class="java.lang.String"/>
+	<field name="date" class="java.lang.String"/>
+	<field name="employee.epfNo" class="java.lang.String"/>
+	<field name="employee.name" class="java.lang.String"/>
+	<field name="remark" class="java.lang.String"/>
+	<field name="employee.lastname" class="java.lang.String"/>
+	<field name="approved" class="java.lang.Boolean"/>
+	<field name="leaveType.leaveTypeID" class="java.lang.String"/>
+	<field name="leaveType.leaveType" class="java.lang.String"/>
+	<field name="fullHalf" class="java.lang.String"/>
+	<variable name="date_1" class="java.lang.Integer" resetType="Column" calculation="Count">
+		<variableExpression><![CDATA[$F{date}]]></variableExpression>
+	</variable>
+	<group name="leave type">
+		<groupExpression><![CDATA[$F{leaveType.leaveTypeID}]]></groupExpression>
+		<groupHeader>
+			<band height="20">
+				<textField>
+					<reportElement x="14" y="0" width="546" height="20" uuid="cfa6c8ab-00ee-4ebe-9cbc-d0ca587fc976"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" size="10" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{leaveType.leaveType}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+	</group>
+	<pageHeader>
+		<band height="65" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="3" width="595" height="20" forecolor="#000000" uuid="979588cd-bf16-4924-a5ef-24c6757a319e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["MONTHLY E.T.F STATEMENT"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="23" width="595" height="20" uuid="a50416ba-2465-4c47-b6f9-62e15a07bf84"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{companny}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="43" width="595" height="20" uuid="edc69e1a-4160-43d9-8e81-d74ac3b6d285"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{address}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="25" splitType="Stretch">
+			<staticText>
+				<reportElement x="232" y="3" width="71" height="20" uuid="c28abb42-9a21-4703-a61d-e06e0e3b8653"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Dashed"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dashed"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="303" y="3" width="170" height="20" uuid="133e87b6-145f-463c-9838-b0004784a38b"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Dashed"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dashed"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Remark]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="473" y="3" width="65" height="20" uuid="83295e4c-2319-47d0-a2a2-6778c8f7039e"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Dashed"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dashed"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Day type]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="9" y="3" width="41" height="20" uuid="05f5a183-c6e7-438a-a5c6-e40aadb06a64"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Dashed"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dashed"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[EPF.No]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="50" y="3" width="182" height="20" uuid="9083abbc-da9a-4180-97f1-a53814f1bcef"/>
+				<box leftPadding="5">
+					<topPen lineWidth="1.0" lineStyle="Dashed"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dashed"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="538" y="3" width="47" height="20" uuid="5c2445c3-285c-4207-a3fe-a572922425e8"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Dashed"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dashed"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Approved]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="21" splitType="Stretch">
+			<textField>
+				<reportElement style="approverow" x="232" y="0" width="71" height="20" uuid="9afa3192-1a1a-465f-a79a-d0d15942341a"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{date}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="approverow" x="303" y="0" width="170" height="20" uuid="c9a3ef12-6286-4707-bbe9-b970add6f4da"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{remark}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="approverow" x="473" y="0" width="65" height="20" uuid="23cf2839-c4a1-438b-b422-12338f24b88c"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fullHalf}+" Day"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="approverow" x="14" y="0" width="36" height="20" uuid="c9632726-71a9-4ed7-bb0e-7a78aa7562ca"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{employee.epfNo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="approverow" x="50" y="0" width="182" height="20" uuid="5606cac7-bd8d-470b-be2b-20681cad38af"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{employee.lastname}+" "+$F{employee.name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="approverow" x="538" y="0" width="47" height="20" uuid="67e8b5a6-455e-46bc-8e03-9d31d329d5b6"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($F{approved}) ? "Yes" : "No"]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

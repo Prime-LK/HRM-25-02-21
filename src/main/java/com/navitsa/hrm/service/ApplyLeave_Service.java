@@ -102,5 +102,12 @@ public class ApplyLeave_Service {
 //	public List<ApplyLeaveDetail> getTotalApprovedLeaveBy(String startDate, String endDate, String leaveID) {
 //		return ALDRepo.getTotalApprovedLeaveBy(startDate,endDate,leaveID);
 //	}
+	@Autowired
+	private ApplyLeave_Repository applyLeave_Repository;
+	
+	public List<ApplyLeave> getleavefreport(String employeeId,String copid,boolean approve){
+		
+		return applyLeave_Repository.getleavefreport(employeeId,copid,approve);
+	}
 
 }
