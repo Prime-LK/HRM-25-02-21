@@ -2,6 +2,7 @@ package com.navitsa.hrm.controller;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
 
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.navitsa.hrm.entity.ApplyLeave;
@@ -208,6 +210,40 @@ public class ApplyLeave_Controller {
 		return balanceLeaves;
 		
 	}
+	
+	 // Edit leave
+	
+	@RequestMapping(value="/editLeave", method=RequestMethod.GET)
+	public @ResponseBody ApplyLeave editLeave(@RequestParam String leaveID) {
+		 
+		ApplyLeave obj = null;
+	     try {
+	    	 
+	    	 Optional<ApplyLeave> leave = ALService.findLeaveById(leaveID);
+	    	 obj = leave.get();
+	    	 
+	     }catch (Exception e) {
+			System.out.println(e);
+		}
+
+	     return obj;
+	 }
+	
+	 // Delete leave
+	
+	@RequestMapping(value="/deleteLeave", method=RequestMethod.GET)
+	public @ResponseBody String deleteLeave(@RequestParam String leaveID) {
+		 
+	     try {
+	    	 
+	    	 ALService.deleteLeaveById(leaveID);
+	    	 
+	     }catch (Exception e) {
+			System.out.println(e);
+		}
+	  
+	     return "success";
+	 }
 	
 	
 }

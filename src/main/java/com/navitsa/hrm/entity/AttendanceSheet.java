@@ -34,6 +34,9 @@ public class AttendanceSheet {
 	@Column(name = "time_out")
 	private String timeOut;
 	
+	@Column(name = "is_leave")
+	private Boolean isLeave;
+	
 	@Column(name = "lunch1_time_in")
 	private String lunch1In;
 	
@@ -296,6 +299,14 @@ public class AttendanceSheet {
 		this.shift = shift;
 	}
 
-	
+	public Boolean getIsLeave() {
+		return isLeave;
+	}
+
+	public void setIsLeave(Boolean isLeave) {
+		this.isLeave = isLeave;
+	}
+
+
 
 }

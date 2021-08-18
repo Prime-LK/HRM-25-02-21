@@ -1,6 +1,7 @@
 package com.navitsa.hrm.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -86,6 +87,16 @@ public class ApplyLeave_Service {
 	public ApplyLeave findLeaveBy(String employeeID, String companyID, String date) {
 
 		return ALRepo.getLeaveBy(employeeID,companyID,date);
+	}
+
+	public Optional<ApplyLeave> findLeaveById(String leaveID) {
+		
+		return ALRepo.findById(leaveID);
+	}
+
+	public void deleteLeaveById(String leaveID) {
+		ALRepo.deleteById(leaveID);
+		
 	}
 
 //	public List<ApplyLeaveDetail> getTotalApprovedLeaveBy(String startDate, String endDate, String leaveID) {

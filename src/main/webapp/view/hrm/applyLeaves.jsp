@@ -72,7 +72,7 @@
 										
 										<form:form action="saveLeave" method="post" modelAttribute="applyleave" id="form1">
 										
-											<form:input type="hidden" path="leaveID"/>
+											<form:input type="hidden" path="leaveID" id="leaveID"/>
 											<form:input type="hidden" path="company.comID" id="companyID"/>
 											
 											
@@ -163,7 +163,7 @@
 								</div>
 								<div class="row">
 									<div class="col-xl">
-										<div class="table-responsive">
+										<div class="table-responsive well">
 											<table class="table" id="table1">
 												<thead class="thead-light">
 													<tr>
@@ -172,6 +172,8 @@
 														<th>Date</th>
 														<th>Remarks</th>														
 														<th>Approved</th>
+														<th>Edit</th>
+														<th>Delete</th>
 													</tr>
 												</thead>
 												<tbody>
@@ -196,6 +198,46 @@
 
 <script>
 
+function deleteLeave(id) {
+	
+	swal({
+		title: 'Are you sure?',
+		type: 'warning',
+		buttons:{
+			confirm: {
+				text : 'Yes, delete it!',
+				className : 'btn btn-success'
+			},
+			cancel: {
+				visible: true,
+				className: 'btn btn-danger'
+			}
+		}
+	}).then((value) => {
+		if (value) {
+			deleted(id);
+		} else {
+			swal.close();
+		}
+	});
+	
+}
+
+function deleted(id){
+	
+ 	$.ajax({
+		type : "GET",
+		url : "deleteLeave",
+		data : {"leaveID" : id},
+		success : function(data) {
+			getAppliedLeave();
+		},
+		error : function() {
+			alert("error");
+		}
+	});
+}
+
 function getAppliedLeave()
 {
 	var employeeId = document.getElementById("employee").value;
@@ -215,9 +257,9 @@ function getAppliedLeave()
 				for(var i=0; i<data.length; i++){
 					
 					if(data[i].approved == true)
-						var markup = "<tr class='table-success'><td>"+data[i].leaveType.leaveType+"</td><td>"+data[i].fullHalf+"</td><td>"+data[i].date+"</td><td>"+data[i].remark+"</td><td>Yes</td></tr>";
+						var markup = "<tr class='table-success'><td>"+data[i].leaveType.leaveType+"</td><td>"+data[i].fullHalf+"</td><td>"+data[i].date+"</td><td>"+data[i].remark+"</td><td>Yes</td><td></td><td></td></tr>";
 					else
-						var markup = "<tr class='table-warning'><td>"+data[i].leaveType.leaveType+"</td><td>"+data[i].fullHalf+"</td><td>"+data[i].date+"</td><td>"+data[i].remark+"</td><td>Pending</td></tr>";
+						var markup = "<tr class='table-warning'><td>"+data[i].leaveType.leaveType+"</td><td>"+data[i].fullHalf+"</td><td>"+data[i].date+"</td><td>"+data[i].remark+"</td><td>Pending</td><td><a href='#' onclick='editLeave(`"+data[i].leaveID+"`)'><i class='material-icons'>&#xE254;</i></a></td><td><a href='#' onclick='deleteLeave(`"+data[i].leaveID+"`)'><i class='material-icons'>delete_outline</i></a></td></tr>";
 		       		 
 					
 					$("#table1 tbody").append(markup);
@@ -379,6 +421,26 @@ function loadEmployeeByEPFNo() {
 			getAppliedLeave();
 			getBalanceLeaveMsg();
 			getBalanceLeaveSum();
+		},
+		error : function() {
+			alert("error");
+		}
+	});
+}
+
+function editLeave(id) {
+
+ 	$.ajax({
+		type : "GET",
+		url : "editLeave",
+		data : {"leaveID" : id},
+		success : function(data) {
+
+			document.getElementById("leaveID").value = data.leaveID;
+			document.getElementById("leaveType").value = data.leaveType.leaveTypeID;
+			document.getElementById("fullHalf").value = data.fullHalf;
+			document.getElementById("dec").value = data.remark;
+			$('#dateTimePicker').datepicker('setDate', data.date);
 		},
 		error : function() {
 			alert("error");

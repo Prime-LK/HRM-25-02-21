@@ -407,6 +407,8 @@ public class AttendanceProcessController {
 							else
 								attendanceSheet.setOtHrsNormal(0);
 						}
+					}else {
+						attendanceSheet.setIsLeave(true);
 					}
 
 				} else {
